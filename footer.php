@@ -81,6 +81,14 @@
         </a>
     </div>
 
+    <!-- Product Image Lightbox -->
+    <div id="tokoku-lightbox" class="tokoku-lightbox" style="display: none;">
+        <span class="tokoku-lightbox-close">&times;</span>
+        <div class="tokoku-lightbox-content">
+            <img id="tokoku-lightbox-img" src="" alt="">
+        </div>
+    </div>
+
     <?php wp_footer(); ?>
 
     <script>

@@ -348,7 +348,7 @@ get_header(); ?>
                             </div>
                             <div class="faq-answer">
                                 <div class="faq-answer-content">
-                                    <?php echo wpautop( esc_html( $answer ) ); ?>
+                                    <?php echo wpautop( wp_kses_post( $answer ) ); ?>
                                 </div>
                             </div>
                         </div>

@@ -175,6 +175,18 @@ function tokoku_produk_meta_box_callback( $post ) {
             justify-content: center;
             font-size: 14px;
         }
+        /* Colorful Special Label Styling */
+        #tokoku_label_khusus {
+            background-color: #fff9eb !important;
+            border: 2px solid #ffa000 !important;
+            color: #7a5100 !important;
+            font-weight: 800 !important;
+            padding-left: 35px !important;
+        }
+        .special-label-field .tokoku-meta-icon {
+            color: #ffa000 !important;
+            z-index: 5;
+        }
     </style>
 
     <div class="tokoku-tabs-container">
@@ -270,7 +282,7 @@ function tokoku_produk_meta_box_callback( $post ) {
                             <input type="text" id="tokoku_berat" name="_produk_berat" value="<?php echo esc_attr( $berat ); ?>">
                         </div>
                     </div>
-                    <div class="tokoku-meta-field">
+                    <div class="tokoku-meta-field special-label-field">
                         <label for="tokoku_label_khusus"><?php _e( 'Label Khusus', 'tokoku' ); ?></label>
                         <div class="tokoku-meta-input-wrapper">
                             <span class="tokoku-meta-icon"><span class="dashicons dashicons-star-filled"></span></span>
@@ -280,7 +292,16 @@ function tokoku_produk_meta_box_callback( $post ) {
                 </div>
                 <div class="tokoku-meta-field">
                     <label for="tokoku_catatan"><?php _e( 'Catatan', 'tokoku' ); ?></label>
-                    <textarea id="tokoku_catatan" name="_produk_catatan"><?php echo esc_textarea( $catatan ); ?></textarea>
+                    <?php 
+                    wp_editor( $catatan, 'tokokucatatan', array(
+                        'textarea_name' => '_produk_catatan',
+                        'media_buttons' => false,
+                        'textarea_rows' => 6,
+                        'tinymce'       => array(
+                            'toolbar1' => 'bold,italic,underline,separator,bullist,numlist,separator,link,unlink',
+                        ),
+                    ) ); 
+                    ?>
                 </div>
                 <div class="tokoku-meta-field">
                     <label for="tokoku_wa_text"><?php _e( 'Pesan WhatsApp Khusus', 'tokoku' ); ?></label>
@@ -463,7 +484,7 @@ function tokoku_save_produk_meta( $post_id ) {
         '_produk_multi_pilihan'  => 'sanitize_textarea_field',
         '_produk_multi_harga'    => 'sanitize_textarea_field',
         '_produk_pilihan_warna'  => 'sanitize_text_field',
-        '_produk_catatan'        => 'sanitize_textarea_field',
+        '_produk_catatan'        => 'wp_kses_post',
         '_produk_jumlah_stok'    => 'intval',
         '_produk_label_khusus'   => 'sanitize_text_field',
         '_produk_video'                 => 'esc_url_raw',

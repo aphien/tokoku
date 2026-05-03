@@ -12,9 +12,9 @@ jQuery(document).ready(function($) {
         $('#' + tabId).addClass('active');
 
         // 🔄 Fix TinyMCE display when switching tabs
-        if (typeof tinyMCE !== 'undefined' && tabId === 'tab-whatsapp') {
+        if (typeof tinyMCE !== 'undefined' && (tabId === 'tab-whatsapp' || tabId === 'tab-faq')) {
             tinyMCE.editors.forEach(function(editor) {
-                if (editor.id === 'tokoku_wa_message') {
+                if (editor.id === 'tokoku_wa_message' || editor.id.startsWith('tokokufaqa')) {
                     editor.theme.resizeTo('100%', '100%');
                 }
             });

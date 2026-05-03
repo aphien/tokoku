@@ -189,7 +189,7 @@ function tokoku_save_admin_settings() {
     // FAQ Repeater
     for ( $i = 1; $i <= 10; $i++ ) {
         $settings_schema["tokoku_faq_q_{$i}"] = 'sanitize_text_field';
-        $settings_schema["tokoku_faq_a_{$i}"] = 'sanitize_textarea_field';
+        $settings_schema["tokoku_faq_a_{$i}"] = 'wp_kses_post';
     }
 
     // 4. Handle Repeater Settings (Slides, Socials, Testimonials, Logos)
@@ -1012,7 +1012,19 @@ function tokoku_settings_page_html() {
                                         </div>
                                         <div class="tokoku-field">
                                             <label><?php _e( 'Jawaban', 'tokoku' ); ?></label>
-                                            <textarea name="tokoku_faq_a_<?php echo $i; ?>" placeholder="Contoh: Anda bisa langsung klik tombol WhatsApp pada produk..."><?php echo esc_textarea( $a ); ?></textarea>
+                                            <div class="tokoku-editor-wrap">
+                                                <?php 
+                                                wp_editor( $a, "tokokufaqa{$i}", array(
+                                                    'textarea_name' => "tokoku_faq_a_{$i}",
+                                                    'textarea_rows' => 5,
+                                                    'media_buttons' => false,
+                                                    'tinymce'       => array(
+                                                        'toolbar1' => 'bold,italic,underline,separator,bullist,numlist,separator,link,unlink',
+                                                    ),
+                                                    'quicktags'     => true
+                                                ) ); 
+                                                ?>
+                                            </div>
                                         </div>
                                         <button type="button" class="tokoku-remove-faq button-link-delete" style="color: #d63638; text-decoration: none; font-size: 12px; margin-top: 10px; display: inline-block;"><?php _e( 'Hapus Item Ini', 'tokoku' ); ?></button>
                                     </div>

@@ -50,14 +50,13 @@ get_header(); ?>
 
                 <div class="product-info">
                     <nav class="breadcrumb">
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Beranda</a> &raquo;
+                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Beranda</a>
                         <?php
                         $terms = get_the_terms( get_the_ID(), 'kategori_produk' );
                         if ( ! empty( $terms ) ) {
-                            echo '<a href="' . esc_url( get_term_link( $terms[0] ) ) . '">' . esc_html( $terms[0]->name ) . '</a> &raquo; ';
+                            echo ' &raquo; <a href="' . esc_url( get_term_link( $terms[0] ) ) . '">' . esc_html( $terms[0]->name ) . '</a>';
                         }
                         ?>
-                        <?php the_title(); ?>
                     </nav>
 
                     <?php
@@ -187,7 +186,10 @@ get_header(); ?>
                     <div class="product-note-box">
                         <span class="dashicons dashicons-info" style="color: #ffb300;"></span>
                         <div class="note-content">
-                            <strong>Catatan:</strong> <?php echo nl2br( esc_html( $catatan ) ); ?>
+                            <strong>Catatan:</strong> 
+                            <div class="note-text-content" style="margin-top: 5px;">
+                                <?php echo wpautop( wp_kses_post( $catatan ) ); ?>
+                            </div>
                         </div>
                     </div>
                     <?php endif; ?>
@@ -344,7 +346,7 @@ get_header(); ?>
 .single-product { padding: 40px 0; }
 .product-details { display: grid; grid-template-columns: 5fr 7fr; gap: 50px; margin-bottom: 60px; }
 .main-image { border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); background: var(--bg2); }
-.main-image img { width: 100%; height: auto; display: block; transition: var(--ease); }
+.main-image img { width: 100%; height: auto; display: block; transition: transform 0.15s ease-out; transform-origin: center center; }
 .gallery-thumbs { display: flex; gap: 12px; }
 .gallery-thumbs .thumb { cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: var(--ease); }
 .gallery-thumbs .thumb:hover { border-color: var(--primary); }
@@ -451,6 +453,7 @@ get_header(); ?>
 .product-description .content p:last-child { margin-bottom: 0; }
 
 @media (max-width: 768px) {
+    .single-product { padding: 20px 0; }
     .product-description-wrapper { padding: 40px 0; margin-top: 30px; }
     .product-description { padding: 0 20px; }
     .product-description h3 { font-size: 1.8rem; margin-bottom: 35px; }
@@ -463,7 +466,22 @@ get_header(); ?>
 }
 
 /* New Frontend Details CSS */
-.special-label { display: inline-block; background: var(--orange); color: #fff; font-size: 0.8rem; padding: 4px 10px; border-radius: 4px; vertical-align: middle; margin-right: 10px; text-transform: uppercase; letter-spacing: 1px; }
+.special-label { 
+    display: inline-block; 
+    background: linear-gradient(135deg, #ff9800, #f44336); 
+    color: #fff; 
+    font-size: 0.72rem; 
+    padding: 5px 12px; 
+    border-radius: 50px; 
+    vertical-align: middle; 
+    margin-right: 12px; 
+    text-transform: uppercase; 
+    letter-spacing: 1.2px; 
+    font-weight: 800;
+    box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    line-height: 1;
+}
 
 .product-price-display { margin-bottom: 25px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .product-price-display .price-current { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
@@ -532,6 +550,71 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // 🖼️ Gallery Switching
+    const mainImg = document.querySelector('.main-image img');
+    const thumbnails = document.querySelectorAll('.gallery-thumbs .thumb img');
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            if (mainImg) {
+                mainImg.src = this.src.replace('-150x150', ''); // Try to get larger version if it's a thumbnail
+                // Update active state of thumbnails if needed
+                document.querySelectorAll('.gallery-thumbs .thumb').forEach(t => t.style.borderColor = 'transparent');
+                this.parentElement.style.borderColor = 'var(--primary)';
+            }
+        });
+    });
+
+    // 🔍 Product Image Zoom (Hover & Lightbox)
+    const mainImgContainer = document.querySelector('.main-image');
+    const lightbox = document.getElementById('tokoku-lightbox');
+    const lightboxImg = document.getElementById('tokoku-lightbox-img');
+    const lightboxClose = document.querySelector('.tokoku-lightbox-close');
+
+    if (mainImg && mainImgContainer) {
+        // Hover Zoom (Desktop)
+        mainImgContainer.addEventListener('mousemove', function(e) {
+            if (window.innerWidth > 768) {
+                const rect = this.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                
+                mainImg.style.transformOrigin = `${x}% ${y}%`;
+                mainImg.style.transform = 'scale(2)';
+            }
+        });
+
+        mainImgContainer.addEventListener('mouseleave', function() {
+            mainImg.style.transform = 'scale(1)';
+            mainImg.style.transformOrigin = 'center center';
+        });
+
+        // Click to Lightbox (Mobile & Desktop)
+        mainImg.addEventListener('click', () => {
+            lightboxImg.src = mainImg.src;
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    if (lightbox) {
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        lightboxClose?.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target === document.querySelector('.tokoku-lightbox-content')) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    }
 });
 </script>
 
