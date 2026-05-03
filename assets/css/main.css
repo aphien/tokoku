@@ -976,6 +976,23 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
         gap: 8px;
         justify-content: center;
     }
+    /* Product Gallery Mobile */
+    .product-gallery {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    .main-image {
+        width: 90% !important;
+        margin: 0 auto 15px !important;
+    }
+    .gallery-thumbs {
+        justify-content: center;
+        width: 100%;
+    }
+
     .single-product .product-actions {
         width: 100%;
         display: flex;
@@ -984,7 +1001,9 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
         margin: 20px 0;
     }
     .single-product .btn-contact-us {
-        width: 100% !important;
+        width: 90% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
         margin-bottom: 20px;
     }
     .single-product .marketplace-links {
@@ -1090,7 +1109,6 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
     top: 25px;
     right: 25px;
     color: #fff;
-    font-size: 36px;
     width: 50px;
     height: 50px;
     display: flex;
@@ -1098,12 +1116,39 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
     justify-content: center;
     cursor: pointer;
     z-index: 10001;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    transition: var(--ease);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
+
 .tokoku-lightbox-close:hover {
     background: var(--primary);
-    transform: rotate(90deg);
+    transform: rotate(90deg) scale(1.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.5);
+    color: #fff;
+}
+
+.tokoku-lightbox-close svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .tokoku-lightbox-close {
+        top: 20px;
+        right: 20px;
+        width: 46px;
+        height: 46px;
+    }
+    .tokoku-lightbox-close svg {
+        width: 20px;
+        height: 20px;
+    }
 }
 .main-image { cursor: zoom-in; }
