@@ -45,6 +45,7 @@ function tokoku_admin_settings_assets() {
     wp_localize_script( 'tokoku-admin-js', 'tokokuAdmin', array(
         'updateNonce'  => wp_create_nonce( 'tokoku_update_nonce' ),
         'licenseNonce' => wp_create_nonce( 'tokoku_license_nonce' ),
+        'version'      => TOKOKU_VERSION,
     ) );
 }
 
@@ -63,7 +64,7 @@ function tokoku_export_settings() {
     $theme_mods = get_theme_mods();
     $export_data = array(
         'source'     => 'Tokoku Theme',
-        'version'    => '1.4.1',
+        'version'    => TOKOKU_VERSION,
         'timestamp'  => time(),
         'theme_mods' => $theme_mods,
     );
@@ -403,7 +404,7 @@ function tokoku_settings_page_html() {
                     <button type="submit" class="button button-primary tokoku-top-save-btn">
                         <span class="dashicons dashicons-saved"></span> <?php _e( 'Simpan Semua Perubahan', 'tokoku' ); ?>
                     </button>
-                    <div class="tokoku-admin-version">v1.4.1</div>
+                    <div class="tokoku-admin-version">v<?php echo TOKOKU_VERSION; ?></div>
                 </div>
             </div>
 
@@ -1062,7 +1063,7 @@ function tokoku_settings_page_html() {
                                     <span class="dashicons dashicons-update" style="font-size: 32px; width: 32px; height: 32px;"></span>
                                 </div>
                                 <div>
-                                    <h3 style="margin: 0 0 5px 0; font-size: 1.2rem;"><?php _e( 'Versi Saat Ini:', 'tokoku' ); ?> <span style="color: #007bff;">v1.4.1</span></h3>
+                                    <h3 style="margin: 0 0 5px 0; font-size: 1.2rem;"><?php _e( 'Versi Saat Ini:', 'tokoku' ); ?> <span style="color: #007bff;">v<?php echo TOKOKU_VERSION; ?></span></h3>
                                     <p style="margin: 0; color: #64748b; font-size: 0.95rem;"><?php _e( 'Pastikan tema Anda selalu menggunakan versi terbaru untuk fitur dan keamanan terbaik.', 'tokoku' ); ?></p>
                                 </div>
                             </div>
