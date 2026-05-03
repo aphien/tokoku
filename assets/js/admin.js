@@ -10,6 +10,15 @@ jQuery(document).ready(function($) {
         
         $(this).addClass('active');
         $('#' + tabId).addClass('active');
+
+        // 🔄 Fix TinyMCE display when switching tabs
+        if (typeof tinyMCE !== 'undefined' && tabId === 'tab-whatsapp') {
+            tinyMCE.editors.forEach(function(editor) {
+                if (editor.id === 'tokoku_wa_message') {
+                    editor.theme.resizeTo('100%', '100%');
+                }
+            });
+        }
     });
 
     // Drag & Drop Menu Reordering

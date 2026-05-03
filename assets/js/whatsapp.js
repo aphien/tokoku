@@ -47,6 +47,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const note = document.querySelector('#order-note').value;
             
             let message = tokokuWA.message;
+            
+            // Convert HTML to plain text for WhatsApp
+            const htmlToWA = (html) => {
+                let text = html;
+                text = text.replace(/<br\s*\/?>/gi, '\n');
+                text = text.replace(/<\/p>/gi, '\n');
+                text = text.replace(/<\/div>/gi, '\n');
+                text = text.replace(/<(?:.|\n)*?>/gm, ''); // Strip tags
+                // Decode HTML entities (like &nbsp;)
+                const doc = new DOMParser().parseFromString(text, 'text/html');
+                return doc.documentElement.textContent;
+            };
+
+            message = htmlToWA(message);
+            
             message = message.replace('{produk}', currentProduct.name);
             message = message.replace('{harga}', currentProduct.price);
             message = message.replace('{jumlah}', qty);

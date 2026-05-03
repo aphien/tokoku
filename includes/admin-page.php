@@ -139,7 +139,7 @@ function tokoku_save_admin_settings() {
         'tokoku_logo_light'       => 'esc_url_raw',
         'tokoku_logo_dark'        => 'esc_url_raw',
         'tokoku_wa_number'        => 'sanitize_text_field',
-        'tokoku_wa_message'       => 'sanitize_textarea_field',
+        'tokoku_wa_message'       => 'wp_kses_post',
         'tokoku_wa_float_text'    => 'sanitize_text_field',
         
         // Colors & Theme
@@ -536,7 +536,24 @@ function tokoku_settings_page_html() {
                         </div>
                         <div class="tokoku-field">
                             <label><?php _e( 'Template Pesan', 'tokoku' ); ?></label>
-                            <textarea name="tokoku_wa_message" rows="6"><?php echo esc_textarea( get_theme_mod( 'tokoku_wa_message' ) ); ?></textarea>
+                            <div class="tokoku-editor-wrap">
+                                <?php 
+                                wp_editor( 
+                                    get_theme_mod( 'tokoku_wa_message', "Halo Admin,\n\nSaya ingin memesan produk berikut:\n\n*Produk:* {produk}\n*Harga:* {harga}\n*Jumlah:* {jumlah}\n*Nama:* {nama}\n*Catatan:* {catatan}\n\nTerima kasih." ), 
+                                    'tokoku_wa_message', 
+                                    array(
+                                        'textarea_name' => 'tokoku_wa_message',
+                                        'textarea_rows' => 10,
+                                        'media_buttons' => false,
+                                        'tinymce'       => array(
+                                            'toolbar1' => 'bold,italic,underline,separator,bullist,numlist,separator,undo,redo',
+                                            'toolbar2' => '',
+                                        ),
+                                        'quicktags'     => true
+                                    ) 
+                                ); 
+                                ?>
+                            </div>
                             <p class="description"><?php _e( 'Placeholder: {produk}, {harga}, {jumlah}, {nama}, {catatan}', 'tokoku' ); ?></p>
                             <p class="tokoku-tip"><?php _e( 'Kegunaan: Template yang rapi membantu Anda memproses data pesanan dengan lebih cepat dan akurat.', 'tokoku' ); ?></p>
                         </div>
