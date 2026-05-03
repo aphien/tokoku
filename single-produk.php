@@ -452,7 +452,7 @@ get_header(); ?>
 
 @media (max-width: 768px) {
     .product-description-wrapper { padding: 40px 0; margin-top: 30px; }
-    .product-description { padding: 0 15px; }
+    .product-description { padding: 0 20px; }
     .product-description h3 { font-size: 1.8rem; margin-bottom: 35px; }
     .product-description .content { padding: 30px 20px; font-size: 1.05rem; border-radius: 0; box-shadow: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: transparent; }
 }

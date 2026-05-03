@@ -916,9 +916,9 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 0 15px;
+        width: 100%;
+        margin: 0;
+        padding: 0;
     }
     .single-product .breadcrumb,
     .single-product .product-price-display,
