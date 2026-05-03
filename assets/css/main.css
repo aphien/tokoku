@@ -1026,6 +1026,16 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
         opacity: 0.8;
         transition: transform 0.1s;
     }
+
+    /* Hide scrollbar on mobile but keep functionality */
+    html, body {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
 }
 
 /* ==========================================

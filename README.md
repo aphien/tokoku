@@ -15,6 +15,7 @@
 *   **Modern Button Design**: Desain tombol dengan lengkungan halus (10px) untuk kesan profesional dan modern.
 *   **Synchronized Mobile Actions**: Tombol WhatsApp dan Marketplace di mobile kini memiliki lebar yang sejajar sempurna.
 *   **Enhanced Visibility**: Ikon marketplace di mobile diperbesar 20% agar lebih mudah dikenali pelanggan.
+*   **Clean Mobile UI**: Menghilangkan tampilan batang gulir (scrollbar) di sisi kanan pada mobile untuk pengalaman seperti aplikasi native.
 *   **Brand Exposure**: Logo partner/klien di halaman depan diperbesar 20% untuk meningkatkan kredibilitas toko.
 
 ### 🖼️ Visual & Manajemen Media
