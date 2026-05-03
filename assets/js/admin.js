@@ -86,7 +86,7 @@ jQuery(document).ready(function($) {
         var status = $('#tokoku-update-status');
         var loader = $('#tokoku-update-loader');
         var currentVersion = '1.4.1';
-        var repo = 'aphien/Tokoku-Tema-Wordpress'; 
+        var repo = 'aphien/tokoku'; 
         
         btn.prop('disabled', true).css('opacity', '0.7');
         status.hide();

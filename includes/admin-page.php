@@ -305,7 +305,7 @@ function tokoku_ajax_handle_update() {
 
     // 🛡️ Security Check: Ensure URL is from authorized GitHub repo
     $allowed_host = 'codeload.github.com';
-    $allowed_path = 'aphien/Tokoku-Tema-Wordpress';
+    $allowed_path = 'aphien/tokoku';
     if ( strpos( $download_url, $allowed_host ) === false || strpos( $download_url, $allowed_path ) === false ) {
         wp_send_json_error( 'Unauthorized update source' );
     }
