@@ -455,7 +455,7 @@ get_header(); ?>
 @media (max-width: 768px) {
     .single-product { padding: 20px 0; }
     .product-gallery { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; }
-    .main-image { width: 90% !important; margin: 0 auto 15px !important; }
+    .main-image { width: 95% !important; margin: 0 auto 15px !important; }
     .gallery-thumbs { justify-content: center; width: 100%; }
     .btn-contact-us { width: 90% !important; margin: 0 auto 20px !important; }
     .product-description-wrapper { padding: 40px 0; margin-top: 30px; }

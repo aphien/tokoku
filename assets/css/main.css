@@ -985,7 +985,7 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
         margin-bottom: 25px;
     }
     .main-image {
-        width: 90% !important;
+        width: 95% !important;
         margin: 0 auto 15px !important;
     }
     .gallery-thumbs {
