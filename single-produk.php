@@ -460,13 +460,19 @@ get_header(); ?>
     .btn-contact-us { width: 90% !important; margin: 0 auto 20px !important; }
     .product-description-wrapper { padding: 40px 0; margin-top: 30px; }
     .product-description { padding: 0 20px; }
-    .product-description h3 { font-size: 1.8rem; margin-bottom: 35px; }
-    .product-description .content { padding: 30px 20px; font-size: 1.05rem; border-radius: 0; box-shadow: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: transparent; }
+    .product-description h3 { font-size: 1.5rem; margin-bottom: 35px; }
+    .product-description .content { padding: 30px 20px; font-size: 1rem; border-radius: 0; box-shadow: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: transparent; }
 }
 
 @media (max-width: 992px) {
     .product-details { grid-template-columns: 1fr; gap: 30px; }
-    .product-title { font-size: 1.8rem; }
+    .product-title { font-size: 1.45rem; }
+    .product-price-display .price-current { font-size: 1.55rem; }
+    .breadcrumb { font-size: 0.78rem; }
+    .spec-label { font-size: 0.82rem; }
+    .spec-value { font-size: 0.9rem; }
+    .variations-label { font-size: 0.85rem; }
+    .btn-variation { font-size: 0.88rem; }
 }
 
 /* New Frontend Details CSS */
