@@ -166,7 +166,16 @@ get_header(); ?>
                         <div class="spec-row">
                             <div class="spec-label">Kategori</div>
                             <div class="spec-value">
-                                <a href="<?php echo esc_url( get_term_link( $terms[0] ) ); ?>"><?php echo esc_html( $terms[0]->name ); ?></a>
+                                <a href="<?php echo esc_url( get_term_link( $terms[0] ) ); ?>" style="display: flex; align-items: center; gap: 8px;">
+                                    <?php
+                                    $icon_id = get_term_meta( $terms[0]->term_id, 'tokoku_kategori_icon', true );
+                                    $icon_url = $icon_id ? wp_get_attachment_image_url( $icon_id, 'thumbnail' ) : '';
+                                    if ( $icon_url ) {
+                                        echo '<img src="' . esc_url( $icon_url ) . '" style="width: 20px; height: 20px; object-fit: contain; border-radius: 4px;">';
+                                    }
+                                    ?>
+                                    <?php echo esc_html( $terms[0]->name ); ?>
+                                </a>
                             </div>
                         </div>
                         <?php endif; ?>

@@ -70,13 +70,18 @@ get_header(); ?>
 
                 if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) :
                     foreach ( $categories as $cat ) :
+                        $icon_id = get_term_meta( $cat->term_id, 'tokoku_kategori_icon', true );
+                        $icon_url = $icon_id ? wp_get_attachment_image_url( $icon_id, 'thumbnail' ) : '';
                 ?>
                     <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="category-item">
                         <div class="category-icon">
-                            <span class="dashicons dashicons-archive" style="font-size: 32px; width: 32px; height: 32px;"></span>
+                            <?php if ( $icon_url ) : ?>
+                                <img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $cat->name ); ?>" style="width: 72px; height: 72px; object-fit: contain;">
+                            <?php else : ?>
+                                <span class="dashicons dashicons-archive" style="font-size: 48px; width: 48px; height: 48px;"></span>
+                            <?php endif; ?>
                         </div>
                         <span class="category-name"><?php echo esc_html( $cat->name ); ?></span>
-                        <span class="category-count"><?php echo $cat->count; ?> Produk</span>
                     </a>
                 <?php
                     endforeach;

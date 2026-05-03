@@ -59,7 +59,21 @@ get_header(); ?>
                         <?php
                         $categories = get_terms( array( 'taxonomy' => 'kategori_produk' ) );
                         foreach ( $categories as $cat ) {
-                            echo '<li><a href="' . esc_url( get_term_link( $cat ) ) . '">' . esc_html( $cat->name ) . ' <span class="count">(' . $cat->count . ')</span></a></li>';
+                            $icon_id = get_term_meta( $cat->term_id, 'tokoku_kategori_icon', true );
+                            $icon_url = $icon_id ? wp_get_attachment_image_url( $icon_id, 'thumbnail' ) : '';
+                            
+                            echo '<li>';
+                            echo '<a href="' . esc_url( get_term_link( $cat ) ) . '">';
+                            echo '<span class="cat-link-inner">';
+                            if ( $icon_url ) {
+                                echo '<img src="' . esc_url( $icon_url ) . '" class="cat-link-icon" style="width:20px; height:20px; object-fit:contain; margin-right:8px; border-radius:4px;">';
+                            } else {
+                                echo '<span class="dashicons dashicons-archive" style="font-size:16px; width:16px; height:16px; margin-right:8px; opacity:0.5;"></span>';
+                            }
+                            echo esc_html( $cat->name );
+                            echo '</span>';
+                            echo '</a>';
+                            echo '</li>';
                         }
                         ?>
                     </ul>
@@ -207,6 +221,7 @@ body.theme-dark .sort-form select {
     color: #fff;
     border-color: var(--primary);
 }
+.cat-link-inner { display: flex; align-items: center; }
 .count { 
     background: var(--bg2);
     color: var(--text2);
