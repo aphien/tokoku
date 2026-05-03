@@ -94,6 +94,44 @@ function tokoku_register_kategori_taxonomy() {
 add_action( 'init', 'tokoku_register_kategori_taxonomy' );
 
 /**
+ * Register Tag Produk Taxonomy
+ */
+function tokoku_register_tag_taxonomy() {
+    $labels = array(
+        'name'                       => _x( 'Tag Produk', 'taxonomy general name', 'tokoku' ),
+        'singular_name'              => _x( 'Tag', 'taxonomy singular name', 'tokoku' ),
+        'search_items'               => __( 'Cari Tag', 'tokoku' ),
+        'popular_items'              => __( 'Tag Populer', 'tokoku' ),
+        'all_items'                  => __( 'Semua Tag', 'tokoku' ),
+        'parent_item'                => null,
+        'parent_item_colon'          => null,
+        'edit_item'                  => __( 'Edit Tag', 'tokoku' ),
+        'update_item'                => __( 'Update Tag', 'tokoku' ),
+        'add_new_item'               => __( 'Tambah Tag Baru', 'tokoku' ),
+        'new_item_name'              => __( 'Nama Tag Baru', 'tokoku' ),
+        'separate_items_with_commas' => __( 'Pisahkan tag dengan koma', 'tokoku' ),
+        'add_or_remove_items'        => __( 'Tambah atau hapus tag', 'tokoku' ),
+        'choose_from_most_used'      => __( 'Pilih dari yang paling sering digunakan', 'tokoku' ),
+        'not_found'                  => __( 'Tag tidak ditemukan.', 'tokoku' ),
+        'menu_name'                  => __( 'Tag', 'tokoku' ),
+    );
+
+    $args = array(
+        'hierarchical'          => false, // Like standard post tags
+        'labels'                => $labels,
+        'show_ui'               => true,
+        'show_admin_column'     => true,
+        'update_count_callback' => '_update_post_term_count',
+        'query_var'             => true,
+        'rewrite'               => array( 'slug' => 'tag-produk' ),
+        'show_in_rest'          => true,
+    );
+
+    register_taxonomy( 'tag_produk', array( 'produk' ), $args );
+}
+add_action( 'init', 'tokoku_register_tag_taxonomy' );
+
+/**
  * Add custom columns to Produk admin list
  */
 function tokoku_produk_columns( $columns ) {
@@ -137,6 +175,7 @@ add_action( 'manage_produk_posts_custom_column', 'tokoku_produk_custom_column', 
 function tokoku_rewrite_flush() {
     tokoku_register_produk_cpt();
     tokoku_register_kategori_taxonomy();
+    tokoku_register_tag_taxonomy();
     flush_rewrite_rules();
 }
 add_action( 'after_switch_theme', 'tokoku_rewrite_flush' );

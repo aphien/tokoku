@@ -54,6 +54,8 @@ function tokoku_produk_meta_box_callback( $post ) {
     $marketplace_tokopedia = get_post_meta( $post->ID, '_produk_marketplace_tokopedia', true );
     $marketplace_lazada    = get_post_meta( $post->ID, '_produk_marketplace_lazada', true );
     $marketplace_tiktok    = get_post_meta( $post->ID, '_produk_marketplace_tiktok', true );
+    $marketplace_bukalapak = get_post_meta( $post->ID, '_produk_marketplace_bukalapak', true );
+    $marketplace_blibli    = get_post_meta( $post->ID, '_produk_marketplace_blibli', true );
     $marketplace_lainnya   = get_post_meta( $post->ID, '_produk_marketplace_lainnya', true );
 
     ?>
@@ -349,16 +351,32 @@ function tokoku_produk_meta_box_callback( $post ) {
                 <div class="tokoku-meta-field">
                     <label for="tokoku_marketplace_tiktok"><?php _e( 'TikTok Shop', 'tokoku' ); ?></label>
                     <div class="tokoku-meta-input-wrapper">
-                        <span class="tokoku-meta-icon"><span class="dashicons dashicons-smartphone"></span></span>
-                        <input type="url" id="tokoku_marketplace_tiktok" name="_produk_marketplace_tiktok" value="<?php echo esc_url( $marketplace_tiktok ); ?>" placeholder="https://shop.tiktok.com/view/product/123456789">
+                        <span class="tokoku-meta-icon"><span class="dashicons dashicons-video-alt3"></span></span>
+                        <input type="url" id="tokoku_marketplace_tiktok" name="_produk_marketplace_tiktok" value="<?php echo esc_url( $marketplace_tiktok ); ?>" placeholder="https://shop.tiktok.com/view/product/...">
                     </div>
                 </div>
 
                 <div class="tokoku-meta-field">
-                    <label for="tokoku_marketplace_lainnya"><?php _e( 'Marketplace Lainnya', 'tokoku' ); ?></label>
+                    <label for="tokoku_marketplace_bukalapak"><?php _e( 'Bukalapak', 'tokoku' ); ?></label>
+                    <div class="tokoku-meta-input-wrapper">
+                        <span class="tokoku-meta-icon"><span class="dashicons dashicons-cart"></span></span>
+                        <input type="url" id="tokoku_marketplace_bukalapak" name="_produk_marketplace_bukalapak" value="<?php echo esc_url( $marketplace_bukalapak ); ?>" placeholder="https://www.bukalapak.com/p/...">
+                    </div>
+                </div>
+
+                <div class="tokoku-meta-field">
+                    <label for="tokoku_marketplace_blibli"><?php _e( 'Blibli', 'tokoku' ); ?></label>
+                    <div class="tokoku-meta-input-wrapper">
+                        <span class="tokoku-meta-icon"><span class="dashicons dashicons-cart"></span></span>
+                        <input type="url" id="tokoku_marketplace_blibli" name="_produk_marketplace_blibli" value="<?php echo esc_url( $marketplace_blibli ); ?>" placeholder="https://www.blibli.com/p/...">
+                    </div>
+                </div>
+
+                <div class="tokoku-meta-field">
+                    <label for="tokoku_marketplace_lainnya"><?php _e( 'Lainnya', 'tokoku' ); ?></label>
                     <div class="tokoku-meta-input-wrapper">
                         <span class="tokoku-meta-icon"><span class="dashicons dashicons-admin-links"></span></span>
-                        <input type="url" id="tokoku_marketplace_lainnya" name="_produk_marketplace_lainnya" value="<?php echo esc_url( $marketplace_lainnya ); ?>" placeholder="https://bukalapak.com/... atau link lainnya">
+                        <input type="url" id="tokoku_marketplace_lainnya" name="_produk_marketplace_lainnya" value="<?php echo esc_url( $marketplace_lainnya ); ?>" placeholder="https://link-lainnya.com">
                     </div>
                 </div>
             </div>
@@ -453,6 +471,8 @@ function tokoku_save_produk_meta( $post_id ) {
         '_produk_marketplace_tokopedia' => 'esc_url_raw',
         '_produk_marketplace_lazada'    => 'esc_url_raw',
         '_produk_marketplace_tiktok'    => 'esc_url_raw',
+        '_produk_marketplace_bukalapak' => 'esc_url_raw',
+        '_produk_marketplace_blibli'    => 'esc_url_raw',
         '_produk_marketplace_lainnya'   => 'esc_url_raw',
     );
 

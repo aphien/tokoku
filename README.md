@@ -1,24 +1,25 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v1.4.1)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v1.4.3)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Utama v1.4.1
+## ✨ Fitur Utama v1.4.3
 
-### 🖼️ Visual & Manajemen Media (Baru)
+### 🛒 Integrasi Marketplace & Admin (Baru)
+*   **Expanded Marketplaces**: Dukungan penuh untuk Bukalapak dan Blibli dengan tombol yang dilengkapi warna brand dinamis.
+*   **Product Tags**: Fitur Tag Produk baru di admin untuk klasifikasi produk yang lebih fleksibel dan SEO-friendly.
+*   **Smart Grid Layout**: Grid marketplace otomatis (4 kolom di desktop, 2 kolom di mobile) untuk efisiensi ruang maksimal.
+
+### 🎨 Estetika & UX Detail (Optimasi)
+*   **Modern Button Design**: Desain tombol dengan lengkungan halus (10px) untuk kesan profesional dan modern.
+*   **Synchronized Mobile Actions**: Tombol WhatsApp dan Marketplace di mobile kini memiliki lebar yang sejajar sempurna.
+*   **Enhanced Visibility**: Ikon marketplace di mobile diperbesar 20% agar lebih mudah dikenali pelanggan.
+*   **Brand Exposure**: Logo partner/klien di halaman depan diperbesar 20% untuk meningkatkan kredibilitas toko.
+
+### 🖼️ Visual & Manajemen Media
 *   **Custom Category Icons**: Unggah ikon kustom untuk setiap kategori produk dengan pratinjau langsung di admin.
-*   **Visual Archive**: Tampilan kategori di sidebar arsip dan halaman detail produk kini dilengkapi dengan ikon kustom.
-*   **Optimized Visuals**: Ikon kategori diperbesar 50% untuk tampilan yang lebih modern dan bersih tanpa teks jumlah produk yang mengganggu.
-
-### 📱 Pengalaman Mobile & Desktop yang Optimal
-*   **Bolder Header**: Header desktop yang diperbesar untuk branding yang lebih kuat dan navigasi yang lebih mudah.
-*   **Bottom Navigation**: Navigasi bawah ala aplikasi native untuk akses cepat di perangkat seluler.
-*   **Adaptive Hero Slider**: Slider banner (hingga 10 slide) yang otomatis menyesuaikan rasio untuk visual maksimal di semua layar.
-*   **Touch Feedback**: Efek interaktif premium pada setiap tombol untuk pengalaman pengguna yang lebih nyata.
-
-### 🎨 Tipografi & Desain Global
-*   **Typography Engine**: Pilih dari 10+ font Google Fonts (Inter, Poppins, Roboto, dll) langsung dari dashboard.
+*   **Optimized Grid**: Grid produk 4 kolom di desktop dengan proporsi gambar yang disempurnakan.
 *   **Smart Scaling**: Kontrol penuh atas ukuran teks dasar dan skala judul (H1) secara global.
 *   **Dark Mode Ready**: Tampilan dinamis yang mendukung mode gelap otomatis atau manual.
 *   **Compact Blog Grid**: Layout artikel terbaru yang lebih seimbang dengan tombol Call-to-Action (CTA) yang profesional.

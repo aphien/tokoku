@@ -74,9 +74,11 @@ get_header(); ?>
                     $marketplace_tokopedia = get_post_meta( get_the_ID(), '_produk_marketplace_tokopedia', true );
                     $marketplace_lazada    = get_post_meta( get_the_ID(), '_produk_marketplace_lazada', true );
                     $marketplace_tiktok    = get_post_meta( get_the_ID(), '_produk_marketplace_tiktok', true );
+                    $marketplace_bukalapak = get_post_meta( get_the_ID(), '_produk_marketplace_bukalapak', true );
+                    $marketplace_blibli    = get_post_meta( get_the_ID(), '_produk_marketplace_blibli', true );
                     $marketplace_lainnya   = get_post_meta( get_the_ID(), '_produk_marketplace_lainnya', true );
 
-                    $has_marketplace = ($marketplace_shopee || $marketplace_tokopedia || $marketplace_lazada || $marketplace_tiktok || $marketplace_lainnya);
+                    $has_marketplace = ($marketplace_shopee || $marketplace_tokopedia || $marketplace_lazada || $marketplace_tiktok || $marketplace_bukalapak || $marketplace_blibli || $marketplace_lainnya);
                     $label_khusus   = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
                     $mata_uang      = get_theme_mod( 'tokoku_currency', 'Rp' );
                     $show_price     = get_theme_mod( 'tokoku_show_price', 'yes' );
@@ -139,7 +141,7 @@ get_header(); ?>
                         
                         <div class="spec-row">
                             <div class="spec-label">Stok</div>
-                            <div class="spec-value <?php echo $stok['class'] == 'stok-preorder' ? 'is-preorder' : ''; ?>">
+                            <div class="spec-value <?php echo esc_attr( $stok['class'] ); ?> <?php echo $stok['class'] == 'stok-preorder' ? 'is-preorder' : ''; ?>">
                                 <?php if ( $stok['class'] == 'stok-preorder' ) : ?>
                                     <span class="dashicons dashicons-clock" style="font-size: 16px; width: 16px; height: 16px;"></span>
                                 <?php endif; ?>
@@ -241,6 +243,18 @@ get_header(); ?>
                                 <?php if ( $marketplace_tiktok ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_tiktok ); ?>" target="_blank" class="btn-marketplace mp-tiktok">
                                     <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> TikTok
+                                </a>
+                                <?php endif; ?>
+
+                                <?php if ( $marketplace_bukalapak ) : ?>
+                                <a href="<?php echo esc_url( $marketplace_bukalapak ); ?>" target="_blank" class="btn-marketplace mp-bukalapak">
+                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> Bukalapak
+                                </a>
+                                <?php endif; ?>
+
+                                <?php if ( $marketplace_blibli ) : ?>
+                                <a href="<?php echo esc_url( $marketplace_blibli ); ?>" target="_blank" class="btn-marketplace mp-blibli">
+                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> Blibli
                                 </a>
                                 <?php endif; ?>
 
@@ -363,7 +377,7 @@ get_header(); ?>
     font-size: 1.1rem;
     font-weight: 800;
     padding: 16px 30px;
-    border-radius: 50px;
+    border-radius: 10px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -473,13 +487,28 @@ get_header(); ?>
 
 .marketplace-links { margin-bottom: 30px; padding-top: 20px; border-top: 1.5px dashed var(--border); }
 .marketplace-title { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text2); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-.marketplace-buttons { display: flex; flex-direction: column; gap: 10px; }
-.btn-marketplace { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: 50px; font-weight: 700; color: #fff; text-decoration: none; transition: var(--ease); font-size: 1.05rem; }
+.marketplace-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.btn-marketplace { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+    width: 100%; 
+    padding: 13px 24px; 
+    border-radius: 10px; 
+    font-weight: 800; 
+    color: #fff; 
+    text-decoration: none; 
+    transition: var(--ease); 
+    font-size: 0.9rem; 
+}
 .btn-marketplace:hover { transform: translateY(-2px); opacity: 0.9; color: #fff; }
 .mp-shopee { background: #ee4d2d; }
 .mp-tokopedia { background: #00aa5b; }
 .mp-lazada { background: #000080; }
 .mp-tiktok { background: #000000; }
+.mp-bukalapak { background: #e31e52; }
+.mp-blibli { background: #0095da; }
 .mp-lainnya { background: #6c757d; }
 
 </style>

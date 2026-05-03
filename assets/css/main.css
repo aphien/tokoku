@@ -429,6 +429,23 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
    PRODUCT CARD
    ========================================== */
 .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+/* Enlarge product cards on homepage for desktop (~20% increase) */
+@media (min-width: 769px) {
+    .home {
+        --max-w: 1400px; /* Wider container to keep 4-grid items large */
+    }
+    .home .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+    }
+    .home .product-card__title a {
+        font-size: 1.1rem; /* 20% larger than original 0.9rem */
+    }
+    .home .price-current {
+        font-size: 1.15rem;
+    }
+}
 .product-card { 
     background: var(--card-bg); 
     border-radius: 20px; 
@@ -453,6 +470,40 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
 .price-current { font-weight: 800; color: var(--price-color); font-size: 1rem; }
 .price-original { font-size: 0.8rem; color: var(--text2); text-decoration: line-through; opacity: 0.7; }
 .price-discount-badge { font-size: 0.68rem; font-weight: 800; background: var(--red); color: #fff; padding: 1px 5px; border-radius: 4px; }
+
+/* Stock Status Colors */
+.stok-tersedia { color: #2ecc71 !important; }
+.stok-habis { color: #e74c3c !important; }
+.stok-preorder, .is-preorder, .preorder-notice .notice-title { 
+    color: #f39c12 !important; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+.preorder-notice .notice-title {
+    margin-bottom: 8px;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+.preorder-notice .notice-title .dashicons {
+    color: inherit;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.spec-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.spec-value .dashicons {
+    margin: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
 
 /* Empty State */
 .empty-products { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text2); }
@@ -479,8 +530,21 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
 .btn-primary { background: var(--primary); color: #fff; }
 .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
 .btn-block { width: 100%; }
-.btn-whatsapp-order { background: var(--green); color: #fff; margin-top: 10px; }
-.btn-whatsapp-order:hover { background: #1db954; }
+.btn-whatsapp-order { 
+    background: rgba(37, 211, 102, 0.08); 
+    color: var(--green); 
+    border: 1.5px solid rgba(37, 211, 102, 0.2);
+    margin-top: 10px;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+.btn-whatsapp-order:hover { 
+    background: var(--green); 
+    color: #fff;
+    border-color: var(--green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+}
 
 /* ==========================================
    WHATSAPP FLOAT
@@ -592,7 +656,7 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
     animation: marquee 20s linear infinite; 
     align-items: center;
 }
-.logo-slide { width: 144px; flex-shrink: 0; }
+.logo-slide { width: 175px; flex-shrink: 0; }
 .logo-slide img { width: 100%; height: auto; filter: grayscale(1) opacity(0.4); transition: var(--ease); }
 .logo-slide:hover img { filter: grayscale(0) opacity(1); }
 
@@ -836,8 +900,108 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
     /* Products */
     .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .product-card__content { padding: 10px; }
-    .product-card__title a { font-size: 0.82rem; }
+    .product-card__title a { font-size: 0.9rem; } /* +10% from 0.82rem */
     .price-current { font-size: 0.92rem; }
+
+    /* Slender button on mobile cards */
+    .btn-whatsapp-order {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+        margin-top: 8px;
+    }
+    
+    /* Product Detail Mobile Adjustments */
+    .single-product .product-info {
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    .single-product .breadcrumb,
+    .single-product .product-price-display,
+    .single-product .variations-list,
+    .single-product .marketplace-title,
+    .single-product .product-share {
+        justify-content: flex-start;
+        text-align: left;
+        width: 100%;
+    }
+    .single-product .spec-row {
+        flex-direction: row; /* Keep horizontal but wrap if needed, or stick to column if preferred */
+        justify-content: flex-start;
+        text-align: left;
+        width: 100%;
+        gap: 15px;
+    }
+    .single-product .spec-label {
+        width: 100px;
+        margin-bottom: 0;
+        text-align: left;
+        flex-shrink: 0;
+    }
+    .single-product .spec-value {
+        text-align: left;
+    }
+    .single-product .product-note-box {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+    }
+    .single-product .btn-contact-us {
+        font-size: 0.9rem;
+        padding: 12px 15px !important;
+        width: 100%;
+        border-radius: 10px !important;
+    }
+    .single-product .btn-marketplace {
+        font-size: 0.7rem; /* 20% smaller than 0.9rem roughly */
+        padding: 10px 5px !important; /* Smaller padding */
+        width: 100%;
+        border-radius: 10px !important;
+    }
+    .single-product .btn-marketplace .dashicons {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        margin-right: 5px !important;
+    }
+    .single-product .marketplace-buttons {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Back to 2 columns */
+        gap: 8px;
+        justify-content: center;
+    }
+    .single-product .product-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+    }
+    .single-product .btn-contact-us {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+    .single-product .marketplace-links {
+        width: 100%;
+        padding: 20px 0 0;
+        border-top: 1.5px dashed var(--border);
+    }
+    .single-product .marketplace-title {
+        text-align: center;
+        justify-content: center;
+    }
+    .single-product .product-share {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 15px;
+    }
     
     /* Articles mobile */
     .article-grid { grid-template-columns: 1fr; gap: 20px; }
