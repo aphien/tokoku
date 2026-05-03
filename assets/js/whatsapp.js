@@ -48,16 +48,27 @@ document.addEventListener('DOMContentLoaded', function() {
             
             let message = tokokuWA.message;
             
-            // Convert HTML to plain text for WhatsApp
+            // Convert HTML to plain text for WhatsApp with Markdown support
             const htmlToWA = (html) => {
                 let text = html;
+                
+                // Convert Bold
+                text = text.replace(/<(strong|b)>(.*?)<\/\1>/gi, '*$2*');
+                
+                // Convert Italic
+                text = text.replace(/<(em|i)>(.*?)<\/\1>/gi, '_$2_');
+                
+                // Line breaks
                 text = text.replace(/<br\s*\/?>/gi, '\n');
                 text = text.replace(/<\/p>/gi, '\n');
                 text = text.replace(/<\/div>/gi, '\n');
-                text = text.replace(/<(?:.|\n)*?>/gm, ''); // Strip tags
-                // Decode HTML entities (like &nbsp;)
+                
+                // Strip all remaining tags
+                text = text.replace(/<(?:.|\n)*?>/gm, '');
+                
+                // Decode HTML entities
                 const doc = new DOMParser().parseFromString(text, 'text/html');
-                return doc.documentElement.textContent;
+                return doc.documentElement.textContent.trim();
             };
 
             message = htmlToWA(message);
