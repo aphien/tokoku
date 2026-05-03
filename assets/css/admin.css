@@ -1,0 +1,131 @@
+/**
+ * TokoKu Admin Settings Styles
+ */
+
+.tokoku-admin-wrap { margin: 20px 20px 0 0; max-width: 1200px; }
+.tokoku-admin-header { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    margin-bottom: 25px; 
+    background: rgba(255, 255, 255, 0.9); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+    position: sticky;
+    top: 32px;
+    z-index: 1001;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.tokoku-admin-logo { display: flex; align-items: center; gap: 15px; }
+.tokoku-admin-logo h1 { 
+    margin: 0; 
+    font-size: 24px; 
+    font-weight: 900; 
+    background: linear-gradient(135deg, #007bff 0%, #00d2ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+.tokoku-admin-version { background: #e7f3ff; color: #007bff; padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; height: fit-content; }
+
+.tokoku-admin-header-actions { display: flex; align-items: center; gap: 20px; }
+
+.tokoku-top-save-btn {
+    padding: 10px 25px !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    border-radius: 50px !important;
+}
+
+.tokoku-settings-container { display: flex; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); min-height: 500px; }
+.tokoku-settings-nav { width: 220px; background: #f8f9fa; border-right: 1px solid #dcdcde; flex-shrink: 0; }
+.tokoku-nav-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; font-weight: 600; color: #50575e; transition: 0.2s; position: relative; }
+.tokoku-nav-item:hover { background: #fff; color: #007bff; }
+.tokoku-nav-item.active { background: #fff; color: #007bff; border-left: 4px solid #007bff; }
+.tokoku-nav-item.ui-sortable-helper { background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-left: 4px solid #007bff; opacity: 0.9; }
+.tokoku-nav-item.ui-sortable-placeholder { background: #f1f5f9; visibility: visible !important; border: 1px dashed #cbd5e1; }
+.tokoku-drag-handle { cursor: move; }
+
+.tokoku-settings-content { flex-grow: 1; padding: 30px; }
+.tokoku-tab-panel { display: none; }
+.tokoku-tab-panel.active { display: block; animation: fadeIn 0.3s; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.tokoku-tab-panel h2 { margin-top: 0; font-size: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
+
+.tokoku-field { margin-bottom: 25px; }
+.tokoku-field label { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 8px; font-size: 14px; }
+.tokoku-tip { font-size: 12px; color: #64748b; margin-top: 8px; font-style: italic; background: #f1f5f9; padding: 8px 12px; border-left: 3px solid #cbd5e1; border-radius: 4px; line-height: 1.4; }
+.tokoku-field input[type="text"], 
+.tokoku-field input[type="password"],
+.tokoku-field input[type="url"], 
+.tokoku-field input[type="email"], 
+.tokoku-field select, 
+.tokoku-field textarea { width: 100%; max-width: 600px; padding: 10px; border-radius: 6px; border: 1px solid #dcdcde; }
+.tokoku-field textarea { min-height: 100px; }
+
+.tokoku-preview-img { display: block; max-width: 200px; max-height: 150px; margin-bottom: 10px; border: 1px solid #eee; border-radius: 6px; padding: 5px; background: #f8f9fa; }
+.tokoku-slider-item { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee; }
+.tokoku-slider-item h3 { margin-top: 0; font-size: 15px; color: #007bff; }
+
+/* Global Button Styling */
+.tokoku-admin-wrap .button-primary,
+.tokoku-admin-wrap .button-secondary,
+.tokoku-admin-wrap .tokoku-upload-btn,
+.tokoku-admin-wrap .tokoku-upload-btn-id {
+    border-radius: 8px !important;
+    padding: 8px 20px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+}
+
+.tokoku-admin-wrap .button-primary {
+    background: linear-gradient(135deg, #007bff 0%, #00d2ff 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2) !important;
+}
+
+.tokoku-admin-wrap .button-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3) !important;
+}
+
+.wp-picker-container { display: block; margin-top: 5px; }
+
+/* Vertical Tabs Styling */
+.tokoku-vtabs-container { display: flex; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #ddd; min-height: 400px; }
+.tokoku-vtabs-nav { width: 220px; background: #f8f9fa; border-right: 1px solid #ddd; display: flex; flex-direction: column; }
+.tokoku-vtab-link { padding: 15px 20px; border-bottom: 1px solid #eee; cursor: pointer; font-weight: 600; color: #64748b; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; position: relative; }
+.tokoku-vtab-link:hover { background: #fff; color: #007bff; }
+.tokoku-vtab-link.active { background: #fff; color: #007bff; border-right: 3px solid #007bff; }
+.tokoku-vtab-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.tokoku-vtabs-content { flex: 1; padding: 30px; }
+.tokoku-vtab-panel { display: none; animation: fadeIn 0.3s ease; }
+.tokoku-vtab-panel.active { display: block; }
+
+.tokoku-remove-unit-v { font-style: normal; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; background: #fee2e2; color: #ef4444; border-radius: 50%; font-size: 14px; line-height: 1; opacity: 0; transition: opacity 0.2s; }
+.tokoku-vtab-link:hover .tokoku-remove-unit-v { opacity: 1; }
+
+.tokoku-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e2e8f0;
+    border-top-color: #007bff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
