@@ -178,13 +178,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 parent.classList.toggle('active');
             }
         });
-        // 💬 Testimonials Slider
+    });
+
+    // 💬 Testimonials Slider
     const testiWrapper = document.querySelector('.testimonials-wrapper');
     const testiSlides = document.querySelectorAll('.testimonial-slide');
     const testiDotsContainer = document.querySelector('.testimonial-dots');
     
     if (testiWrapper && testiSlides.length > 0) {
         let currentTesti = 0;
+        let startX = 0;
+        let isDragging = false;
         
         // Create dots
         testiSlides.forEach((_, index) => {
@@ -195,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 goToTesti(index);
                 resetTestiTimer();
             });
-            testiDotsContainer.appendChild(dot);
+            testiDotsContainer?.appendChild(dot);
         });
         
         const testiDots = document.querySelectorAll('.testi-dot');
@@ -210,6 +214,11 @@ document.addEventListener('DOMContentLoaded', function() {
             currentTesti = (currentTesti + 1) % testiSlides.length;
             goToTesti(currentTesti);
         }
+
+        function prevTesti() {
+            currentTesti = (currentTesti - 1 + testiSlides.length) % testiSlides.length;
+            goToTesti(currentTesti);
+        }
         
         let testiTimer = setInterval(nextTesti, 5000);
         
@@ -217,6 +226,27 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(testiTimer);
             testiTimer = setInterval(nextTesti, 5000);
         }
+
+        // Touch Support
+        testiWrapper.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            clearInterval(testiTimer);
+        }, { passive: true });
+
+        testiWrapper.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextTesti();
+                else prevTesti();
+            }
+            
+            isDragging = false;
+            resetTestiTimer();
+        }, { passive: true });
     }
 
     // 🏎️ Logo Marquee Pause on Hover
