@@ -247,6 +247,10 @@ document.addEventListener('DOMContentLoaded', function() {
             isDragging = false;
             resetTestiTimer();
         }, { passive: true });
+
+        // Pause on Hover
+        testiWrapper.addEventListener('mouseenter', () => clearInterval(testiTimer));
+        testiWrapper.addEventListener('mouseleave', () => resetTestiTimer());
     }
 
     // 🏎️ Logo Marquee Pause on Hover
