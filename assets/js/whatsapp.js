@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentProduct = {
                 name: btn.dataset.productName,
                 price: btn.dataset.productPrice,
+                sku: btn.dataset.productSku || '-',
                 id: btn.dataset.productId
             };
             
@@ -74,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             message = htmlToWA(message);
             
             message = message.replace('{produk}', currentProduct.name);
+            message = message.replace('{sku}', currentProduct.sku);
             message = message.replace('{harga}', currentProduct.price);
             message = message.replace('{jumlah}', qty);
             message = message.replace('{nama}', name);

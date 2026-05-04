@@ -71,6 +71,7 @@ $stok_status  = tokoku_get_stok_status();
         <button class="btn btn-primary btn-block btn-whatsapp-order" 
                 data-product-id="<?php the_ID(); ?>"
                 data-product-name="<?php the_title(); ?>"
+                data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                 data-product-price="<?php echo $harga_diskon ? $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) : ($harga ? $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) : 'Hubungi Kami'); ?>">
             Pesan Sekarang
         </button>
