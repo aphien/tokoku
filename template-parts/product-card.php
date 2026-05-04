@@ -49,7 +49,7 @@ $stok_status  = tokoku_get_stok_status();
             <a href="<?php the_permalink(); ?>">
                 <?php 
                 $title = get_the_title();
-                echo esc_html( mb_strimwidth( $title, 0, 20, '...' ) ); 
+                echo esc_html( mb_strimwidth( $title, 0, 30, '...' ) ); 
                 ?>
             </a>
         </h3>

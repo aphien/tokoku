@@ -42,7 +42,7 @@ function tokoku_ajax_search() {
             
             $products[] = array(
                 'id'         => get_the_ID(),
-                'title'      => get_the_title(),
+                'title'      => mb_strimwidth( get_the_title(), 0, 30, '...' ),
                 'permalink'  => get_the_permalink(),
                 'thumbnail'  => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ),
                 'sku'        => get_post_meta( get_the_ID(), '_produk_sku', true ),

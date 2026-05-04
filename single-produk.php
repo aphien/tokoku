@@ -88,7 +88,7 @@ get_header(); ?>
                         if ( $label_khusus ) {
                             echo '<span class="special-label">' . esc_html( $label_khusus ) . '</span>';
                         }
-                        the_title(); 
+                        echo esc_html( mb_strimwidth( get_the_title(), 0, 30, '...' ) ); 
                         ?>
                     </h1>
 
