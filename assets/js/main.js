@@ -380,7 +380,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
 
     /* ==========================================================================
        4. PWA & UTILITIES
