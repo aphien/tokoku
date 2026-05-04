@@ -49,7 +49,8 @@ $stok_status  = tokoku_get_stok_status();
             <a href="<?php the_permalink(); ?>">
                 <?php 
                 $title = get_the_title();
-                echo esc_html( mb_strimwidth( $title, 0, 30, '...' ) ); 
+                $limit = wp_is_mobile() ? 20 : 35;
+                echo esc_html( mb_strimwidth( $title, 0, $limit, '...' ) ); 
                 ?>
             </a>
         </h3>
