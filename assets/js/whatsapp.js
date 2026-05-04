@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: btn.dataset.productName,
                 price: btn.dataset.productPrice,
                 sku: btn.dataset.productSku || '-',
+                url: btn.dataset.productUrl || window.location.href,
                 id: btn.dataset.productId
             };
             
@@ -76,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             message = message.replace('{produk}', currentProduct.name);
             message = message.replace('{sku}', currentProduct.sku);
+            message = message.replace('{link}', currentProduct.url);
             message = message.replace('{harga}', currentProduct.price);
             message = message.replace('{jumlah}', qty);
             message = message.replace('{nama}', name);

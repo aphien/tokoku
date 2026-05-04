@@ -216,6 +216,7 @@ get_header(); ?>
                                 data-product-id="<?php the_ID(); ?>"
                                 data-product-name="<?php the_title(); ?>"
                                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
+                                data-product-url="<?php the_permalink(); ?>"
                                 data-product-price="<?php echo esc_attr( $price_val ); ?>">
                             <span class="dashicons dashicons-whatsapp" style="margin-right: 8px;"></span>
                             Pesan via WhatsApp

@@ -554,7 +554,7 @@ function tokoku_settings_page_html() {
                                 ); 
                                 ?>
                             </div>
-                            <p class="description"><?php _e( 'Placeholder: {produk}, {sku}, {harga}, {jumlah}, {nama}, {catatan}', 'tokoku' ); ?></p>
+                            <p class="description"><?php _e( 'Placeholder: {produk}, {sku}, {link}, {harga}, {jumlah}, {nama}, {catatan}', 'tokoku' ); ?></p>
                             <p class="tokoku-tip"><?php _e( 'Kegunaan: Template yang rapi membantu Anda memproses data pesanan dengan lebih cepat dan akurat.', 'tokoku' ); ?></p>
                         </div>
                         <div class="tokoku-field">
