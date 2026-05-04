@@ -651,7 +651,7 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
 .logo-carousel-wrapper { width: 100%; overflow: hidden; position: relative; }
 .logo-track { 
     display: flex; 
-    gap: 80px; 
+    gap: 64px; 
     width: max-content; 
     animation: marquee 20s linear infinite; 
     align-items: center;
