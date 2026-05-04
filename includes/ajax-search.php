@@ -23,15 +23,50 @@ function tokoku_ajax_search() {
     // If keyword is empty or less than 2, we just don't search specifically, but we return latest products.
     // So we don't abort here.
 
-    $args = array(
+    // 1. Search by SKU
+    $args_sku = array(
+        'post_type'      => 'produk',
+        'post_status'    => 'publish',
+        'posts_per_page' => 5,
+        'fields'         => 'ids',
+        'meta_query'     => array(
+            array(
+                'key'     => '_produk_sku',
+                'value'   => $keyword,
+                'compare' => 'LIKE',
+            ),
+        ),
+    );
+    $query_sku = new WP_Query( $args_sku );
+    $ids_sku = $query_sku->posts;
+
+    // 2. Search by Title (Standard Search)
+    $args_title = array(
         'post_type'      => 'produk',
         'post_status'    => 'publish',
         's'              => $keyword,
+        'posts_per_page' => 5,
+        'fields'         => 'ids',
+    );
+    $query_title = new WP_Query( $args_title );
+    $ids_title = $query_title->posts;
+
+    // 3. Combine and filter
+    $combined_ids = array_unique( array_merge( $ids_sku, $ids_title ) );
+    
+    if ( empty( $combined_ids ) ) {
+        $combined_ids = array( -1 ); // No results
+    }
+
+    $final_args = array(
+        'post_type'      => 'produk',
+        'post_status'    => 'publish',
+        'post__in'       => $combined_ids,
         'posts_per_page' => 3,
-        'orderby'        => 'relevance',
+        'orderby'        => 'post__in', // Maintain the priority (SKU matches first)
     );
 
-    $query = new WP_Query( $args );
+    $query = new WP_Query( $final_args );
     $products = array();
 
     if ( $query->have_posts() ) {
