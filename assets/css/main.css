@@ -1150,6 +1150,9 @@ body:not(.theme-dark) .moon-icon { transform: rotate(-15deg); }
     body::-webkit-scrollbar {
         display: none; /* Chrome, Safari and Opera */
     }
+
+    /* Partner Logos Mobile */
+    .logo-slide { width: 126px; }
 }
 
 /* ==========================================
