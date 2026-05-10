@@ -9,6 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+define( 'TOKOKU_VERSION', '1.6.7' );
+define( 'TOKOKU_DIR', get_template_directory() );
+define( 'TOKOKU_URI', get_template_directory_uri() );
 
 /**
  * Theme Setup
