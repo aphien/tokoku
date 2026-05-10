@@ -4,8 +4,9 @@
  * TABLE OF CONTENTS:
  * 1. SHARED LOGIC (Theme Toggle, Sticky Header)
  * 2. DESKTOP SPECIFIC LOGIC
- * 3. MOBILE SPECIFIC LOGIC (Drawer, Bottom Nav, Search Modal)
- * 4. PWA & UTILITIES
+ * 3. SHARED COMPONENTS LOGIC (Hero Slider, etc)
+ * 4. MOBILE SPECIFIC LOGIC (Drawer, Bottom Nav, Testimonials)
+ * 5. PWA & UTILITIES
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -19,10 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const html = document.documentElement;
     
-    // Sync preference from localStorage
-    const savedTheme = localStorage.getItem('tokoku-theme');
-    const configDefault = document.body.getAttribute('data-config-default') || 'dark'; // Placeholder for default if needed
-    
     function applyTheme(theme) {
         if (theme === 'auto') {
             theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -34,26 +31,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof updateThemeColor === 'function') updateThemeColor();
     }
 
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    }
+    const savedTheme = localStorage.getItem('tokoku-theme');
+    if (savedTheme) applyTheme(savedTheme);
 
     if (modeToggle) {
         modeToggle.addEventListener('click', () => {
-            if (body.classList.contains('theme-dark')) {
-                body.classList.remove('theme-dark');
-                body.classList.add('theme-light');
-                html.classList.remove('theme-dark');
-                html.classList.add('theme-light');
-                localStorage.setItem('tokoku-theme', 'light');
-            } else {
-                body.classList.remove('theme-light');
-                body.classList.add('theme-dark');
-                html.classList.remove('theme-light');
-                html.classList.add('theme-dark');
-                localStorage.setItem('tokoku-theme', 'dark');
-            }
-            if (typeof updateThemeColor === 'function') updateThemeColor();
+            const isDark = body.classList.contains('theme-dark');
+            applyTheme(isDark ? 'light' : 'dark');
+            localStorage.setItem('tokoku-theme', isDark ? 'light' : 'dark');
         });
     }
 
@@ -71,6 +56,24 @@ document.addEventListener('DOMContentLoaded', function() {
        2. DESKTOP SPECIFIC LOGIC
        ========================================================================== */
     
+    // 🚀 Scroll to Top (Elegant Version)
+    const scrollTopBtn = document.getElementById('scroll-to-top');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
     /* ==========================================================================
        3. SHARED COMPONENTS LOGIC
@@ -89,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
             let currentIndex = 0;
             let slideInterval;
             
-            // Create Dots
             slides.forEach((_, i) => {
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
@@ -102,8 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             function updateSlider() {
                 wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-                dots?.forEach(dot => dot.classList.remove('active'));
-                if (dots) dots[currentIndex].classList.add('active');
+                dots?.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
             }
             
             function nextSlide() {
@@ -130,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
             prevBtn?.addEventListener('click', () => { prevSlide(); resetInterval(); });
             nextBtn?.addEventListener('click', () => { nextSlide(); resetInterval(); });
             
-            // Start Auto Slide
             slideInterval = setInterval(nextSlide, 5000);
         }
     }
@@ -164,21 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
         menuOverlay?.addEventListener('click', closeMenu);
     }
 
-    // 📱 Mobile Sub-menu Toggle (Accordion)
-    const menuItemsWithChildren = document.querySelectorAll('.mobile-nav-list .menu-item-has-children > a');
-    menuItemsWithChildren.forEach(item => {
-        item.addEventListener('click', (e) => {
-            const parent = item.parentElement;
-            const href = item.getAttribute('href');
-            if (href === '#' || href === '') {
-                e.preventDefault();
-                parent.classList.toggle('active');
-            } else {
-                parent.classList.toggle('active');
-            }
-        });
-    });
-
     // 💬 Testimonials Slider
     const testiWrapper = document.querySelector('.testimonials-wrapper');
     const testiSlides = document.querySelectorAll('.testimonial-slide');
@@ -189,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let startX = 0;
         let isDragging = false;
         
-        // Create dots
         testiSlides.forEach((_, index) => {
             const dot = document.createElement('div');
             dot.classList.add('testi-dot');
@@ -214,11 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
             goToTesti(currentTesti);
         }
 
-        function prevTesti() {
-            currentTesti = (currentTesti - 1 + testiSlides.length) % testiSlides.length;
-            goToTesti(currentTesti);
-        }
-        
         let testiTimer = setInterval(nextTesti, 5000);
         
         function resetTestiTimer() {
@@ -226,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
             testiTimer = setInterval(nextTesti, 5000);
         }
 
-        // Touch Support
         testiWrapper.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
             isDragging = true;
@@ -237,19 +215,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isDragging) return;
             const endX = e.changedTouches[0].clientX;
             const diff = startX - endX;
-            
             if (Math.abs(diff) > 50) {
                 if (diff > 0) nextTesti();
-                else prevTesti();
+                else {
+                    currentTesti = (currentTesti - 1 + testiSlides.length) % testiSlides.length;
+                    goToTesti(currentTesti);
+                }
             }
-            
             isDragging = false;
             resetTestiTimer();
         }, { passive: true });
-
-        // Pause on Hover
-        testiWrapper.addEventListener('mouseenter', () => clearInterval(testiTimer));
-        testiWrapper.addEventListener('mouseleave', () => resetTestiTimer());
     }
 
     // 🏎️ Logo Marquee Pause on Hover
@@ -259,132 +234,10 @@ document.addEventListener('DOMContentLoaded', function() {
         logoTrack.addEventListener('mouseleave', () => logoTrack.style.animationPlayState = 'running');
     }
 
-    // 📰 Article Slider
-    const articleTrack = document.querySelector('.article-track');
-    const articleSlides = document.querySelectorAll('.article-slide');
-    const articlePrev = document.getElementById('article-prev');
-    const articleNext = document.getElementById('article-next');
-    const articleDotsContainer = document.querySelector('.article-slider-dots');
-    
-    if (articleTrack && articleSlides.length > 0) {
-        let currentPos = 0;
-        let perView = window.innerWidth > 1024 ? 3 : (window.innerWidth > 768 ? 2 : 1);
-        let maxPos = Math.max(0, articleSlides.length - perView);
-        
-        // Hide slider controls if not needed
-        const checkControls = () => {
-            if (articleSlides.length <= perView) {
-                if (articlePrev) articlePrev.style.display = 'none';
-                if (articleNext) articleNext.style.display = 'none';
-                if (articleDotsContainer) articleDotsContainer.style.display = 'none';
-                articleTrack.style.justifyContent = 'center';
-            } else {
-                if (articlePrev) articlePrev.style.display = 'flex';
-                if (articleNext) articleNext.style.display = 'flex';
-                if (articleDotsContainer) articleDotsContainer.style.display = 'flex';
-                articleTrack.style.justifyContent = 'flex-start';
-            }
-        };
-        
-        // Create dots
-        const updateDots = () => {
-            if (!articleDotsContainer) return;
-            articleDotsContainer.innerHTML = '';
-            const numDots = Math.ceil(articleSlides.length / perView);
-            for (let i = 0; i < numDots; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('article-dot');
-                if (i === Math.floor(currentPos / perView)) dot.classList.add('active');
-                dot.addEventListener('click', () => {
-                    currentPos = i * perView;
-                    if (currentPos > maxPos) currentPos = maxPos;
-                    updateArticleSlider();
-                });
-                articleDotsContainer.appendChild(dot);
-            }
-        };
-        
-        function updateArticleSlider() {
-            const slideWidth = articleSlides[0].offsetWidth;
-            articleTrack.style.transform = `translateX(-${currentPos * slideWidth}px)`;
-            
-            // Update dots
-            const dots = document.querySelectorAll('.article-dot');
-            const activeDot = Math.floor(currentPos / perView);
-            dots.forEach((d, i) => {
-                d.classList.toggle('active', i === activeDot);
-            });
-            
-            // Disable buttons if at ends
-            if (articlePrev) articlePrev.style.opacity = currentPos === 0 ? '0.3' : '1';
-            if (articleNext) articleNext.style.opacity = currentPos >= maxPos ? '0.3' : '1';
-        }
-        
-        if (articlePrev) {
-            articlePrev.addEventListener('click', () => {
-                if (currentPos > 0) {
-                    currentPos--;
-                    updateArticleSlider();
-                }
-            });
-        }
-        
-        if (articleNext) {
-            articleNext.addEventListener('click', () => {
-                if (currentPos < maxPos) {
-                    currentPos++;
-                    updateArticleSlider();
-                }
-            });
-        }
-        
-        window.addEventListener('resize', () => {
-            perView = window.innerWidth > 1024 ? 3 : (window.innerWidth > 768 ? 2 : 1);
-            maxPos = Math.max(0, articleSlides.length - perView);
-            if (currentPos > maxPos) currentPos = maxPos;
-            checkControls();
-            updateDots();
-            updateArticleSlider();
-        });
-        
-        checkControls();
-        updateDots();
-        updateArticleSlider();
-    }
-
-    // ❓ FAQ Accordion
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
-        
-        question?.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            
-            // Close all other items
-            faqItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                    const otherAnswer = otherItem.querySelector('.faq-answer');
-                    if (otherAnswer) otherAnswer.style.maxHeight = null;
-                }
-            });
-            
-            // Toggle current item
-            item.classList.toggle('active');
-            if (!isActive) {
-                answer.style.maxHeight = answer.scrollHeight + "px";
-            } else {
-                answer.style.maxHeight = null;
-            }
-        });
-    });
-
     /* ==========================================================================
-       4. PWA & UTILITIES
+       5. PWA & UTILITIES
        ========================================================================== */
     
-    // 🛡️ Register Service Worker for PWA
     if ('serviceWorker' in navigator && typeof tokokuSearch !== 'undefined') {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register(tokokuSearch.themeUrl + '/sw.js')
@@ -393,7 +246,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 🎨 Dynamic Theme Color for PWA
     function updateThemeColor() {
         const meta = document.querySelector('meta[name="theme-color"]');
         if (meta) {
