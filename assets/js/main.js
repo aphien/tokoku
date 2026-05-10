@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
        2. DESKTOP SPECIFIC LOGIC
        ========================================================================== */
     
-    // Desktop specific scripts can go here
 
     /* ==========================================================================
        3. SHARED COMPONENTS LOGIC
