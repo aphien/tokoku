@@ -99,38 +99,6 @@ function tokoku_save_admin_settings() {
         wp_die( esc_html__( 'You do not have sufficient permissions to modify these settings.', 'tokoku' ) );
     }
 
-    // 🚀 Handle Import Trigger
-    if ( isset( $_POST['tokoku_trigger_import'] ) && ! empty( $_FILES['tokoku_import_file']['tmp_name'] ) ) {
-        $import_file = $_FILES['tokoku_import_file']['tmp_name'];
-        $file_info   = pathinfo( $_FILES['tokoku_import_file']['name'] );
-
-        // 🛡️ Security: Validate File Extension
-        if ( strtolower($file_info['extension']) !== 'json' ) {
-            wp_die( esc_html__( 'Invalid file type. Only JSON files are allowed.', 'tokoku' ) );
-        }
-
-        $json_data   = file_get_contents( $import_file );
-        $import_data = json_decode( $json_data, true );
-
-        if ( $import_data && isset( $import_data['theme_mods'] ) && is_array( $import_data['theme_mods'] ) ) {
-            // 🛡️ Security: Verify Source
-            if ( ! isset( $import_data['source'] ) || $import_data['source'] !== 'Tokoku Theme' ) {
-                wp_die( esc_html__( 'This file does not appear to be a valid TokoKu settings backup.', 'tokoku' ) );
-            }
-
-            foreach ( $import_data['theme_mods'] as $key => $value ) {
-                // Only import keys that start with tokoku_
-                if ( strpos( $key, 'tokoku_' ) === 0 ) {
-                    set_theme_mod( $key, $value );
-                }
-            }
-            
-            wp_safe_redirect( add_query_arg( array( 'page' => 'tokoku-settings', 'settings-updated' => 'true', 'import' => 'success' ), admin_url( 'admin.php' ) ) );
-            exit;
-        } else {
-            wp_die( esc_html__( 'Failed to parse JSON file or invalid data structure.', 'tokoku' ) );
-        }
-    }
 
     // 3. Define Settings Schema with specific sanitization
     $settings_schema = array(

@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TOKOKU_VERSION', '1.6.6' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -169,34 +168,3 @@ add_action( 'wp_enqueue_scripts', function() {
     wp_dequeue_style( 'wc-block-style' );
 }, 100 );
 
-/**
- * Products per page + sorting
- */
-function tokoku_modify_product_query( $query ) {
-    if ( is_admin() || ! $query->is_main_query() ) return;
-    if ( ! is_post_type_archive( 'produk' ) && ! is_tax( 'kategori_produk' ) ) return;
-
-    $query->set( 'posts_per_page', 12 );
-    $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'terbaru';
-
-    switch ( $orderby ) {
-        case 'termurah':
-            $query->set( 'meta_key', '_produk_harga' );
-            $query->set( 'orderby', 'meta_value_num' );
-            $query->set( 'order', 'ASC' );
-            break;
-        case 'termahal':
-            $query->set( 'meta_key', '_produk_harga' );
-            $query->set( 'orderby', 'meta_value_num' );
-            $query->set( 'order', 'DESC' );
-            break;
-        case 'nama':
-            $query->set( 'orderby', 'title' );
-            $query->set( 'order', 'ASC' );
-            break;
-        default:
-            $query->set( 'orderby', 'date' );
-            $query->set( 'order', 'DESC' );
-    }
-}
-add_action( 'pre_get_posts', 'tokoku_modify_product_query' );

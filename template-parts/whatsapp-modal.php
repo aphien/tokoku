@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( "ABSPATH" ) ) {
+    exit;
+}
 /**
  * Template part for WhatsApp Order Modal
  */

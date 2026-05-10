@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+?>
     <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">

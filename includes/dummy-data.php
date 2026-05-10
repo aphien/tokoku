@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( "ABSPATH" ) ) {
+    exit;
+}
 /**
  * Dummy Data Generator for TokoKu
  */

@@ -529,16 +529,6 @@ function tokoku_get_harga( $post_id = null ) {
 
     $output = '';
 
-    if ( $harga_diskon && $harga_diskon < $harga ) {
-        $diskon_persen = round( ( ( $harga - $harga_diskon ) / $harga ) * 100 );
-        $output .= '<span class="price-discount-badge">-' . $diskon_persen . '%</span> ';
-        $output .= '<span class="price-original">' . $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) . '</span> ';
-        $output .= '<span class="price-current">' . $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) . '</span>';
-    } elseif ( $harga ) {
-        $output .= '<span class="price-current">' . $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) . '</span>';
-    } else {
-        $output .= '<span class="price-current price-contact">' . esc_html__( 'Hubungi Kami', 'tokoku' ) . '</span>';
-    }
 
     return $output;
 }

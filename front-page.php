@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( "ABSPATH" ) ) {
+    exit;
+}
 /**
  * The front page template file
  *
