@@ -28,7 +28,9 @@
     <!-- Floating Action Buttons (Desktop) -->
     <div class="floating-actions-desktop">
         <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to Top">
-            <span class="dashicons dashicons-arrow-up-alt2"></span>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
         </button>
         <div class="wa-float">
             <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" class="wa-float__btn" target="_blank" aria-label="WhatsApp">
