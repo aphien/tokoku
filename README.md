@@ -1,3 +1,21 @@
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v1.6.7)
+
+**TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
+
+---
+
+## ✨ Fitur Terbaru v1.6.7
+*   **Core Security Hardening**: Penambahan sistem keamanan `ABSPATH` check pada seluruh file tema untuk mencegah akses file langsung secara ilegal.
+*   **Enhanced Data Sanitization**: Peningkatan sanitasi data pada sistem import pengaturan tema untuk perlindungan maksimal.
+*   **XSS Protection**: Implementasi *output escaping* yang lebih ketat pada elemen-elemen dinamis dan atribut HTML.
+*   **Security Headers**: Penambahan HTTP Security Headers (`X-Frame-Options`, `X-Content-Type-Options`, dll) untuk memperkuat pertahanan browser.
+*   **System Cleanup**: Penghapusan skrip utilitas yang tidak aman dan menyembunyikan informasi versi WordPress dari publik.
+
+---
+
+## ✨ Fitur v1.6.6
+*   **Ultra-Condensed Brand Marquee**: Jarak antar logo partner & klien kembali dikurangi sebesar 20% (menjadi 32px) untuk tampilan yang sangat padat dan modern.
+*   **Version Synchronization**: Sinkronisasi sistem versi untuk rilis terbaru.
 
 ---
 
@@ -46,7 +64,7 @@
 *   **Smart Grid Layout**: Grid marketplace otomatis (4 kolom di desktop, 2 kolom di mobile) untuk efisiensi ruang maksimal.
 
 ### 🎨 Estetika & UX Detail (Optimasi)
-*   **Modern Button Design**: Desain tombol dengan lengkungan halus (10px) untuk kesan profesional dan modern.
+*   **Modern Button Design**: Desain tombol dengan lengkungan halus (10px) untuk kesan profesional and modern.
 *   **Synchronized Mobile Actions**: Tombol WhatsApp dan Marketplace di mobile kini memiliki lebar yang sejajar sempurna.
 *   **Enhanced Visibility**: Ikon marketplace di mobile diperbesar 20% agar lebih mudah dikenali pelanggan.
 *   **Clean Mobile UI**: Menghilangkan tampilan batang gulir (scrollbar) di sisi kanan pada mobile untuk pengalaman seperti aplikasi native.
@@ -65,7 +83,7 @@
 
 ### 🛠️ Admin Dashboard Profesional
 *   **Vertical Tabbed Interface**: Manajemen Testimoni, Logo Partner, dan Banner Slider menggunakan sistem tab vertikal yang rapi.
-*   **Advanced Repeater**: Tambah hingga 10 Banner, 20 Testimoni, dan 50 Logo klien dengan mudah.
+*   **Advanced Repeater**: Tambah hingga 10 Banner, 20 Testimoni, and 50 Logo klien dengan mudah.
 *   **Security First**: Dibangun dengan sistem keamanan Nonce Verification dan sanitasi data yang ketat untuk perlindungan maksimal.
 
 ---

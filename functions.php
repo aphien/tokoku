@@ -9,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TOKOKU_DIR', get_template_directory() );
-define( 'TOKOKU_URI', get_template_directory_uri() );
 
 /**
  * Theme Setup
@@ -168,3 +166,83 @@ add_action( 'wp_enqueue_scripts', function() {
     wp_dequeue_style( 'wc-block-style' );
 }, 100 );
 
+
+/**
+ * Products per page + sorting
+ */
+function tokoku_modify_product_query( $query ) {
+    if ( is_admin() || ! $query->is_main_query() ) return;
+    if ( ! is_post_type_archive( 'produk' ) && ! is_tax( 'kategori_produk' ) ) return;
+
+    $query->set( 'posts_per_page', 12 );
+    $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'terbaru';
+
+    switch ( $orderby ) {
+        case 'termurah':
+            $query->set( 'meta_key', '_produk_harga' );
+            $query->set( 'orderby', 'meta_value_num' );
+            $query->set( 'order', 'ASC' );
+            break;
+        case 'termahal':
+            $query->set( 'meta_key', '_produk_harga' );
+            $query->set( 'orderby', 'meta_value_num' );
+            $query->set( 'order', 'DESC' );
+            break;
+        case 'nama':
+            $query->set( 'orderby', 'title' );
+            $query->set( 'order', 'ASC' );
+            break;
+        default:
+            $query->set( 'orderby', 'date' );
+            $query->set( 'order', 'DESC' );
+    }
+}
+add_action( 'pre_get_posts', 'tokoku_modify_product_query' );
+
+/**
+ * ====================================================
+ * SECURITY HARDENING
+ * ====================================================
+ */
+
+/**
+ * Hide WordPress Version
+ */
+remove_action( 'wp_head', 'wp_generator' );
+add_filter( 'the_generator', '__return_empty_string' );
+
+function tokoku_remove_wp_version_strings( $src ) {
+    if ( strpos( $src, 'ver=' . get_bloginfo( 'version' ) ) ) {
+        $src = remove_query_arg( 'ver', $src );
+    }
+    return $src;
+}
+add_filter( 'style_loader_src', 'tokoku_remove_wp_version_strings', 999 );
+add_filter( 'script_loader_src', 'tokoku_remove_wp_version_strings', 999 );
+
+/**
+ * Add Security Headers
+ */
+function tokoku_add_security_headers() {
+    if ( ! is_admin() ) {
+        header( 'X-Content-Type-Options: nosniff' );
+        header( 'X-Frame-Options: SAMEORIGIN' );
+        header( 'X-XSS-Protection: 1; mode=block' );
+        header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+    }
+}
+add_action( 'send_headers', 'tokoku_add_security_headers' );
+
+/**
+ * Disable XML-RPC
+ */
+add_filter( 'xmlrpc_enabled', '__return_false' );
+remove_action( 'wp_head', 'rsd_link' );
+remove_action( 'wp_head', 'wlwmanifest_link' );
+
+/**
+ * Disable File Editing in Dashboard
+ */
+if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
+    define( 'DISALLOW_FILE_EDIT', true );
+}
