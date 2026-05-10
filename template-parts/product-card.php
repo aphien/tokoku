@@ -2,6 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+
+$harga        = get_post_meta( get_the_ID(), '_produk_harga', true );
+$harga_diskon = get_post_meta( get_the_ID(), '_produk_harga_diskon', true );
+$mata_uang    = get_theme_mod( 'tokoku_currency_symbol', 'Rp' );
+$stok_status  = tokoku_get_stok_status( get_the_ID() );
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'product-card' ); ?>>
@@ -66,6 +71,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 data-product-name="<?php the_title(); ?>"
                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                 data-product-url="<?php the_permalink(); ?>"
+                data-product-price="<?php echo esc_attr( $harga_diskon ? $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) : ($harga ? $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) : 'Hubungi Kami') ); ?>">
             Pesan Sekarang
         </button>
     </div>
