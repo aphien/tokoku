@@ -2862,3 +2862,45 @@ transition: var(--ease);
         height: 45px;
     }
 }
+
+/* v1.6.7 Mobile Footer Restoration Overrides */
+@media (max-width: 768px) {
+    .wa-float {
+        display: none !important;
+    }
+    .floating-actions-desktop {
+        display: none !important;
+    }
+    .bottom-nav {
+        display: flex !important;
+        justify-content: space-around;
+        align-items: center;
+        height: 65px;
+        background: var(--glass);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-top: 1px solid var(--border);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    .bottom-nav .nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        color: var(--text2);
+        font-size: 0.65rem;
+        height: 100%;
+    }
+    .bottom-nav .nav-item.active {
+        color: var(--primary);
+    }
+    .bottom-nav .nav-item .dashicons {
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+    .bottom-nav .nav-whatsapp {
+        color: #25d366;
+    }
+}

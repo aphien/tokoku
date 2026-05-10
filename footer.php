@@ -41,7 +41,7 @@
 
     <?php get_template_part('template-parts/whatsapp-modal'); ?>
 
-    <!-- Mobile Bottom Navigation -->
+    <!-- Mobile Bottom Navigation (v1.6.7 Style) -->
     <div class="bottom-nav">
         <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-item <?php echo is_front_page() ? 'active' : ''; ?>">
             <span class="dashicons dashicons-admin-home"></span>
@@ -51,17 +51,13 @@
             <span class="dashicons dashicons-category"></span>
             <span>Kategori</span>
         </a>
-        <a href="<?php echo esc_url(home_url('/produk')); ?>" class="nav-item">
-            <span class="dashicons dashicons-store"></span>
-            <span>Produk</span>
-        </a>
-        <a href="javascript:void(0)" class="nav-item mobile-search-trigger">
+        <a href="javascript:void(0)" id="mobile-search-nav-trigger" class="nav-item">
             <span class="dashicons dashicons-search"></span>
-            <span>Cari</span>
+            <span>Pencarian</span>
         </a>
-        <a href="javascript:void(0)" class="nav-item" id="menu-toggle">
-            <span class="dashicons dashicons-menu-alt"></span>
-            <span>Menu</span>
+        <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" class="nav-item nav-whatsapp" target="_blank">
+            <span class="dashicons dashicons-whatsapp"></span>
+            <span>WhatsApp</span>
         </a>
     </div>
 
