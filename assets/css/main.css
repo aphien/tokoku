@@ -2169,6 +2169,18 @@ transition: var(--ease);
     justify-content: center;
 }
 
+.bottom-nav .dashicons-admin-home {
+    color: var(--primary);
+}
+
+.bottom-nav .dashicons-category {
+    color: #f59e0b;
+}
+
+.bottom-nav .dashicons-search {
+    color: #8b5cf6;
+}
+
 .bottom-nav .dashicons-whatsapp {
     color: var(--green);
 }
