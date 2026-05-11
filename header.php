@@ -11,8 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#ffffff">
-    <link rel="manifest" href="<?php echo get_template_directory_uri(); ?>/manifest.json">
-    <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/assets/images/icon-192x192.png">
+    <link rel="manifest" href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=tokoku_manifest' ) ); ?>">
+    <?php
+    $site_icon = get_site_icon_url( 192 );
+    $apple_icon = $site_icon ? $site_icon : get_template_directory_uri() . '/assets/images/icon-192x192.png';
+    ?>
+    <link rel="apple-touch-icon" href="<?php echo esc_url( $apple_icon ); ?>">
     
     <?php wp_head(); ?>
     <script>

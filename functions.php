@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TOKOKU_VERSION', '1.7.7' );
+define( 'TOKOKU_VERSION', '1.7.8' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -249,3 +249,43 @@ remove_action( 'wp_head', 'wlwmanifest_link' );
 if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
     define( 'DISALLOW_FILE_EDIT', true );
 }
+
+/**
+ * Dynamic PWA Manifest
+ */
+function tokoku_generate_manifest() {
+    header( 'Content-Type: application/manifest+json' );
+    $icon_192 = get_site_icon_url( 192 );
+    $icon_512 = get_site_icon_url( 512 );
+    
+    if ( ! $icon_192 ) $icon_192 = TOKOKU_URI . '/assets/images/icon-192x192.png';
+    if ( ! $icon_512 ) $icon_512 = TOKOKU_URI . '/assets/images/icon-512x512.png';
+
+    $manifest = array(
+        'name'             => get_bloginfo( 'name' ),
+        'short_name'       => get_bloginfo( 'name' ),
+        'description'      => get_bloginfo( 'description' ),
+        'start_url'        => '/',
+        'display'          => 'standalone',
+        'background_color' => '#ffffff',
+        'theme_color'      => '#ffffff',
+        'orientation'      => 'portrait',
+        'icons'            => array(
+            array(
+                'src'   => $icon_192,
+                'sizes' => '192x192',
+                'type'  => 'image/png'
+            ),
+            array(
+                'src'   => $icon_512,
+                'sizes' => '512x512',
+                'type'  => 'image/png'
+            )
+        )
+    );
+    
+    echo wp_json_encode( $manifest );
+    exit;
+}
+add_action( 'wp_ajax_tokoku_manifest', 'tokoku_generate_manifest' );
+add_action( 'wp_ajax_nopriv_tokoku_manifest', 'tokoku_generate_manifest' );

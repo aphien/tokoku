@@ -3,7 +3,6 @@ const urlsToCache = [
     '/',
     '/wp-content/themes/tokoku/style.css',
     '/wp-content/themes/tokoku/assets/css/main.css',
-    '/wp-content/themes/tokoku/manifest.json',
     // You can add more critical JS, CSS, or fonts here
 ];
 
