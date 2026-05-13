@@ -1,17 +1,104 @@
     <footer class="site-footer">
         <div class="container">
-            <div class="footer-widgets">
-                <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
-                    <div class="footer-widget-area">
-                        <?php dynamic_sidebar( 'footer-1' ); ?>
+            <div class="footer-grid">
+                <!-- Column 1: Brand & About -->
+                <div class="footer-column footer-brand">
+                    <div class="footer-logo">
+                        <?php 
+                        if ( has_custom_logo() ) {
+                            the_custom_logo();
+                        } else {
+                            echo '<h2 class="footer-site-title">' . get_bloginfo('name') . '</h2>';
+                        }
+                        ?>
                     </div>
-                <?php endif; ?>
-                
-                <?php if ( is_active_sidebar( 'footer-2' ) ) : ?>
-                    <div class="footer-widget-area">
-                        <?php dynamic_sidebar( 'footer-2' ); ?>
+                    <div class="footer-about">
+                        <p><?php echo esc_html(get_theme_mod('tokoku_footer_about', 'TokoKu adalah toko online terpercaya yang menyediakan produk berkualitas dengan harga terbaik.')); ?></p>
                     </div>
-                <?php endif; ?>
+                    <div class="social-links">
+                        <?php
+                        $socials = array(
+                            'instagram' => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>',
+                            'facebook'  => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>',
+                            'tiktok'    => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>',
+                            'youtube'   => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.11 1 12 1 12s0 3.89.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.89 23 12 23 12s0-3.89-.46-5.58z"></path><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon></svg>',
+                            'twitter'   => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>'
+                        );
+                        foreach ($socials as $key => $svg) {
+                            $link = get_theme_mod("tokoku_social_$key");
+                            if ($link) {
+                                echo '<a href="' . esc_url($link) . '" class="social-link" target="_blank" aria-label="' . esc_attr(ucfirst($key)) . '">';
+                                echo $svg;
+                                echo '</a>';
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-column">
+                    <h4 class="footer-title">Navigasi</h4>
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'primary',
+                        'container'      => false,
+                        'menu_class'     => 'footer-nav-list',
+                        'fallback_cb'    => false,
+                        'depth'          => 1,
+                    ));
+                    ?>
+                </div>
+
+                <!-- Column 3: Categories -->
+                <div class="footer-column">
+                    <h4 class="footer-title">Kategori</h4>
+                    <ul class="footer-nav-list">
+                        <?php
+                        $categories = get_terms(array(
+                            'taxonomy'   => 'kategori_produk',
+                            'number'     => 5,
+                            'hide_empty' => true,
+                        ));
+                        if (!empty($categories) && !is_wp_error($categories)) {
+                            foreach ($categories as $cat) {
+                                echo '<li><a href="' . esc_url(get_term_link($cat)) . '">' . esc_html($cat->name) . '</a></li>';
+                            }
+                        }
+                        ?>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div class="footer-column footer-contact">
+                    <h4 class="footer-title">Hubungi Kami</h4>
+                    <ul class="contact-info">
+                        <?php 
+                        $address = get_theme_mod('tokoku_store_address');
+                        if ($address) : ?>
+                            <li>
+                                <span class="dashicons dashicons-location"></span>
+                                <span><?php echo nl2br(esc_html($address)); ?></span>
+                            </li>
+                        <?php endif; ?>
+                        
+                        <?php 
+                        $email = get_theme_mod('tokoku_store_email');
+                        if ($email) : ?>
+                            <li>
+                                <span class="dashicons dashicons-email"></span>
+                                <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
+                            </li>
+                        <?php endif; ?>
+
+                        <li>
+                            <span class="dashicons dashicons-whatsapp"></span>
+                            <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" target="_blank">
+                                <?php echo esc_html(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <div class="footer-bottom">

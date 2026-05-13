@@ -1766,16 +1766,47 @@ transition: var(--ease);
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 40px;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 50px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-brand .footer-logo {
+    margin-bottom: 20px;
+}
+
+.footer-brand .footer-logo img {
+    max-height: 50px;
+    width: auto;
+}
+
+.footer-site-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 0;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-about {
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.8;
 }
 
 .footer-title {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     font-weight: 800;
-    margin-bottom: 18px;
-    padding-bottom: 10px;
+    margin-bottom: 25px;
+    color: var(--text);
     position: relative;
+    padding-bottom: 12px;
 }
 
 .footer-title::after {
@@ -1783,27 +1814,63 @@ transition: var(--ease);
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 28px;
+    width: 35px;
     height: 3px;
     background: var(--primary);
     border-radius: 3px;
 }
 
+.footer-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .footer-nav-list li {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .footer-nav-list a {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: inherit;
-    opacity: 0.8;
+    color: var(--text2);
+    text-decoration: none;
     transition: var(--ease);
+    display: inline-block;
 }
 
 .footer-nav-list a:hover {
     color: var(--primary);
-    opacity: 1;
+    transform: translateX(5px);
+}
+
+.contact-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-info li {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: var(--text2);
+    font-size: 0.95rem;
+}
+
+.contact-info li .dashicons {
+    color: var(--primary);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+}
+
+.contact-info li a {
+    color: inherit;
+    transition: var(--ease);
+}
+
+.contact-info li a:hover {
+    color: var(--primary);
 }
 
 .footer-bottom {
@@ -1823,20 +1890,30 @@ transition: var(--ease);
 }
 
 .social-link {
-    font-size: 0.78rem;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 6px;
-    background: var(--bg);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--bg2);
     border: 1px solid var(--border);
     color: var(--text);
     transition: var(--ease);
+}
+
+.social-link .dashicons {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
 }
 
 .social-link:hover {
     background: var(--primary);
     color: #fff;
     border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.3);
 }
 
 /* ==========================================
@@ -2577,8 +2654,7 @@ transition: var(--ease);
     }
 
     .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
+        display: none;
     }
 
     /* WA Float hidden on mobile (moved to bottom nav) */
@@ -2626,10 +2702,6 @@ transition: var(--ease);
         gap: 8px;
     }
 
-    .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
 
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
