@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (data.success) {
-                renderResults(data.data, container, mode);
+                renderResults(data.data, container, mode, keyword);
             } else {
                 container.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--red);">Terjadi kesalahan koneksi</div>';
             }
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function renderResults(data, container, mode) {
+    function renderResults(data, container, mode, keyword = '') {
         const { products, categories, tags, total } = data;
         let html = '';
 
@@ -183,7 +183,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (total > 0) {
-            html += `<div class="search-results-footer"><a href="${tokokuSearch.homeUrl}produk/">LIHAT SEMUA PRODUK... (${total})</a></div>`;
+            let viewAllUrl = `${tokokuSearch.homeUrl}produk/`;
+            if (keyword) {
+                viewAllUrl = `${tokokuSearch.homeUrl}?s=${encodeURIComponent(keyword)}&post_type=produk`;
+            }
+            html += `<div class="search-results-footer"><a href="${viewAllUrl}">LIHAT SEMUA PRODUK... (${total})</a></div>`;
         }
 
         if (html === '') {
@@ -192,4 +196,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
         container.innerHTML = html;
     }
+
 });

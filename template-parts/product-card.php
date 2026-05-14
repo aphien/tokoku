@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $harga        = get_post_meta( get_the_ID(), '_produk_harga', true );
 $harga_diskon = get_post_meta( get_the_ID(), '_produk_harga_diskon', true );
-$mata_uang    = get_theme_mod( 'tokoku_currency_symbol', 'Rp' );
+$mata_uang    = get_theme_mod( 'tokoku_currency', 'Rp' );
 $stok_status  = tokoku_get_stok_status( get_the_ID() );
 ?>
 

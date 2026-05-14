@@ -527,11 +527,18 @@ function tokoku_get_harga( $post_id = null ) {
     $harga_diskon = get_post_meta( $post_id, '_produk_harga_diskon', true );
     $mata_uang    = get_theme_mod( 'tokoku_currency', 'Rp' );
 
-    $output = '';
+    if ( ! $harga && ! $harga_diskon ) {
+        return '<span class="price-contact">' . __( 'Hubungi Kami', 'tokoku' ) . '</span>';
+    }
 
+    if ( $harga_diskon && $harga_diskon < $harga ) {
+        return '<span class="price-current">' . esc_html( $mata_uang . ' ' . number_format( (int)$harga_diskon, 0, ',', '.' ) ) . '</span>' .
+               ' <span class="price-original">' . esc_html( $mata_uang . ' ' . number_format( (int)$harga, 0, ',', '.' ) ) . '</span>';
+    }
 
-    return $output;
+    return '<span class="price-current">' . esc_html( $mata_uang . ' ' . number_format( (int)$harga, 0, ',', '.' ) ) . '</span>';
 }
+
 
 /**
  * Helper: Get stock status

@@ -19,52 +19,55 @@ function tokoku_ajax_search() {
     }
 
     $keyword = isset( $_GET['keyword'] ) ? sanitize_text_field( $_GET['keyword'] ) : '';
-
-    // If keyword is empty or less than 2, we just don't search specifically, but we return latest products.
-    // So we don't abort here.
-
-    // 1. Search by SKU
-    $args_sku = array(
-        'post_type'      => 'produk',
-        'post_status'    => 'publish',
-        'posts_per_page' => 5,
-        'fields'         => 'ids',
-        'meta_query'     => array(
-            array(
-                'key'     => '_produk_sku',
-                'value'   => $keyword,
-                'compare' => 'LIKE',
-            ),
-        ),
-    );
-    $query_sku = new WP_Query( $args_sku );
-    $ids_sku = $query_sku->posts;
-
-    // 2. Search by Title (Standard Search)
-    $args_title = array(
-        'post_type'      => 'produk',
-        'post_status'    => 'publish',
-        's'              => $keyword,
-        'posts_per_page' => 5,
-        'fields'         => 'ids',
-    );
-    $query_title = new WP_Query( $args_title );
-    $ids_title = $query_title->posts;
-
-    // 3. Combine and filter
-    $combined_ids = array_unique( array_merge( $ids_sku, $ids_title ) );
-    
-    if ( empty( $combined_ids ) ) {
-        $combined_ids = array( -1 ); // No results
-    }
-
     $final_args = array(
         'post_type'      => 'produk',
         'post_status'    => 'publish',
-        'post__in'       => $combined_ids,
         'posts_per_page' => 3,
-        'orderby'        => 'post__in', // Maintain the priority (SKU matches first)
     );
+
+    if ( ! empty( $keyword ) ) {
+        // 1. Search by SKU (Increased limit to improve "total" count accuracy)
+        $args_sku = array(
+            'post_type'      => 'produk',
+            'post_status'    => 'publish',
+            'posts_per_page' => 50,
+            'fields'         => 'ids',
+            'meta_query'     => array(
+                array(
+                    'key'     => '_produk_sku',
+                    'value'   => $keyword,
+                    'compare' => 'LIKE',
+                ),
+            ),
+        );
+        $query_sku = new WP_Query( $args_sku );
+        $ids_sku = $query_sku->posts;
+
+        // 2. Search by Title (Increased limit)
+        $args_title = array(
+            'post_type'      => 'produk',
+            'post_status'    => 'publish',
+            's'              => $keyword,
+            'posts_per_page' => 50,
+            'fields'         => 'ids',
+        );
+        $query_title = new WP_Query( $args_title );
+        $ids_title = $query_title->posts;
+
+        // 3. Combine and filter
+        $combined_ids = array_unique( array_merge( $ids_sku, $ids_title ) );
+        
+        if ( empty( $combined_ids ) ) {
+            $combined_ids = array( -1 ); // No results
+        }
+
+        $final_args['post__in'] = $combined_ids;
+        $final_args['orderby']  = 'post__in';
+    } else {
+        // Empty keyword: show latest products
+        $final_args['orderby'] = 'date';
+        $final_args['order']   = 'DESC';
+    }
 
     $query = new WP_Query( $final_args );
     $products = array();
@@ -94,25 +97,31 @@ function tokoku_ajax_search() {
         'number'   => 3,
     ) );
     $cat_results = array();
-    foreach ( $categories as $cat ) {
-        $cat_results[] = array(
-            'name' => $cat->name,
-            'link' => get_term_link( $cat ),
-        );
+    if ( ! is_wp_error( $categories ) ) {
+        foreach ( $categories as $cat ) {
+            $link = get_term_link( $cat );
+            $cat_results[] = array(
+                'name' => $cat->name,
+                'link' => is_wp_error( $link ) ? '#' : $link,
+            );
+        }
     }
 
-    // Get Tags (using post_tag or custom)
+    // Get Tags (using tag_produk taxonomy)
     $tags = get_terms( array(
-        'taxonomy' => 'post_tag', // Or your custom tag taxonomy
+        'taxonomy' => 'tag_produk',
         'search'   => $keyword,
         'number'   => 3,
     ) );
     $tag_results = array();
-    foreach ( $tags as $tag ) {
-        $tag_results[] = array(
-            'name' => $tag->name,
-            'link' => get_term_link( $tag ),
-        );
+    if ( ! is_wp_error( $tags ) ) {
+        foreach ( $tags as $tag ) {
+            $link = get_term_link( $tag );
+            $tag_results[] = array(
+                'name' => $tag->name,
+                'link' => is_wp_error( $link ) ? '#' : $link,
+            );
+        }
     }
 
     wp_send_json_success( array(
@@ -124,3 +133,4 @@ function tokoku_ajax_search() {
 }
 add_action( 'wp_ajax_tokoku_search', 'tokoku_ajax_search' );
 add_action( 'wp_ajax_nopriv_tokoku_search', 'tokoku_ajax_search' );
+
