@@ -227,6 +227,114 @@ document.addEventListener('DOMContentLoaded', function() {
         }, { passive: true });
     }
 
+    // 📰 Article Slider
+    const articleSlider = document.querySelector('.articles-slider-container');
+    if (articleSlider) {
+        const track = articleSlider.querySelector('.article-track');
+        const slides = articleSlider.querySelectorAll('.article-slide');
+        const prevBtn = articleSlider.querySelector('#article-prev');
+        const nextBtn = articleSlider.querySelector('#article-next');
+        const dotsContainer = articleSlider.querySelector('.article-slider-dots');
+        
+        if (track && slides.length > 0) {
+            let currentIndex = 0;
+            let slideInterval;
+            
+            // Calculate how many slides visible
+            function getVisibleSlides() {
+                if (window.innerWidth <= 768) return 2; // Mobile
+                return 4; // Desktop
+            }
+            
+            function updateSlider() {
+                const slideWidth = 100 / getVisibleSlides();
+                track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
+                
+                const dots = dotsContainer?.querySelectorAll('.article-dot');
+                dots?.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+            }
+            
+            function getMaxIndex() {
+                return Math.max(0, slides.length - getVisibleSlides());
+            }
+
+            // Create dots
+            function initDots() {
+                if (dotsContainer) {
+                    dotsContainer.innerHTML = '';
+                    const maxDots = getMaxIndex() + 1;
+                    if (maxDots <= 1) return; // No dots if not enough items
+                    
+                    for (let i = 0; i < maxDots; i++) {
+                        const dot = document.createElement('div');
+                        dot.classList.add('article-dot');
+                        if (i === currentIndex) dot.classList.add('active');
+                        dot.addEventListener('click', () => {
+                            currentIndex = i;
+                            updateSlider();
+                            resetInterval();
+                        });
+                        dotsContainer.appendChild(dot);
+                    }
+                }
+            }
+            initDots();
+            
+            function nextSlide() {
+                const maxIndex = getMaxIndex();
+                if (maxIndex <= 0) return;
+                currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+                updateSlider();
+            }
+            
+            function prevSlide() {
+                const maxIndex = getMaxIndex();
+                if (maxIndex <= 0) return;
+                currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
+                updateSlider();
+            }
+            
+            function resetInterval() {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            prevBtn?.addEventListener('click', () => { prevSlide(); resetInterval(); });
+            nextBtn?.addEventListener('click', () => { nextSlide(); resetInterval(); });
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                const maxIndex = getMaxIndex();
+                if (currentIndex > maxIndex) currentIndex = maxIndex;
+                initDots();
+                updateSlider();
+            });
+            
+            // Touch support
+            let startX = 0;
+            let isDragging = false;
+            
+            track.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+                clearInterval(slideInterval);
+            }, { passive: true });
+            
+            track.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                const diff = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) nextSlide();
+                    else prevSlide();
+                }
+                isDragging = false;
+                resetInterval();
+            }, { passive: true });
+            
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+    }
+
     // 🏎️ Logo Marquee Pause on Hover
     const logoTrack = document.querySelector('.logo-track');
     if (logoTrack) {

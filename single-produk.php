@@ -333,7 +333,7 @@ get_header(); ?>
 
                 if ( $related->have_posts() ) : ?>
                     <section class="related-products section-padding">
-                        <h2 class="section-title">Produk Terkait</h2>
+                        <h2 class="section-title" style="margin-top: 3%;">Produk Terkait</h2>
                         <div class="product-grid">
                             <?php while ( $related->have_posts() ) : $related->the_post();
                                 get_template_part( 'template-parts/product-card' );

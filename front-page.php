@@ -274,30 +274,29 @@ get_header(); ?>
                             while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
                         ?>
                             <div class="article-slide">
-                                <article class="article-card">
-                                    <div class="article-card__image">
-                                        <?php if ( has_post_thumbnail() ) : ?>
-                                            <?php the_post_thumbnail( 'medium_large' ); ?>
-                                        <?php else : ?>
-                                            <div class="article-placeholder">
-                                                <span class="dashicons dashicons-media-text" style="font-size: 40px; width: 40px; height: 40px; opacity: 0.3;"></span>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
+                                <article class="article-card has-bg-image">
+                                    <div class="article-card__bg" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'medium_large') ? esc_url(get_the_post_thumbnail_url(null, 'medium_large')) : esc_url(TOKOKU_URI . '/assets/images/placeholder.png'); ?>');"></div>
+                                    <div class="article-card__overlay"></div>
+                                    <a href="<?php the_permalink(); ?>" class="article-card__link-overlay"></a>
+                                    
                                     <div class="article-card__content">
-                                        <div class="article-card__meta">
-                                            <span class="article-date"><?php echo get_the_date(); ?></span>
-                                        </div>
+                                        <?php 
+                                        $categories = get_the_category();
+                                        if ( ! empty( $categories ) ) {
+                                            echo '<span class="article-category">' . esc_html( $categories[0]->name ) . '</span>';
+                                        }
+                                        ?>
                                         <h3 class="article-card__title">
                                             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                         </h3>
-                                        <div class="article-card__excerpt">
-                                            <?php echo wp_trim_words( get_the_excerpt(), 12 ); ?>
+                                        <div class="article-card__meta">
+                                            <span class="article-author">
+                                                <span class="dashicons dashicons-admin-users" style="font-size: 14px; margin-top: 3px;"></span> BY <?php echo esc_html(strtoupper(get_the_author())); ?>
+                                            </span>
+                                            <span class="article-date">
+                                                <span class="dashicons dashicons-calendar-alt" style="font-size: 14px; margin-top: 3px;"></span> <?php echo esc_html(strtoupper(get_the_date('j F Y'))); ?>
+                                            </span>
                                         </div>
-                                        <a href="<?php the_permalink(); ?>" class="btn btn-primary btn-sm article-read-more">
-                                            Baca Selengkapnya
-                                            <span class="dashicons dashicons-arrow-right-alt2"></span>
-                                        </a>
                                     </div>
                                 </article>
                             </div>

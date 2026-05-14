@@ -107,27 +107,9 @@ function tokoku_ajax_search() {
         }
     }
 
-    // Get Tags (using tag_produk taxonomy)
-    $tags = get_terms( array(
-        'taxonomy' => 'tag_produk',
-        'search'   => $keyword,
-        'number'   => 3,
-    ) );
-    $tag_results = array();
-    if ( ! is_wp_error( $tags ) ) {
-        foreach ( $tags as $tag ) {
-            $link = get_term_link( $tag );
-            $tag_results[] = array(
-                'name' => $tag->name,
-                'link' => is_wp_error( $link ) ? '#' : $link,
-            );
-        }
-    }
-
     wp_send_json_success( array(
         'products'   => $products,
         'categories' => $cat_results,
-        'tags'       => $tag_results,
         'total'      => $query->found_posts,
     ) );
 }

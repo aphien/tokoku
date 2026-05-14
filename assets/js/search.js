@@ -148,17 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderResults(data, container, mode, keyword = '') {
-        const { products, categories, tags, total } = data;
+        const { products, categories, total } = data;
         let html = '';
 
         if (mode === 'desktop') {
             if (categories && categories.length > 0) {
                 html += '<div class="search-section-header">KATEGORI</div>';
                 categories.forEach(cat => { html += `<a href="${cat.link}" class="search-cat-item"><strong>${cat.name}</strong></a>`; });
-            }
-            if (tags && tags.length > 0) {
-                html += '<div class="search-section-header">TAG</div>';
-                tags.forEach(tag => { html += `<a href="${tag.link}" class="search-tag-item">${tag.name}</a>`; });
             }
         }
 
@@ -167,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             products.forEach(product => {
                 let priceDisplay = product.price_html || '';
+                let skuDisplay = product.sku ? `<div class="item-sku" style="font-size: 0.8rem; color: var(--text2); margin-top: 2px;">SKU: ${product.sku}</div>` : '';
                 html += `
                     <a href="${product.permalink}" class="search-product-item">
                         <div class="item-thumb">
@@ -174,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="item-info">
                             <div class="item-title">${product.title}</div>
+                            ${skuDisplay}
                             <div class="item-price">${priceDisplay}</div>
                         </div>
                         ${mode === 'mobile' ? '<div class="search-product-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>' : ''}

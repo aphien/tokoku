@@ -136,6 +136,10 @@ function tokoku_save_admin_settings() {
         'tokoku_footer_copyright' => 'wp_kses_post',
         'tokoku_store_address'    => 'wp_kses_post',
         'tokoku_store_email'      => 'sanitize_email',
+        'tokoku_hubungi_kami_desc'=> 'sanitize_text_field',
+        'tokoku_jam_op_1'         => 'sanitize_text_field',
+        'tokoku_jam_op_2'         => 'sanitize_text_field',
+        'tokoku_jam_op_3'         => 'sanitize_text_field',
         'tokoku_seo_desc'         => 'sanitize_textarea_field',
         'tokoku_seo_keywords'     => 'sanitize_text_field',
         'tokoku_seo_og_image'     => 'esc_url_raw',
@@ -158,6 +162,12 @@ function tokoku_save_admin_settings() {
     for ( $i = 1; $i <= 10; $i++ ) {
         $settings_schema["tokoku_faq_q_{$i}"] = 'sanitize_text_field';
         $settings_schema["tokoku_faq_a_{$i}"] = 'wp_kses_post';
+    }
+
+    // Contacts Repeater
+    for ( $i = 1; $i <= 5; $i++ ) {
+        $settings_schema["tokoku_contact_name_{$i}"] = 'sanitize_text_field';
+        $settings_schema["tokoku_contact_wa_{$i}"]   = 'sanitize_text_field';
     }
 
     // 4. Handle Repeater Settings (Slides, Socials, Testimonials, Logos)
@@ -821,6 +831,31 @@ function tokoku_settings_page_html() {
                         <div class="tokoku-field">
                             <label><?php _e( 'Email Toko', 'tokoku' ); ?></label>
                             <input type="email" name="tokoku_store_email" value="<?php echo esc_attr( get_theme_mod( 'tokoku_store_email' ) ); ?>">
+                        </div>
+
+                        <div class="tokoku-settings-group" style="margin-top: 30px; padding: 20px; background: #f0f0f1; border-radius: 8px;">
+                            <h3><?php _e( 'Hubungi Kami & Jam Operasional', 'tokoku' ); ?></h3>
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Teks Deskripsi', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_hubungi_kami_desc" value="<?php echo esc_attr( get_theme_mod( 'tokoku_hubungi_kami_desc', 'Customer Relation Officer (CRO) kami siap membantu Anda.' ) ); ?>">
+                            </div>
+                            
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Kontak WhatsApp', 'tokoku' ); ?></label>
+                                <?php for ($i=1; $i<=5; $i++) : ?>
+                                    <div style="display:flex; gap:10px; margin-bottom:10px;">
+                                        <input type="text" name="tokoku_contact_name_<?php echo $i; ?>" placeholder="Nama <?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod("tokoku_contact_name_{$i}") ); ?>" style="flex:1;">
+                                        <input type="text" name="tokoku_contact_wa_<?php echo $i; ?>" placeholder="No. WA (628...)" value="<?php echo esc_attr( get_theme_mod("tokoku_contact_wa_{$i}") ); ?>" style="flex:1;">
+                                    </div>
+                                <?php endfor; ?>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Jam Operasional', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_jam_op_1" placeholder="Senin - Jumat: 08.30 - 16.30" value="<?php echo esc_attr( get_theme_mod('tokoku_jam_op_1', 'Senin - Jumat: 08.30 - 16.30') ); ?>" style="margin-bottom:10px; width:100%;">
+                                <input type="text" name="tokoku_jam_op_2" placeholder="Sabtu: 08.30 - 16.00" value="<?php echo esc_attr( get_theme_mod('tokoku_jam_op_2', 'Sabtu: 08.30 - 16.00') ); ?>" style="margin-bottom:10px; width:100%;">
+                                <input type="text" name="tokoku_jam_op_3" placeholder="Minggu / Tanggal Merah: Libur" value="<?php echo esc_attr( get_theme_mod('tokoku_jam_op_3', 'Minggu / Tanggal Merah: Libur') ); ?>" style="width:100%;">
+                            </div>
                         </div>
                     </div>
 
