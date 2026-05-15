@@ -1,6 +1,14 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v1.9.0)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.0.0)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
+
+---
+
+## ✨ Fitur Terbaru v2.0.0
+*   **Full Codebase Documentation**: Seluruh file inti (core PHP) kini telah dilengkapi dengan dokumentasi dan komentar berbahasa Indonesia yang sangat komprehensif, memudahkan pengembangan dan modifikasi di masa mendatang.
+*   **Security Audit & Hardening**: Peningkatan keamanan skala penuh. Telah diimplementasikan verifikasi *nonce* ketat, pengecekan hak akses (*capability checks*), dan sanitasi data di setiap form input dan pemrosesan AJAX.
+*   **Marketplace Integration Overhaul**: Tata letak tombol marketplace (Shopee, Tokopedia, dll) dirombak ulang menjadi lebih bersih dengan desain premium tanpa ikon, serta teks yang tersusun rapi dan *centered*.
+*   **License System Removal**: Sistem lisensi yang memberatkan telah dihapus sepenuhnya, menjadikan kode tema lebih bersih, ringan, dan bebas dari pembatasan.
 
 ---
 
