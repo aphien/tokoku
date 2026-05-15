@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register Admin Menu
+ * Mendaftarkan Menu Admin
+ * Membuat menu "Tokoku" di sidebar kiri dashboard WordPress.
  */
 function tokoku_admin_menu() {
     $page_title = __( 'Tokoku by M.alfiandi Ismet', 'tokoku' );
@@ -29,7 +30,9 @@ function tokoku_admin_menu() {
 add_action( 'admin_menu', 'tokoku_admin_menu' );
 
 /**
- * Enqueue assets for settings page
+ * Memuat Aset (CSS/JS) untuk Halaman Pengaturan
+ * Hanya memuat script seperti Color Picker dan Drag-and-Drop (Sortable)
+ * pada halaman pengaturan TokoKu untuk menghemat resource.
  */
 function tokoku_admin_settings_assets() {
     wp_enqueue_media();
@@ -44,13 +47,14 @@ function tokoku_admin_settings_assets() {
     // Localize data for AJAX
     wp_localize_script( 'tokoku-admin-js', 'tokokuAdmin', array(
         'updateNonce'  => wp_create_nonce( 'tokoku_update_nonce' ),
-        'licenseNonce' => wp_create_nonce( 'tokoku_license_nonce' ),
         'version'      => TOKOKU_VERSION,
     ) );
 }
 
 /**
- * Export Theme Settings to JSON
+ * Ekspor Pengaturan Tema ke Format JSON
+ * Memungkinkan admin untuk mengunduh (backup) semua pengaturan tema (warna, teks, dll)
+ * ke dalam file JSON yang bisa disimpan di komputer lokal.
  */
 function tokoku_export_settings() {
     if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'tokoku_export_action' ) ) {
@@ -86,7 +90,9 @@ function tokoku_export_settings() {
 add_action( 'admin_post_tokoku_export_settings', 'tokoku_export_settings' );
 
 /**
- * Save Admin Settings
+ * Menyimpan Pengaturan dari Halaman Admin
+ * Ini adalah fungsi inti untuk memproses form pengaturan. Dilengkapi dengan
+ * verifikasi keamanan tingkat tinggi (Nonce & Capability check).
  */
 function tokoku_save_admin_settings() {
     // 1. Security Check: Nonce Verification
@@ -238,34 +244,6 @@ function tokoku_save_admin_settings() {
 }
 add_action( 'admin_post_tokoku_save_settings', 'tokoku_save_admin_settings' );
 
-/**
- * Handle License Activation via AJAX
- */
-function tokoku_ajax_handle_license() {
-    check_ajax_referer( 'tokoku_license_nonce', 'nonce' );
-
-    if ( ! current_user_can( 'manage_options' ) ) {
-        wp_send_json_error( 'Permission denied' );
-    }
-
-    $action = isset( $_POST['license_action'] ) ? sanitize_text_field( $_POST['license_action'] ) : '';
-
-    if ( $action === 'activate' ) {
-        $key = isset( $_POST['license_key'] ) ? sanitize_text_field( $_POST['license_key'] ) : '';
-        if ( ! empty( $key ) ) {
-            update_option( 'tokoku_license_key', $key );
-            update_option( 'tokoku_license_status', 'activated' );
-            wp_send_json_success( 'Activated' );
-        }
-    } elseif ( $action === 'deactivate' ) {
-        delete_option( 'tokoku_license_key' );
-        update_option( 'tokoku_license_status', 'unactivated' );
-        wp_send_json_success( 'Deactivated' );
-    }
-
-    wp_send_json_error( 'Invalid action' );
-}
-add_action( 'wp_ajax_tokoku_handle_license', 'tokoku_ajax_handle_license' );
 
 /**
  * Handle Theme Update via AJAX
@@ -402,12 +380,11 @@ function tokoku_settings_page_html() {
                         'tab-seo'          => array( 'icon' => 'google',        'label' => __( 'SEO & Meta', 'tokoku' ) ),
                         'tab-faq'          => array( 'icon' => 'editor-help',    'label' => __( 'FAQ', 'tokoku' ) ),
                         'tab-update'       => array( 'icon' => 'update',         'label' => __( 'Pembaruan Tema', 'tokoku' ) ),
-                        'tab-license'      => array( 'icon' => 'shield',         'label' => __( 'Lisensi Tema', 'tokoku' ) ),
                         'tab-import-export'=> array( 'icon' => 'migrate',       'label' => __( 'Import & Ekspor', 'tokoku' ) ),
                     );
 
                     // Get saved order or use default
-                    $saved_order = get_theme_mod( 'tokoku_admin_menu_order', 'tab-general,tab-whatsapp,tab-appearance,tab-slider,tab-testimonials,tab-social,tab-footer,tab-typography,tab-seo,tab-faq,tab-update,tab-license,tab-import-export' );
+                    $saved_order = get_theme_mod( 'tokoku_admin_menu_order', 'tab-general,tab-whatsapp,tab-appearance,tab-slider,tab-testimonials,tab-social,tab-footer,tab-typography,tab-seo,tab-faq,tab-update,tab-import-export' );
                     $order_array = explode( ',', $saved_order );
                     
                     // Filter out any tabs that no longer exist
@@ -1041,50 +1018,6 @@ function tokoku_settings_page_html() {
                         </div>
                     </div>
 
-                    <!-- Tab: License -->
-                    <div id="tab-license" class="tokoku-tab-panel">
-                        <h2><?php _e( 'Lisensi & Aktivasi Tema', 'tokoku' ); ?></h2>
-                        <div class="tokoku-license-card" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-top: 20px;">
-                            <?php 
-                            $license_status = get_option( 'tokoku_license_status', 'unactivated' );
-                            $license_key = get_option( 'tokoku_license_key', '' );
-                            $is_active = ($license_status === 'activated');
-                            ?>
-                            
-                            <div class="tokoku-license-status-badge <?php echo $is_active ? 'is-active' : 'is-inactive'; ?>" style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 15px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; margin-bottom: 25px; <?php echo $is_active ? 'background: #ecfdf5; color: #059669;' : 'background: #fef2f2; color: #dc2626;'; ?>">
-                                <span class="dashicons <?php echo $is_active ? 'dashicons-yes-alt' : 'dashicons-warning'; ?>"></span>
-                                <?php echo $is_active ? esc_html__( 'Tema Teraktivasi', 'tokoku' ) : esc_html__( 'Tema Belum Teraktivasi', 'tokoku' ); ?>
-                            </div>
-
-                            <div class="tokoku-field">
-                                <label style="display: block; margin-bottom: 10px; font-weight: 600;"><?php esc_html_e( 'Kode Lisensi', 'tokoku' ); ?></label>
-                                <div style="display: flex; gap: 10px;">
-                                    <input type="password" id="tokoku-license-field" value="<?php echo esc_attr( $license_key ); ?>" placeholder="<?php esc_attr_e( 'Contoh: TK-XXXX-XXXX-XXXX', 'tokoku' ); ?>" style="flex: 1; height: 44px; border-radius: 6px;" <?php echo $is_active ? 'disabled' : ''; ?>>
-                                    <?php if ( ! $is_active ) : ?>
-                                        <button type="button" id="tokoku-activate-btn" class="button button-primary" style="height: 44px; padding: 0 25px; font-weight: 600;"><?php esc_html_e( 'Aktivasi Sekarang', 'tokoku' ); ?></button>
-                                    <?php else : ?>
-                                        <button type="button" id="tokoku-deactivate-btn" class="button button-secondary" style="height: 44px; color: #dc2626;"><?php esc_html_e( 'Hapus Lisensi', 'tokoku' ); ?></button>
-                                    <?php endif; ?>
-                                </div>
-                                <p class="description" style="margin-top: 10px;">
-                                    <?php esc_html_e( 'Masukkan kode lisensi yang Anda dapatkan saat pembelian untuk mengaktifkan fitur update otomatis dan dukungan premium.', 'tokoku' ); ?>
-                                </p>
-                            </div>
-
-                            <div id="tokoku-license-msg" style="margin-top: 20px; display: none;"></div>
-                        </div>
-
-                        <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                                <h4 style="margin: 0 0 10px 0;"><span class="dashicons dashicons-admin-links"></span> <?php esc_html_e( 'Domain Terdaftar', 'tokoku' ); ?></h4>
-                                <code style="background: #fff; padding: 2px 8px; border-radius: 4px;"><?php echo esc_html( $_SERVER['HTTP_HOST'] ); ?></code>
-                            </div>
-                            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                                <h4 style="margin: 0 0 10px 0;"><span class="dashicons dashicons-calendar-alt"></span> <?php esc_html_e( 'Status Dukungan', 'tokoku' ); ?></h4>
-                                <p style="margin: 0; font-size: 0.9rem; color: #64748b;"><?php echo $is_active ? esc_html__( 'Aktif (Selamanya)', 'tokoku' ) : esc_html__( 'Tidak Tersedia', 'tokoku' ); ?></p>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Tab: Update -->
                     <div id="tab-update" class="tokoku-tab-panel">

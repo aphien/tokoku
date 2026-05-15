@@ -10,7 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register customizer settings
+ * Registrasi Pengaturan Customizer
+ * Menambahkan panel, seksi (section), dan pengaturan (setting) ke dalam fitur
+ * Appearance > Customize di WordPress.
  */
 function tokoku_customize_register( $wp_customize ) {
 
@@ -343,7 +345,9 @@ function tokoku_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'tokoku_customize_register' );
 
 /**
- * Output custom CSS from Customizer
+ * Menghasilkan CSS Kustom dari Pengaturan Customizer
+ * Mengambil nilai warna dari customizer dan mencetaknya sebagai variabel CSS root (--primary, dll)
+ * di dalam tag <style> pada elemen <head>.
  */
 function tokoku_customizer_css() {
     $primary   = get_theme_mod( 'tokoku_primary_color', '#007bff' );

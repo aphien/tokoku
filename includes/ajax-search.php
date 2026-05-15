@@ -10,10 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Handle AJAX search request
+ * Menangani Pencarian AJAX (Live Search)
+ * Fungsi ini menerima permintaan pencarian dari form di frontend, mencari produk
+ * berdasarkan Judul atau SKU (Kode Produk), dan mengembalikan hasil dalam format JSON.
  */
 function tokoku_ajax_search() {
-    // Verify nonce
+    // 1. Verifikasi Nonce (Keamanan)
+    // Pastikan permintaan ini benar-benar datang dari tema kita, bukan dari script pihak ketiga (Mencegah CSRF).
     if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], 'tokoku_search_nonce' ) ) {
         wp_send_json_error( array( 'message' => 'Invalid nonce' ) );
     }
@@ -26,7 +29,8 @@ function tokoku_ajax_search() {
     );
 
     if ( ! empty( $keyword ) ) {
-        // 1. Search by SKU (Increased limit to improve "total" count accuracy)
+        // Langkah 1: Cari berdasarkan SKU (Kode Produk)
+        // Kita ambil maksimal 50 produk untuk akurasi perhitungan total hasil.
         $args_sku = array(
             'post_type'      => 'produk',
             'post_status'    => 'publish',
@@ -43,7 +47,7 @@ function tokoku_ajax_search() {
         $query_sku = new WP_Query( $args_sku );
         $ids_sku = $query_sku->posts;
 
-        // 2. Search by Title (Increased limit)
+        // Langkah 2: Cari berdasarkan Judul Produk
         $args_title = array(
             'post_type'      => 'produk',
             'post_status'    => 'publish',
@@ -54,7 +58,7 @@ function tokoku_ajax_search() {
         $query_title = new WP_Query( $args_title );
         $ids_title = $query_title->posts;
 
-        // 3. Combine and filter
+        // Langkah 3: Gabungkan hasil pencarian SKU dan Judul, lalu hapus duplikat
         $combined_ids = array_unique( array_merge( $ids_sku, $ids_title ) );
         
         if ( empty( $combined_ids ) ) {
@@ -90,7 +94,7 @@ function tokoku_ajax_search() {
         wp_reset_postdata();
     }
 
-    // Get Categories
+    // Mengambil Kategori yang sesuai dengan kata kunci pencarian
     $categories = get_terms( array(
         'taxonomy' => 'kategori_produk',
         'search'   => $keyword,

@@ -8,13 +8,19 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+add_action('wp_head', function() {
+    echo '<!-- THEME_PATH: ' . get_template_directory() . ' -->';
+    echo '<!-- ACTIVE_FILE: ' . __FILE__ . ' -->';
+});
 
-define( 'TOKOKU_VERSION', '1.9.0' );
+define( 'TOKOKU_VERSION', '2.0.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
 /**
- * Theme Setup
+ * Pengaturan Awal Tema (Theme Setup)
+ * Fungsi ini dijalankan setelah tema diaktifkan. Berfungsi mendaftarkan fitur-fitur dasar tema
+ * seperti dukungan thumbnail, title tag, menu navigasi, dan ukuran gambar kustom.
  */
 function tokoku_setup() {
     load_theme_textdomain( 'tokoku', TOKOKU_DIR . '/languages' );
@@ -39,7 +45,10 @@ function tokoku_setup() {
 add_action( 'after_setup_theme', 'tokoku_setup' );
 
 /**
- * Enqueue Styles and Scripts
+ * Memuat File CSS dan JavaScript
+ * Fungsi ini digunakan untuk menghubungkan (enqueue) semua stylesheet dan script
+ * yang dibutuhkan tema pada sisi frontend (tampilan publik). Termasuk Google Fonts,
+ * style utama, script pencarian AJAX, dan WhatsApp.
  */
 function tokoku_scripts() {
     wp_enqueue_style( 'dashicons' );
@@ -81,7 +90,9 @@ function tokoku_scripts() {
 add_action( 'wp_enqueue_scripts', 'tokoku_scripts' );
 
 /**
- * Output Dynamic Typography CSS
+ * Mengeluarkan CSS Tipografi Dinamis
+ * Menyisipkan kode CSS khusus ke dalam <head> berdasarkan pengaturan font
+ * yang dipilih pengguna di menu Customizer.
  */
 function tokoku_typography_css() {
     $body_font    = get_theme_mod( 'tokoku_font_body', 'Plus Jakarta Sans' );
@@ -107,7 +118,9 @@ function tokoku_typography_css() {
 add_action( 'wp_head', 'tokoku_typography_css', 100 );
 
 /**
- * Register Widget Areas
+ * Mendaftarkan Area Widget
+ * Mendefinisikan area di mana pengguna bisa menambahkan widget, seperti
+ * Sidebar utama dan dua area di bagian Footer.
  */
 function tokoku_widgets_init() {
     register_sidebar( array( 'name' => 'Sidebar', 'id' => 'sidebar-1', 'before_widget' => '<section id="%1$s" class="widget %2$s">', 'after_widget' => '</section>', 'before_title' => '<h3 class="widget-title">', 'after_title' => '</h3>' ) );
@@ -123,11 +136,10 @@ require_once TOKOKU_DIR . '/includes/customizer.php';
 require_once TOKOKU_DIR . '/includes/admin-page.php';
 require_once TOKOKU_DIR . '/includes/ajax-search.php';
 require_once TOKOKU_DIR . '/includes/seo.php';
-require_once TOKOKU_DIR . '/includes/dummy-data.php';
 require_once TOKOKU_DIR . '/includes/taxonomy-meta.php';
 
 /**
- * Add footer credit in admin area
+ * Menambahkan teks hak cipta/kredit di bagian bawah halaman Admin WordPress.
  */
 function tokoku_admin_footer_credit( $text ) {
     return 'Theme <span style="font-weight:bold;color:#007bff;">TokoKu</span> by <a href="https://github.com/m-alfiandiismet" target="_blank" style="text-decoration:none;font-weight:bold;">m.alfiandiismet</a>';
@@ -135,7 +147,8 @@ function tokoku_admin_footer_credit( $text ) {
 add_filter( 'admin_footer_text', 'tokoku_admin_footer_credit' );
 
 /**
- * Add body classes
+ * Menambahkan kelas CSS tambahan pada tag <body>.
+ * Berguna untuk menargetkan gaya CSS berdasarkan mode (dark/light) atau jenis halaman (single/archive).
  */
 function tokoku_body_classes( $classes ) {
     $classes[] = 'theme-' . get_theme_mod( 'tokoku_default_mode', 'dark' );
@@ -172,7 +185,9 @@ add_action( 'wp_enqueue_scripts', function() {
 
 
 /**
- * Products per page + sorting
+ * Modifikasi Query Produk
+ * Mengatur jumlah produk yang ditampilkan per halaman (12 produk) 
+ * dan fitur pengurutan (sorting) berdasarkan harga, tanggal, atau nama.
  */
 function tokoku_modify_product_query( $query ) {
     if ( is_admin() || ! $query->is_main_query() ) return;
@@ -210,7 +225,8 @@ add_action( 'pre_get_posts', 'tokoku_modify_product_query' );
  */
 
 /**
- * Hide WordPress Version
+ * Menyembunyikan Versi WordPress dari elemen <head>
+ * Ini penting untuk keamanan agar penyerang tidak mudah mengetahui versi WP yang digunakan.
  */
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
@@ -225,7 +241,9 @@ add_filter( 'style_loader_src', 'tokoku_remove_wp_version_strings', 999 );
 add_filter( 'script_loader_src', 'tokoku_remove_wp_version_strings', 999 );
 
 /**
- * Add Security Headers
+ * Menambahkan Header Keamanan (Security Headers)
+ * Berguna untuk melindungi situs dari Clickjacking, XSS, dan serangan sniffing tipe konten.
+ * Hanya diaplikasikan pada frontend (bukan di dalam dashboard admin).
  */
 function tokoku_add_security_headers() {
     if ( ! is_admin() ) {
@@ -238,21 +256,25 @@ function tokoku_add_security_headers() {
 add_action( 'send_headers', 'tokoku_add_security_headers' );
 
 /**
- * Disable XML-RPC
+ * Menonaktifkan XML-RPC
+ * Mencegah serangan DDoS dan brute-force yang sering memanfaatkan file xmlrpc.php.
  */
 add_filter( 'xmlrpc_enabled', '__return_false' );
 remove_action( 'wp_head', 'rsd_link' );
 remove_action( 'wp_head', 'wlwmanifest_link' );
 
 /**
- * Disable File Editing in Dashboard
+ * Menonaktifkan Editor File di Dashboard Admin
+ * Mencegah admin mengubah file plugin atau tema secara langsung dari dashboard,
+ * mengamankan kode jika sewaktu-waktu akun admin diretas.
  */
 if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
     define( 'DISALLOW_FILE_EDIT', true );
 }
 
 /**
- * Dynamic PWA Manifest
+ * Membuat Manifest PWA Dinamis
+ * Menyediakan file manifest.json agar situs dapat diinstal sebagai Progressive Web App (PWA) di perangkat seluler.
  */
 function tokoku_generate_manifest() {
     header( 'Content-Type: application/manifest+json' );

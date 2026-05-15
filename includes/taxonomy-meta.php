@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add Icon field to "Add New Category" screen
+ * Menambahkan Input Gambar pada Halaman "Tambah Kategori Baru"
+ * Menampilkan tombol untuk mengunggah gambar (Ikon Kategori) saat admin membuat kategori baru.
  */
 function tokoku_kategori_produk_add_form_fields() {
     wp_nonce_field( 'tokoku_save_kategori_meta', 'tokoku_kategori_nonce' );
@@ -30,7 +31,8 @@ function tokoku_kategori_produk_add_form_fields() {
 add_action( 'kategori_produk_add_form_fields', 'tokoku_kategori_produk_add_form_fields', 10 );
 
 /**
- * Add Icon field to "Edit Category" screen
+ * Menambahkan Input Gambar pada Halaman "Edit Kategori"
+ * Menampilkan preview gambar yang sudah tersimpan beserta tombol ubah/hapus ikon saat admin mengedit kategori.
  */
 function tokoku_kategori_produk_edit_form_fields( $term ) {
     $icon_id = get_term_meta( $term->term_id, 'tokoku_kategori_icon', true );
@@ -58,7 +60,8 @@ function tokoku_kategori_produk_edit_form_fields( $term ) {
 add_action( 'kategori_produk_edit_form_fields', 'tokoku_kategori_produk_edit_form_fields', 10 );
 
 /**
- * Save Taxonomy Meta
+ * Menyimpan Data Tambahan Taksonomi (Ikon Kategori)
+ * Dilengkapi dengan verifikasi keamanan (Nonce) dan hak akses (Capability).
  */
 function tokoku_save_kategori_produk_meta( $term_id ) {
     // 1. Check Nonce
@@ -79,7 +82,8 @@ add_action( 'created_kategori_produk', 'tokoku_save_kategori_produk_meta', 10 );
 add_action( 'edited_kategori_produk', 'tokoku_save_kategori_produk_meta', 10 );
 
 /**
- * Add custom columns to Kategori Produk table
+ * Menambahkan Kolom Kustom di Tabel Daftar Kategori
+ * Membuat kolom baru bernama "Ikon" agar admin bisa melihat ikon masing-masing kategori.
  */
 function tokoku_kategori_produk_columns( $columns ) {
     $new_columns = array();
@@ -96,7 +100,8 @@ function tokoku_kategori_produk_columns( $columns ) {
 add_filter( 'manage_edit-kategori_produk_columns', 'tokoku_kategori_produk_columns' );
 
 /**
- * Render custom columns content
+ * Merender Isi Kolom "Ikon" pada Tabel Kategori
+ * Mengambil ID gambar dari meta kategori dan menampilkannya sebagai tag <img>.
  */
 function tokoku_kategori_produk_column_content( $content, $column_name, $term_id ) {
     if ( $column_name == 'icon' ) {

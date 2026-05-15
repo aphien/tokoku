@@ -11,7 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add meta box to produk edit screen
+ * Menambahkan Meta Box ke Halaman Edit Produk
+ * Meta box adalah area input khusus di bawah/samping editor utama.
+ * Ini mendaftarkan meta box "Detail Produk" pada CPT "produk".
  */
 function tokoku_add_produk_meta_boxes() {
     add_meta_box(
@@ -26,7 +28,9 @@ function tokoku_add_produk_meta_boxes() {
 add_action( 'add_meta_boxes', 'tokoku_add_produk_meta_boxes' );
 
 /**
- * Meta box callback - render fields
+ * Callback Meta Box - Menampilkan Form Input
+ * Fungsi ini merender struktur HTML (tab dan input field) untuk meta box.
+ * Mengambil data meta yang sudah ada (jika ada) dan menampilkannya di form.
  */
 function tokoku_produk_meta_box_callback( $post ) {
     wp_nonce_field( 'tokoku_save_produk_meta', 'tokoku_produk_nonce' );
@@ -454,26 +458,32 @@ function tokoku_produk_meta_box_callback( $post ) {
 }
 
 /**
- * Save meta box data
+ * Menyimpan Data Meta Box Produk
+ * Dijalankan saat tombol "Simpan/Perbarui" produk diklik.
+ * Termasuk pengecekan keamanan (nonce & user capability) serta sanitasi data.
  */
 function tokoku_save_produk_meta( $post_id ) {
-    // Verify nonces
+    // 1. Verifikasi Nonce (Security Check)
+    // Mencegah CSRF (Cross-Site Request Forgery). Pastikan request berasal dari form wp-admin.
     if ( ! isset( $_POST['tokoku_produk_nonce'] ) || 
          ! wp_verify_nonce( $_POST['tokoku_produk_nonce'], 'tokoku_save_produk_meta' ) ) {
         return;
     }
 
-    // Check autosave
+    // 2. Mencegah Autosave
+    // Jangan simpan meta kustom jika WordPress sedang melakukan penyimpanan otomatis (autosave).
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
         return;
     }
 
-    // Check permissions
+    // 3. Cek Hak Akses Pengguna (Capability Check)
+    // Pastikan user saat ini punya hak (izin) untuk mengedit post ini.
     if ( ! current_user_can( 'edit_post', $post_id ) ) {
         return;
     }
 
-    // Save fields
+    // 4. Daftar Field dan Fungsi Sanitasinya
+    // Ini sangat penting untuk mencegah XSS. Setiap tipe data memiliki cara sanitasi berbeda.
     $fields = array(
         '_produk_harga'          => 'intval',
         '_produk_harga_diskon'   => 'intval',
@@ -504,7 +514,7 @@ function tokoku_save_produk_meta( $post_id ) {
         }
     }
 
-    // Save gallery
+    // 5. Simpan Galeri secara terpisah karena menggunakan nonce berbeda
     if ( isset( $_POST['tokoku_gallery_nonce'] ) && 
          wp_verify_nonce( $_POST['tokoku_gallery_nonce'], 'tokoku_save_gallery' ) ) {
         if ( isset( $_POST['_produk_gallery'] ) ) {
@@ -516,7 +526,9 @@ function tokoku_save_produk_meta( $post_id ) {
 add_action( 'save_post_produk', 'tokoku_save_produk_meta' );
 
 /**
- * Helper: Get formatted price
+ * Fungsi Bantuan (Helper): Mengambil Format Harga
+ * Menghitung dan merender HTML untuk harga, termasuk membandingkan harga normal (coret)
+ * dengan harga diskon (terkini).
  */
 function tokoku_get_harga( $post_id = null ) {
     if ( ! $post_id ) {
@@ -524,24 +536,31 @@ function tokoku_get_harga( $post_id = null ) {
     }
 
     $harga        = get_post_meta( $post_id, '_produk_harga', true );
-    $harga_diskon = get_post_meta( $post_id, '_produk_harga_diskon', true );
+    $harga_diskon = get_post_meta( $post_id, '_produk_harga_diskon', true ); // Harga Coret (Original)
     $mata_uang    = get_theme_mod( 'tokoku_currency', 'Rp' );
 
-    if ( ! $harga && ! $harga_diskon ) {
-        return '<span class="price-contact">' . __( 'Hubungi Kami', 'tokoku' ) . '</span>';
+    if ( ! $harga ) {
+        return '<span class="price-contact">' . esc_html__( 'Hubungi Kami', 'tokoku' ) . '</span>';
     }
 
-    if ( $harga_diskon && $harga_diskon < $harga ) {
-        return '<span class="price-current">' . esc_html( $mata_uang . ' ' . number_format( (int)$harga_diskon, 0, ',', '.' ) ) . '</span>' .
-               ' <span class="price-original">' . esc_html( $mata_uang . ' ' . number_format( (int)$harga, 0, ',', '.' ) ) . '</span>';
+    $output = '';
+    
+    // If Harga Coret (original) exists and is higher than current price
+    if ( $harga_diskon && (float)$harga_diskon > (float)$harga ) {
+        $output .= '<span class="price-current">' . esc_html( $mata_uang ) . ' ' . esc_html( number_format( (float)$harga, 0, ',', '.' ) ) . '</span>';
+        $output .= ' <span class="price-original">' . esc_html( $mata_uang ) . ' ' . esc_html( number_format( (float)$harga_diskon, 0, ',', '.' ) ) . '</span>';
+    } else {
+        $output .= '<span class="price-current">' . esc_html( $mata_uang ) . ' ' . esc_html( number_format( (float)$harga, 0, ',', '.' ) ) . '</span>';
     }
 
-    return '<span class="price-current">' . esc_html( $mata_uang . ' ' . number_format( (int)$harga, 0, ',', '.' ) ) . '</span>';
+    return $output;
 }
 
 
 /**
- * Helper: Get stock status
+ * Fungsi Bantuan (Helper): Mengambil Status Stok
+ * Menerjemahkan nilai stok (tersedia, habis, preorder) menjadi array yang berisi label
+ * bahasa Indonesia dan kelas CSS-nya.
  */
 function tokoku_get_stok_status( $post_id = null ) {
     if ( ! $post_id ) {

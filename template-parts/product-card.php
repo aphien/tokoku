@@ -21,9 +21,9 @@ $stok_status  = tokoku_get_stok_status( get_the_ID() );
             <?php endif; ?>
         </a>
         
-        <?php if ( $harga_diskon && $harga_diskon < $harga ) : ?>
+        <?php if ( $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
             <?php 
-            $diskon_persen = round( ( ( $harga - $harga_diskon ) / $harga ) * 100 );
+            $diskon_persen = round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 );
             ?>
             <span class="product-card__badge badge-discount">-<?php echo $diskon_persen; ?>%</span>
         <?php endif; ?>
@@ -55,13 +55,13 @@ $stok_status  = tokoku_get_stok_status( get_the_ID() );
 
         <?php if ( get_theme_mod( 'tokoku_show_price', 'yes' ) === 'yes' ) : ?>
         <div class="product-card__price">
-            <?php if ( $harga_diskon && $harga_diskon < $harga ) : ?>
-                <span class="price-current"><?php echo $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ); ?></span>
-                <span class="price-original"><?php echo $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ); ?></span>
+            <?php if ( $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
+                <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) ); ?></span>
+                <span class="price-original"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga_diskon, 0, ',', '.' ) ); ?></span>
             <?php elseif ( $harga ) : ?>
-                <span class="price-current"><?php echo $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ); ?></span>
+                <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) ); ?></span>
             <?php else : ?>
-                <span class="price-current">Hubungi Kami</span>
+                <span class="price-current"><?php esc_html_e( 'Hubungi Kami', 'tokoku' ); ?></span>
             <?php endif; ?>
         </div>
         <?php endif; ?>
@@ -71,7 +71,7 @@ $stok_status  = tokoku_get_stok_status( get_the_ID() );
                 data-product-name="<?php the_title(); ?>"
                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                 data-product-url="<?php the_permalink(); ?>"
-                data-product-price="<?php echo esc_attr( $harga_diskon ? $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) : ($harga ? $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) : 'Hubungi Kami') ); ?>">
+                data-product-price="<?php echo esc_attr( $harga ? $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) : 'Hubungi Kami' ); ?>">
             Pesan Sekarang
         </button>
     </div>

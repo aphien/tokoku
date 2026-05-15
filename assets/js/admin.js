@@ -217,49 +217,6 @@ jQuery(document).ready(function($) {
         });
     });
 
-    // 🛡️ License Activation Logic
-    $('#tokoku-activate-btn').on('click', function() {
-        var btn = $(this);
-        var key = $('#tokoku-license-field').val();
-        var msg = $('#tokoku-license-msg');
-        
-        if (!key) {
-            alert('Silakan masukkan kode lisensi.');
-            return;
-        }
-
-        btn.prop('disabled', true).text('Memverifikasi...');
-        
-        setTimeout(function() {
-            if (key.startsWith('TK-')) {
-                $.post(ajaxurl, {
-                    action: 'tokoku_handle_license',
-                    license_key: key,
-                    license_action: 'activate',
-                    nonce: tokokuAdmin.licenseNonce
-                }, function(response) {
-                    location.reload(); 
-                });
-            } else {
-                btn.prop('disabled', false).text('Aktivasi Sekarang');
-                msg.html('<div style="color: #dc2626; padding: 10px; background: #fef2f2; border-radius: 6px; border: 1px solid #fecaca; font-size: 0.9rem;">' +
-                         '<strong>Gagal:</strong> Kode lisensi tidak valid atau sudah kadaluarsa.' +
-                         '</div>').fadeIn();
-            }
-        }, 1500);
-    });
-
-    $('#tokoku-deactivate-btn').on('click', function() {
-        if (confirm('Apakah Anda yakin ingin menghapus lisensi dari domain ini?')) {
-            $.post(ajaxurl, {
-                action: 'tokoku_handle_license',
-                license_action: 'deactivate',
-                nonce: tokokuAdmin.licenseNonce
-            }, function(response) {
-                location.reload();
-            });
-        }
-    });
 
     // Media Uploader
     $('.tokoku-upload-btn').on('click', function(e) {

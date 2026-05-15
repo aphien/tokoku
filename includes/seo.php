@@ -10,7 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Output SEO Meta Tags in wp_head
+ * Menampilkan Tag Meta SEO di dalam <head>
+ * Fungsi ini otomatis membuat meta description, keywords, Open Graph (Facebook/WA),
+ * dan Twitter Card berdasarkan halaman yang sedang dibuka (Beranda, Produk, Kategori).
  */
 function tokoku_seo_meta_tags() {
     global $wp;

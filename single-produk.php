@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( "ABSPATH" ) ) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * The template for displaying single products
  *
@@ -96,18 +94,22 @@ get_header(); ?>
                         ?>
                     </h1>
 
-                    <?php if ( $show_price === 'yes' && ( $harga || $harga_diskon ) ) : ?>
+                    <?php if ( $show_price === 'yes' && $harga ) : ?>
                     <div class="product-price-display">
-                        <?php if ( $harga_diskon && $harga_diskon < $harga ) : ?>
-                            <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) ); ?></span>
-                            <span class="price-original"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) ); ?></span>
+                        <?php if ( $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
+                            <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) ); ?></span>
+                            <span class="price-original"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) ); ?></span>
                             <?php 
-                            $diskon_persen = round( ( ( $harga - $harga_diskon ) / $harga ) * 100 );
+                            $diskon_persen = round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 );
                             echo '<span class="price-discount-badge">-' . $diskon_persen . '%</span>';
                             ?>
                         <?php else : ?>
                             <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) ); ?></span>
                         <?php endif; ?>
+                    </div>
+                    <?php elseif ( $show_price === 'yes' ) : ?>
+                    <div class="product-price-display">
+                        <span class="price-current"><?php esc_html_e( 'Hubungi Kami', 'tokoku' ); ?></span>
                     </div>
                     <?php endif; ?>
 
@@ -211,7 +213,7 @@ get_header(); ?>
                     <div class="product-actions">
                         <?php
                         if ( $show_price === 'yes' ) {
-                            $price_val = $harga_diskon ? $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) : ($harga ? $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) : 'Hubungi Kami');
+                            $price_val = $harga ? $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) : 'Hubungi Kami';
                         } else {
                             $price_val = 'Tanyakan Harga';
                         }
@@ -232,43 +234,43 @@ get_header(); ?>
                             <div class="marketplace-buttons">
                                 <?php if ( $marketplace_shopee ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_shopee ); ?>" target="_blank" class="btn-marketplace mp-shopee">
-                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> Shopee
+                                    Shopee
                                 </a>
                                 <?php endif; ?>
 
                                 <?php if ( $marketplace_tokopedia ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_tokopedia ); ?>" target="_blank" class="btn-marketplace mp-tokopedia">
-                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> Tokopedia
+                                    Tokopedia
                                 </a>
                                 <?php endif; ?>
 
                                 <?php if ( $marketplace_lazada ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_lazada ); ?>" target="_blank" class="btn-marketplace mp-lazada">
-                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> Lazada
+                                    Lazada
                                 </a>
                                 <?php endif; ?>
 
                                 <?php if ( $marketplace_tiktok ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_tiktok ); ?>" target="_blank" class="btn-marketplace mp-tiktok">
-                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> TikTok
+                                    TikTok
                                 </a>
                                 <?php endif; ?>
 
                                 <?php if ( $marketplace_bukalapak ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_bukalapak ); ?>" target="_blank" class="btn-marketplace mp-bukalapak">
-                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> Bukalapak
+                                    Bukalapak
                                 </a>
                                 <?php endif; ?>
 
                                 <?php if ( $marketplace_blibli ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_blibli ); ?>" target="_blank" class="btn-marketplace mp-blibli">
-                                    <span class="dashicons dashicons-cart" style="margin-right: 8px;"></span> Blibli
+                                    Blibli
                                 </a>
                                 <?php endif; ?>
 
                                 <?php if ( $marketplace_lainnya ) : ?>
                                 <a href="<?php echo esc_url( $marketplace_lainnya ); ?>" target="_blank" class="btn-marketplace mp-lainnya">
-                                    <span class="dashicons dashicons-admin-links" style="margin-right: 8px;"></span> Lainnya
+                                    Lainnya
                                 </a>
                                 <?php endif; ?>
                             </div>
@@ -526,24 +528,30 @@ get_header(); ?>
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    gap: 8px; 
+    text-align: center;
     width: 100%; 
-    padding: 13px 24px; 
+    padding: 12px 15px; 
     border-radius: 10px; 
     font-weight: 800; 
     color: #fff; 
     text-decoration: none; 
     transition: var(--ease); 
-    font-size: 0.9rem; 
+    font-size: 0.85rem; 
+    box-shadow: 0 4px 10px var(--shadow);
 }
 .btn-marketplace:hover { transform: translateY(-2px); opacity: 0.9; color: #fff; }
 .mp-shopee { background: #ee4d2d; }
 .mp-tokopedia { background: #00aa5b; }
-.mp-lazada { background: #000080; }
+.mp-lazada { background: #0f146d; }
 .mp-tiktok { background: #000000; }
 .mp-bukalapak { background: #e31e52; }
 .mp-blibli { background: #0095da; }
 .mp-lainnya { background: #6c757d; }
+
+@media (max-width: 768px) {
+    .marketplace-buttons { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .btn-marketplace { padding: 14px 10px; font-size: 0.8rem; }
+}
 
 </style>
 

@@ -11,7 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register Produk CPT
+ * Registrasi Custom Post Type (CPT): Produk
+ * Fungsi ini membuat menu "Produk" di dashboard admin, memisahkan data toko
+ * dari sistem Post/Artikel standar WordPress.
  */
 function tokoku_register_produk_cpt() {
     $labels = array(
@@ -60,7 +62,9 @@ function tokoku_register_produk_cpt() {
 add_action( 'init', 'tokoku_register_produk_cpt' );
 
 /**
- * Register Kategori Produk Taxonomy
+ * Registrasi Taksonomi: Kategori Produk
+ * Membuat sistem pengelompokan produk yang bersifat hierarkis (memiliki parent/child),
+ * sama seperti sistem Kategori bawaan WordPress.
  */
 function tokoku_register_kategori_taxonomy() {
     $labels = array(
@@ -94,7 +98,9 @@ function tokoku_register_kategori_taxonomy() {
 add_action( 'init', 'tokoku_register_kategori_taxonomy' );
 
 /**
- * Register Tag Produk Taxonomy
+ * Registrasi Taksonomi: Tag Produk
+ * Membuat sistem penandaan produk yang tidak hierarkis (seperti hashtag),
+ * berguna untuk memfilter produk dengan karakteristik tertentu.
  */
 function tokoku_register_tag_taxonomy() {
     $labels = array(
@@ -132,7 +138,9 @@ function tokoku_register_tag_taxonomy() {
 add_action( 'init', 'tokoku_register_tag_taxonomy' );
 
 /**
- * Add custom columns to Produk admin list
+ * Menambahkan Kolom Kustom pada Daftar Produk di Admin
+ * Fungsi ini menambah kolom "Foto" (Thumbnail) dan "Kode Produk" (SKU)
+ * agar admin lebih mudah melihat detail produk sekilas.
  */
 function tokoku_produk_columns( $columns ) {
     $new_columns = array();
@@ -150,7 +158,9 @@ function tokoku_produk_columns( $columns ) {
 add_filter( 'manage_produk_posts_columns', 'tokoku_produk_columns' );
 
 /**
- * Display content for custom columns
+ * Menampilkan Isi Data pada Kolom Kustom
+ * Mengambil dan menampilkan gambar thumbnail serta meta SKU dari database
+ * untuk ditampilkan di kolom yang telah ditambahkan sebelumnya.
  */
 function tokoku_produk_custom_column( $column, $post_id ) {
     switch ( $column ) {
@@ -170,7 +180,9 @@ function tokoku_produk_custom_column( $column, $post_id ) {
 add_action( 'manage_produk_posts_custom_column', 'tokoku_produk_custom_column', 10, 2 );
 
 /**
- * Flush rewrite rules on theme activation
+ * Memperbarui (Flush) Rewrite Rules
+ * Dijalankan otomatis saat tema diaktifkan agar URL produk (permalink)
+ * langsung berfungsi dan tidak menghasilkan error 404 (Page Not Found).
  */
 function tokoku_rewrite_flush() {
     tokoku_register_produk_cpt();
