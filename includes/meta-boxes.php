@@ -131,6 +131,7 @@ function tokoku_produk_meta_box_callback( $post ) {
         .tokoku-meta-field input[type="url"],
         .tokoku-meta-field select,
         .tokoku-meta-field textarea {
+            box-sizing: border-box;
             width: 100%;
             padding: 8px 10px 8px 35px;
             border: 1px solid #dcdcde;

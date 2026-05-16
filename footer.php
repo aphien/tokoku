@@ -27,7 +27,7 @@
                         $email = get_theme_mod('tokoku_store_email');
                         if ($email) : ?>
                             <li>
-                                <span class="dashicons dashicons-email" style="color: #c07a3c;"></span>
+                                <span class="dashicons dashicons-email" style="color: var(--primary);"></span>
                                 <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
                             </li>
                         <?php endif; ?>
@@ -74,7 +74,7 @@
                             $wa = get_theme_mod("tokoku_contact_wa_{$i}");
                             if ($name && $wa) {
                                 echo '<a href="https://wa.me/' . esc_attr($wa) . '" target="_blank" style="display:flex; align-items:center; gap:8px; color:var(--text2); font-size:0.9rem; text-decoration:none;">';
-                                echo '<span class="dashicons dashicons-whatsapp" style="color: #c07a3c;"></span>'; 
+                                echo '<span class="dashicons dashicons-whatsapp" style="color: var(--primary);"></span>'; 
                                 echo esc_html($name);
                                 echo '</a>';
                             }
@@ -88,7 +88,7 @@
                             $jam = get_theme_mod("tokoku_jam_op_{$j}");
                             if ($jam) : ?>
                                 <li style="margin-bottom: 8px;">
-                                    <span class="dashicons dashicons-portfolio" style="color: #c07a3c;"></span>
+                                    <span class="dashicons dashicons-portfolio" style="color: var(--primary);"></span>
                                     <span><?php echo esc_html($jam); ?></span>
                                 </li>
                         <?php endif; endfor; ?>

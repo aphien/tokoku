@@ -138,7 +138,6 @@ function tokoku_save_admin_settings() {
         'tokoku_currency'         => 'sanitize_text_field',
         
         // Footer & SEO
-        'tokoku_footer_about'     => 'wp_kses_post',
         'tokoku_footer_copyright' => 'wp_kses_post',
         'tokoku_store_address'    => 'wp_kses_post',
         'tokoku_store_email'      => 'sanitize_email',
@@ -792,10 +791,6 @@ function tokoku_settings_page_html() {
                     <!-- Tab: Footer -->
                     <div id="tab-footer" class="tokoku-tab-panel">
                         <h2><?php _e( 'Konten Footer', 'tokoku' ); ?></h2>
-                        <div class="tokoku-field">
-                            <label><?php _e( 'Tentang Toko', 'tokoku' ); ?></label>
-                            <textarea name="tokoku_footer_about"><?php echo esc_textarea( get_theme_mod( 'tokoku_footer_about' ) ); ?></textarea>
-                        </div>
                         <div class="tokoku-field">
                             <label><?php _e( 'Teks Copyright', 'tokoku' ); ?></label>
                             <input type="text" name="tokoku_footer_copyright" value="<?php echo esc_attr( get_theme_mod( 'tokoku_footer_copyright', '© {year} TokoKu. All rights reserved.' ) ); ?>">

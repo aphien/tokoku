@@ -68,7 +68,7 @@
 .tokoku-field input[type="url"], 
 .tokoku-field input[type="email"], 
 .tokoku-field select, 
-.tokoku-field textarea { width: 100%; max-width: 600px; padding: 10px; border-radius: 6px; border: 1px solid #dcdcde; }
+.tokoku-field textarea { box-sizing: border-box; width: 100%; max-width: 600px; padding: 10px; border-radius: 6px; border: 1px solid #dcdcde; }
 .tokoku-field textarea { min-height: 100px; }
 
 .tokoku-preview-img { display: block; max-width: 200px; max-height: 150px; margin-bottom: 10px; border: 1px solid #eee; border-radius: 6px; padding: 5px; background: #f8f9fa; }

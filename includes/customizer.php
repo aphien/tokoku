@@ -253,16 +253,7 @@ function tokoku_customize_register( $wp_customize ) {
         'priority' => 50,
     ) );
 
-    // Footer About Text
-    $wp_customize->add_setting( 'tokoku_footer_about', array(
-        'default'           => __( 'TokoKu adalah toko online terpercaya yang menyediakan produk berkualitas dengan harga terbaik.', 'tokoku' ),
-        'sanitize_callback' => 'sanitize_textarea_field',
-    ) );
-    $wp_customize->add_control( 'tokoku_footer_about', array(
-        'label'   => __( 'Tentang Toko (Footer)', 'tokoku' ),
-        'section' => 'tokoku_footer',
-        'type'    => 'textarea',
-    ) );
+
 
     // Footer Copyright
     $wp_customize->add_setting( 'tokoku_footer_copyright', array(
@@ -354,6 +345,20 @@ function tokoku_customizer_css() {
     $secondary = get_theme_mod( 'tokoku_secondary_color', '#0056b3' );
     $accent    = get_theme_mod( 'tokoku_accent_color', '#6c5ce7' );
     
+    // Additional Colors from Admin Page
+    $header_bg   = get_theme_mod( 'tokoku_header_bg', '#ffffff' );
+    $header_text = get_theme_mod( 'tokoku_header_text', '#0f172a' );
+    $footer_bg   = get_theme_mod( 'tokoku_footer_bg', '#f1f5f9' );
+    $footer_text = get_theme_mod( 'tokoku_footer_text', '#475569' );
+    $card_bg     = get_theme_mod( 'tokoku_card_bg', '#ffffff' );
+    $card_text   = get_theme_mod( 'tokoku_card_text', '#0f172a' );
+    $price_color = get_theme_mod( 'tokoku_price_color', '#007bff' );
+    
+    // Dark Mode Customizations
+    $dark_bg    = get_theme_mod( 'tokoku_dark_bg', '#0b0f1a' );
+    $dark_bg2   = get_theme_mod( 'tokoku_dark_bg2', '#151b2d' );
+    $dark_text  = get_theme_mod( 'tokoku_dark_text', '#f1f5f9' );
+    
     // Convert hex to RGB for rgba usage
     $r_p = hexdec( substr( $primary, 1, 2 ) );
     $g_p = hexdec( substr( $primary, 3, 2 ) );
@@ -367,6 +372,26 @@ function tokoku_customizer_css() {
             --primary-rgb: <?php echo esc_attr( "{$r_p}, {$g_p}, {$b_p}" ); ?>;
             --accent: <?php echo esc_attr( $accent ); ?>;
             --gradient: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%);
+            
+            --header-bg: <?php echo esc_attr( $header_bg ); ?>;
+            --header-text: <?php echo esc_attr( $header_text ); ?>;
+            --footer-bg: <?php echo esc_attr( $footer_bg ); ?>;
+            --footer-text: <?php echo esc_attr( $footer_text ); ?>;
+            --card-bg: <?php echo esc_attr( $card_bg ); ?>;
+            --card-text: <?php echo esc_attr( $card_text ); ?>;
+            --price-color: <?php echo esc_attr( $price_color ); ?>;
+        }
+        
+        body.theme-dark {
+            --bg: <?php echo esc_attr( $dark_bg ); ?>;
+            --bg2: <?php echo esc_attr( $dark_bg2 ); ?>;
+            --text: <?php echo esc_attr( $dark_text ); ?>;
+            --header-bg: <?php echo esc_attr( $dark_bg ); ?>;
+            --header-text: <?php echo esc_attr( $dark_text ); ?>;
+            --footer-bg: <?php echo esc_attr( $dark_bg2 ); ?>;
+            --footer-text: <?php echo esc_attr( $dark_text ); ?>;
+            --card-bg: <?php echo esc_attr( $dark_bg2 ); ?>;
+            --card-text: <?php echo esc_attr( $dark_text ); ?>;
         }
     </style>
     <?php
