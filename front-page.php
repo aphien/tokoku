@@ -324,7 +324,7 @@ get_header(); ?>
          FAQ SECTION
          ==================================================== -->
     <section class="faq-section">
-        <div class="container container--narrow">
+        <div class="container">
             <div class="section-header text-center">
                 <span class="section-badge"><?php _e( 'FAQ', 'tokoku' ); ?></span>
                 <h2 class="section-title"><?php echo esc_html( get_theme_mod( 'tokoku_faq_title', 'Pertanyaan Umum' ) ); ?></h2>
