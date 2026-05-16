@@ -1,14 +1,22 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.1.0)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.2.0)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.1.0
-*   **Footer Layout Fix**: Perbaikan tata letak footer desktop dengan sinkronisasi variabel CSS kustom untuk warna latar belakang dan teks yang lebih konsisten melalui admin panel.
-*   **Admin UI Optimization**: Implementasi `box-sizing: border-box` pada seluruh kolom input di admin panel dan meta box produk untuk mencegah tampilan meluap (*overflow*) dan memastikan tampilan yang rapi.
-*   **Footer Icon Synchronization**: Sinkronisasi warna ikon footer (email, WhatsApp, jam operasional) agar secara otomatis mengikuti warna utama tema website (`var(--primary)`).
-*   **Admin Panel Cleanup**: Penghapusan input "Tentang Kami" yang redundan di admin panel untuk menjaga antarmuka tetap bersih dan fokus pada sistem menu dinamis.
+## ✨ Fitur Terbaru v2.2.0
+*   **Global Glassmorphism Overhaul**: Implementasi efek *Smooth Blur* (kaca transparan) di seluruh bagian halaman depan (Produk, Artikel, Kategori, Header, dll) untuk tampilan premium kelas atas.
+*   **FAQ Section Redesign**: Tampilan FAQ baru dengan latar belakang gradasi dinamis, efek akordeon yang diperbaiki (JavaScript), dan penggunaan ikon SVG modern yang elegan.
+*   **Mobile Typography Optimization**: Penyesuaian ukuran font di seluruh tema khusus untuk tampilan mobile agar lebih proporsional, nyaman dibaca, dan menarik secara visual.
+*   **Seamless Section Transition**: Penghapusan jarak dan garis pembatas antara FAQ dan Footer untuk menciptakan alur visual yang lebih mengalir dan modern.
+*   **Testimonial Glassmorphism**: Pembaruan desain kartu ulasan klien dengan efek *glass-blur* transparan yang premium.
+
+---
+
+## ✨ Fitur v2.1.0
+*   **Admin UI Optimization**: Implementasi `box-sizing: border-box` pada seluruh kolom input di admin panel dan meta box produk untuk mencegah tampilan meluap (*overflow*).
+*   **Footer Icon Synchronization**: Sinkronisasi warna ikon footer (email, WhatsApp, jam operasional) secara otomatis mengikuti warna utama tema website (`var(--primary)`).
+*   **Admin Panel Cleanup**: Penghapusan input "Tentang Kami" yang redundan di admin panel untuk antarmuka yang lebih bersih dan fokus pada menu dinamis.
 
 ---
 

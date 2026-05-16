@@ -326,6 +326,7 @@ get_header(); ?>
     <section class="faq-section">
         <div class="container container--narrow">
             <div class="section-header text-center">
+                <span class="section-badge"><?php _e( 'FAQ', 'tokoku' ); ?></span>
                 <h2 class="section-title"><?php echo esc_html( get_theme_mod( 'tokoku_faq_title', 'Pertanyaan Umum' ) ); ?></h2>
                 <p class="section-subtitle"><?php echo esc_html( get_theme_mod( 'tokoku_faq_subtitle', 'Temukan jawaban dari pertanyaan yang paling sering ditanyakan oleh pelanggan kami.' ) ); ?></p>
             </div>
@@ -344,7 +345,7 @@ get_header(); ?>
                             <div class="faq-question">
                                 <h3><?php echo esc_html( $question ); ?></h3>
                                 <span class="faq-icon">
-                                    <span class="dashicons dashicons-arrow-down-alt2"></span>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </span>
                             </div>
                             <div class="faq-answer">
