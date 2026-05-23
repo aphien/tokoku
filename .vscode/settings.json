@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json.schemastore.org/vscode-settings.json",
+  "intelephense.environment.includePaths": [
+    "/Users/m.alfiandiismet/server/jualplakat/app/public"
+  ],
+  "intelephense.stubs": [
+    "apache",
+    "bcmath",
+    "bz2",
+    "calendar",
+    "Core",
+    "curl",
+    "date",
+    "dom",
+    "filter",
+    "gd",
+    "hash",
+    "iconv",
+    "json",
+    "libxml",
+    "mbstring",
+    "mysqli",
+    "mysqlnd",
+    "openssl",
+    "pcre",
+    "PDO",
+    "pdo_mysql",
+    "Phar",
+    "readline",
+    "session",
+    "SimpleXML",
+    "sockets",
+    "SPL",
+    "standard",
+    "tokenizer",
+    "xml",
+    "xmlreader",
+    "xmlwriter",
+    "zlib",
+    "wordpress"
+  ]
+}

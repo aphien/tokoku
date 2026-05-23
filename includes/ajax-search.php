@@ -15,11 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * berdasarkan Judul atau SKU (Kode Produk), dan mengembalikan hasil dalam format JSON.
  */
 function tokoku_ajax_search() {
-    // 1. Verifikasi Nonce (Keamanan)
-    // Pastikan permintaan ini benar-benar datang dari tema kita, bukan dari script pihak ketiga (Mencegah CSRF).
-    if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], 'tokoku_search_nonce' ) ) {
-        wp_send_json_error( array( 'message' => 'Invalid nonce' ) );
-    }
+    // 1. Verifikasi Nonce dihapus karena ini endpoint pencarian publik
+    // dan dapat menyebabkan masalah dengan caching.
 
     $keyword = isset( $_GET['keyword'] ) ? sanitize_text_field( $_GET['keyword'] ) : '';
     $final_args = array(
@@ -111,6 +108,7 @@ function tokoku_ajax_search() {
         }
     }
 
+    ob_clean();
     wp_send_json_success( array(
         'products'   => $products,
         'categories' => $cat_results,

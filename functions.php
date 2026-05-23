@@ -13,7 +13,7 @@ add_action('wp_head', function() {
     echo '<!-- ACTIVE_FILE: ' . __FILE__ . ' -->';
 });
 
-define( 'TOKOKU_VERSION', '2.2.2' );
+define( 'TOKOKU_VERSION', '2.2.3' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -76,7 +76,7 @@ function tokoku_scripts() {
     $wa_message = get_theme_mod( 'tokoku_wa_message', "Halo, saya ingin memesan:\n\nProduk: {produk}\nHarga: {harga}\nJumlah: {jumlah}\n\nNama: {nama}\nCatatan: {catatan}\n\nTerima kasih!" );
 
     wp_localize_script( 'tokoku-search-js', 'tokokuSearch', array(
-        'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+        'ajaxUrl'  => admin_url( 'admin-ajax.php', 'relative' ),
         'nonce'    => wp_create_nonce( 'tokoku_search_nonce' ),
         'homeUrl'  => home_url( '/' ),
         'themeUrl' => get_template_directory_uri(),

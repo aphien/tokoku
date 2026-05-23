@@ -186,6 +186,21 @@ get_header(); ?>
                             </div>
                         </div>
                         <?php endif; ?>
+
+                        <?php
+                        $tags = get_the_terms( get_the_ID(), 'tag_produk' );
+                        if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) : ?>
+                        <div class="spec-row">
+                            <div class="spec-label">Tag</div>
+                            <div class="spec-value" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                <?php
+                                foreach ( $tags as $tag ) {
+                                    echo '<a href="' . esc_url( get_term_link( $tag ) ) . '" class="product-tag-badge">' . esc_html( $tag->name ) . '</a>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
 
                     <?php if ( $catatan ) : ?>
@@ -517,6 +532,9 @@ get_header(); ?>
 .product-note-box { background: #fff8e1; border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; display: flex; gap: 12px; margin-bottom: 30px; color: #5c4e16; }
 .product-note-box svg { flex-shrink: 0; color: #ffb300; }
 .product-note-box .note-content { font-size: 0.95rem; line-height: 1.5; }
+
+.product-tag-badge { background: var(--bg2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600; color: var(--text2); text-decoration: none; transition: var(--ease); }
+.product-tag-badge:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 
 .btn-watch-video { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 15px; padding: 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 8px; font-weight: 700; color: var(--text); cursor: pointer; transition: var(--ease); text-decoration: none; }
 .btn-watch-video:hover { border-color: #ff0000; color: #ff0000; }
