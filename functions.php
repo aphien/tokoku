@@ -13,7 +13,7 @@ add_action('wp_head', function() {
     echo '<!-- ACTIVE_FILE: ' . __FILE__ . ' -->';
 });
 
-define( 'TOKOKU_VERSION', '2.2.4' );
+define( 'TOKOKU_VERSION', '2.2.5' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 

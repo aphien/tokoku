@@ -187,20 +187,6 @@ get_header(); ?>
                         </div>
                         <?php endif; ?>
 
-                        <?php
-                        $tags = get_the_terms( get_the_ID(), 'tag_produk' );
-                        if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) : ?>
-                        <div class="spec-row">
-                            <div class="spec-label">Tag</div>
-                            <div class="spec-value" style="display: flex; flex-wrap: wrap; gap: 6px;">
-                                <?php
-                                foreach ( $tags as $tag ) {
-                                    echo '<a href="' . esc_url( get_term_link( $tag ) ) . '" class="product-tag-badge">' . esc_html( $tag->name ) . '</a>';
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
                     </div>
 
                     <?php if ( $catatan ) : ?>
@@ -328,6 +314,21 @@ get_header(); ?>
                     <h3>Deskripsi Produk</h3>
                     <div class="content">
                         <?php the_content(); ?>
+
+                        <?php
+                        $tags = get_the_terms( get_the_ID(), 'tag_produk' );
+                        if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) : ?>
+                        <div class="product-tags-bottom" style="margin-top: 40px; padding-top: 20px; border-top: 1.5px dashed var(--border);">
+                            <span style="display: block; font-weight: 700; color: var(--text2); margin-bottom: 15px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Tag Produk:</span>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <?php
+                                foreach ( $tags as $tag ) {
+                                    echo '<a href="' . esc_url( get_term_link( $tag ) ) . '" class="product-tag-badge">' . esc_html( $tag->name ) . '</a>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
