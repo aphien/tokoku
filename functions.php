@@ -13,7 +13,7 @@ add_action('wp_head', function() {
     echo '<!-- ACTIVE_FILE: ' . __FILE__ . ' -->';
 });
 
-define( 'TOKOKU_VERSION', '2.2.3' );
+define( 'TOKOKU_VERSION', '2.2.4' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -153,7 +153,7 @@ add_filter( 'admin_footer_text', 'tokoku_admin_footer_credit' );
 function tokoku_body_classes( $classes ) {
     $classes[] = 'theme-' . get_theme_mod( 'tokoku_default_mode', 'dark' );
     if ( is_singular( 'produk' ) ) $classes[] = 'single-product-page';
-    if ( is_post_type_archive( 'produk' ) || is_tax( 'kategori_produk' ) ) $classes[] = 'product-archive-page';
+    if ( is_post_type_archive( 'produk' ) || is_tax( 'kategori_produk' ) || is_tax( 'tag_produk' ) ) $classes[] = 'product-archive-page';
     return $classes;
 }
 add_filter( 'body_class', 'tokoku_body_classes' );
@@ -163,7 +163,7 @@ add_filter( 'body_class', 'tokoku_body_classes' );
  */
 function tokoku_archive_title( $title ) {
     if ( is_post_type_archive( 'produk' ) ) return __( 'Semua Produk', 'tokoku' );
-    if ( is_tax( 'kategori_produk' ) ) return single_term_title( '', false );
+    if ( is_tax( 'kategori_produk' ) || is_tax( 'tag_produk' ) ) return single_term_title( '', false );
     return $title;
 }
 add_filter( 'get_the_archive_title', 'tokoku_archive_title' );
@@ -191,7 +191,7 @@ add_action( 'wp_enqueue_scripts', function() {
  */
 function tokoku_modify_product_query( $query ) {
     if ( is_admin() || ! $query->is_main_query() ) return;
-    if ( ! is_post_type_archive( 'produk' ) && ! is_tax( 'kategori_produk' ) ) return;
+    if ( ! is_post_type_archive( 'produk' ) && ! is_tax( 'kategori_produk' ) && ! is_tax( 'tag_produk' ) ) return;
 
     $query->set( 'posts_per_page', 12 );
     $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'terbaru';
