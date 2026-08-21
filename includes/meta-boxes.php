@@ -48,6 +48,7 @@ function tokoku_produk_meta_box_callback( $post ) {
     $stok           = get_post_meta( $post->ID, '_produk_stok', true );
     $jumlah_stok    = get_post_meta( $post->ID, '_produk_jumlah_stok', true );
     $label_khusus   = get_post_meta( $post->ID, '_produk_label_khusus', true );
+    $label_khusus_icon = get_post_meta( $post->ID, '_produk_label_khusus_icon', true );
     $berat          = get_post_meta( $post->ID, '_produk_berat', true );
     $wa_text        = get_post_meta( $post->ID, '_produk_whatsapp_text', true );
 
@@ -289,11 +290,36 @@ function tokoku_produk_meta_box_callback( $post ) {
                     </div>
                     <div class="tokoku-meta-field special-label-field">
                         <label for="tokoku_label_khusus"><?php _e( 'Label Khusus', 'tokoku' ); ?></label>
-                        <div class="tokoku-meta-input-wrapper">
-                            <span class="tokoku-meta-icon"><span class="dashicons dashicons-star-filled"></span></span>
-                            <input type="text" id="tokoku_label_khusus" name="_produk_label_khusus" value="<?php echo esc_attr( $label_khusus ); ?>">
+                        <div style="display: flex; gap: 10px;">
+                            <div class="tokoku-meta-input-wrapper" style="flex: 0 0 140px;">
+                                <select name="_produk_label_khusus_icon" style="padding-left: 10px; width: 100%; border-radius: 4px; border: 2px solid #ffa000;">
+                                    <option value="dashicons-star-filled" <?php selected( $label_khusus_icon, 'dashicons-star-filled' ); ?>>⭐ Bintang</option>
+                                    <option value="dashicons-heart" <?php selected( $label_khusus_icon, 'dashicons-heart' ); ?>>❤️ Hati</option>
+                                    <option value="dashicons-awards" <?php selected( $label_khusus_icon, 'dashicons-awards' ); ?>>🏆 Penghargaan</option>
+                                    <option value="dashicons-yes" <?php selected( $label_khusus_icon, 'dashicons-yes' ); ?>>✅ Centang</option>
+                                    <option value="dashicons-megaphone" <?php selected( $label_khusus_icon, 'dashicons-megaphone' ); ?>>📢 Pengumuman</option>
+                                    <option value="dashicons-tag" <?php selected( $label_khusus_icon, 'dashicons-tag' ); ?>>🏷️ Tag</option>
+                                    <option value="dashicons-store" <?php selected( $label_khusus_icon, 'dashicons-store' ); ?>>🏬 Toko</option>
+                                    <option value="dashicons-bell" <?php selected( $label_khusus_icon, 'dashicons-bell' ); ?>>🔔 Lonceng</option>
+                                    <option value="dashicons-shield" <?php selected( $label_khusus_icon, 'dashicons-shield' ); ?>>🛡️ Perisai</option>
+                                    <option value="dashicons-thumbs-up" <?php selected( $label_khusus_icon, 'dashicons-thumbs-up' ); ?>>👍 Jempol</option>
+                                </select>
+                            </div>
+                            <div class="tokoku-meta-input-wrapper" style="flex: 1;">
+                                <?php $preview_icon = $label_khusus_icon ? esc_attr( $label_khusus_icon ) : 'dashicons-star-filled'; ?>
+                                <span class="tokoku-meta-icon"><span class="dashicons <?php echo $preview_icon; ?>" id="tokoku-label-icon-preview"></span></span>
+                                <input type="text" id="tokoku_label_khusus" name="_produk_label_khusus" value="<?php echo esc_attr( $label_khusus ); ?>" placeholder="Contoh: Terlaris!">
+                            </div>
                         </div>
                     </div>
+                    
+                    <script>
+                    jQuery(document).ready(function($) {
+                        $('select[name="_produk_label_khusus_icon"]').on('change', function() {
+                            $('#tokoku-label-icon-preview').attr('class', 'dashicons ' + $(this).val());
+                        });
+                    });
+                    </script>
                 </div>
                 <div class="tokoku-meta-field">
                     <label for="tokoku_catatan"><?php _e( 'Catatan', 'tokoku' ); ?></label>
@@ -498,6 +524,7 @@ function tokoku_save_produk_meta( $post_id ) {
         '_produk_catatan'        => 'wp_kses_post',
         '_produk_jumlah_stok'    => 'intval',
         '_produk_label_khusus'   => 'sanitize_text_field',
+        '_produk_label_khusus_icon' => 'sanitize_text_field',
         '_produk_video'                 => 'esc_url_raw',
         '_produk_marketplace_shopee'    => 'esc_url_raw',
         '_produk_marketplace_tokopedia' => 'esc_url_raw',

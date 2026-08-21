@@ -2266,10 +2266,10 @@ transition: var(--ease);
 .popular-tag {
     background: var(--bg2);
     border: 1px solid var(--border);
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 0.82rem;
-    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--text);
     cursor: pointer;
     transition: var(--ease);

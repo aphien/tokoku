@@ -14,14 +14,12 @@ $stok_status  = tokoku_get_stok_status( get_the_ID() );
         <a href="<?php the_permalink(); ?>">
             <?php if ( has_post_thumbnail() ) : ?>
                 <?php the_post_thumbnail( 'tokoku-product-card' ); ?>
-            <?php elseif ( get_post_meta( get_the_ID(), '_produk_dummy_img', true ) ) : ?>
-                <img src="<?php echo esc_url( get_post_meta( get_the_ID(), '_produk_dummy_img', true ) ); ?>" alt="<?php the_title(); ?>">
             <?php else : ?>
                 <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title(); ?>">
             <?php endif; ?>
         </a>
         
-        <?php if ( $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
+        <?php if ( $harga && $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
             <?php 
             $diskon_persen = round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 );
             ?>

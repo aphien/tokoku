@@ -23,10 +23,12 @@ get_header(); ?>
                             <option value="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>"><?php _e( 'Semua Kategori', 'tokoku' ); ?></option>
                             <?php
                             $current_cat = get_queried_object();
-                            $all_cats = get_terms( array( 'taxonomy' => 'kategori_produk' ) );
-                            foreach ( $all_cats as $cat ) {
-                                $selected = ( isset($current_cat->term_id) && $current_cat->term_id == $cat->term_id ) ? 'selected' : '';
-                                echo '<option value="' . esc_url( get_term_link( $cat ) ) . '" ' . $selected . '>' . esc_html( $cat->name ) . '</option>';
+                            $all_cats = get_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty' => false ) );
+                            if ( ! empty( $all_cats ) && ! is_wp_error( $all_cats ) ) {
+                                foreach ( $all_cats as $cat ) {
+                                    $selected = ( isset($current_cat->term_id) && $current_cat->term_id == $cat->term_id ) ? 'selected' : '';
+                                    echo '<option value="' . esc_url( get_term_link( $cat ) ) . '" ' . $selected . '>' . esc_html( $cat->name ) . '</option>';
+                                }
                             }
                             ?>
                         </select>
@@ -34,6 +36,7 @@ get_header(); ?>
 
                     <!-- Sort Dropdown -->
                     <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="sort-form">
+                        <input type="hidden" name="post_type" value="produk">
                         <select name="orderby" onchange="this.form.submit()">
                             <?php
                             $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'terbaru';
@@ -59,23 +62,25 @@ get_header(); ?>
                     <h4 class="widget-title">Kategori</h4>
                     <ul class="category-list">
                         <?php
-                        $categories = get_terms( array( 'taxonomy' => 'kategori_produk' ) );
-                        foreach ( $categories as $cat ) {
-                            $icon_id = get_term_meta( $cat->term_id, 'tokoku_kategori_icon', true );
-                            $icon_url = $icon_id ? wp_get_attachment_image_url( $icon_id, 'thumbnail' ) : '';
-                            
-                            echo '<li>';
-                            echo '<a href="' . esc_url( get_term_link( $cat ) ) . '">';
-                            echo '<span class="cat-link-inner">';
-                            if ( $icon_url ) {
-                                echo '<img src="' . esc_url( $icon_url ) . '" class="cat-link-icon" style="width:20px; height:20px; object-fit:contain; margin-right:8px; border-radius:4px;">';
-                            } else {
-                                echo '<span class="dashicons dashicons-archive" style="font-size:16px; width:16px; height:16px; margin-right:8px; opacity:0.5;"></span>';
+                        $categories = get_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty' => false ) );
+                        if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
+                            foreach ( $categories as $cat ) {
+                                $icon_id = get_term_meta( $cat->term_id, 'tokoku_kategori_icon', true );
+                                $icon_url = $icon_id ? wp_get_attachment_image_url( $icon_id, 'thumbnail' ) : '';
+                                
+                                echo '<li>';
+                                echo '<a href="' . esc_url( get_term_link( $cat ) ) . '">';
+                                echo '<span class="cat-link-inner">';
+                                if ( $icon_url ) {
+                                    echo '<img src="' . esc_url( $icon_url ) . '" class="cat-link-icon" style="width:20px; height:20px; object-fit:contain; margin-right:8px; border-radius:4px;">';
+                                } else {
+                                    echo '<span class="dashicons dashicons-archive" style="font-size:16px; width:16px; height:16px; margin-right:8px; opacity:0.5;"></span>';
+                                }
+                                echo esc_html( $cat->name );
+                                echo '</span>';
+                                echo '</a>';
+                                echo '</li>';
                             }
-                            echo esc_html( $cat->name );
-                            echo '</span>';
-                            echo '</a>';
-                            echo '</li>';
                         }
                         ?>
                     </ul>
@@ -111,9 +116,28 @@ get_header(); ?>
 </main>
 
 <style>
-.product-archive { padding: 40px 0 80px; background: var(--bg); }
+body.admin-bar .site-header {
+    top: 32px !important;
+}
+@media (max-width: 782px) {
+    body.admin-bar .site-header {
+        top: 46px !important;
+    }
+}
+@media (max-width: 600px) {
+    body.admin-bar .site-header {
+        top: 0 !important;
+    }
+}
+
+.product-archive, .search-page { 
+    padding-top: 30px !important;
+    padding-bottom: 60px !important; 
+    background: var(--bg); 
+}
 .archive-header { 
-    margin-bottom: 40px; 
+    margin-top: 0 !important;
+    margin-bottom: 30px; 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 

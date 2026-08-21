@@ -181,10 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (total > 0) {
-            let viewAllUrl = `${tokokuSearch.homeUrl}produk/`;
-            if (keyword) {
-                viewAllUrl = `${tokokuSearch.homeUrl}?s=${encodeURIComponent(keyword)}&post_type=produk`;
-            }
+            const viewAllUrl = `${tokokuSearch.homeUrl}produk/`;
             html += `<div class="search-results-footer"><a href="${viewAllUrl}">LIHAT SEMUA PRODUK... (${total})</a></div>`;
         }
 

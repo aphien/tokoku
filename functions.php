@@ -8,10 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
-add_action('wp_head', function() {
-    echo '<!-- THEME_PATH: ' . get_template_directory() . ' -->';
-    echo '<!-- ACTIVE_FILE: ' . __FILE__ . ' -->';
-});
+
 
 define( 'TOKOKU_VERSION', '2.2.5' );
 define( 'TOKOKU_DIR', get_template_directory() );
@@ -191,7 +188,10 @@ add_action( 'wp_enqueue_scripts', function() {
  */
 function tokoku_modify_product_query( $query ) {
     if ( is_admin() || ! $query->is_main_query() ) return;
-    if ( ! is_post_type_archive( 'produk' ) && ! is_tax( 'kategori_produk' ) && ! is_tax( 'tag_produk' ) ) return;
+    
+    $is_product_search = $query->is_search() && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'produk';
+    
+    if ( ! is_post_type_archive( 'produk' ) && ! is_tax( 'kategori_produk' ) && ! is_tax( 'tag_produk' ) && ! $is_product_search ) return;
 
     $query->set( 'posts_per_page', 12 );
     $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'terbaru';

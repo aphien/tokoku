@@ -18,8 +18,6 @@ get_header(); ?>
                     <div class="main-image">
                         <?php if ( has_post_thumbnail() ) : ?>
                             <?php the_post_thumbnail( 'tokoku-product-large' ); ?>
-                        <?php elseif ( get_post_meta( get_the_ID(), '_produk_dummy_img', true ) ) : ?>
-                            <img src="<?php echo esc_url( get_post_meta( get_the_ID(), '_produk_dummy_img', true ) ); ?>" alt="<?php the_title(); ?>">
                         <?php else : ?>
                             <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title(); ?>">
                         <?php endif; ?>
@@ -81,6 +79,7 @@ get_header(); ?>
 
                     $has_marketplace = ($marketplace_shopee || $marketplace_tokopedia || $marketplace_lazada || $marketplace_tiktok || $marketplace_bukalapak || $marketplace_blibli || $marketplace_lainnya);
                     $label_khusus   = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
+                    $label_khusus_icon = get_post_meta( get_the_ID(), '_produk_label_khusus_icon', true );
                     $mata_uang      = get_theme_mod( 'tokoku_currency', 'Rp' );
                     $show_price     = get_theme_mod( 'tokoku_show_price', 'yes' );
                     ?>
@@ -88,7 +87,8 @@ get_header(); ?>
                     <h1 class="product-title">
                         <?php 
                         if ( $label_khusus ) {
-                            echo '<span class="special-label">' . esc_html( $label_khusus ) . '</span>';
+                            $icon_class = $label_khusus_icon ? esc_attr( $label_khusus_icon ) : 'dashicons-star-filled';
+                            echo '<span class="special-label"><span class="dashicons ' . $icon_class . '" style="vertical-align: middle; margin-top: -3px; font-size: 16px; width: 16px; height: 16px;"></span> ' . esc_html( $label_khusus ) . '</span>';
                         }
                         the_title(); 
                         ?>
@@ -570,6 +570,8 @@ get_header(); ?>
 @media (max-width: 768px) {
     .marketplace-buttons { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .btn-marketplace { padding: 14px 10px; font-size: 0.8rem; }
+    .special-label { display: block; width: fit-content; margin-bottom: 12px; margin-right: 0; padding: 4px 10px; font-size: 0.65rem; line-height: 1.2; }
+    .product-tag-badge { padding: 8px 14px; font-size: 0.8rem; border-radius: 6px; }
 }
 
 </style>

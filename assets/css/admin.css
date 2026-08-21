@@ -86,6 +86,23 @@
     transition: all 0.2s ease !important;
     height: auto !important;
     line-height: 1.4 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+.tokoku-admin-wrap .button-primary .dashicons,
+.tokoku-admin-wrap .button-secondary .dashicons,
+.tokoku-admin-wrap .tokoku-upload-btn .dashicons,
+.tokoku-admin-wrap .tokoku-upload-btn-id .dashicons {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 20px !important;
 }
 
 .tokoku-admin-wrap .button-primary {
