@@ -178,35 +178,52 @@ jQuery(document).ready(function($) {
             return '<div style="font-family:system-ui,-apple-system,sans-serif; line-height:1.6; color:#475569;">' + html.replace(/\n/g, '<br/>').replace(/(<br\/>)+<li/g, '<li').replace(/<\/li>(<br\/>)+/g, '</li>') + '</div>';
         };
 
-        // Call GitHub API for latest release
-        fetch('https://api.github.com/repos/' + repo + '/releases/latest')
+        // Call GitHub API for latest release (with cache-busting)
+        var apiUrl = 'https://api.github.com/repos/' + repo + '/releases/latest?_=' + Date.now();
+        fetch(apiUrl, { headers: { 'Accept': 'application/vnd.github.v3+json' } })
             .then(function(response) {
-                if (response.ok) return response.json();
-                // Fallback to tags if releases is empty or blocked
-                return fetch('https://api.github.com/repos/' + repo + '/tags')
-                    .then(function(res) {
-                        if (!res.ok) throw new Error('Gagal menghubungi server GitHub');
+                if (response.status === 404 || response.status === 204) {
+                    // No formal release — fallback to tags
+                    return fetch('https://api.github.com/repos/' + repo + '/tags?per_page=1&_=' + Date.now(), {
+                        headers: { 'Accept': 'application/vnd.github.v3+json' }
+                    }).then(function(res) {
+                        if (!res.ok) throw new Error('GitHub API error: ' + res.status + ' ' + res.statusText);
                         return res.json().then(function(tags) {
-                            if (tags && tags.length > 0) {
-                                return {
-                                    tag_name: tags[0].name,
-                                    name: tags[0].name,
-                                    zipball_url: tags[0].zipball_url,
-                                    body: 'Pembaruan terbaru dari repositori GitHub ' + tags[0].name
-                                };
-                            }
-                            throw new Error('Tidak ditemukan tag rilis');
+                            if (!tags || tags.length === 0) throw new Error('Tidak ditemukan rilis atau tag di repositori GitHub.');
+                            var tag = tags[0];
+                            return {
+                                tag_name:    tag.name,
+                                name:        tag.name,
+                                zipball_url: tag.zipball_url || ('https://github.com/' + repo + '/archive/refs/tags/' + tag.name + '.zip'),
+                                body:        'Pembaruan dari repositori GitHub (tag: ' + tag.name + ')'
+                            };
                         });
                     });
+                }
+                if (response.status === 403) {
+                    throw new Error('GitHub API rate limit tercapai. Tunggu beberapa menit lalu coba lagi.');
+                }
+                if (!response.ok) throw new Error('GitHub API error: ' + response.status + ' ' + response.statusText);
+                return response.json();
             })
             .then(function(data) {
                 loader.hide();
                 btn.prop('disabled', false).css('opacity', '1');
-                
-                var latestVersion = (data.tag_name || '').replace(/[^0-9.]/g, ''); 
-                var releaseName = data.name || data.tag_name;
-                var downloadUrl = data.zipball_url || ('https://github.com/' + repo + '/archive/refs/tags/' + (data.tag_name || ('v' + latestVersion)) + '.zip');
-                var logHtml = formatLog(data.body);
+
+                var rawTag       = data.tag_name || '';
+                var latestVersion = rawTag.replace(/[^0-9.]/g, '');
+                var releaseName  = data.name || rawTag;
+                var downloadUrl  = data.zipball_url || ('https://github.com/' + repo + '/archive/refs/tags/' + rawTag + '.zip');
+                var logHtml      = formatLog(data.body);
+
+                if (!latestVersion) {
+                    status.html('<div style="color:#991b1b; background:#fef2f2; padding:20px; border-radius:12px; border:1px solid #fecaca; display:flex; align-items:center; gap:12px;">' +
+                                '<span class="dashicons dashicons-warning" style="font-size:26px; width:26px; height:26px; color:#dc2626;"></span>' +
+                                '<div><strong style="display:block; margin-bottom:4px;">Tidak dapat membaca nomor versi dari GitHub.</strong>' +
+                                '<span style="font-size:0.9rem; color:#b91c1c;">Tag ditemukan: ' + (rawTag || '(kosong)') + ' — pastikan tag menggunakan format vX.Y.Z</span></div>' +
+                                '</div>').fadeIn();
+                    return;
+                }
 
                 var comparison = compareVersions(latestVersion, currentVersion);
 
@@ -264,11 +281,12 @@ jQuery(document).ready(function($) {
             .catch(function(error) {
                 loader.hide();
                 btn.prop('disabled', false).css('opacity', '1');
-                status.html('<div style="color: #991b1b; display: flex; align-items: center; gap: 12px; background: #fef2f2; padding: 20px; border-radius: 12px; border: 1px solid #fecaca;">' +
-                            '<span class="dashicons dashicons-warning" style="font-size: 26px; width: 26px; height: 26px; color:#dc2626;"></span> ' +
+                status.html('<div style="color: #991b1b; display: flex; align-items: flex-start; gap: 12px; background: #fef2f2; padding: 20px; border-radius: 12px; border: 1px solid #fecaca;">' +
+                            '<span class="dashicons dashicons-warning" style="font-size: 26px; width: 26px; height: 26px; color:#dc2626; flex-shrink:0; margin-top:2px;"></span> ' +
                             '<div>' +
                                 '<strong style="font-size: 1.05rem; display:block; margin-bottom:4px;">Gagal memeriksa pembaruan dari GitHub.</strong>' +
                                 '<span style="font-size: 0.9rem; color: #b91c1c;">' + error.message + '</span>' +
+                                '<p style="margin: 10px 0 0 0; font-size: 0.85rem; color: #64748b;">Tips: Periksa koneksi internet Anda, atau coba lagi dalam beberapa menit. Jika tetap gagal, unduh manual dari <a href="https://github.com/aphien/tokoku/releases" target="_blank" style="color:#007bff;">GitHub Releases</a>.</p>' +
                             '</div>' +
                             '</div>');
                 status.fadeIn();
