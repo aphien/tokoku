@@ -49,13 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         });
 
+        // Nonaktifkan tombol Enter agar tidak redirect ke halaman pencarian
         desktopInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                const keyword = this.value.trim();
-                if (keyword.length > 0) {
-                    window.location.href = `${tokokuSearch.homeUrl}?s=${encodeURIComponent(keyword)}&post_type=produk`;
-                }
             }
         });
 
@@ -103,6 +100,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 debounceTimer = setTimeout(() => {
                     performSearch(keyword, modalResults, 'mobile');
                 }, 300);
+            });
+
+            // Nonaktifkan tombol Enter di keyboard mobile
+            modalInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
             });
         }
 
