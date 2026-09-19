@@ -309,8 +309,8 @@ jQuery(document).ready(function($) {
     });
 
 
-    // Media Uploader
-    $('.tokoku-upload-btn').on('click', function(e) {
+    // Media Uploader (Delegated Events for Dynamic Items)
+    $(document).on('click', '.tokoku-upload-btn', function(e) {
         e.preventDefault();
         var button = $(this);
         var container = button.closest('.tokoku-media-upload');
@@ -326,7 +326,7 @@ jQuery(document).ready(function($) {
         }).open();
     });
 
-    $('.tokoku-upload-btn-id').on('click', function(e) {
+    $(document).on('click', '.tokoku-upload-btn-id', function(e) {
         e.preventDefault();
         var button = $(this);
         var container = button.closest('.tokoku-media-upload');
@@ -342,7 +342,8 @@ jQuery(document).ready(function($) {
         }).open();
     });
 
-    $('.tokoku-remove-btn').on('click', function() {
+    $(document).on('click', '.tokoku-remove-btn', function(e) {
+        e.preventDefault();
         var container = $(this).closest('.tokoku-media-upload');
         container.find('.tokoku-preview-img').hide();
         container.find('input').val('');
@@ -361,29 +362,29 @@ jQuery(document).ready(function($) {
         $('#' + target).addClass('active');
     });
 
-    // 🚀 Dynamic Add/Remove
-    $('.tokoku-add-testi').on('click', function() {
+    // 🚀 Dynamic Add/Remove Handlers
+    $(document).on('click', '.tokoku-add-testi', function() {
         var nextItem = $('.testi-nav .tokoku-vtab-link:hidden').first();
         if (nextItem.length) {
-            nextItem.fadeIn().trigger('click');
+            nextItem.fadeIn(200).trigger('click');
         } else {
             alert('Maksimal 20 testimoni.');
         }
     });
 
-    $('.tokoku-add-logo').on('click', function() {
+    $(document).on('click', '.tokoku-add-logo', function() {
         var nextItem = $('.logo-nav .tokoku-vtab-link:hidden').first();
         if (nextItem.length) {
-            nextItem.fadeIn().trigger('click');
+            nextItem.fadeIn(200).trigger('click');
         } else {
             alert('Maksimal 50 logo.');
         }
     });
 
-    $('.tokoku-add-slider').on('click', function() {
+    $(document).on('click', '.tokoku-add-slider', function() {
         var nextItem = $('.slider-nav .tokoku-vtab-link:hidden').first();
         if (nextItem.length) {
-            nextItem.fadeIn().trigger('click');
+            nextItem.fadeIn(200).trigger('click');
         } else {
             alert('Maksimal 10 banner.');
         }

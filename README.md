@@ -1,10 +1,29 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.1)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.2)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.1
+## ✨ Fitur Terbaru v2.3.2
+*   **Overhaul Tampilan Semua Tombol Admin (Modern SaaS Button Design)**:
+    *   **Tombol Simpan / Perbarui (`.tokoku-submit-update-btn`)**: Gradasi biru mewah dengan efek *hover lift*, *shadow glow*, dan status pemuatan dinamis.
+    *   **Tombol Tambah Unit / Repeater (`.tokoku-btn-add`)**: Desain *pill* modern aksen biru lembut (`#eff6ff`) dengan border presisi dan ikon plus vektor pada penambahan Testimoni, Logo Partner, Banner Slider, dan Tanya Jawab (FAQ).
+    *   **Tombol Upload & Pilih Media (`.tokoku-upload-btn`, `.tokoku-upload-btn-id`, `.tokoku-tax-upload-btn`)**: Desain SaaS profesional berikon upload dengan transisi halus saat dipilih.
+    *   **Tombol Hapus & Reset (`.tokoku-remove-btn`, `.tokoku-tax-remove-btn`, `.tokoku-remove-faq`)**: Tampilan elegan dengan palet *danger red* lembut (`#fef2f2`) berikon trash yang aman dan intuitif.
+*   **Perbaikan Layout Tab Vertikal Repeater (Testimoni, Logo Klien & Slider)**:
+    *   Menambahkan styling lengkap sistem kontainer tab vertikal (`.tokoku-vtabs-container`) dengan navigasi tab kiri (*pill links*), indikator aktif gradasi biru, tombol hapus badge bulat (`.tokoku-remove-unit-v`), dan panel konten kanan beranimasi transisi halus.
+    *   Responsif penuh pada layar kecil/tablet dengan beralih ke tab geser horizontal yang rapi.
+*   **Penyempurnaan FAQ Repeater & Accordion**:
+    *   Pembaruan header accordion dengan status *open/close* beraksen border biru dan chevron beranimasi.
+    *   Tombol hapus item pertanyaan dengan styling modern pill danger.
+*   **Peningkatan Event Delegation JavaScript**:
+    *   Memperbaiki seluruh pemanggilan media uploader WordPress dan penambahan/penghapusan unit dinamis menggunakan *event delegation* (`$(document).on(...)`), memastikan semua elemen yang ditambahkan secara dinamis langsung berfungsi 100% tanpa error.
+*   **Desain Kartu Impor & Ekspor**:
+    *   Pembaruan visual kartu pencadangan data tema (*JSON backup*) dan data situs (*WordPress XML*) dengan ikon badge dan tombol aksi yang terpadu.
+
+---
+
+## ✨ Fitur v2.3.1
 *   **Perbaikan Ikon Dasbor & Admin (Crisp SVG Icons)**: Menggantikan seluruh ikon menu tab pengaturan admin dan widget ringkasan toko dengan ikon SVG modern berbasis vektor (termasuk logo WhatsApp, Testimoni, SEO, Kategori, dan Produk) yang 100% presisi, tajam, dan tidak bergantung pada font Dashicons pihak ketiga yang rentan hilang/rusak.
 *   **Penyempurnaan Tombol Update & Simpan Pengaturan**: 
     *   Menambahkan tombol **"Perbarui Pengaturan"** di bagian bawah setiap tab panel, sehingga admin dapat langsung menyimpan tanpa harus menggulir ke paling atas.

@@ -162,24 +162,52 @@ function tokoku_produk_meta_box_callback( $post ) {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #dcdcde;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         }
         .tokoku-remove-gallery-img {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #d63638;
+            top: -6px;
+            right: -6px;
+            background: #dc2626;
             color: #fff;
             border: none;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        .tokoku-remove-gallery-img:hover {
+            transform: scale(1.15);
+            background: #b91c1c;
+        }
+        #tokoku-add-gallery-btn {
+            background: #eff6ff !important;
+            border: 1.5px solid #bfdbfe !important;
+            color: #007bff !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-weight: 700 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            box-shadow: 0 1px 2px rgba(0, 123, 255, 0.08) !important;
+        }
+        #tokoku-add-gallery-btn:hover {
+            background: #007bff !important;
+            border-color: #007bff !important;
+            color: #fff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.25) !important;
         }
         /* Colorful Special Label Styling */
         #tokoku_label_khusus {
@@ -361,7 +389,7 @@ function tokoku_produk_meta_box_callback( $post ) {
                         ?>
                     </div>
                     <input type="hidden" id="tokoku_gallery_ids" name="_produk_gallery" value="<?php echo esc_attr( $gallery_ids ); ?>">
-                    <button type="button" id="tokoku-add-gallery-btn" class="button"><?php _e( 'Tambah Gambar', 'tokoku' ); ?></button>
+                    <button type="button" id="tokoku-add-gallery-btn" class="button"><span class="dashicons dashicons-plus-alt2"></span> <?php _e( 'Tambah Foto Galeri', 'tokoku' ); ?></button>
                 </div>
                 <div class="tokoku-meta-field">
                     <label for="tokoku_video"><?php _e( 'Link Video', 'tokoku' ); ?></label>

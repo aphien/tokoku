@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.3.1' );
+define( 'TOKOKU_VERSION', '2.3.2' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
