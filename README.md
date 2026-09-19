@@ -1,10 +1,25 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.0)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.1)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.0
+## ✨ Fitur Terbaru v2.3.1
+*   **Perbaikan Ikon Dasbor & Admin (Crisp SVG Icons)**: Menggantikan seluruh ikon menu tab pengaturan admin dan widget ringkasan toko dengan ikon SVG modern berbasis vektor (termasuk logo WhatsApp, Testimoni, SEO, Kategori, dan Produk) yang 100% presisi, tajam, dan tidak bergantung pada font Dashicons pihak ketiga yang rentan hilang/rusak.
+*   **Penyempurnaan Tombol Update & Simpan Pengaturan**: 
+    *   Menambahkan tombol **"Perbarui Pengaturan"** di bagian bawah setiap tab panel, sehingga admin dapat langsung menyimpan tanpa harus menggulir ke paling atas.
+    *   Mempertahankan status tab aktif saat form disimpan, mencegah halaman melompat kembali ke tab General secara acak.
+    *   Memberikan indikator loading dinamis saat tombol update ditekan ("Menyimpan Perubahan...").
+    *   Menampilkan notifikasi pop-up melayang (*toast notice*) yang elegan ketika pengaturan berhasil disimpan.
+*   **Pembaruan Sistem Theme Updater (GitHub Releases & Reinstall)**:
+    *   Memperbaiki sistem perbandingan versi menggunakan logika semantic versioning (*semver*) yang akurat.
+    *   Mendukung pembaruan otomatis satu-klik langsung dari rilis resmi GitHub, serta menambahkan opsi **"Instal Ulang / Paksa Perbarui Versi Ini"** untuk kemudahan pemeliharaan tema.
+    *   Memperluas daftar host terverifikasi dan batas waktu pengunduhan paket pembaruan.
+*   **Pembersihan Duplikasi DOM Admin**: Menghapus duplikasi ID `#tab-import-export` pada panel admin untuk integritas query JavaScript yang sempurna.
+
+---
+
+## ✨ Fitur v2.3.0
 *   **Header Height & Proportional Enhancement**: Penyesuaian tinggi header desktop menjadi 82px (sticky: 70px) dan mobile menjadi 60px dengan ukuran logo yang lebih proporsional, lapang, dan berkelas.
 *   **Modern Admin Dashboard & Settings Redesign**: Tampilan halaman pengaturan TokoKu dirancang ulang secara menyeluruh dengan estetika modern SaaS (glassmorphism sticky header, live badge status, sidebar vertikal yang rapi, dan kontrol input berkelas dengan visual focus ring).
 *   **WordPress Dashboard TokoKu Widget**: Integrasi widget toko pintar langsung di Beranda Dashboard WordPress (`index.php`) yang menampilkan statistik langsung (Total Produk, Nomor WhatsApp Aktif, Kategori Produk, dan Artikel Blog) beserta tautan pintas pengaturan.

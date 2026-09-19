@@ -83,7 +83,9 @@
     box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
 }
 
-.tokoku-top-save-btn {
+.tokoku-submit-update-btn,
+.tokoku-top-save-btn,
+.tokoku-bottom-save-btn {
     padding: 10px 24px !important;
     font-size: 14px !important;
     font-weight: 800 !important;
@@ -97,15 +99,40 @@
     box-shadow: 0 4px 14px rgba(0, 123, 255, 0.35) !important;
     transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
     cursor: pointer;
+    line-height: 1.4 !important;
 }
 
-.tokoku-top-save-btn:hover {
+.tokoku-submit-update-btn:hover,
+.tokoku-top-save-btn:hover,
+.tokoku-bottom-save-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 22px rgba(0, 123, 255, 0.45) !important;
 }
 
-.tokoku-top-save-btn:active {
+.tokoku-submit-update-btn:active,
+.tokoku-top-save-btn:active,
+.tokoku-bottom-save-btn:active {
     transform: scale(0.98);
+}
+
+.tokoku-submit-update-btn .tokoku-btn-icon,
+.tokoku-bottom-save-btn .tokoku-btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tokoku-submit-update-btn .tokoku-btn-icon svg,
+.tokoku-bottom-save-btn .tokoku-btn-icon svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+}
+
+.tokoku-submit-update-btn.is-loading {
+    opacity: 0.8;
+    pointer-events: none;
+    cursor: wait;
 }
 
 /* 3. Settings Container Layout */
@@ -146,15 +173,28 @@
     user-select: none;
 }
 
-.tokoku-nav-item .dashicons {
+.tokoku-nav-item .dashicons,
+.tokoku-nav-item .tokoku-nav-icon {
     color: #94a3b8;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
     font-size: 18px;
-    width: 18px;
-    height: 18px;
-    display: flex;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+}
+
+.tokoku-nav-item .tokoku-nav-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+}
+
+.tokoku-nav-label {
+    flex-grow: 1;
 }
 
 .tokoku-nav-item:hover {
@@ -163,8 +203,10 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.tokoku-nav-item:hover .dashicons {
+.tokoku-nav-item:hover .dashicons,
+.tokoku-nav-item:hover .tokoku-nav-icon {
     color: #007bff;
+    transform: scale(1.08);
 }
 
 .tokoku-nav-item.active {
@@ -175,7 +217,8 @@
     border: 1px solid #e2e8f0;
 }
 
-.tokoku-nav-item.active .dashicons {
+.tokoku-nav-item.active .dashicons,
+.tokoku-nav-item.active .tokoku-nav-icon {
     color: #007bff;
 }
 
@@ -207,12 +250,13 @@
 
 .tokoku-drag-handle {
     cursor: grab;
-    opacity: 0.3;
+    opacity: 0.35;
     transition: opacity 0.2s ease;
+    margin-left: auto;
 }
 
 .tokoku-nav-item:hover .tokoku-drag-handle {
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 /* 5. Main Content Panel */
@@ -543,7 +587,78 @@
     color: #0f172a;
 }
 
-/* 10. Responsive Admin Layout */
+.tokoku-dash-header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #007bff;
+}
+
+.tokoku-dash-header-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.tokoku-dash-stat-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* 10. Tab Footer Action Bar & Floating Toast */
+.tokoku-tab-footer-actions {
+    margin-top: 35px;
+    padding-top: 24px;
+    border-top: 1.5px dashed #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.tokoku-tab-footer-note {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.tokoku-toast-notice {
+    position: fixed;
+    top: 45px;
+    right: 25px;
+    z-index: 99999;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 22px;
+    border-radius: 50px;
+    font-size: 13.5px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tokoku-toast-notice.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.tokoku-toast-notice .dashicons {
+    color: #22c55e;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+/* 11. Responsive Admin Layout */
 @media (max-width: 900px) {
     .tokoku-admin-wrap {
         margin-right: 10px;

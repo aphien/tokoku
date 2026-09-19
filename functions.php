@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.3.0' );
+define( 'TOKOKU_VERSION', '2.3.1' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -179,7 +179,9 @@ function tokoku_dashboard_widget_render() {
     <div class="tokoku-dash-widget">
         <div class="tokoku-dash-header">
             <div class="tokoku-dash-title">
-                <span class="dashicons dashicons-store"></span>
+                <span class="tokoku-dash-header-icon">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg>
+                </span>
                 <span>Ringkasan Katalog & Toko Online</span>
             </div>
             <span class="tokoku-admin-version">v<?php echo TOKOKU_VERSION; ?></span>
@@ -187,7 +189,7 @@ function tokoku_dashboard_widget_render() {
         <div class="tokoku-dash-stats">
             <div class="tokoku-dash-stat-card">
                 <div class="tokoku-dash-stat-icon blue">
-                    <span class="dashicons dashicons-products"></span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_produk ); ?></span>
@@ -196,7 +198,7 @@ function tokoku_dashboard_widget_render() {
             </div>
             <div class="tokoku-dash-stat-card">
                 <div class="tokoku-dash-stat-icon green">
-                    <span class="dashicons dashicons-whatsapp"></span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.11-.23-.17-.48-.29z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $wa_number ); ?></span>
@@ -205,7 +207,7 @@ function tokoku_dashboard_widget_render() {
             </div>
             <div class="tokoku-dash-stat-card">
                 <div class="tokoku-dash-stat-icon amber">
-                    <span class="dashicons dashicons-category"></span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_kategori ); ?></span>
@@ -214,7 +216,7 @@ function tokoku_dashboard_widget_render() {
             </div>
             <div class="tokoku-dash-stat-card">
                 <div class="tokoku-dash-stat-icon purple">
-                    <span class="dashicons dashicons-edit"></span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_posts ); ?></span>
