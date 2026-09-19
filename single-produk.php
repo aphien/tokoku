@@ -225,7 +225,7 @@ get_header(); ?>
                                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                                 data-product-url="<?php the_permalink(); ?>"
                                 data-product-price="<?php echo esc_attr( $price_val ); ?>">
-                            <span class="dashicons dashicons-whatsapp" style="margin-right: 8px;"></span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle; display: inline-block;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>
                             Pesan via WhatsApp
                         </button>
                         
@@ -280,28 +280,39 @@ get_header(); ?>
                     </div>
 
                     <div class="product-share">
-                        <span class="share-label">Bagikan ke</span>
+                        <span class="share-label">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                            Bagikan ke:
+                        </span>
                         <div class="share-icons">
-                            <?php $current_url = urlencode(get_permalink()); $current_title = urlencode(get_the_title()); ?>
-                            <!-- Facebook -->
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $current_url; ?>" target="_blank" class="share-icon fb" aria-label="Facebook">
-                                <span class="dashicons dashicons-facebook-alt"></span>
-                            </a>
-                            <!-- Twitter -->
-                            <a href="https://twitter.com/intent/tweet?url=<?php echo $current_url; ?>&text=<?php echo $current_title; ?>" target="_blank" class="share-icon tw" aria-label="Twitter">
-                                <span class="dashicons dashicons-twitter"></span>
-                            </a>
+                            <?php 
+                            $current_url   = urlencode( get_permalink() ); 
+                            $raw_url       = esc_url( get_permalink() );
+                            $current_title = urlencode( get_the_title() ); 
+                            ?>
                             <!-- WhatsApp -->
-                            <a href="https://api.whatsapp.com/send?text=<?php echo $current_title . ' ' . $current_url; ?>" target="_blank" class="share-icon wa" aria-label="WhatsApp">
-                                <span class="dashicons dashicons-whatsapp"></span>
+                            <a href="https://api.whatsapp.com/send?text=<?php echo $current_title . '%20' . $current_url; ?>" target="_blank" rel="noopener" class="share-icon wa" aria-label="Bagikan ke WhatsApp" title="WhatsApp">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>
                             </a>
-                            <!-- Instagram -->
-                            <a href="https://www.instagram.com/" target="_blank" class="share-icon ig" aria-label="Instagram">
-                                <span class="dashicons dashicons-instagram"></span>
+                            <!-- Facebook -->
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $current_url; ?>" target="_blank" rel="noopener" class="share-icon fb" aria-label="Bagikan ke Facebook" title="Facebook">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                             </a>
-                            <!-- Copy Link -->
-                            <button type="button" onclick="navigator.clipboard.writeText(window.location.href); alert('Tautan berhasil disalin!');" class="share-icon link-share" aria-label="Copy Link" title="Salin Tautan" style="border:none; cursor:pointer;">
-                                <span class="dashicons dashicons-admin-links"></span>
+                            <!-- 𝕏 (Twitter) -->
+                            <a href="https://twitter.com/intent/tweet?url=<?php echo $current_url; ?>&text=<?php echo $current_title; ?>" target="_blank" rel="noopener" class="share-icon tw" aria-label="Bagikan ke X" title="X (Twitter)">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
+                            <!-- Telegram -->
+                            <a href="https://t.me/share/url?url=<?php echo $current_url; ?>&text=<?php echo $current_title; ?>" target="_blank" rel="noopener" class="share-icon tg" aria-label="Bagikan ke Telegram" title="Telegram">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            </a>
+                            <!-- Pinterest -->
+                            <a href="https://pinterest.com/pin/create/button/?url=<?php echo $current_url; ?>&description=<?php echo $current_title; ?>" target="_blank" rel="noopener" class="share-icon pin" aria-label="Bagikan ke Pinterest" title="Pinterest">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.171-2.911 1.024 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.62-5.373-11.987-11.983-11.987z"/></svg>
+                            </a>
+                            <!-- Salin Tautan (Copy Link) -->
+                            <button type="button" class="share-icon link-share copy-link-btn" data-url="<?php echo $raw_url; ?>" aria-label="Salin Tautan" title="Salin Tautan">
+                                <svg width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -337,22 +348,34 @@ get_header(); ?>
             <?php
             if ( ! empty( $terms ) ) :
                 $related = new WP_Query( array(
-                    'post_type' => 'produk',
+                    'post_type'      => 'produk',
                     'posts_per_page' => 4,
-                    'post__not_in' => array( get_the_ID() ),
-                    'tax_query' => array(
+                    'post__not_in'   => array( get_the_ID() ),
+                    'tax_query'      => array(
                         array(
                             'taxonomy' => 'kategori_produk',
-                            'field' => 'term_id',
-                            'terms' => $terms[0]->term_id,
+                            'field'    => 'term_id',
+                            'terms'    => $terms[0]->term_id,
                         ),
                     ),
                 ) );
 
                 if ( $related->have_posts() ) : ?>
-                    <section class="related-products section-padding">
-                        <h2 class="section-title" style="margin-top: 3%;">Produk Terkait</h2>
-                        <div class="product-grid">
+                    <section class="related-products-section">
+                        <div class="related-header">
+                            <div class="related-header__left">
+                                <span class="related-badge">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    Rekomendasi Pilihan
+                                </span>
+                                <h2 class="related-title">Produk Terkait</h2>
+                            </div>
+                            <a href="<?php echo esc_url( get_term_link( $terms[0] ) ); ?>" class="related-view-all">
+                                <span>Lihat Semua <?php echo esc_html( $terms[0]->name ); ?></span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                        <div class="product-grid related-grid">
                             <?php while ( $related->have_posts() ) : $related->the_post();
                                 get_template_part( 'template-parts/product-card' );
                             endwhile; ?>
@@ -412,21 +435,66 @@ get_header(); ?>
     cursor: pointer;
     transition: var(--ease);
     margin-bottom: 20px;
-    box-shadow: 0 10px 20px var(--shadow);
+    box-shadow: var(--shadow-md);
 }
-.btn-contact-us:hover { transform: translateY(-3px); box-shadow: 0 15px 30px var(--shadow); opacity: 0.9; color: #fff; }
+.btn-contact-us:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); opacity: 0.9; color: #fff; }
 
-/* Share */
-.product-share { display: flex; align-items: center; gap: 20px; padding: 20px; background: var(--bg2); border-radius: 12px; margin-bottom: 20px; }
-.share-label { font-size: 0.85rem; color: var(--text2); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-.share-icons { display: flex; gap: 12px; }
-.share-icon { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; color: #fff; transition: var(--ease); }
-.share-icon:hover { transform: scale(1.1); color: #fff; }
-.share-icon.fb { background-color: #3b5998; }
-.share-icon.tw { background-color: #000000; }
+/* Modern Share Bar */
+.product-share { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px; 
+    padding: 16px 20px; 
+    background: var(--bg2); 
+    border-radius: 16px; 
+    margin-bottom: 24px; 
+    border: 1px solid var(--border); 
+}
+.share-label { 
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem; 
+    color: var(--text); 
+    font-weight: 700; 
+}
+.share-label svg { color: var(--primary); }
+.share-icons { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.share-icon { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    color: #fff !important; 
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    border: none !important;
+    outline: none !important;
+    cursor: pointer;
+    text-decoration: none;
+}
+.share-icon:hover { 
+    transform: translateY(-3px) scale(1.08); 
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22); 
+    color: #fff !important;
+}
+.share-icon:active { transform: scale(0.95); }
 .share-icon.wa { background-color: #25d366; }
-.share-icon.ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-.share-icon.link-share { background-color: #64748b; }
+.share-icon.wa:hover { box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45); }
+.share-icon.fb { background-color: #1877f2; }
+.share-icon.fb:hover { box-shadow: 0 6px 18px rgba(24, 119, 242, 0.45); }
+.share-icon.tw { background-color: #0f1419; }
+.share-icon.tw:hover { box-shadow: 0 6px 18px rgba(15, 20, 25, 0.45); }
+.share-icon.tg { background-color: #229ed9; }
+.share-icon.tg:hover { box-shadow: 0 6px 18px rgba(34, 158, 217, 0.45); }
+.share-icon.pin { background-color: #e60023; }
+.share-icon.pin:hover { box-shadow: 0 6px 18px rgba(230, 0, 35, 0.45); }
+.share-icon.link-share { background-color: #475569; }
+.share-icon.link-share:hover { background-color: var(--primary); box-shadow: 0 6px 18px rgba(var(--primary-rgb), 0.45); }
 
 .product-description-wrapper { 
     border-top: 1.5px solid var(--border); 
@@ -470,7 +538,8 @@ get_header(); ?>
     background: var(--bg);
     padding: 60px;
     border-radius: 24px;
-    box-shadow: 0 10px 40px var(--shadow);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
     width: 100%;
 }
 .product-description .content p { margin-bottom: 25px; }
@@ -520,25 +589,27 @@ get_header(); ?>
 .product-price-display { margin-bottom: 25px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .product-price-display .price-current { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
 .product-price-display .price-original { font-size: 1.1rem; color: var(--text2); text-decoration: line-through; }
-.product-price-display .price-discount-badge { background: #ffebee; color: #d32f2f; font-weight: 700; font-size: 0.85rem; padding: 4px 8px; border-radius: 4px; }
+.product-price-display .price-discount-badge { background: #fee2e2; color: #dc2626; font-weight: 700; font-size: 0.85rem; padding: 4px 8px; border-radius: 4px; }
+:is(.theme-dark, html.theme-dark, body.theme-dark) .product-price-display .price-discount-badge { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 
 .product-variations { margin-bottom: 30px; }
 .variations-label { display: block; font-weight: 700; color: var(--text2); margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
 .variations-list { display: flex; flex-wrap: wrap; gap: 10px; }
-.btn-variation { background: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; font-weight: 600; color: var(--text); cursor: pointer; transition: var(--ease); font-size: 0.95rem; }
-.btn-variation:hover, .btn-variation.active { border-color: var(--primary); color: var(--primary); background: var(--bg2); }
+.btn-variation { background: var(--bg2); border: 1.5px solid var(--border); padding: 8px 16px; border-radius: 8px; font-weight: 600; color: var(--text); cursor: pointer; transition: var(--ease); font-size: 0.95rem; }
+.btn-variation:hover, .btn-variation.active { border-color: var(--primary); color: var(--primary); background: var(--bg); }
 
 .stock-count { font-size: 0.85rem; color: var(--text2); font-weight: normal; margin-left: 4px; }
 
-.product-note-box { background: #fff8e1; border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; display: flex; gap: 12px; margin-bottom: 30px; color: #5c4e16; }
-.product-note-box svg { flex-shrink: 0; color: #ffb300; }
+.product-note-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; display: flex; gap: 12px; margin-bottom: 30px; color: #92400e; }
+.product-note-box svg { flex-shrink: 0; color: #f59e0b; }
 .product-note-box .note-content { font-size: 0.95rem; line-height: 1.5; }
+:is(.theme-dark, html.theme-dark, body.theme-dark) .product-note-box { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); border-left: 4px solid #f59e0b; color: #fde68a; }
 
 .product-tag-badge { background: var(--bg2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600; color: var(--text2); text-decoration: none; transition: var(--ease); }
 .product-tag-badge:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-.btn-watch-video { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 15px; padding: 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 8px; font-weight: 700; color: var(--text); cursor: pointer; transition: var(--ease); text-decoration: none; }
-.btn-watch-video:hover { border-color: #ff0000; color: #ff0000; }
+.btn-watch-video { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 15px; padding: 12px; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 8px; font-weight: 700; color: var(--text); cursor: pointer; transition: var(--ease); text-decoration: none; }
+.btn-watch-video:hover { border-color: #ef4444; color: #ef4444; background: rgba(239, 68, 68, 0.08); }
 
 .marketplace-links { margin-bottom: 30px; padding-top: 20px; border-top: 1.5px dashed var(--border); }
 .marketplace-title { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text2); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
@@ -547,7 +618,7 @@ get_header(); ?>
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    text-align: center;
+    text-align: center; 
     width: 100%; 
     padding: 12px 15px; 
     border-radius: 10px; 
@@ -556,7 +627,7 @@ get_header(); ?>
     text-decoration: none; 
     transition: var(--ease); 
     font-size: 0.85rem; 
-    box-shadow: 0 4px 10px var(--shadow);
+    box-shadow: var(--shadow-sm);
 }
 .btn-marketplace:hover { transform: translateY(-2px); opacity: 0.9; color: #fff; }
 .mp-shopee { background: #ee4d2d; }

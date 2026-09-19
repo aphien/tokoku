@@ -31,44 +31,75 @@ if ( ! defined( 'ABSPATH' ) ) {
             
             if (theme === 'dark') {
                 document.documentElement.classList.add('theme-dark');
+                document.documentElement.classList.remove('theme-light');
+            } else {
+                document.documentElement.classList.add('theme-light');
+                document.documentElement.classList.remove('theme-dark');
             }
         })();
     </script>
     <style>
-        :root {
-            --primary: <?php echo get_theme_mod( 'tokoku_primary_color', '#007bff' ); ?>;
-            --primary-dark: <?php echo get_theme_mod( 'tokoku_secondary_color', '#0056b3' ); ?>;
-            
-            /* Custom Element Colors */
-            --header-bg: <?php echo get_theme_mod( 'tokoku_header_bg', '#ffffff' ); ?>;
-            --header-text: <?php echo get_theme_mod( 'tokoku_header_text', '#0f172a' ); ?>;
-            --footer-bg: <?php echo get_theme_mod( 'tokoku_footer_bg', '#f1f5f9' ); ?>;
-            --footer-text: <?php echo get_theme_mod( 'tokoku_footer_text', '#475569' ); ?>;
-            --card-bg: <?php echo get_theme_mod( 'tokoku_card_bg', '#ffffff' ); ?>;
-            --card-text: <?php echo get_theme_mod( 'tokoku_card_text', '#0f172a' ); ?>;
-            --price-color: <?php echo get_theme_mod( 'tokoku_price_color', '#007bff' ); ?>;
-        }
-        .theme-dark {
-            --bg: <?php echo get_theme_mod( 'tokoku_dark_bg', '#0b0f1a' ); ?>;
-            --bg2: <?php echo get_theme_mod( 'tokoku_dark_bg2', '#151b2d' ); ?>;
-            --text: <?php echo get_theme_mod( 'tokoku_dark_text', '#f1f5f9' ); ?>;
-            
-            /* Dark Mode Overrides for Elements */
-            --header-bg: var(--bg);
-            --header-text: var(--text);
-            --footer-bg: var(--bg2);
-            --footer-text: var(--text2);
-            --card-bg: var(--bg2);
-            --card-text: var(--text);
-        }
-        /* Critical Hiding - Bulletproof */
-        .mobile-menu-drawer, .search-modal-overlay, .mobile-menu-overlay { display: none !important; }
-        .mobile-menu-drawer.active, .search-modal-overlay.active, .mobile-menu-overlay.active { display: flex !important; }
+        /* Critical Hiding & Structural Display */
+        .search-modal-overlay, .mobile-menu-overlay { display: none !important; }
+        .search-modal-overlay.active, .mobile-menu-overlay.active { display: flex !important; }
+        .mobile-menu-drawer { visibility: hidden; }
+        .mobile-menu-drawer.active { visibility: visible; }
+        
+        /* Logo Switching */
         .logo-dark { display: none !important; }
-        .theme-dark .logo-light { display: none !important; }
-        .theme-dark .logo-dark { display: block !important; }
-        /* Apply to HTML for early styling */
-        html.theme-dark { background: var(--bg); }
+        .theme-dark .logo-light,
+        html.theme-dark .logo-light,
+        body.theme-dark .logo-light { display: none !important; }
+        .theme-dark .logo-dark,
+        html.theme-dark .logo-dark,
+        body.theme-dark .logo-dark { display: block !important; }
+        
+        /* Apply to HTML for instant early styling */
+        html { background: var(--bg, #ffffff); color: var(--text, #0f172a); }
+        html.theme-dark { background: var(--bg, #0b0f1a); color: var(--text, #f1f5f9); }
+
+        /* Absolute Zero Outline & Zero Border for Search Inputs */
+        .search-form,
+        .search-form:hover,
+        .search-form:focus-within,
+        .header-search-centered .search-form,
+        .header-search-centered .search-form:hover,
+        .header-search-centered .search-form:focus-within,
+        .search-modal-input-wrap,
+        .search-modal-input-wrap:focus-within {
+            border: none !important;
+            outline: none !important;
+            outline-width: 0 !important;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+        }
+
+        .search-input,
+        .search-input:focus,
+        .search-input:focus-visible,
+        .search-input:active,
+        .search-modal-input,
+        .search-modal-input:focus,
+        .search-modal-input:focus-visible,
+        .search-modal-input:active,
+        .search-form input,
+        .search-form input:focus,
+        .search-form input:focus-visible,
+        .search-modal-input-wrap input,
+        .search-modal-input-wrap input:focus,
+        .search-modal-input-wrap input:focus-visible {
+            border: none !important;
+            border-width: 0 !important;
+            border-color: transparent !important;
+            outline: none !important;
+            outline-width: 0 !important;
+            outline-style: none !important;
+            outline-color: transparent !important;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            background: transparent !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
     </style>
 </head>
 <body <?php body_class(); ?>>
@@ -111,9 +142,14 @@ if ( ! defined( 'ABSPATH' ) ) {
         <!-- Desktop Search -->
         <div class="header-search-centered">
             <div class="search-form">
-                <span class="search-icon"><span class="dashicons dashicons-search"></span></span>
-                <input type="text" class="search-input" placeholder="Masukan kata kunci ...">
-                <button type="button" class="search-clear" style="display:none;">&times;</button>
+                <span class="search-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+                <input type="text" class="search-input" placeholder="Masukan kata kunci ..." autocomplete="off" spellcheck="false" style="outline: none !important; border: none !important; box-shadow: none !important; background: transparent !important;">
+                <button type="button" class="search-clear" aria-label="Hapus Pencarian" style="display:none;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
                 <div class="search-results"></div>
             </div>
         </div>
@@ -139,12 +175,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="search-modal-overlay" class="search-modal-overlay">
     <div class="search-modal-header">
         <button type="button" id="search-modal-back" class="search-modal-back" aria-label="Kembali">
-            <span class="dashicons dashicons-arrow-left-alt2"></span>
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         </button>
         <div class="search-modal-input-wrap">
-            <span class="dashicons dashicons-search" style="color: #888;"></span>
-            <input type="text" id="search-modal-input" class="search-modal-input" placeholder="Cari Produk...">
-            <button type="button" id="search-modal-clear" class="search-modal-clear" style="display:none;">&times;</button>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" style="color: #888; margin-right: 8px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="search-modal-input" class="search-modal-input" placeholder="Cari Produk..." autocomplete="off" spellcheck="false" style="outline: none !important; border: none !important; box-shadow: none !important; background: transparent !important;">
+            <button type="button" id="search-modal-clear" class="search-modal-clear" aria-label="Hapus Pencarian" style="display:none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
         </div>
     </div>
     <div class="search-modal-body">
@@ -177,7 +218,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="mobile-menu-drawer" class="mobile-menu-drawer">
     <div class="mobile-menu-header">
         <span class="mobile-menu-title">Menu</span>
-        <button type="button" id="mobile-menu-close" class="mobile-menu-close">&times;</button>
+        <button type="button" id="mobile-menu-close" class="mobile-menu-close" aria-label="Tutup Menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
     </div>
     <nav class="mobile-primary-menu">
         <?php

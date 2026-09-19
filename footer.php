@@ -26,8 +26,8 @@
                         <?php 
                         $email = get_theme_mod('tokoku_store_email');
                         if ($email) : ?>
-                            <li>
-                                <span class="dashicons dashicons-email" style="color: var(--primary);"></span>
+                            <li style="display: flex; gap: 8px; align-items: center;">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); flex-shrink: 0;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                                 <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
                             </li>
                         <?php endif; ?>
@@ -38,7 +38,7 @@
                         <?php
                         $socials = array(
                             'facebook'  => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>',
-                            'twitter'   => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>',
+                            'twitter'   => '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
                             'linkedin'  => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>',
                             'youtube'   => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.11 1 12 1 12s0 3.89.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.89 23 12 23 12s0-3.89-.46-5.58z"></path><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon></svg>',
                             'instagram' => '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>',
@@ -73,8 +73,8 @@
                             $name = get_theme_mod("tokoku_contact_name_{$i}");
                             $wa = get_theme_mod("tokoku_contact_wa_{$i}");
                             if ($name && $wa) {
-                                echo '<a href="https://wa.me/' . esc_attr($wa) . '" target="_blank" style="display:flex; align-items:center; gap:8px; color:var(--text2); font-size:0.9rem; text-decoration:none;">';
-                                echo '<span class="dashicons dashicons-whatsapp" style="color: var(--primary);"></span>'; 
+                                echo '<a href="https://wa.me/' . esc_attr($wa) . '" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; color:var(--text2); font-size:0.9rem; text-decoration:none;">';
+                                echo '<svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366" style="flex-shrink: 0;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>'; 
                                 echo esc_html($name);
                                 echo '</a>';
                             }
@@ -87,8 +87,8 @@
                         <?php for ($j=1; $j<=3; $j++) : 
                             $jam = get_theme_mod("tokoku_jam_op_{$j}");
                             if ($jam) : ?>
-                                <li style="margin-bottom: 8px;">
-                                    <span class="dashicons dashicons-portfolio" style="color: var(--primary);"></span>
+                                <li style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                     <span><?php echo esc_html($jam); ?></span>
                                 </li>
                         <?php endif; endfor; ?>
@@ -143,9 +143,9 @@
             </svg>
         </button>
         <div class="wa-float">
-            <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" class="wa-float__btn" target="_blank" aria-label="WhatsApp">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.987 0 1.763.459 3.42 1.261 4.864l-1.286 4.698 4.814-1.263c1.402.766 2.998 1.199 4.698 1.199 5.508 0 9.988-4.479 9.988-9.987s-4.48-9.987-9.988-9.987zm5.541 14.22c-.226.639-1.318 1.171-1.812 1.233-.493.062-1.008.093-2.909-.643-2.316-.902-3.805-3.238-3.921-3.393-.116-.154-.949-1.264-.949-2.41 0-1.147.604-1.711.821-1.942.217-.231.472-.288.63-.288.157 0 .315.002.45.011.145.009.341-.054.534.412.193.466.66 1.603.718 1.72.059.117.098.252.02.408-.079.157-.118.255-.236.39-.118.136-.248.303-.354.407-.117.117-.24.244-.103.48.137.236.608 1.002 1.306 1.623.897.799 1.654 1.045 1.891 1.162.236.117.375.098.514-.06.139-.158.597-.696.757-.932.159-.236.319-.199.54-.117.221.083 1.401.66 1.641.779.24.118.399.176.458.277.059.102.059.589-.167 1.228z" />
+            <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" class="wa-float__btn" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
                 </svg>
             </a>
         </div>
@@ -153,24 +153,46 @@
 
     <?php get_template_part('template-parts/whatsapp-modal'); ?>
 
-    <!-- Mobile Bottom Navigation (v1.6.7 Style) -->
-    <div class="bottom-nav">
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-item <?php echo is_front_page() ? 'active' : ''; ?>">
-            <span class="dashicons dashicons-admin-home"></span>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bottom-nav" aria-label="Navigasi Bawah">
+        <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-item nav-home <?php echo is_front_page() ? 'active' : ''; ?>">
+            <div class="nav-icon-wrap">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
             <span>Home</span>
         </a>
-        <a href="<?php echo esc_url(home_url('/#categories')); ?>" class="nav-item">
-            <span class="dashicons dashicons-category"></span>
+        <a href="<?php echo esc_url(home_url('/#categories')); ?>" class="nav-item nav-kategori">
+            <div class="nav-icon-wrap">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+            </div>
             <span>Kategori</span>
         </a>
-        <a href="javascript:void(0)" id="mobile-search-nav-trigger" class="nav-item">
-            <span class="dashicons dashicons-search"></span>
-            <span>Pencarian</span>
-        </a>
-        <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" class="nav-item nav-whatsapp" target="_blank">
-            <span class="dashicons dashicons-whatsapp"></span>
+        <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" class="nav-item nav-whatsapp" target="_blank" rel="noopener">
+            <div class="nav-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
+                </svg>
+            </div>
             <span>WhatsApp</span>
         </a>
+        <a href="javascript:void(0)" id="bottom-menu-toggle" class="nav-item nav-menu" aria-label="Menu">
+            <div class="nav-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="12" x2="16" y2="12"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+            </div>
+            <span>Menu</span>
+        </a>
+    </nav>
+
+    <!-- Global Toast Notification -->
+    <div id="tokoku-toast" class="tokoku-toast" role="alert" aria-live="assertive">
+        <svg class="toast-check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="tokoku-toast-text">Tautan berhasil disalin!</span>
     </div>
 
     <?php wp_footer(); ?>

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.2.6' );
+define( 'TOKOKU_VERSION', '2.3.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -109,6 +109,14 @@ function tokoku_typography_css() {
         h1 { font-size: <?php echo esc_attr( $h1_size ); ?>rem; }
         h2 { font-size: calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.8); }
         h3 { font-size: calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.6); }
+        
+        /* Penyesuaian ukuran font maksimal untuk tampilan mobile agar lebih proporsional */
+        @media (max-width: 768px) {
+            body { font-size: calc(var(--font-size-base) * 0.95); }
+            h1 { font-size: clamp(1.6rem, calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.65), 2.2rem); }
+            h2 { font-size: clamp(1.4rem, calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.55), 1.8rem); }
+            h3 { font-size: clamp(1.2rem, calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.45), 1.5rem); }
+        }
     </style>
     <?php
 }
@@ -139,9 +147,95 @@ require_once TOKOKU_DIR . '/includes/taxonomy-meta.php';
  * Menambahkan teks hak cipta/kredit di bagian bawah halaman Admin WordPress.
  */
 function tokoku_admin_footer_credit( $text ) {
-    return 'Theme <span style="font-weight:bold;color:#007bff;">TokoKu</span> by <a href="https://github.com/m-alfiandiismet" target="_blank" style="text-decoration:none;font-weight:bold;">m.alfiandiismet</a>';
+    return 'Theme <span style="font-weight:bold;color:#007bff;">TokoKu</span> by <a href="https://github.com/aphien" target="_blank" style="text-decoration:none;font-weight:bold;">TokoKu Team</a>';
 }
 add_filter( 'admin_footer_text', 'tokoku_admin_footer_credit' );
+
+/**
+ * TokoKu Dashboard Widget di Halaman Utama Admin (Dashboard)
+ */
+function tokoku_add_dashboard_widgets() {
+    wp_add_dashboard_widget(
+        'tokoku_dashboard_widget',
+        '⚡ TokoKu Store Dashboard & Ringkasan Toko',
+        'tokoku_dashboard_widget_render'
+    );
+}
+add_action( 'wp_dashboard_setup', 'tokoku_add_dashboard_widgets' );
+
+function tokoku_admin_global_assets( $hook ) {
+    if ( 'index.php' === $hook ) {
+        wp_enqueue_style( 'tokoku-admin-css', TOKOKU_URI . '/assets/css/admin.css', array(), TOKOKU_VERSION );
+    }
+}
+add_action( 'admin_enqueue_scripts', 'tokoku_admin_global_assets' );
+
+function tokoku_dashboard_widget_render() {
+    $count_produk   = wp_count_posts( 'produk' ) ? wp_count_posts( 'produk' )->publish : 0;
+    $count_kategori = wp_count_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty' => false ) );
+    $count_posts    = wp_count_posts( 'post' ) ? wp_count_posts( 'post' )->publish : 0;
+    $wa_number      = get_theme_mod( 'tokoku_wa_number', '6281234567890' );
+    ?>
+    <div class="tokoku-dash-widget">
+        <div class="tokoku-dash-header">
+            <div class="tokoku-dash-title">
+                <span class="dashicons dashicons-store"></span>
+                <span>Ringkasan Katalog & Toko Online</span>
+            </div>
+            <span class="tokoku-admin-version">v<?php echo TOKOKU_VERSION; ?></span>
+        </div>
+        <div class="tokoku-dash-stats">
+            <div class="tokoku-dash-stat-card">
+                <div class="tokoku-dash-stat-icon blue">
+                    <span class="dashicons dashicons-products"></span>
+                </div>
+                <div class="tokoku-dash-stat-info">
+                    <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_produk ); ?></span>
+                    <span class="tokoku-dash-stat-label">Total Produk Aktif</span>
+                </div>
+            </div>
+            <div class="tokoku-dash-stat-card">
+                <div class="tokoku-dash-stat-icon green">
+                    <span class="dashicons dashicons-whatsapp"></span>
+                </div>
+                <div class="tokoku-dash-stat-info">
+                    <span class="tokoku-dash-stat-num"><?php echo esc_html( $wa_number ); ?></span>
+                    <span class="tokoku-dash-stat-label">WhatsApp Pemesanan</span>
+                </div>
+            </div>
+            <div class="tokoku-dash-stat-card">
+                <div class="tokoku-dash-stat-icon amber">
+                    <span class="dashicons dashicons-category"></span>
+                </div>
+                <div class="tokoku-dash-stat-info">
+                    <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_kategori ); ?></span>
+                    <span class="tokoku-dash-stat-label">Kategori Produk</span>
+                </div>
+            </div>
+            <div class="tokoku-dash-stat-card">
+                <div class="tokoku-dash-stat-icon purple">
+                    <span class="dashicons dashicons-edit"></span>
+                </div>
+                <div class="tokoku-dash-stat-info">
+                    <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_posts ); ?></span>
+                    <span class="tokoku-dash-stat-label">Artikel Blog</span>
+                </div>
+            </div>
+        </div>
+        <div class="tokoku-dash-actions">
+            <a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=produk' ) ); ?>" class="tokoku-dash-btn primary">
+                <span class="dashicons dashicons-plus-alt2"></span> Tambah Produk Baru
+            </a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=tokoku-settings' ) ); ?>" class="tokoku-dash-btn secondary">
+                <span class="dashicons dashicons-admin-generic"></span> Pengaturan Tokoku
+            </a>
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" class="tokoku-dash-btn secondary">
+                <span class="dashicons dashicons-external"></span> Kunjungi Website
+            </a>
+        </div>
+    </div>
+    <?php
+}
 
 /**
  * Menambahkan kelas CSS tambahan pada tag <body>.

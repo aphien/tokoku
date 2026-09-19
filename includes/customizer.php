@@ -366,12 +366,24 @@ function tokoku_customizer_css() {
     
     ?>
     <style id="tokoku-customizer-css">
-        :root {
+        :root,
+        html.theme-light,
+        body.theme-light {
             --primary: <?php echo esc_attr( $primary ); ?>;
+            --primary-dark: <?php echo esc_attr( $secondary ); ?>;
             --secondary: <?php echo esc_attr( $secondary ); ?>;
             --primary-rgb: <?php echo esc_attr( "{$r_p}, {$g_p}, {$b_p}" ); ?>;
             --accent: <?php echo esc_attr( $accent ); ?>;
             --gradient: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%);
+            
+            --bg: #ffffff;
+            --bg2: #f8fafc;
+            --text: #0f172a;
+            --text2: #64748b;
+            --border: #e2e8f0;
+            --glass: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(226, 232, 240, 0.85);
+            --glass-blur: blur(16px);
             
             --header-bg: <?php echo esc_attr( $header_bg ); ?>;
             --header-text: <?php echo esc_attr( $header_text ); ?>;
@@ -380,18 +392,39 @@ function tokoku_customizer_css() {
             --card-bg: <?php echo esc_attr( $card_bg ); ?>;
             --card-text: <?php echo esc_attr( $card_text ); ?>;
             --price-color: <?php echo esc_attr( $price_color ); ?>;
+            
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+            --orange: #f59e0b;
         }
         
-        body.theme-dark {
+        :root.theme-dark,
+        html.theme-dark,
+        body.theme-dark,
+        .theme-dark {
             --bg: <?php echo esc_attr( $dark_bg ); ?>;
             --bg2: <?php echo esc_attr( $dark_bg2 ); ?>;
             --text: <?php echo esc_attr( $dark_text ); ?>;
+            --text2: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(15, 23, 42, 0.92);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(16px);
+            
             --header-bg: <?php echo esc_attr( $dark_bg ); ?>;
             --header-text: <?php echo esc_attr( $dark_text ); ?>;
             --footer-bg: <?php echo esc_attr( $dark_bg2 ); ?>;
-            --footer-text: <?php echo esc_attr( $dark_text ); ?>;
+            --footer-text: #94a3b8;
             --card-bg: <?php echo esc_attr( $dark_bg2 ); ?>;
             --card-text: <?php echo esc_attr( $dark_text ); ?>;
+            
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
+            --orange: #f59e0b;
         }
     </style>
     <?php

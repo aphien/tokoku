@@ -1,16 +1,16 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 /**
- * The main template file (Blog & Article Archive)
+ * The template for displaying general archives (Categories, Tags, Authors, Dates)
  *
  * @package TokoKu
  */
 
 get_header(); 
 
-global $wp_query;
-$blog_cats = get_categories( array( 'hide_empty' => false ) );
-$page_title = is_home() && ! is_front_page() ? single_post_title( '', false ) : __( 'Blog & Artikel Terbaru', 'tokoku' );
+$archive_title = get_the_archive_title();
+$archive_desc  = get_the_archive_description();
+$blog_cats     = get_categories( array( 'hide_empty' => false ) );
 ?>
 
 <main id="main-content" class="site-main blog-page">
@@ -20,7 +20,9 @@ $page_title = is_home() && ! is_front_page() ? single_post_title( '', false ) : 
         <nav class="archive-breadcrumbs" aria-label="Breadcrumb">
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Beranda</a>
             <span class="sep">/</span>
-            <span class="current">Blog & Artikel</span>
+            <a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/blog/' ) ); ?>">Blog</a>
+            <span class="sep">/</span>
+            <span class="current"><?php echo wp_strip_all_tags( $archive_title ); ?></span>
         </nav>
 
         <!-- Blog Hero Header -->
@@ -30,18 +32,20 @@ $page_title = is_home() && ! is_front_page() ? single_post_title( '', false ) : 
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
-                <span>Wawasan & Informasi Terkini</span>
+                <span>Arsip Blog</span>
             </div>
-            <h1 class="blog-hero-title"><?php echo esc_html( $page_title ); ?></h1>
-            <p class="blog-hero-desc">
-                Temukan tips desain plakat, panduan memilih souvenir & merchandise perusahaan, serta wawasan seputar dunia percetakan berkualitas.
-            </p>
+            <h1 class="blog-hero-title"><?php echo wp_strip_all_tags( $archive_title ); ?></h1>
+            <?php if ( $archive_desc ) : ?>
+                <div class="blog-hero-desc"><?php echo wp_kses_post( $archive_desc ); ?></div>
+            <?php else : ?>
+                <p class="blog-hero-desc">Menampilkan seluruh artikel dan pembahasan pada topik ini.</p>
+            <?php endif; ?>
         </header>
 
         <!-- Blog Category Pills Bar -->
         <?php if ( ! empty( $blog_cats ) && ! is_wp_error( $blog_cats ) ) : ?>
         <div class="blog-category-bar">
-            <a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/blog/' ) ); ?>" class="blog-category-pill <?php echo ( ! is_category() ) ? 'active' : ''; ?>">
+            <a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/blog/' ) ); ?>" class="blog-category-pill">
                 Semua Artikel
             </a>
             <?php foreach ( $blog_cats as $bcat ) : ?>
@@ -132,8 +136,8 @@ $page_title = is_home() && ! is_front_page() ? single_post_title( '', false ) : 
                 <div class="empty-icon">
                     <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                 </div>
-                <h3>Belum Ada Artikel</h3>
-                <p>Saat ini belum ada artikel atau tulisan yang dipublikasikan. Silakan periksa kembali nanti atau kunjungi katalog produk kami.</p>
+                <h3>Tidak Ada Artikel Ditemukan</h3>
+                <p>Belum ada artikel yang masuk ke dalam arsip ini. Silakan periksa kategori lain atau kembali ke beranda.</p>
                 <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-primary">
                     Kembali ke Beranda
                 </a>

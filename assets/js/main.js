@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
        ========================================================================== */
     
     // 🌓 Theme Toggle (Light/Dark Mode)
-    const modeToggle = document.getElementById('mode-toggle');
+    const modeToggles = document.querySelectorAll('.mode-toggle, #mode-toggle');
     const body = document.body;
     const html = document.documentElement;
     
@@ -32,15 +32,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const savedTheme = localStorage.getItem('tokoku-theme');
-    if (savedTheme) applyTheme(savedTheme);
-
-    if (modeToggle) {
-        modeToggle.addEventListener('click', () => {
-            const isDark = body.classList.contains('theme-dark');
-            applyTheme(isDark ? 'light' : 'dark');
-            localStorage.setItem('tokoku-theme', isDark ? 'light' : 'dark');
-        });
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else if (html.classList.contains('theme-dark')) {
+        applyTheme('dark');
     }
+
+    modeToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isDark = body.classList.contains('theme-dark') || html.classList.contains('theme-dark');
+            const nextTheme = isDark ? 'light' : 'dark';
+            applyTheme(nextTheme);
+            localStorage.setItem('tokoku-theme', nextTheme);
+        });
+    });
 
     // 🕒 Sticky Header
     const header = document.querySelector('.site-header');
@@ -141,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 📱 Mobile Menu Drawer
     const menuToggle = document.getElementById('menu-toggle');
+    const bottomMenuToggle = document.getElementById('bottom-menu-toggle');
     const menuDrawer = document.getElementById('mobile-menu-drawer');
     const menuOverlay = document.getElementById('mobile-menu-overlay');
     const menuClose = document.getElementById('mobile-menu-close');
@@ -149,19 +156,38 @@ document.addEventListener('DOMContentLoaded', function() {
         menuDrawer?.classList.remove('active');
         menuOverlay?.classList.remove('active');
         menuToggle?.classList.remove('active');
+        bottomMenuToggle?.classList.remove('active');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        bottomMenuToggle?.setAttribute('aria-expanded', 'false');
         body.classList.remove('menu-open');
     }
 
-    if (menuToggle && menuDrawer) {
-        menuToggle.addEventListener('click', () => {
-            menuDrawer.classList.add('active');
+    function toggleMenu(e) {
+        if (e) e.preventDefault();
+        if (menuDrawer?.classList.contains('active')) {
+            closeMenu();
+        } else {
+            menuDrawer?.classList.add('active');
             menuOverlay?.classList.add('active');
-            menuToggle.classList.add('active');
+            menuToggle?.classList.add('active');
+            bottomMenuToggle?.classList.add('active');
+            menuToggle?.setAttribute('aria-expanded', 'true');
+            bottomMenuToggle?.setAttribute('aria-expanded', 'true');
             body.classList.add('menu-open');
-        });
-        
+        }
+    }
+
+    if (menuDrawer) {
+        menuToggle?.addEventListener('click', toggleMenu);
+        bottomMenuToggle?.addEventListener('click', toggleMenu);
         menuClose?.addEventListener('click', closeMenu);
         menuOverlay?.addEventListener('click', closeMenu);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && menuDrawer.classList.contains('active')) {
+                closeMenu();
+            }
+        });
     }
 
     // 💬 Testimonials Slider
@@ -380,4 +406,54 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     updateThemeColor();
+
+    // 🔗 Modern Copy Link with Toast
+    let toastTimer = null;
+    function showToast(message) {
+        const toast = document.getElementById('tokoku-toast');
+        if (!toast) return;
+        const textEl = document.getElementById('tokoku-toast-text');
+        if (textEl && message) textEl.textContent = message;
+        
+        toast.classList.add('active');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toast.classList.remove('active');
+        }, 2500);
+    }
+
+    document.addEventListener('click', (e) => {
+        const copyBtn = e.target.closest('.copy-link-btn');
+        if (!copyBtn) return;
+        e.preventDefault();
+        
+        const urlToCopy = copyBtn.getAttribute('data-url') || window.location.href;
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(urlToCopy).then(() => {
+                showToast('Tautan berhasil disalin!');
+            }).catch(() => {
+                fallbackCopyText(urlToCopy);
+            });
+        } else {
+            fallbackCopyText(urlToCopy);
+        }
+    });
+
+    function fallbackCopyText(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        textArea.style.top = '0';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast('Tautan berhasil disalin!');
+        } catch (err) {
+            showToast('Gagal menyalin tautan');
+        }
+        document.body.removeChild(textArea);
+    }
 });

@@ -10,7 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="modal-title">Konfirmasi Pesanan</h3>
-            <button type="button" class="close-modal" aria-label="Tutup">&times;</button>
+            <button type="button" class="close-modal" aria-label="Tutup">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
         </div>
         
         <form id="wa-order-form" class="wa-form">
@@ -61,7 +66,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     width: 100%;
     max-width: 450px;
     border-radius: var(--radius);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
     padding: 30px;
     animation: modalIn 0.3s ease-out;
 }
@@ -83,12 +89,28 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     color: var(--text);
 }
 .close-modal {
-    background: none;
-    border: none;
-    font-size: 2rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     color: var(--text2);
-    line-height: 1;
+    transition: all 0.2s ease;
+}
+.close-modal:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fca5a5;
+    transform: rotate(90deg);
+}
+:is(.theme-dark, html.theme-dark, body.theme-dark) .close-modal:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.4);
 }
 
 /* Form Styles */

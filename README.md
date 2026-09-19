@@ -1,10 +1,21 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.2.6)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.0)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.2.6
+## ✨ Fitur Terbaru v2.3.0
+*   **Header Height & Proportional Enhancement**: Penyesuaian tinggi header desktop menjadi 82px (sticky: 70px) dan mobile menjadi 60px dengan ukuran logo yang lebih proporsional, lapang, dan berkelas.
+*   **Modern Admin Dashboard & Settings Redesign**: Tampilan halaman pengaturan TokoKu dirancang ulang secara menyeluruh dengan estetika modern SaaS (glassmorphism sticky header, live badge status, sidebar vertikal yang rapi, dan kontrol input berkelas dengan visual focus ring).
+*   **WordPress Dashboard TokoKu Widget**: Integrasi widget toko pintar langsung di Beranda Dashboard WordPress (`index.php`) yang menampilkan statistik langsung (Total Produk, Nomor WhatsApp Aktif, Kategori Produk, dan Artikel Blog) beserta tautan pintas pengaturan.
+*   **Mobile Bottom Navigation & Centered Live Search**: Menu mobile kini terletak di bagian bawah layar yang ramah jempol (ergonomis) lengkap dengan tombol WhatsApp cepat, serta kotak pencarian live di header mobile dengan animasi transisi mulus dan ikon close centering.
+*   **Dark & Light Mode Polish**: Perbaikan kontras dan konsistensi warna latar, border, dan teks di seluruh komponen tema saat berganti mode gelap/terang. Penghapusan outline kaku pada kotak input pencarian agar menyatu elegan dengan desain.
+*   **Product Catalog & Related Products Overhaul**: Desain kartu produk yang lebih tajam dan modern dengan label diskon & kategori berbentuk rounded-pill, pembatasan 2 baris judul (*line-clamp*), tombol WhatsApp satu-klik, serta grid produk terkait yang konsisten.
+*   **Full Blog System & Social Share SVG**: Redesain arsip dan artikel blog tunggal dengan tipografi modern, formulir komentar ("Leave a Reply") yang elegan, dan tombol "Bagikan Artikel" berikon SVG modern (WhatsApp, Facebook, Twitter/X, Telegram, Salin Tautan) dengan toast notification interaktif.
+
+---
+
+## ✨ Fitur v2.2.6
 *   **Header Layout & Spacing Refinement**: Memperbaiki bug spasi kosong (gap) di bawah menu/header pada halaman pencarian dan arsip produk dengan menggunakan layout sticky header yang dinamis, serta mengatur offset Admin Bar WordPress secara tepat di semua ukuran layar (desktop, tablet, mobile).
 *   **Dynamic View All Products Link**: Mengubah link "Lihat Semua Produk" pada pencarian AJAX desktop agar mengarah secara otomatis ke URL arsip produk (`/produk/`) sesuai dengan nama domain server yang aktif (lokal maupun production).
 

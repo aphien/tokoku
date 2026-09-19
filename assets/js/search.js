@@ -49,6 +49,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         });
 
+        desktopInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const keyword = this.value.trim();
+                if (keyword.length > 0) {
+                    window.location.href = `${tokokuSearch.homeUrl}?s=${encodeURIComponent(keyword)}&post_type=produk`;
+                }
+            }
+        });
+
         document.addEventListener('click', function(e) {
             if (e.target.closest('.search-clear')) {
                 desktopInput.value = '';
