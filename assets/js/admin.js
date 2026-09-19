@@ -224,8 +224,8 @@ jQuery(document).ready(function($) {
                                     '</div>' +
                                     '<p style="margin: 0 0 20px 0; color: #1e40af; font-size: 0.95rem;">Tingkatkan tema TokoKu Anda sekarang untuk menikmati fitur terbaru dan peningkatan performa.</p>' +
                                     '<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">' +
-                                        '<button type="button" id="tokoku-install-update" data-url="' + downloadUrl + '" class="button button-primary" style="height: 46px; padding: 0 28px; font-size: 14px; font-weight: 800; border-radius: 50px; background: linear-gradient(135deg, #007bff, #0056b3); border: none; box-shadow: 0 4px 14px rgba(0, 123, 255, 0.35); cursor: pointer;">' +
-                                            '<span class="dashicons dashicons-update-alt" style="vertical-align: middle; margin-right: 8px;"></span> Perbarui Otomatis ke v' + latestVersion +
+                                        '<button type="button" id="tokoku-install-update" data-url="' + downloadUrl + '" class="button button-primary tokoku-install-update-btn">' +
+                                            '<span class="dashicons dashicons-update-alt"></span><span class="tokoku-btn-text">Perbarui Otomatis ke v' + latestVersion + '</span>' +
                                         '</button>' +
                                         '<div id="tokoku-install-loader" style="display: none; align-items: center; gap: 10px; color: #007bff; font-weight: 700;">' +
                                             '<span class="spinner is-active" style="float: none; margin: 0;"></span> Memproses pengunduhan dan instalasi...' +
@@ -249,8 +249,8 @@ jQuery(document).ready(function($) {
                                 '</div>' +
                                 '<p style="margin: 0 0 15px 0; font-size: 0.92rem; color: #047857;">Tema Anda sudah menggunakan kode dan fitur termutakhir dari rilis resmi TokoKu.</p>' +
                                 '<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">' +
-                                    '<button type="button" id="tokoku-install-update" data-url="' + downloadUrl + '" class="button button-secondary" style="height: 38px; padding: 0 18px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;">' +
-                                        '<span class="dashicons dashicons-update"></span> Instal Ulang / Paksa Perbarui Versi Ini' +
+                                    '<button type="button" id="tokoku-install-update" data-url="' + downloadUrl + '" class="button button-secondary tokoku-reinstall-btn">' +
+                                        '<span class="dashicons dashicons-update"></span><span class="tokoku-btn-text">Instal Ulang / Paksa Perbarui Versi Ini</span>' +
                                     '</button>' +
                                     '<div id="tokoku-install-loader" style="display: none; align-items: center; gap: 10px; color: #007bff; font-weight: 700;">' +
                                         '<span class="spinner is-active" style="float: none; margin: 0;"></span> Memproses pengunduhan dan instalasi...' +

@@ -21,8 +21,8 @@ function tokoku_kategori_produk_add_form_fields() {
         <div class="tokoku-taxonomy-media-upload">
             <input type="hidden" id="tokoku_kategori_icon" name="tokoku_kategori_icon" value="">
             <div id="tokoku_kategori_icon_preview" style="margin-bottom:10px;"></div>
-            <button type="button" class="button tokoku-tax-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Unggah Ikon', 'tokoku' ); ?></button>
-            <button type="button" class="button tokoku-tax-remove-btn" style="display:none;"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+            <button type="button" class="button tokoku-tax-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Unggah Ikon', 'tokoku' ); ?></span></button>
+            <button type="button" class="button tokoku-tax-remove-btn" style="display:none;"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
         </div>
         <p class="description"><?php _e( 'Unggah gambar ikon untuk kategori ini. Rekomendasi ukuran 100x100 pixel.', 'tokoku' ); ?></p>
     </div>
@@ -49,8 +49,8 @@ function tokoku_kategori_produk_edit_form_fields( $term ) {
                         <img src="<?php echo esc_url( $icon_url ); ?>" style="max-width:100px; height:auto; border-radius:8px; border:1px solid #ddd;">
                     <?php endif; ?>
                 </div>
-                <button type="button" class="button tokoku-tax-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Unggah Ikon', 'tokoku' ); ?></button>
-                <button type="button" class="button tokoku-tax-remove-btn" style="<?php echo $icon_id ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                <button type="button" class="button tokoku-tax-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Unggah Ikon', 'tokoku' ); ?></span></button>
+                <button type="button" class="button tokoku-tax-remove-btn" style="<?php echo $icon_id ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
             </div>
             <p class="description"><?php _e( 'Unggah gambar ikon untuk kategori ini. Rekomendasi ukuran 100x100 pixel.', 'tokoku' ); ?></p>
         </td>

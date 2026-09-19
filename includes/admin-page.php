@@ -525,8 +525,8 @@ function tokoku_settings_page_html() {
                                 ?>
                                 <img src="<?php echo esc_url( $icon_url ); ?>" class="tokoku-preview-img" style="<?php echo $icon_url ? '' : 'display:none;'; ?>">
                                 <input type="hidden" name="site_icon" value="<?php echo esc_attr( $icon_id ); ?>">
-                                <button type="button" class="button tokoku-upload-btn-id"><span class="dashicons dashicons-upload"></span> <?php _e( 'Pilih Ikon', 'tokoku' ); ?></button>
-                                <button type="button" class="button tokoku-remove-btn" style="<?php echo $icon_url ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                                <button type="button" class="button tokoku-upload-btn-id"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Ikon', 'tokoku' ); ?></span></button>
+                                <button type="button" class="button tokoku-remove-btn" style="<?php echo $icon_url ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                             </div>
                             <p class="tokoku-tip"><?php _e( 'Rekomendasi: Gambar persegi, minimal 512x512 pixel. Ikon ini akan muncul di tab browser dan ikon aplikasi mobile.', 'tokoku' ); ?></p>
                         </div>
@@ -537,8 +537,8 @@ function tokoku_settings_page_html() {
                             <div class="tokoku-media-upload">
                                 <img src="<?php echo esc_url( get_theme_mod( 'tokoku_logo_light' ) ); ?>" class="tokoku-preview-img" style="<?php echo get_theme_mod( 'tokoku_logo_light' ) ? '' : 'display:none;'; ?>">
                                 <input type="hidden" name="tokoku_logo_light" value="<?php echo esc_attr( get_theme_mod( 'tokoku_logo_light' ) ); ?>">
-                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Pilih Gambar', 'tokoku' ); ?></button>
-                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_logo_light' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Gambar', 'tokoku' ); ?></span></button>
+                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_logo_light' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                             </div>
                             <p class="tokoku-tip"><?php _e( 'Kegunaan: Logo yang akan muncul saat website berada dalam Mode Terang (Light Mode).', 'tokoku' ); ?></p>
                         </div>
@@ -547,8 +547,8 @@ function tokoku_settings_page_html() {
                             <div class="tokoku-media-upload">
                                 <img src="<?php echo esc_url( get_theme_mod( 'tokoku_logo_dark' ) ); ?>" class="tokoku-preview-img" style="<?php echo get_theme_mod( 'tokoku_logo_dark' ) ? '' : 'display:none;'; ?>">
                                 <input type="hidden" name="tokoku_logo_dark" value="<?php echo esc_attr( get_theme_mod( 'tokoku_logo_dark' ) ); ?>">
-                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Pilih Gambar', 'tokoku' ); ?></button>
-                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_logo_dark' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Gambar', 'tokoku' ); ?></span></button>
+                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_logo_dark' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                             </div>
                             <p class="tokoku-tip"><?php _e( 'Kegunaan: Logo yang akan muncul saat website berada dalam Mode Gelap (Dark Mode). Pastikan menggunakan logo warna terang.', 'tokoku' ); ?></p>
                         </div>
@@ -709,7 +709,7 @@ function tokoku_settings_page_html() {
                         <div class="tokoku-settings-group">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                                 <h3 style="margin:0;"><?php _e( 'Ulasan Klien (Testimoni)', 'tokoku' ); ?></h3>
-                                <button type="button" class="tokoku-btn-add tokoku-add-testi"><span class="dashicons dashicons-plus-alt2"></span> <?php _e( 'Tambah Testimoni', 'tokoku' ); ?></button>
+                                <button type="button" class="tokoku-btn-add tokoku-add-testi"><span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Testimoni', 'tokoku' ); ?></span></button>
                             </div>
                             
                             <div class="tokoku-vtabs-container">
@@ -735,8 +735,8 @@ function tokoku_settings_page_html() {
                                                 <div class="tokoku-media-upload">
                                                     <img src="<?php echo esc_url( get_theme_mod( "tokoku_testi_img_{$i}" ) ); ?>" class="tokoku-preview-img" style="<?php echo get_theme_mod( "tokoku_testi_img_{$i}" ) ? '' : 'display:none;'; ?>">
                                                     <input type="hidden" name="tokoku_testi_img_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_testi_img_{$i}" ) ); ?>">
-                                                    <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Pilih Foto', 'tokoku' ); ?></button>
-                                                    <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( "tokoku_testi_img_{$i}" ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                                                    <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Foto', 'tokoku' ); ?></span></button>
+                                                    <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( "tokoku_testi_img_{$i}" ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                                                 </div>
                                             </div>
                                             <div class="tokoku-field">
@@ -768,7 +768,7 @@ function tokoku_settings_page_html() {
                         <div class="tokoku-settings-group">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                                 <h3 style="margin:0;"><?php _e( 'Logo Klien / Partner', 'tokoku' ); ?></h3>
-                                <button type="button" class="tokoku-btn-add tokoku-add-logo"><span class="dashicons dashicons-plus-alt2"></span> <?php _e( 'Tambah Logo', 'tokoku' ); ?></button>
+                                <button type="button" class="tokoku-btn-add tokoku-add-logo"><span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Logo', 'tokoku' ); ?></span></button>
                             </div>
                             
                             <div class="tokoku-vtabs-container">
@@ -794,8 +794,8 @@ function tokoku_settings_page_html() {
                                                 <div class="tokoku-media-upload">
                                                     <img src="<?php echo esc_url( get_theme_mod( "tokoku_client_logo_{$i}" ) ); ?>" class="tokoku-preview-img" style="max-height: 80px; <?php echo get_theme_mod( "tokoku_client_logo_{$i}" ) ? '' : 'display:none;'; ?>">
                                                     <input type="hidden" name="tokoku_client_logo_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_client_logo_{$i}" ) ); ?>">
-                                                    <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Pilih Logo', 'tokoku' ); ?></button>
-                                                    <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( "tokoku_client_logo_{$i}" ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                                                    <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Logo', 'tokoku' ); ?></span></button>
+                                                    <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( "tokoku_client_logo_{$i}" ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -811,7 +811,7 @@ function tokoku_settings_page_html() {
                     <div id="tab-slider" class="tokoku-tab-panel">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h2 style="margin:0;"><?php _e( 'Banner Slider', 'tokoku' ); ?></h2>
-                            <button type="button" class="tokoku-btn-add tokoku-add-slider"><span class="dashicons dashicons-plus-alt2"></span> <?php _e( 'Tambah Banner', 'tokoku' ); ?></button>
+                            <button type="button" class="tokoku-btn-add tokoku-add-slider"><span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Banner', 'tokoku' ); ?></span></button>
                         </div>
                         <p class="description" style="margin-bottom:20px;"><?php _e( 'Atur banner promosi utama yang tampil di halaman depan.', 'tokoku' ); ?></p>
                         
@@ -838,8 +838,8 @@ function tokoku_settings_page_html() {
                                             <div class="tokoku-media-upload">
                                                 <img src="<?php echo esc_url( get_theme_mod( "tokoku_slide_image_{$i}" ) ); ?>" class="tokoku-preview-img" style="<?php echo get_theme_mod( "tokoku_slide_image_{$i}" ) ? '' : 'display:none;'; ?>">
                                                 <input type="hidden" name="tokoku_slide_image_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_slide_image_{$i}" ) ); ?>">
-                                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Pilih Banner', 'tokoku' ); ?></button>
-                                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( "tokoku_slide_image_{$i}" ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Banner', 'tokoku' ); ?></span></button>
+                                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( "tokoku_slide_image_{$i}" ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                                             </div>
                                             <p class="tokoku-tip"><?php _e( 'Kegunaan: Menampilkan promo terbaru atau produk unggulan di halaman utama.', 'tokoku' ); ?></p>
                                         </div>
@@ -997,8 +997,8 @@ function tokoku_settings_page_html() {
                             <div class="tokoku-media-upload">
                                 <img src="<?php echo esc_url( get_theme_mod( 'tokoku_seo_og_image' ) ); ?>" class="tokoku-preview-img" style="<?php echo get_theme_mod( 'tokoku_seo_og_image' ) ? '' : 'display:none;'; ?>">
                                 <input type="hidden" name="tokoku_seo_og_image" value="<?php echo esc_attr( get_theme_mod( 'tokoku_seo_og_image' ) ); ?>">
-                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span> <?php _e( 'Pilih Gambar', 'tokoku' ); ?></button>
-                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_seo_og_image' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus', 'tokoku' ); ?></button>
+                                <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Gambar', 'tokoku' ); ?></span></button>
+                                <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_seo_og_image' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                             </div>
                             <p class="tokoku-tip"><?php _e( 'Kegunaan: Memberikan tampilan profesional saat link website dibagikan ke calon pembeli.', 'tokoku' ); ?></p>
                         </div>
@@ -1059,14 +1059,14 @@ function tokoku_settings_page_html() {
                                                 ?>
                                             </div>
                                         </div>
-                                        <button type="button" class="tokoku-remove-faq"><span class="dashicons dashicons-trash"></span> <?php _e( 'Hapus Item FAQ Ini', 'tokoku' ); ?></button>
+                                        <button type="button" class="tokoku-remove-faq"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus Item FAQ Ini', 'tokoku' ); ?></span></button>
                                     </div>
                                 </div>
                             <?php endfor; ?>
                         </div>
                         <div style="margin-top: 20px;">
                             <button type="button" id="tokoku-add-faq" class="tokoku-btn-add">
-                                <span class="dashicons dashicons-plus-alt2"></span> <?php _e( 'Tambah Pertanyaan', 'tokoku' ); ?>
+                                <span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Pertanyaan', 'tokoku' ); ?></span>
                             </button>
                         </div>
 
@@ -1094,8 +1094,8 @@ function tokoku_settings_page_html() {
                                 <!-- Status will be injected here -->
                             </div>
 
-                            <button type="button" id="tokoku-check-update" class="button button-primary tokoku-check-update-btn" style="height: 46px; padding: 0 28px; font-weight: 700; font-size: 14px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #007bff, #0056b3); border: none; box-shadow: 0 4px 14px rgba(0, 123, 255, 0.35); cursor: pointer;">
-                                <span class="dashicons dashicons-search"></span> <?php _e( 'Cek Pembaruan Sekarang', 'tokoku' ); ?>
+                            <button type="button" id="tokoku-check-update" class="button button-primary tokoku-check-update-btn">
+                                <span class="dashicons dashicons-search"></span><span class="tokoku-btn-text"><?php _e( 'Cek Pembaruan Sekarang', 'tokoku' ); ?></span>
                             </button>
                             
                             <div id="tokoku-update-loader" style="display: none; margin-top: 15px; align-items: center; gap: 10px; color: #007bff; font-weight: 600;">
@@ -1126,8 +1126,8 @@ function tokoku_settings_page_html() {
                                 <div style="flex: 1; min-width: 250px; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
                                     <h4 style="margin: 0 0 10px 0; display:flex; align-items:center; gap:8px;"><span class="dashicons dashicons-download" style="color:#007bff;"></span> <?php _e( 'Ekspor Pengaturan', 'tokoku' ); ?></h4>
                                     <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 16px;"><?php _e( 'Unduh file JSON yang berisi semua pengaturan tema Anda saat ini.', 'tokoku' ); ?></p>
-                                    <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=tokoku_export_settings' ), 'tokoku_export_action' ) ); ?>" class="button button-primary" style="display: inline-flex; align-items: center; gap: 6px;">
-                                        <span class="dashicons dashicons-download"></span> <?php _e( 'Ekspor File .JSON', 'tokoku' ); ?>
+                                    <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=tokoku_export_settings' ), 'tokoku_export_action' ) ); ?>" class="button button-primary">
+                                        <span class="dashicons dashicons-download"></span><span class="tokoku-btn-text"><?php _e( 'Ekspor File .JSON', 'tokoku' ); ?></span>
                                     </a>
                                 </div>
                                 
@@ -1138,7 +1138,7 @@ function tokoku_settings_page_html() {
                                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                                         <input type="file" name="tokoku_import_file" id="tokoku_import_file" accept=".json" style="max-width: 200px;">
                                         <button type="submit" name="tokoku_import_action" value="import_settings" class="button button-secondary" onclick="return confirm('Peringatan: Pengaturan tema Anda saat ini akan tertimpa. Lanjutkan?');">
-                                            <span class="dashicons dashicons-upload"></span> <?php _e( 'Mulai Impor', 'tokoku' ); ?>
+                                            <span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Mulai Impor', 'tokoku' ); ?></span>
                                         </button>
                                     </div>
                                 </div>
@@ -1153,13 +1153,13 @@ function tokoku_settings_page_html() {
                             
                             <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                                 <div style="flex: 1; min-width: 250px;">
-                                    <a href="<?php echo esc_url( admin_url( 'export.php' ) ); ?>" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
-                                        <span class="dashicons dashicons-media-archive"></span> <?php _e( 'Ekspor Seluruh Data (XML)', 'tokoku' ); ?>
+                                    <a href="<?php echo esc_url( admin_url( 'export.php' ) ); ?>" class="button button-secondary">
+                                        <span class="dashicons dashicons-media-archive"></span><span class="tokoku-btn-text"><?php _e( 'Ekspor Seluruh Data (XML)', 'tokoku' ); ?></span>
                                     </a>
                                 </div>
                                 <div style="flex: 1; min-width: 250px;">
-                                    <a href="<?php echo esc_url( admin_url( 'import.php' ) ); ?>" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
-                                        <span class="dashicons dashicons-database-import"></span> <?php _e( 'Alat Impor WordPress', 'tokoku' ); ?>
+                                    <a href="<?php echo esc_url( admin_url( 'import.php' ) ); ?>" class="button button-secondary">
+                                        <span class="dashicons dashicons-database-import"></span><span class="tokoku-btn-text"><?php _e( 'Alat Impor WordPress', 'tokoku' ); ?></span>
                                     </a>
                                 </div>
                             </div>

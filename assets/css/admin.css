@@ -587,62 +587,97 @@
     background: #ffffff;
 }
 
-.tokoku-remove-faq {
-    background: #fef2f2 !important;
-    border: 1px solid #fecaca !important;
-    color: #dc2626 !important;
-    border-radius: 8px !important;
-    padding: 7px 16px !important;
-    font-size: 12.5px !important;
-    font-weight: 700 !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    transition: all 0.2s ease !important;
-    margin-top: 12px;
-    text-decoration: none !important;
-}
-
-.tokoku-remove-faq:hover {
-    background: #dc2626 !important;
-    color: #ffffff !important;
-    border-color: #dc2626 !important;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(220, 38, 38, 0.25) !important;
-}
-
-/* 8. Global Buttons System in Admin Wrap */
-.tokoku-admin-wrap .button-primary,
-.tokoku-admin-wrap .button-secondary,
-.tokoku-admin-wrap .tokoku-upload-btn,
-.tokoku-admin-wrap .tokoku-upload-btn-id,
-.tokoku-admin-wrap .tokoku-remove-btn,
-.tokoku-admin-wrap .tokoku-btn-add,
-.tokoku-admin-wrap .tokoku-add-testi,
-.tokoku-admin-wrap .tokoku-add-logo,
-.tokoku-admin-wrap .tokoku-add-slider,
-.tokoku-admin-wrap #tokoku-add-faq {
-    border-radius: 10px !important;
-    padding: 9px 20px !important;
-    font-weight: 700 !important;
-    font-size: 13.5px !important;
-    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-    height: auto !important;
-    line-height: 1.4 !important;
+/* 8. Global Buttons System in Admin & Dashboard */
+.wp-core-ui .tokoku-admin-wrap .button,
+.wp-core-ui .tokoku-admin-wrap .button-primary,
+.wp-core-ui .tokoku-admin-wrap .button-secondary,
+.wp-core-ui .tokoku-admin-wrap button,
+.tokoku-dash-btn,
+.tokoku-tax-upload-btn,
+.tokoku-tax-remove-btn,
+#tokoku-add-gallery-btn,
+.tokoku-check-update-btn,
+.tokoku-install-update-btn,
+.tokoku-reinstall-btn {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important;
-    cursor: pointer !important;
-    user-select: none;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
 }
 
+/* Perfect Icon Alignment & Centering for all Admin Buttons */
+.wp-core-ui .tokoku-admin-wrap .button .dashicons,
+.wp-core-ui .tokoku-admin-wrap .button-primary .dashicons,
+.wp-core-ui .tokoku-admin-wrap .button-secondary .dashicons,
+.wp-core-ui .tokoku-admin-wrap button .dashicons,
+.tokoku-dash-btn .dashicons,
+.tokoku-tax-upload-btn .dashicons,
+.tokoku-tax-remove-btn .dashicons,
+#tokoku-add-gallery-btn .dashicons,
+.tokoku-check-update-btn .dashicons,
+.tokoku-install-update-btn .dashicons,
+.tokoku-reinstall-btn .dashicons,
+.tokoku-remove-faq .dashicons {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    top: 0 !important;
+    position: static !important;
+    flex-shrink: 0 !important;
+}
+
+.wp-core-ui .tokoku-admin-wrap .button .dashicons:before,
+.wp-core-ui .tokoku-admin-wrap .button-primary .dashicons:before,
+.wp-core-ui .tokoku-admin-wrap .button-secondary .dashicons:before,
+.wp-core-ui .tokoku-admin-wrap button .dashicons:before,
+.tokoku-dash-btn .dashicons:before,
+.tokoku-tax-upload-btn .dashicons:before,
+.tokoku-tax-remove-btn .dashicons:before,
+#tokoku-add-gallery-btn .dashicons:before,
+.tokoku-check-update-btn .dashicons:before,
+.tokoku-install-update-btn .dashicons:before,
+.tokoku-reinstall-btn .dashicons:before,
+.tokoku-remove-faq .dashicons:before {
+    display: block !important;
+    line-height: 1 !important;
+    width: auto !important;
+    height: auto !important;
+    font-size: inherit !important;
+    vertical-align: middle !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Button Text Label Alignment */
+.tokoku-btn-text {
+    display: inline-block !important;
+    line-height: 1.2 !important;
+    vertical-align: middle !important;
+    font-style: normal !important;
+}
+
+/* Save & Update Actions */
 .tokoku-admin-wrap .button-primary {
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
     border: none !important;
     color: #ffffff !important;
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25) !important;
+    border-radius: 10px !important;
+    padding: 9px 20px !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
 }
 
 .tokoku-admin-wrap .button-primary:hover {
@@ -656,6 +691,13 @@
     border: 1.5px solid #cbd5e1 !important;
     color: #334155 !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 10px !important;
+    padding: 9px 20px !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
 }
 
 .tokoku-admin-wrap .button-secondary:hover {
@@ -666,95 +708,64 @@
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1) !important;
 }
 
-/* Upload Buttons */
-.tokoku-upload-btn,
-.tokoku-upload-btn-id,
-.tokoku-tax-upload-btn {
-    background: #f8fafc !important;
-    border: 1.5px solid #cbd5e1 !important;
-    color: #1e293b !important;
-    border-radius: 10px !important;
-    padding: 8px 16px !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
-}
-
-.tokoku-upload-btn:hover,
-.tokoku-upload-btn-id:hover,
-.tokoku-tax-upload-btn:hover {
-    background: #eff6ff !important;
-    border-color: #007bff !important;
-    color: #007bff !important;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 123, 255, 0.15) !important;
-}
-
-/* Remove Buttons */
-.tokoku-remove-btn,
-.tokoku-tax-remove-btn {
-    background: #fef2f2 !important;
-    border: 1.5px solid #fecaca !important;
-    color: #dc2626 !important;
-    border-radius: 10px !important;
-    padding: 8px 16px !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    margin-left: 6px;
-}
-
-.tokoku-remove-btn:hover,
-.tokoku-tax-remove-btn:hover {
-    background: #dc2626 !important;
-    border-color: #dc2626 !important;
-    color: #ffffff !important;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(220, 38, 38, 0.25) !important;
-}
-
-/* Add Item Buttons */
-.tokoku-btn-add,
-.tokoku-add-testi,
-.tokoku-add-logo,
-.tokoku-add-slider,
-#tokoku-add-faq {
-    background: #eff6ff !important;
-    border: 1.5px solid #bfdbfe !important;
-    color: #007bff !important;
+/* Theme Updater Specific Buttons */
+.tokoku-check-update-btn,
+.tokoku-install-update-btn {
+    height: 44px !important;
+    padding: 0 26px !important;
+    font-weight: 800 !important;
+    font-size: 14px !important;
     border-radius: 50px !important;
-    padding: 8px 18px !important;
-    font-size: 13px !important;
-    box-shadow: 0 1px 3px rgba(0, 123, 255, 0.08) !important;
+    gap: 8px !important;
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(0, 123, 255, 0.35) !important;
+    cursor: pointer !important;
+    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
 }
 
-.tokoku-btn-add:hover,
-.tokoku-add-testi:hover,
-.tokoku-add-logo:hover,
-.tokoku-add-slider:hover,
-#tokoku-add-faq:hover {
-    background: #007bff !important;
-    border-color: #007bff !important;
-    color: #ffffff !important;
+.tokoku-check-update-btn .dashicons,
+.tokoku-install-update-btn .dashicons {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.tokoku-check-update-btn:hover,
+.tokoku-install-update-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3) !important;
+    box-shadow: 0 8px 22px rgba(0, 123, 255, 0.45) !important;
+    color: #ffffff !important;
 }
 
-.tokoku-btn-add:hover .dashicons,
-.tokoku-add-testi:hover .dashicons,
-.tokoku-add-logo:hover .dashicons,
-.tokoku-add-slider:hover .dashicons,
-#tokoku-add-faq:hover .dashicons {
-    color: #ffffff !important;
+.tokoku-reinstall-btn {
+    height: 38px !important;
+    padding: 0 18px !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    border-radius: 8px !important;
+    gap: 7px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    color: #334155 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.tokoku-reinstall-btn .dashicons {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.tokoku-reinstall-btn:hover {
+    border-color: #007bff !important;
+    color: #007bff !important;
+    background: #f8fafc !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1) !important;
 }
 
 .wp-picker-container {
@@ -855,15 +866,23 @@
 }
 
 .tokoku-dash-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.2s ease;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    line-height: 1.2 !important;
+}
+
+.tokoku-dash-btn .dashicons {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
 }
 
 .tokoku-dash-btn.primary {

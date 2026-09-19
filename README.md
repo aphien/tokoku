@@ -1,10 +1,24 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.2)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.3)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.2
+## ✨ Fitur Terbaru v2.3.3
+*   **Presisi Tata Letak & Alignment Semua Ikon Button Admin / Dasbor (Zero Drift & Optical Centering)**:
+    *   **Solusi Baseline Shift WP Core**: Mengatasi styling bawaan WordPress Core (`.wp-core-ui .button .dashicons`) yang memiliki `vertical-align: text-top;` sehingga ikon sering tampak miring atau tidak sejajar dengan sumbu tengah teks tombol.
+    *   **Pembersihan Rogue Whitespace DOM**: Mengeliminasi node spasi teks bebas antar-elemen dan membungkus seluruh label teks tombol ke dalam `<span class="tokoku-btn-text">`, menghasilkan kalkulasi `gap` flexbox yang simetris dan presisi di semua browser.
+    *   **Proporsi & Ukuran Ikon Harmonis**:
+        *   **Tombol Simpan / Update & Cek Pembaruan**: Ikon 18px bergaris tegas dengan gap 8px dan border radius pill premium.
+        *   **Tombol Tambah Unit & Upload Media**: Ikon 16px dengan gap 7px yang proporsional untuk pemilihan gambar, logo partner, slider banner, dan meta kategori produk.
+        *   **Tombol Hapus / Reset**: Ikon 15px dengan gap 6px dalam container soft-danger yang rapi.
+        *   **Tombol Widget Dasbor Beranda**: Ikon 16px sejajar vertikal dengan teks aksi cepat ("Tambah Produk Baru", "Pengaturan TokoKu", "Kunjungi Website").
+    *   **Reset Pseudo-Element `.dashicons:before`**: Mengatur `line-height: 1` dan `display: block` pada pseudo-elemen ikon Dashicons agar glyph berada tepat di tengah tanpa offset font descender.
+    *   **Harmonisasi Tombol Dinamis JavaScript**: Pembaruan tombol aksi pada Theme Updater (*One-Click Update* dan *Reinstall*) dengan struktur kelas yang bersih dan bebas inline-margin bertabrakan.
+
+---
+
+## ✨ Fitur v2.3.2
 *   **Overhaul Tampilan Semua Tombol Admin (Modern SaaS Button Design)**:
     *   **Tombol Simpan / Perbarui (`.tokoku-submit-update-btn`)**: Gradasi biru mewah dengan efek *hover lift*, *shadow glow*, dan status pemuatan dinamis.
     *   **Tombol Tambah Unit / Repeater (`.tokoku-btn-add`)**: Desain *pill* modern aksen biru lembut (`#eff6ff`) dengan border presisi dan ikon plus vektor pada penambahan Testimoni, Logo Partner, Banner Slider, dan Tanya Jawab (FAQ).

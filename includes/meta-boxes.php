@@ -226,16 +226,16 @@ function tokoku_produk_meta_box_callback( $post ) {
     <div class="tokoku-tabs-container">
         <div class="tokoku-tabs-nav">
             <div class="tokoku-tab-item active" data-tab="tab-harga">
-                <span class="dashicons dashicons-money-alt"></span> <?php _e( 'Harga Produk', 'tokoku' ); ?>
+                <span class="dashicons dashicons-money-alt"></span><span class="tokoku-btn-text"><?php _e( 'Harga Produk', 'tokoku' ); ?></span>
             </div>
             <div class="tokoku-tab-item" data-tab="tab-detail">
-                <span class="dashicons dashicons-admin-generic"></span> <?php _e( 'Detail', 'tokoku' ); ?>
+                <span class="dashicons dashicons-admin-generic"></span><span class="tokoku-btn-text"><?php _e( 'Detail', 'tokoku' ); ?></span>
             </div>
             <div class="tokoku-tab-item" data-tab="tab-galeri">
-                <span class="dashicons dashicons-images-alt2"></span> <?php _e( 'Galeri', 'tokoku' ); ?>
+                <span class="dashicons dashicons-images-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Galeri', 'tokoku' ); ?></span>
             </div>
             <div class="tokoku-tab-item" data-tab="tab-marketplace">
-                <span class="dashicons dashicons-cart"></span> <?php _e( 'Marketplace', 'tokoku' ); ?>
+                <span class="dashicons dashicons-cart"></span><span class="tokoku-btn-text"><?php _e( 'Marketplace', 'tokoku' ); ?></span>
             </div>
         </div>
 
@@ -389,7 +389,7 @@ function tokoku_produk_meta_box_callback( $post ) {
                         ?>
                     </div>
                     <input type="hidden" id="tokoku_gallery_ids" name="_produk_gallery" value="<?php echo esc_attr( $gallery_ids ); ?>">
-                    <button type="button" id="tokoku-add-gallery-btn" class="button"><span class="dashicons dashicons-plus-alt2"></span> <?php _e( 'Tambah Foto Galeri', 'tokoku' ); ?></button>
+                    <button type="button" id="tokoku-add-gallery-btn" class="button"><span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Foto Galeri', 'tokoku' ); ?></span></button>
                 </div>
                 <div class="tokoku-meta-field">
                     <label for="tokoku_video"><?php _e( 'Link Video', 'tokoku' ); ?></label>
