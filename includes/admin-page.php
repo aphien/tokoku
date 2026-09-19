@@ -330,45 +330,43 @@ function tokoku_ajax_handle_update() {
     check_ajax_referer( 'tokoku_update_nonce', 'nonce' );
 
     if ( ! current_user_can( 'manage_options' ) ) {
-        wp_send_json_error( 'Akses ditolak. Hanya administrator yang dapat memperbarui tema.' );
+        wp_send_json_error( 'Permission denied' );
     }
 
-    $download_url = isset( $_POST['download_url'] ) ? esc_url_raw( trim( $_POST['download_url'] ) ) : '';
+    $download_url = isset( $_POST['download_url'] ) ? esc_url_raw( $_POST['download_url'] ) : '';
     if ( empty( $download_url ) ) {
-        wp_send_json_error( 'URL unduhan tidak ditemukan. Coba klik "Cek Pembaruan" terlebih dahulu.' );
+        wp_send_json_error( 'Missing download URL' );
     }
 
-    // 🛡️ Security: Only allow downloads from GitHub
+    // 🛡️ Security Check: Ensure URL is from authorized GitHub repo
     $allowed_hosts = array( 'codeload.github.com', 'api.github.com', 'objects.githubusercontent.com', 'github.com', 'raw.githubusercontent.com' );
-    $url_host = parse_url( $download_url, PHP_URL_HOST );
-    $is_allowed_host = in_array( $url_host, $allowed_hosts, true );
+    $is_allowed_host = false;
+    foreach ( $allowed_hosts as $host ) {
+        if ( strpos( $download_url, $host ) !== false ) {
+            $is_allowed_host = true;
+            break;
+        }
+    }
+
     $allowed_path = 'aphien/tokoku';
-
     if ( ! $is_allowed_host || strpos( $download_url, $allowed_path ) === false ) {
-        wp_send_json_error( 'Sumber pembaruan tidak diizinkan. Hanya repositori resmi aphien/tokoku yang diperbolehkan.' );
+        wp_send_json_error( 'Unauthorized update source' );
     }
 
-    // Load WordPress file/upgrade APIs
-    require_once ABSPATH . 'wp-admin/includes/file.php';
-    require_once ABSPATH . 'wp-admin/includes/misc.php';
-    require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    require_once( ABSPATH . 'wp-admin/includes/misc.php' );
+    require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
-    // Force 'direct' filesystem method to avoid FTP prompts on local/shared servers
+    // Force direct filesystem to bypass FTP credential prompt on local/shared servers
     add_filter( 'filesystem_method', function() { return 'direct'; } );
-
-    if ( ! WP_Filesystem() ) {
-        wp_send_json_error( 'Gagal menginisialisasi sistem file WordPress. Pastikan direktori tema dapat ditulis (writable).' );
-    }
-
+    WP_Filesystem();
     global $wp_filesystem;
 
-    // Step 1: Download ZIP
     $temp_file = download_url( $download_url, 300 );
     if ( is_wp_error( $temp_file ) ) {
-        wp_send_json_error( 'Gagal mengunduh file: ' . $temp_file->get_error_message() . ' | URL: ' . esc_url( $download_url ) );
+        wp_send_json_error( $temp_file->get_error_message() );
     }
 
-    // Step 2: Prepare temp extraction directory
     $upgrade_dir = WP_CONTENT_DIR . '/upgrade';
     if ( ! is_dir( $upgrade_dir ) ) {
         wp_mkdir_p( $upgrade_dir );
@@ -377,16 +375,15 @@ function tokoku_ajax_handle_update() {
     $unzip_dir = $upgrade_dir . '/tokoku_temp_' . time();
     wp_mkdir_p( $unzip_dir );
 
-    // Step 3: Unzip
     $unzipped = unzip_file( $temp_file, $unzip_dir );
-    @unlink( $temp_file ); // Clean up temp download
+    @unlink( $temp_file );
 
     if ( is_wp_error( $unzipped ) ) {
         $wp_filesystem->delete( $unzip_dir, true );
-        wp_send_json_error( 'Gagal mengekstrak ZIP: ' . $unzipped->get_error_message() );
+        wp_send_json_error( $unzipped->get_error_message() );
     }
 
-    // Step 4: Find inner folder (GitHub ZIPs wrap content in a subfolder)
+    // Find the inner folder (GitHub ZIPs wrap content in subfolder)
     $files = $wp_filesystem->dirlist( $unzip_dir );
     $inner_folder = '';
     if ( $files ) {
@@ -400,35 +397,29 @@ function tokoku_ajax_handle_update() {
 
     if ( empty( $inner_folder ) ) {
         $wp_filesystem->delete( $unzip_dir, true );
-        wp_send_json_error( 'Struktur ZIP tidak valid — folder tema tidak ditemukan di dalam arsip.' );
+        wp_send_json_error( 'Could not find theme folder in ZIP' );
     }
 
     $source      = trailingslashit( $unzip_dir ) . $inner_folder;
     $destination = get_template_directory();
 
-    // Step 5: Check destination is writable
-    if ( ! $wp_filesystem->is_writable( $destination ) ) {
-        $wp_filesystem->delete( $unzip_dir, true );
-        wp_send_json_error( 'Direktori tema tidak dapat ditulis: ' . esc_html( $destination ) . '. Periksa permission folder (chmod 755).' );
-    }
-
-    // Step 6: Copy extracted files to theme directory
+    // Copy files
     $copy_result = copy_dir( $source, $destination );
 
-    // Clean up extraction temp dir
+    // Clean up temp dir
     $wp_filesystem->delete( $unzip_dir, true );
 
     if ( is_wp_error( $copy_result ) ) {
-        wp_send_json_error( 'Gagal menyalin file tema: ' . $copy_result->get_error_message() );
+        wp_send_json_error( $copy_result->get_error_message() );
     }
 
-    // Step 7: Flush opcache & theme mods cache so new version is active immediately
+    // Flush opcache so new PHP files (including version constant) are loaded immediately
     if ( function_exists( 'opcache_reset' ) ) {
         opcache_reset();
     }
     wp_clean_themes_cache();
 
-    wp_send_json_success( 'Tema TokoKu berhasil diperbarui ke versi terbaru. Halaman akan dimuat ulang.' );
+    wp_send_json_success( 'Theme updated successfully' );
 }
 add_action( 'wp_ajax_tokoku_handle_update', 'tokoku_ajax_handle_update' );
 

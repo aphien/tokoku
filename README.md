@@ -1,10 +1,21 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.4)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.5)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.4
+## ✨ Fitur Terbaru v2.3.5
+*   **Perbaikan Sistem Pembaruan Tema (Theme Updater Fix)**:
+    *   **Filesystem Direct Method**: Menambahkan `add_filter('filesystem_method', 'direct')` sebelum `WP_Filesystem()` agar proses update tidak meminta kredensial FTP — bekerja langsung di server lokal maupun shared hosting.
+    *   **Flush Opcache Pasca-Update**: Setelah file tema berhasil disalin, `opcache_reset()` dan `wp_clean_themes_cache()` dipanggil otomatis sehingga versi baru langsung terbaca tanpa perlu restart server.
+    *   **Perbaikan GitHub API Checker**: Tambahkan `Accept: application/vnd.github.v3+json` header dan cache-busting `?_=timestamp` agar GitHub API selalu mengembalikan data terkini, tidak menggunakan cache 304.
+    *   **Fallback Tag API yang Benar**: Fallback ke `/tags?per_page=1` menggunakan `zipball_url` langsung dari objek tag (bukan dibuat manual), memastikan URL unduhan selalu valid.
+    *   **Validasi Versi Kosong**: Jika tag GitHub tidak mengandung angka versi (format bukan `vX.Y.Z`), muncul pesan error spesifik beserta panduan perbaikan.
+    *   **Link Unduh Manual di Error**: Jika cek pembaruan gagal total, ditampilkan link langsung ke [GitHub Releases](https://github.com/aphien/tokoku/releases) untuk unduh manual.
+
+---
+
+## ✨ Fitur v2.3.4
 *   **Mobile-First Button System — Responsif Semua Device**:
     *   **Touch Accessibility Global**: Seluruh tombol interaktif (`.btn-view-all`, `.btn-whatsapp-order`, `.btn-submit-comment`, `.btn-contact-us`, `.btn-marketplace`, `.slider-btn`, dll.) kini memiliki `-webkit-tap-highlight-color: transparent`, `touch-action: manipulation`, dan `user-select: none` untuk pengalaman sentuh yang presisi di semua perangkat.
     *   **Ukuran Sentuh Optimal (Min-Height 44–52px)**: Semua tombol utama memenuhi standar aksesibilitas WCAG 2.5.5 dengan `min-height` minimal 44px pada layar ≤600px. Tombol pesan utama (`.btn-contact-us`) memiliki `min-height: 52px` untuk kemudahan penekanan.
