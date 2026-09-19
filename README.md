@@ -1,10 +1,22 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.3)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.4)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.3
+## ✨ Fitur Terbaru v2.3.4
+*   **Mobile-First Button System — Responsif Semua Device**:
+    *   **Touch Accessibility Global**: Seluruh tombol interaktif (`.btn-view-all`, `.btn-whatsapp-order`, `.btn-submit-comment`, `.btn-contact-us`, `.btn-marketplace`, `.slider-btn`, dll.) kini memiliki `-webkit-tap-highlight-color: transparent`, `touch-action: manipulation`, dan `user-select: none` untuk pengalaman sentuh yang presisi di semua perangkat.
+    *   **Ukuran Sentuh Optimal (Min-Height 44–52px)**: Semua tombol utama memenuhi standar aksesibilitas WCAG 2.5.5 dengan `min-height` minimal 44px pada layar ≤600px. Tombol pesan utama (`.btn-contact-us`) memiliki `min-height: 52px` untuk kemudahan penekanan.
+    *   **Tipografi Fluid dengan `clamp()`**: Font-size tombol menggunakan `clamp()` untuk skala otomatis yang halus di semua resolusi — tidak terlalu kecil di 320px, tidak terlalu besar di 600px.
+    *   **Safe Area Bottom Nav**: `.bottom-nav` kini mendukung `env(safe-area-inset-bottom)` untuk iPhone dengan notch/Dynamic Island, mencegah tombol tertutup gesture bar sistem.
+    *   **Breakpoint ≤400px (Ultra-Small)**: Tombol marketplace beralih ke layout satu kolom; padding & font-size dikompreskan lebih lanjut tanpa kehilangan keterbacaan.
+    *   **`@media (hover: none) and (pointer: coarse)`**: Efek `:hover` transform dihapus khusus pada perangkat sentuh (menghindari "sticky hover state"), digantikan oleh `:active` scale feedback yang responsif.
+    *   **Landscape Mobile**: Pada orientasi lanskap dengan tinggi ≤500px, tinggi tombol dikurangi proporsional dan bottom nav disembunyikan untuk memaksimalkan ruang konten.
+
+---
+
+## ✨ Fitur v2.3.3
 *   **Presisi Tata Letak & Alignment Semua Ikon Button Admin / Dasbor (Zero Drift & Optical Centering)**:
     *   **Solusi Baseline Shift WP Core**: Mengatasi styling bawaan WordPress Core (`.wp-core-ui .button .dashicons`) yang memiliki `vertical-align: text-top;` sehingga ikon sering tampak miring atau tidak sejajar dengan sumbu tengah teks tombol.
     *   **Pembersihan Rogue Whitespace DOM**: Mengeliminasi node spasi teks bebas antar-elemen dan membungkus seluruh label teks tombol ke dalam `<span class="tokoku-btn-text">`, menghasilkan kalkulasi `gap` flexbox yang simetris dan presisi di semua browser.

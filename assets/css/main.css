@@ -5968,3 +5968,299 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         line-height: 1.75;
     }
 }
+
+/* ==========================================================================
+   MOBILE-FIRST BUTTON SYSTEM
+   Touch-friendly, responsive, safe-area aware
+   ========================================================================== */
+
+/* --- Global Touch Accessibility --- */
+.btn-view-all,
+.btn-whatsapp-order,
+.btn-submit-comment,
+.btn-primary,
+.btn-wa-header,
+.btn-contact-us,
+.btn-marketplace,
+.menu-toggle,
+.slider-btn,
+.article-slider-btn,
+.mode-toggle,
+.related-view-all,
+.share-btn,
+.product-share a,
+.blog-share-btn,
+.comment-reply-link,
+.btn-filter-pill {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* --- Bottom Nav Safe Area (for iPhones with notch) --- */
+.bottom-nav {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ==========================================================================
+   SMALL SCREENS (≤ 600px) — Touch-Optimized Button Sizes
+   ========================================================================== */
+@media (max-width: 600px) {
+
+    /* View All Button - full width on small screens */
+    .btn-view-all {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+        padding: 13px 24px;
+        font-size: clamp(0.85rem, 3.5vw, 0.95rem);
+        border-radius: 14px;
+    }
+
+    /* WhatsApp Order in product card */
+    .btn-whatsapp-order {
+        min-height: 44px;
+        padding: 10px 14px;
+        font-size: clamp(0.78rem, 3vw, 0.88rem);
+        border-radius: 10px;
+        gap: 6px;
+    }
+
+    .btn-whatsapp-order svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    /* Submit Comment Button */
+    .btn-submit-comment {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+        padding: 13px 28px;
+        font-size: clamp(0.88rem, 3.5vw, 0.95rem);
+        border-radius: 14px;
+    }
+
+    /* Single Product - Contact & Marketplace */
+    .single-product .btn-contact-us {
+        min-height: 52px;
+        font-size: clamp(0.88rem, 3.5vw, 0.95rem) !important;
+        border-radius: 14px !important;
+        padding: 14px 18px !important;
+    }
+
+    .single-product .btn-marketplace {
+        min-height: 44px;
+        font-size: clamp(0.7rem, 2.8vw, 0.78rem) !important;
+        padding: 10px 8px !important;
+        border-radius: 12px !important;
+    }
+
+    /* Slider Navigation Buttons */
+    .slider-btn {
+        min-width: 40px;
+        min-height: 40px;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+    }
+
+    .article-slider-btn {
+        min-width: 36px;
+        min-height: 36px;
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Related Products View All */
+    .related-view-all {
+        min-height: 38px;
+        font-size: clamp(0.72rem, 2.8vw, 0.8rem);
+        padding: 8px 16px;
+        border-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Share & Social Buttons */
+    .share-btn,
+    .product-share a,
+    .blog-share-btn {
+        min-width: 40px;
+        min-height: 40px;
+        border-radius: 10px;
+    }
+
+    /* Comment Reply Link */
+    .comment-reply-link {
+        min-height: 36px;
+        font-size: clamp(0.72rem, 2.8vw, 0.8rem);
+        padding: 6px 14px;
+        border-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* ==========================================================================
+   EXTRA SMALL SCREENS (≤ 400px) — Compact adjustments
+   ========================================================================== */
+@media (max-width: 400px) {
+
+    .btn-view-all {
+        padding: 12px 20px;
+        font-size: 0.83rem;
+    }
+
+    .btn-whatsapp-order {
+        font-size: 0.76rem;
+        padding: 9px 10px;
+        gap: 5px;
+    }
+
+    .btn-whatsapp-order svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .btn-submit-comment {
+        padding: 12px 20px;
+        font-size: 0.85rem;
+    }
+
+    .single-product .btn-contact-us {
+        min-height: 48px;
+        font-size: 0.85rem !important;
+    }
+
+    .single-product .btn-marketplace {
+        font-size: 0.68rem !important;
+        padding: 8px 6px !important;
+    }
+
+    /* Make marketplace buttons single column on 400px or below */
+    .single-product .marketplace-buttons {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .slider-btn {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+/* ==========================================================================
+   TOUCH DEVICES — Remove hover transform effects (prevents sticky states)
+   ========================================================================== */
+@media (hover: none) and (pointer: coarse) {
+
+    .btn-view-all:hover,
+    .btn-primary:hover,
+    .btn-submit-comment:hover {
+        transform: none;
+        box-shadow: inherit;
+    }
+
+    .btn-whatsapp-order:hover {
+        transform: none;
+        color: #ffffff;
+        background: var(--gradient, linear-gradient(135deg, var(--primary), var(--primary-dark)));
+        box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.22);
+    }
+
+    .btn-view-all:active {
+        transform: scale(0.97);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+    }
+
+    .btn-whatsapp-order:active {
+        transform: scale(0.96);
+        opacity: 0.88;
+    }
+
+    .btn-submit-comment:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+    }
+
+    .single-product .btn-contact-us:active {
+        transform: scale(0.97);
+        opacity: 0.88;
+    }
+
+    .slider-btn:hover {
+        transform: none;
+    }
+
+    .slider-btn:active {
+        transform: scale(0.93);
+    }
+
+    .menu-toggle:hover {
+        transform: none;
+    }
+
+    .menu-toggle:active {
+        transform: scale(0.92);
+    }
+
+    .related-view-all:hover {
+        transform: none;
+    }
+
+    .related-view-all:active {
+        transform: scale(0.96);
+    }
+
+    .share-btn:hover,
+    .blog-share-btn:hover {
+        transform: none;
+    }
+
+    .share-btn:active,
+    .blog-share-btn:active {
+        transform: scale(0.94);
+    }
+
+    /* Disable card lift on touch */
+    .product-card:hover,
+    .blog-card:hover {
+        transform: none;
+        box-shadow: var(--shadow);
+    }
+
+    .product-card:active,
+    .blog-card:active {
+        transform: scale(0.99);
+    }
+}
+
+/* ==========================================================================
+   LANDSCAPE MOBILE (max-height: 500px, orientation: landscape)
+   ========================================================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+
+    /* Reduce button heights slightly in landscape */
+    .btn-view-all,
+    .btn-submit-comment {
+        min-height: 42px;
+        padding: 10px 24px;
+    }
+
+    .btn-whatsapp-order {
+        min-height: 38px;
+        padding: 8px 12px;
+    }
+
+    .single-product .btn-contact-us {
+        min-height: 44px !important;
+    }
+
+    /* Hide bottom nav in landscape to give more content space */
+    .bottom-nav {
+        display: none !important;
+    }
+}
