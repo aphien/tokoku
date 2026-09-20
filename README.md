@@ -1,10 +1,21 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.6)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.7)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.6
+## ✨ Fitur Terbaru v2.3.7
+*   **Optimalisasi SEO Menyeluruh (Comprehensive SEO Overhaul)**:
+    *   **Canonical URL Otomatis**: Menambahkan tag `<link rel="canonical">` yang cerdas dan akurat untuk seluruh tipe halaman (beranda, produk tunggal, arsip katalog, taksonomi kategori/tag, artikel blog, arsip tanggal/penulis, hingga halaman paginasi). Mengeliminasi risiko duplikat konten dan menghapus hook standar WP yang berpotensi menghasilkan tag ganda.
+    *   **Breadcrumb Schema Markup (JSON-LD)**: Implementasi struktur data Schema.org `BreadcrumbList` bersarang di `<head>` untuk seluruh halaman produk, blog, kategori, dan arsip sehingga Google menampilkan breadcrumb rich snippet di hasil pencarian.
+    *   **Robots Meta Tag Dinamis**: Mengatur crawling search engine secara presisi (`index, follow, max-image-preview:large`), otomatis menerapkan `noindex, follow` pada halaman pencarian dan 404, serta sinkron dengan opsi visibilitas WordPress.
+    *   **Product Schema Price Guard**: Memperbaiki schema produk agar tidak lagi mengeluarkan `price: 0` jika produk tidak memiliki harga tetap/custom quote, mencegah peringatan "Offer price must be greater than 0" di Google Search Console.
+    *   **Teks Alt Banner Slider & Logo Mitra**: Menambahkan input kustom "Teks Alt Banner (SEO)" di Panel Pengaturan TokoKu dan WordPress Customizer, serta menyematkan fallback deskriptif berbasis nama situs untuk banner dan logo partner.
+    *   **Penyempurnaan Breadcrumb Visual Produk**: Melengkapi navigasi breadcrumb di halaman produk dengan judul aktif (`.current`) dan dukungan teks panjang responsif (`flex-wrap`).
+
+---
+
+## ✨ Fitur v2.3.6
 *   **Nonaktifkan Tombol Enter pada Kotak Pencarian Produk**:
     *   **Desktop Search**: Tombol Enter tidak lagi me-redirect ke halaman pencarian (`/s=keyword`). Pengguna tetap di halaman yang sama dan hanya melihat hasil AJAX real-time.
     *   **Mobile Modal Search**: Tombol Enter di keyboard mobile juga diblokir agar tidak men-submit form secara tidak sengaja.

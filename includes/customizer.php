@@ -217,6 +217,17 @@ function tokoku_customize_register( $wp_customize ) {
             'section' => 'tokoku_slider',
             'type'    => 'url',
         ) );
+
+        // Slider Alt Text (SEO)
+        $wp_customize->add_setting( "tokoku_slide_alt_{$i}", array(
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ) );
+        $wp_customize->add_control( "tokoku_slide_alt_{$i}", array(
+            'label'   => sprintf( __( 'Teks Alt Slide %d (SEO)', 'tokoku' ), $i ),
+            'section' => 'tokoku_slider',
+            'type'    => 'text',
+        ) );
     }
 
     // ═══ Section: Social Media ═══

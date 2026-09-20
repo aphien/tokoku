@@ -49,13 +49,14 @@ get_header(); ?>
                 </div>
 
                 <div class="product-info">
-                    <nav class="breadcrumb">
+                    <nav class="breadcrumb" aria-label="Breadcrumb">
                         <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Beranda</a>
                         <?php
                         $terms = get_the_terms( get_the_ID(), 'kategori_produk' );
-                        if ( ! empty( $terms ) ) {
+                        if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
                             echo ' &raquo; <a href="' . esc_url( get_term_link( $terms[0] ) ) . '">' . esc_html( $terms[0]->name ) . '</a>';
                         }
+                        echo ' &raquo; <span class="current" aria-current="page">' . esc_html( get_the_title() ) . '</span>';
                         ?>
                     </nav>
 
@@ -399,9 +400,10 @@ get_header(); ?>
 .gallery-thumbs .thumb:hover { border-color: var(--primary); }
 .gallery-thumbs img { width: 80px; height: 80px; object-fit: cover; display: block; }
 
-.breadcrumb { font-size: 0.85rem; color: var(--text2); margin-bottom: 25px; display: flex; align-items: center; gap: 8px; }
+.breadcrumb { font-size: 0.85rem; color: var(--text2); margin-bottom: 25px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .breadcrumb a { color: var(--text2); text-decoration: none; transition: var(--ease); }
 .breadcrumb a:hover { color: var(--primary); }
+.breadcrumb .current { color: var(--text); font-weight: 600; }
 
 .product-title { font-size: 2.2rem; font-weight: 800; color: var(--text); margin-bottom: 20px; line-height: 1.2; letter-spacing: -0.5px; }
 

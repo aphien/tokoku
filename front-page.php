@@ -22,12 +22,16 @@ get_header(); ?>
                 for ( $i = 1; $i <= 10; $i++ ) {
                     $img  = get_theme_mod( "tokoku_slide_image_{$i}" );
                     $link = get_theme_mod( "tokoku_slide_link_{$i}" );
+                    $alt  = get_theme_mod( "tokoku_slide_alt_{$i}" );
                     
                     if ( $img ) {
                         $has_slides = true;
+                        if ( empty( $alt ) ) {
+                            $alt = sprintf( __( 'Banner Promosi %s - Slide %d', 'tokoku' ), get_bloginfo( 'name' ), $i );
+                        }
                         echo '<div class="slide">';
                         if ( $link ) echo '<a href="' . esc_url( $link ) . '">';
-                        echo '<img src="' . esc_url( $img ) . '" alt="Banner ' . $i . '">';
+                        echo '<img src="' . esc_url( $img ) . '" alt="' . esc_attr( $alt ) . '">';
                         if ( $link ) echo '</a>';
                         echo '</div>';
                     }
@@ -164,12 +168,14 @@ get_header(); ?>
             <div class="logo-carousel-wrapper">
                 <div class="logo-track">
                     <?php
+                    $site_name   = esc_attr( get_bloginfo( 'name' ) );
                     $logos_found = false;
                     for ( $i = 1; $i <= 50; $i++ ) {
                         $logo = get_theme_mod( "tokoku_client_logo_{$i}" );
                         if ( $logo ) {
                             $logos_found = true;
-                            echo '<div class="logo-slide"><img src="' . esc_url( $logo ) . '" alt="Client Logo ' . $i . '"></div>';
+                            $logo_alt    = sprintf( esc_attr__( 'Klien & Mitra %s - Logo %d', 'tokoku' ), $site_name, $i );
+                            echo '<div class="logo-slide"><img src="' . esc_url( $logo ) . '" alt="' . $logo_alt . '"></div>';
                         }
                     }
                     
@@ -178,7 +184,8 @@ get_header(); ?>
                         for ( $i = 1; $i <= 50; $i++ ) {
                             $logo = get_theme_mod( "tokoku_client_logo_{$i}" );
                             if ( $logo ) {
-                                echo '<div class="logo-slide"><img src="' . esc_url( $logo ) . '" alt="Client Logo ' . $i . '"></div>';
+                                $logo_alt = sprintf( esc_attr__( 'Klien & Mitra %s - Logo %d', 'tokoku' ), $site_name, $i );
+                                echo '<div class="logo-slide"><img src="' . esc_url( $logo ) . '" alt="' . $logo_alt . '"></div>';
                             }
                         }
                     } else {

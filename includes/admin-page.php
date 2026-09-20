@@ -207,6 +207,7 @@ function tokoku_save_admin_settings() {
     for ( $i = 1; $i <= 10; $i++ ) {
         $settings_schema["tokoku_slide_image_{$i}"] = 'esc_url_raw';
         $settings_schema["tokoku_slide_link_{$i}"]  = 'esc_url_raw';
+        $settings_schema["tokoku_slide_alt_{$i}"]   = 'sanitize_text_field';
     }
 
     // Social Media
@@ -854,6 +855,11 @@ function tokoku_settings_page_html() {
                                         <div class="tokoku-field">
                                             <label><?php _e( 'Link Tautan', 'tokoku' ); ?></label>
                                             <input type="url" name="tokoku_slide_link_<?php echo $i; ?>" value="<?php echo esc_url( get_theme_mod( "tokoku_slide_link_{$i}" ) ); ?>" placeholder="https://...">
+                                        </div>
+                                        <div class="tokoku-field">
+                                            <label><?php _e( 'Teks Alt Banner (SEO)', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_slide_alt_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_slide_alt_{$i}" ) ); ?>" placeholder="<?php esc_attr_e( 'Contoh: Promo Diskon Plakat Akrilik Custom', 'tokoku' ); ?>">
+                                            <p class="tokoku-tip"><?php _e( 'Membantu Google memahami konten gambar banner agar terindeks lebih optimal di hasil pencarian gambar.', 'tokoku' ); ?></p>
                                         </div>
                                     </div>
                                 <?php endfor; ?>
