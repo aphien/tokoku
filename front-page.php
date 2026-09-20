@@ -82,9 +82,9 @@ get_header(); ?>
                     <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="category-item">
                         <div class="category-icon">
                             <?php if ( $icon_url ) : ?>
-                                <img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $cat->name ); ?>" style="width: 72px; height: 72px; object-fit: contain;">
+                                <img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $cat->name ); ?>" class="category-icon-img">
                             <?php else : ?>
-                                <span class="dashicons dashicons-archive" style="font-size: 48px; width: 48px; height: 48px;"></span>
+                                <span class="dashicons dashicons-archive"></span>
                             <?php endif; ?>
                         </div>
                         <span class="category-name"><?php echo esc_html( $cat->name ); ?></span>

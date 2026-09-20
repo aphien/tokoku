@@ -1,10 +1,24 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.7)
+# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.8)
 
 **TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.7
+## ✨ Fitur Terbaru v2.3.8
+*   **Tipografi Blog & Card Responsif Khusus Mobile (Fluid Typography)**:
+    *   **Kartu Blog Mobile (`.blog-card`)**: Tipografi kartu artikel blog kini menggunakan formula `clamp()` yang presisi di semua resolusi ponsel (320px–768px). Judul artikel, kutipan excerpt, meta tanggal/waktu baca, dan badge kategori otomatis menyesuaikan proporsi tanpa terpotong atau terlalu padat.
+    *   **Kenyamanan Baca Artikel Penuh (`single.php`)**: Seluruh hierarki tipografi isi artikel (`h2`, `h3`, `h4`, paragraf, kutipan `blockquote`, daftar *list*, tabel, dan blok kode) dioptimalkan secara fluid dengan `line-height: 1.8` dan ukuran kontainer yang nyaman di genggaman ponsel.
+    *   **Elemen Pendukung Interaktif Mobile**: Kotak info penulis (*Author Box*), navigasi artikel sebelumnya/berikutnya, tombol *share* media sosial, dan form komentar dirancang ulang agar pas dan rapi tanpa *overflow* horizontal.
+*   **Pembaruan Animasi Tampilan Kategori Produk (SaaS Micro-Animations)**:
+    *   **Staggered Entrance Animation**: Efek transisi kemunculan kartu kategori berjenjang halus (*fade-in slide-up*) saat halaman dimuat.
+    *   **Radial Glow Halo Backdrop**: Efek pendaran cahaya ambient gradasi biru yang merekah lembut saat kartu kategori disentuh atau di-hover.
+    *   **Diagonal Light Shimmer Sweep**: Sapuan kilau diagonal elegan di permukaan kartu kategori saat pointer diarahkan.
+    *   **Spring Pop Icon & Image Transform**: Ikon kategori bergerak dinamis dengan transisi pegas (*spring curve* `cubic-bezier`), membesar proporsional dengan bayangan mengambang mewah.
+    *   **Respon Sentuh Presisi Mobile**: Menghilangkan efek *hover* kaku di layar sentuh ponsel dan menggantinya dengan respon *active tactile feedback* (scale 0.95) yang responsif dan cepat.
+
+---
+
+## ✨ Fitur v2.3.7
 *   **Optimalisasi SEO Menyeluruh (Comprehensive SEO Overhaul)**:
     *   **Canonical URL Otomatis**: Menambahkan tag `<link rel="canonical">` yang cerdas dan akurat untuk seluruh tipe halaman (beranda, produk tunggal, arsip katalog, taksonomi kategori/tag, artikel blog, arsip tanggal/penulis, hingga halaman paginasi). Mengeliminasi risiko duplikat konten dan menghapus hook standar WP yang berpotensi menghasilkan tag ganda.
     *   **Breadcrumb Schema Markup (JSON-LD)**: Implementasi struktur data Schema.org `BreadcrumbList` bersarang di `<head>` untuk seluruh halaman produk, blog, kategori, dan arsip sehingga Google menampilkan breadcrumb rich snippet di hasil pencarian.
