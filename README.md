@@ -1,10 +1,35 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.1)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.2)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.4.1
+## 🚀 Rilis Terbaru v2.4.2 — Codebase Cleanup & Performance Streamlining
+
+Pembaruan **v2.4.2** berfokus pada penyederhanaan antarmuka pengguna (*UI streamlining*), optimasi kecepatan rendering halaman, serta pembersihan elemen-elemen dan widget non-esensial agar alur pemesanan plakat menjadi lebih fokus, bersih, cepat, dan konversi WhatsApp meningkat.
+
+### 🧹 Pembersihan Komponen & UI Streamlining:
+*   **Pembersihan Elemen Countdown Timer (`product-countdown-bar`)**:
+    *   Menghapus widget countdown timer di halaman detail produk (`single-produk.php`), logika timer di `assets/js/main.js`, dan styling terkait di `assets/css/main.css`. Tampilan detail produk kini lebih tenang, elegan, dan profesional.
+*   **Pembersihan Kalkulator Estimasi Harga (`price-calculator-widget`)**:
+    *   Menghapus widget kalkulator harga interaktif dan tier grosir, skrip kalkulasi, serta CSS accordion kalkulator. Alur pemesanan dialihkan langsung ke konsultasi personal WhatsApp yang jauh lebih fleksibel untuk produk kustom.
+*   **Pembersihan Tombol Desain Tambahan (`btn-view-designs`)**:
+    *   Menghapus tombol variasi desain yang redundan pada detail produk agar pengunjung fokus langsung pada tombol pemesanan utama.
+*   **Pembersihan WhatsApp Floating Chat Button Global**:
+    *   Menghapus tombol floating WhatsApp global di `footer.php` dan skrip terkait. Akses WhatsApp tetap prima dan tidak tumpang tindih berkat *Mobile Bottom Navigation* dan *Sticky Order Bar*.
+*   **Pembersihan Modal Pop-up & Lightbox**:
+    *   Menghapus komponen `template-parts/catalog-popup.php` (exit-intent modal) dan `template-parts/lightbox-gallery.php` beserta inisialisasi skripnya.
+*   **Pembersihan File Template Halaman Tambahan**:
+    *   Menghapus file template khusus `page-cara-pemesanan.php` dan `page-portofolio.php` yang sudah tidak diperlukan, merapikan struktur file tema secara menyeluruh.
+
+### ⚡ Dampak & Keunggulan:
+*   **Codebase Ramping**: Memangkas lebih dari **1.700 baris kode** (HTML, CSS, JS, PHP) yang tidak terpakai.
+*   **Loading & Rendering Lebih Cepat**: Ukuran bundle aset lebih kecil, DOM lebih efisien, dan waktu muat halaman meningkat signifikan.
+*   **Stabilitas 100%**: Seluruh file PHP & JavaScript divalidasi bebas error sintaks.
+
+---
+
+## ✨ Fitur v2.4.1
 
 *   **Grid Kategori Desktop Satu Baris (Single-Row Modern Layout)**:
     *   Deretan kategori pada beranda desktop kini tersusun rapi dalam 1 baris (`flex-wrap: nowrap`) dengan perataan tengah yang simetris dan elegan.
