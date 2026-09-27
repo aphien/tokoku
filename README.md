@@ -1,10 +1,31 @@
-# 🛍️ TokoKu - Premium WhatsApp Store Theme (v2.3.8)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.3.9)
 
-**TokoKu** adalah tema WordPress premium yang dirancang khusus untuk toko online minimalis dengan sistem pemesanan langsung melalui WhatsApp. Tema ini menghilangkan kerumitan WooCommerce, memberikan pengalaman belanja yang cepat, ringan, dan sangat intuitif baik di perangkat mobile maupun desktop.
+**JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.8
+## ✨ Fitur Terbaru v2.3.9
+
+*   **Template Pesan WhatsApp Premium (Branded Order Template)**:
+    *   Pembaruan template pesan WhatsApp menjadi format profesional berlabel `[ DETAIL PESANAN PLAKAT ]` dengan pemisah dekoratif (`✧━━━━━✧`), emoji informatif, dan tata letak tabel pesanan yang mudah dibaca.
+    *   Seluruh variabel dinamis tersedia: `{nama}`, `{produk}`, `{sku}`, `{link}`, `{harga}`, `{jumlah}`, dan `{catatan}`.
+    *   Pesan diakhiri dengan ajakan konfirmasi elegan: *"Silakan balas CONFIRM agar pesanan dapat segera kami proses"* untuk mempercepat alur penjualan.
+*   **Mobile Sticky Order Bar di Halaman Produk**:
+    *   Bar pemesanan mengambang di bagian bawah layar muncul otomatis saat pengguna mulai menggulir ke bawah, memudahkan akses pesan tanpa perlu kembali ke tombol utama.
+    *   Desain tombol elegan dengan ikon WhatsApp, label teks, dan badge harga produk aktif.
+    *   Menggunakan `IntersectionObserver` + scroll fallback untuk performa optimal di semua browser.
+    *   Harga pada sticky bar otomatis sinkron saat pengguna memilih varian produk.
+*   **Quick Prompts — Template Catatan Instan di Modal WhatsApp**:
+    *   Empat tombol pil cepat tersedia di atas kolom Catatan: 🎨 Custom Desain, 📦 Pesan Grosir, ⚡ Butuh Cepat, 📋 Minta Katalog.
+    *   Multi-select: pengguna dapat memilih lebih dari satu pil sekaligus; teks prompt otomatis disusun rapi di textarea catatan.
+    *   Tap sekali untuk pilih, tap lagi untuk batal — dengan visual state aktif yang jelas dan animasi halus.
+*   **Identitas Tema JualPlakat (Theme Rebranding)**:
+    *   Metadata tema (`style.css`) diperbarui: nama tema menjadi **JualPlakat**, URI `jualplakat.com`, deskripsi khusus toko plakat, dan tags SEO relevan (`plakat, piala, penghargaan, souvenir, custom, whatsapp-order`).
+    *   Konstanta versi `TOKOKU_VERSION` diperbarui ke `2.3.9` di `functions.php` dan `style.css`.
+
+---
+
+## ✨ Fitur v2.3.8
 *   **Tipografi Blog & Card Responsif Khusus Mobile (Fluid Typography)**:
     *   **Kartu Blog Mobile (`.blog-card`)**: Tipografi kartu artikel blog kini menggunakan formula `clamp()` yang presisi di semua resolusi ponsel (320px–768px). Judul artikel, kutipan excerpt, meta tanggal/waktu baca, dan badge kategori otomatis menyesuaikan proporsi tanpa terpotong atau terlalu padat.
     *   **Kenyamanan Baca Artikel Penuh (`single.php`)**: Seluruh hierarki tipografi isi artikel (`h2`, `h3`, `h4`, paragraf, kutipan `blockquote`, daftar *list*, tabel, dan blok kode) dioptimalkan secara fluid dengan `line-height: 1.8` dan ukuran kontainer yang nyaman di genggaman ponsel.

@@ -30,8 +30,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
             
             <div class="form-group">
-                <label for="order-note">Catatan (Opsional)</label>
-                <textarea id="order-note" name="order_note" rows="3" placeholder="Contoh: Warna merah, ukuran L"></textarea>
+                <label for="order-note">Catatan Tambahan (Opsional)</label>
+                <!-- Quick Prompts / Pilihan Cepat -->
+                <div class="wa-quick-prompts" aria-label="Pilihan Catatan Cepat">
+                    <button type="button" class="wa-prompt-pill" data-prompt="Mau custom logo & tulisan sendiri.">🎨 Custom Desain</button>
+                    <button type="button" class="wa-prompt-pill" data-prompt="Tanya harga grosir untuk jumlah banyak.">📦 Pesan Grosir</button>
+                    <button type="button" class="wa-prompt-pill" data-prompt="Butuh pengerjaan cepat / deadline mepet.">⚡ Butuh Cepat</button>
+                    <button type="button" class="wa-prompt-pill" data-prompt="Bisa minta preview desain dan katalog?">📋 Minta Katalog</button>
+                </div>
+                <textarea id="order-note" name="order_note" rows="3" placeholder="Contoh: Tulisan: Juara 1 Turnamen, Logo terlampir via WA..."></textarea>
             </div>
             
             <div class="form-footer">
@@ -158,5 +165,43 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 .btn-wa-submit:hover {
     filter: brightness(1.1);
     transform: translateY(-2px);
+}
+
+/* Quick Prompts Pills */
+.wa-quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+.wa-prompt-pill {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.wa-prompt-pill:hover,
+.wa-prompt-pill.selected {
+    background: var(--primary);
+    color: #ffffff !important;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(var(--primary-rgb, 0, 123, 255), 0.3);
+}
+.wa-prompt-pill:active {
+    transform: scale(0.94);
+}
+:is(.theme-dark, html.theme-dark, body.theme-dark) .wa-prompt-pill {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
 }
 </style>

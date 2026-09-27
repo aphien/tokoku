@@ -14,47 +14,99 @@ get_header(); ?>
     <!-- ====================================================
          HERO BANNER SLIDER
          ==================================================== -->
-    <section class="hero-slider-section">
-        <div class="slider-container" id="home-slider">
-            <div class="slider-wrapper">
-                <?php
-                $has_slides = false;
-                for ( $i = 1; $i <= 10; $i++ ) {
-                    $img  = get_theme_mod( "tokoku_slide_image_{$i}" );
-                    $link = get_theme_mod( "tokoku_slide_link_{$i}" );
-                    $alt  = get_theme_mod( "tokoku_slide_alt_{$i}" );
-                    
-                    if ( $img ) {
-                        $has_slides = true;
-                        if ( empty( $alt ) ) {
-                            $alt = sprintf( __( 'Banner Promosi %s - Slide %d', 'tokoku' ), get_bloginfo( 'name' ), $i );
+    <?php
+    $slides_data = array();
+    for ( $i = 1; $i <= 10; $i++ ) {
+        $img  = get_theme_mod( "tokoku_slide_image_{$i}" );
+        $link = get_theme_mod( "tokoku_slide_link_{$i}" );
+        $alt  = get_theme_mod( "tokoku_slide_alt_{$i}" );
+        
+        if ( ! empty( $img ) ) {
+            if ( empty( $alt ) ) {
+                $alt = sprintf( __( 'Banner Promosi %s - Slide %d', 'tokoku' ), get_bloginfo( 'name' ), $i );
+            }
+            $slides_data[] = array(
+                'index' => $i,
+                'img'   => $img,
+                'link'  => $link,
+                'alt'   => $alt,
+            );
+        }
+    }
+    $slide_count = count( $slides_data );
+
+    // Deteksi rasio aspek banner secara otomatis agar tampilan tidak terpotong (zero layout shift)
+    $banner_ratio = '2.735 / 1';
+    if ( ! empty( $slides_data[0]['img'] ) ) {
+        $first_img_url = $slides_data[0]['img'];
+        $upload_dir    = wp_upload_dir();
+        if ( strpos( $first_img_url, $upload_dir['baseurl'] ) !== false ) {
+            $local_path = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $first_img_url );
+            if ( file_exists( $local_path ) ) {
+                $img_size = @getimagesize( $local_path );
+                if ( ! empty( $img_size[0] ) && ! empty( $img_size[1] ) ) {
+                    $banner_ratio = $img_size[0] . ' / ' . $img_size[1];
+                }
+            }
+        }
+    }
+    ?>
+    <section class="hero-slider-section" aria-label="<?php esc_attr_e( 'Banner Promosi', 'tokoku' ); ?>">
+        <div class="container hero-slider-container">
+            <div class="slider-container" id="home-slider" style="--slider-ratio: <?php echo esc_attr( $banner_ratio ); ?>;" role="region" aria-roledescription="carousel" aria-label="<?php esc_attr_e( 'Galeri Banner Promosi', 'tokoku' ); ?>" data-slides="<?php echo esc_attr( $slide_count ); ?>">
+                <div class="slider-wrapper">
+                    <?php
+                    if ( $slide_count > 0 ) {
+                        foreach ( $slides_data as $idx => $slide ) {
+                            $is_first = ( $idx === 0 );
+                            $loading_attr = $is_first ? 'fetchpriority="high" loading="eager"' : 'loading="lazy" decoding="async"';
+                            
+                            echo '<div class="slide" role="group" aria-roledescription="slide" aria-label="' . esc_attr( sprintf( __( 'Slide %d dari %d', 'tokoku' ), $idx + 1, $slide_count ) ) . '">';
+                            if ( ! empty( $slide['link'] ) ) {
+                                echo '<a href="' . esc_url( $slide['link'] ) . '" class="slide-link" draggable="false">';
+                            }
+                            echo '<img src="' . esc_url( $slide['img'] ) . '" alt="' . esc_attr( $slide['alt'] ) . '" draggable="false" ' . $loading_attr . '>';
+                            if ( ! empty( $slide['link'] ) ) {
+                                echo '</a>';
+                            }
+                            echo '</div>';
                         }
-                        echo '<div class="slide">';
-                        if ( $link ) echo '<a href="' . esc_url( $link ) . '">';
-                        echo '<img src="' . esc_url( $img ) . '" alt="' . esc_attr( $alt ) . '">';
-                        if ( $link ) echo '</a>';
-                        echo '</div>';
+                    } else {
+                        echo '<div class="slide slide--placeholder" role="group" aria-roledescription="slide">
+                            <div class="slide-placeholder-inner">
+                                <span class="slide-placeholder-pill">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    ' . esc_html( get_bloginfo( 'name' ) ) . '
+                                </span>
+                                <h2>' . sprintf( esc_html__( 'Solusi Plakat & Cinderamata Berkualitas di %s', 'tokoku' ), esc_html( get_bloginfo( 'name' ) ) ) . '</h2>
+                                <p>' . esc_html__( 'Pusat pembuatan plakat akrilik, kristal, kayu, resin, & medali custom dengan pengerjaan presisi dan pengiriman aman.', 'tokoku' ) . '</p>
+                                <div class="slide-placeholder-actions">
+                                    <a href="#categories" class="btn-slide-cta">
+                                        <span>' . esc_html__( 'Jelajahi Kategori', 'tokoku' ) . '</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                    </a>
+                                    ' . ( current_user_can( 'edit_theme_options' ) ? '<a href="' . esc_url( admin_url( 'admin.php?page=tokoku-settings#tab-slider' ) ) . '" class="btn-slide-admin">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                        <span>' . esc_html__( 'Atur Banner Slider', 'tokoku' ) . '</span>
+                                    </a>' : '' ) . '
+                                </div>
+                            </div>
+                        </div>';
                     }
-                }
+                    ?>
+                </div>
                 
-                if ( ! $has_slides ) {
-                    echo '<div class="slide slide--placeholder">
-                        <div class="slide-placeholder-inner">
-                            <h2>' . sprintf( esc_html__( 'Selamat Datang di %s', 'tokoku' ), esc_html( get_bloginfo( 'name' ) ) ) . '</h2>
-                            <p>' . esc_html__( 'Atur banner di Tampilan &rarr; Kustomisasi &rarr; Banner Slider', 'tokoku' ) . '</p>
-                        </div>
-                    </div>';
-                }
-                ?>
+                <?php if ( $slide_count > 1 ) : ?>
+                    <button type="button" class="slider-btn slider-prev" aria-label="<?php esc_attr_e( 'Slide Sebelumnya', 'tokoku' ); ?>">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button type="button" class="slider-btn slider-next" aria-label="<?php esc_attr_e( 'Slide Berikutnya', 'tokoku' ); ?>">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                    <div class="slider-dots" role="tablist" aria-label="<?php esc_attr_e( 'Navigasi Banner', 'tokoku' ); ?>"></div>
+                    <div class="slider-progress" aria-hidden="true"><div class="slider-progress-bar"></div></div>
+                <?php endif; ?>
             </div>
-            
-            <button class="slider-btn slider-prev" aria-label="Previous">
-                <span class="dashicons dashicons-arrow-left-alt2"></span>
-            </button>
-            <button class="slider-btn slider-next" aria-label="Next">
-                <span class="dashicons dashicons-arrow-right-alt2"></span>
-            </button>
-            <div class="slider-dots"></div>
         </div>
     </section>
 
@@ -71,21 +123,15 @@ get_header(); ?>
                 $categories = get_terms( array(
                     'taxonomy'   => 'kategori_produk',
                     'hide_empty' => false,
-                    'number'     => 6,
+                    'number'     => 8,
                 ) );
 
                 if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) :
                     foreach ( $categories as $cat ) :
-                        $icon_id = get_term_meta( $cat->term_id, 'tokoku_kategori_icon', true );
-                        $icon_url = $icon_id ? wp_get_attachment_image_url( $icon_id, 'thumbnail' ) : '';
                 ?>
                     <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="category-item">
                         <div class="category-icon">
-                            <?php if ( $icon_url ) : ?>
-                                <img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $cat->name ); ?>" class="category-icon-img">
-                            <?php else : ?>
-                                <span class="dashicons dashicons-archive"></span>
-                            <?php endif; ?>
+                            <?php echo tokoku_get_category_icon_html( $cat->term_id, 48 ); ?>
                         </div>
                         <span class="category-name"><?php echo esc_html( $cat->name ); ?></span>
                     </a>

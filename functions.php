@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.3.8' );
+define( 'TOKOKU_VERSION', '2.3.9' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -70,7 +70,7 @@ function tokoku_scripts() {
     wp_enqueue_script( 'tokoku-whatsapp-js', TOKOKU_URI . '/assets/js/whatsapp.js', array(), TOKOKU_VERSION, true );
 
     $wa_number  = get_theme_mod( 'tokoku_wa_number', '6281234567890' );
-    $wa_message = get_theme_mod( 'tokoku_wa_message', "Halo, saya ingin memesan:\n\nProduk: {produk}\nHarga: {harga}\nJumlah: {jumlah}\n\nNama: {nama}\nCatatan: {catatan}\n\nTerima kasih!" );
+    $wa_message = get_theme_mod( 'tokoku_wa_message', "✧━━━━━━[ DETAIL PESANAN PLAKAT ]━━━━━━✧\n\nTerima kasih telah mempercayakan momen spesial Anda bersama kami. Berikut adalah rincian pesanan Anda:\n\n👤 Nama Pemesan : {nama}\n📦 Produk       : {produk}\n🏷️ SKU          : {sku}\n🔗 Link Produk  : {link}\n\n💰 Harga Satuan : {harga}\n🔢 Jumlah       : {jumlah}\n\n📝 Catatan / Detail Grafir:\n{catatan}\n\n✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━✧\nMohon periksa kembali detail di atas. Jika semua data sudah benar, silakan balas \"CONFIRM\" agar pesanan dapat segera kami proses. Terima kasih! ✨" );
 
     wp_localize_script( 'tokoku-search-js', 'tokokuSearch', array(
         'ajaxUrl'  => admin_url( 'admin-ajax.php', 'relative' ),
@@ -408,3 +408,44 @@ function tokoku_generate_manifest() {
 }
 add_action( 'wp_ajax_tokoku_manifest', 'tokoku_generate_manifest' );
 add_action( 'wp_ajax_nopriv_tokoku_manifest', 'tokoku_generate_manifest' );
+
+/**
+ * Mendapatkan HTML Ikon Kategori Produk
+ *
+ * Mengambil ikon attachment yang diunggah di term meta 'tokoku_kategori_icon'.
+ * Jika belum ada, menyediakan fallback vektor SVG tematik modern.
+ *
+ * @param int $term_id
+ * @param int $size
+ * @return string HTML
+ */
+function tokoku_get_category_icon_html( $term_id = 0, $size = 20 ) {
+    if ( $term_id ) {
+        $icon_id = get_term_meta( $term_id, 'tokoku_kategori_icon', true );
+        if ( $icon_id ) {
+            $icon_url = wp_get_attachment_image_url( $icon_id, 'thumbnail' );
+            if ( $icon_url ) {
+                return '<img src="' . esc_url( $icon_url ) . '" class="pill-icon-img" width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" alt="" loading="lazy">';
+            }
+        }
+        
+        $term = get_term( $term_id, 'kategori_produk' );
+        $slug = ( $term && ! is_wp_error( $term ) ) ? $term->slug : '';
+        
+        if ( strpos( $slug, 'plakat' ) !== false ) {
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>';
+        } elseif ( strpos( $slug, 'souvenir' ) !== false ) {
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>';
+        } elseif ( strpos( $slug, 'trophy' ) !== false || strpos( $slug, 'piala' ) !== false ) {
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg>';
+        } elseif ( strpos( $slug, 'vandel' ) !== false || strpos( $slug, 'kayu' ) !== false ) {
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>';
+        } elseif ( strpos( $slug, 'medali' ) !== false || strpos( $slug, 'medal' ) !== false ) {
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>';
+        }
+    }
+    
+    // Default fallback icon
+    return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>';
+}
+

@@ -85,59 +85,335 @@ document.addEventListener('DOMContentLoaded', function() {
        3. SHARED COMPONENTS LOGIC
        ========================================================================== */
     
-    // 🎡 Hero Slider
-    const slider = document.querySelector('.hero-slider-section');
-    if (slider) {
-        const wrapper = slider.querySelector('.slider-wrapper');
-        const slides = slider.querySelectorAll('.slide');
-        const prevBtn = slider.querySelector('.slider-prev');
-        const nextBtn = slider.querySelector('.slider-next');
-        const dotsContainer = slider.querySelector('.slider-dots');
+    // 🎡 Hero Slider (Touch, Swipe, Mouse Drag, Keyboard & Responsive)
+    const heroSlider = document.getElementById('home-slider') || document.querySelector('.hero-slider-section .slider-container');
+    if (heroSlider) {
+        const wrapper = heroSlider.querySelector('.slider-wrapper');
+        const slides = heroSlider.querySelectorAll('.slide');
+        const prevBtn = heroSlider.querySelector('.slider-prev');
+        const nextBtn = heroSlider.querySelector('.slider-next');
+        const dotsContainer = heroSlider.querySelector('.slider-dots');
+        const progressBar = heroSlider.querySelector('.slider-progress-bar');
         
-        if (wrapper && slides.length > 0) {
+        const slideCount = slides.length;
+        
+        if (wrapper && slideCount > 0) {
             let currentIndex = 0;
-            let slideInterval;
-            
-            slides.forEach((_, i) => {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                if (i === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => goToSlide(i));
-                dotsContainer?.appendChild(dot);
-            });
-            
-            const dots = dotsContainer?.querySelectorAll('.dot');
-            
-            function updateSlider() {
-                wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-                dots?.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+            let slideInterval = null;
+            const INTERVAL_TIME = 5000;
+            let isPaused = false;
+            let progressStartTime = 0;
+            let progressReqId = null;
+
+            // Otomatis menyesuaikan tinggi slider sesuai ukuran banner aktual
+            function autoFitBannerRatio() {
+                const firstImg = slides[0]?.querySelector('img');
+                if (!firstImg) return;
+
+                const applySize = (imgEl) => {
+                    const w = imgEl.naturalWidth;
+                    const h = imgEl.naturalHeight;
+                    if (w && h && w > 0 && h > 0) {
+                        const ratioStr = `${w} / ${h}`;
+                        heroSlider.style.setProperty('--slider-ratio', ratioStr);
+                        heroSlider.style.aspectRatio = ratioStr;
+                        slides.forEach(s => {
+                            s.style.setProperty('--slider-ratio', ratioStr);
+                            s.style.aspectRatio = ratioStr;
+                        });
+                    }
+                };
+
+                if (firstImg.complete && firstImg.naturalWidth) {
+                    applySize(firstImg);
+                } else {
+                    firstImg.addEventListener('load', () => applySize(firstImg));
+                }
             }
-            
-            function nextSlide() {
-                currentIndex = (currentIndex + 1) % slides.length;
-                updateSlider();
-            }
-            
-            function prevSlide() {
-                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-                updateSlider();
-            }
-            
-            function goToSlide(index) {
-                currentIndex = index;
-                updateSlider();
+            autoFitBannerRatio();
+            window.addEventListener('resize', autoFitBannerRatio, { passive: true });
+
+            // Jika hanya 1 slide atau kurang, sembunyikan navigasi
+            if (slideCount <= 1) {
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
+                if (dotsContainer) dotsContainer.style.display = 'none';
+                const progressWrap = heroSlider.querySelector('.slider-progress');
+                if (progressWrap) progressWrap.style.display = 'none';
+                wrapper.style.cursor = 'default';
+            } else {
+                // Buat dot navigasi
+                if (dotsContainer) {
+                    dotsContainer.innerHTML = '';
+                    slides.forEach((_, i) => {
+                        const dot = document.createElement('button');
+                        dot.type = 'button';
+                        dot.classList.add('dot');
+                        dot.setAttribute('role', 'tab');
+                        dot.setAttribute('aria-label', `Slide ${i + 1}`);
+                        dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+                        if (i === 0) dot.classList.add('active');
+                        dot.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            goToSlide(i);
+                        });
+                        dotsContainer.appendChild(dot);
+                    });
+                }
+
+                const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
+
+                function updateSlider(animate = true) {
+                    if (animate) {
+                        wrapper.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+                    } else {
+                        wrapper.style.transition = 'none';
+                    }
+                    wrapper.style.transform = `translate3d(-${currentIndex * 100}%, 0, 0)`;
+
+                    dots.forEach((dot, i) => {
+                        const isActive = (i === currentIndex);
+                        dot.classList.toggle('active', isActive);
+                        dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+
+                    startProgressBar();
+                }
+
+                function nextSlide() {
+                    currentIndex = (currentIndex + 1) % slideCount;
+                    updateSlider(true);
+                }
+
+                function prevSlide() {
+                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+                    updateSlider(true);
+                }
+
+                function goToSlide(index) {
+                    if (index === currentIndex) return;
+                    currentIndex = index;
+                    updateSlider(true);
+                    resetInterval();
+                }
+
+                function startProgressBar() {
+                    if (!progressBar) return;
+                    cancelAnimationFrame(progressReqId);
+                    progressStartTime = performance.now();
+                    progressBar.style.width = '0%';
+
+                    function animateProgress(now) {
+                        if (isPaused) {
+                            progressReqId = requestAnimationFrame(animateProgress);
+                            return;
+                        }
+                        const elapsed = now - progressStartTime;
+                        const progress = Math.min((elapsed / INTERVAL_TIME) * 100, 100);
+                        progressBar.style.width = `${progress}%`;
+                        if (elapsed < INTERVAL_TIME) {
+                            progressReqId = requestAnimationFrame(animateProgress);
+                        }
+                    }
+                    progressReqId = requestAnimationFrame(animateProgress);
+                }
+
+                function resetInterval() {
+                    clearInterval(slideInterval);
+                    if (!isPaused) {
+                        startProgressBar();
+                        slideInterval = setInterval(nextSlide, INTERVAL_TIME);
+                    }
+                }
+
+                function pauseSlider() {
+                    isPaused = true;
+                    clearInterval(slideInterval);
+                }
+
+                function resumeSlider() {
+                    if (!isPaused) return;
+                    isPaused = false;
+                    resetInterval();
+                }
+
+                // Tombol Navigasi
+                prevBtn?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    prevSlide();
+                    resetInterval();
+                });
+
+                nextBtn?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    nextSlide();
+                    resetInterval();
+                });
+
+                // Pause saat kursor berada di slider (desktop)
+                heroSlider.addEventListener('mouseenter', pauseSlider);
+                heroSlider.addEventListener('mouseleave', resumeSlider);
+
+                // Pause jika tab browser diminimalkan/berpindah tab
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        pauseSlider();
+                    } else {
+                        resumeSlider();
+                    }
+                });
+
+                // Navigasi Keyboard
+                heroSlider.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        prevSlide();
+                        resetInterval();
+                    } else if (e.key === 'ArrowRight') {
+                        nextSlide();
+                        resetInterval();
+                    }
+                });
+
+                // 👆 Touch Gestures (Mobile Swipe)
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let touchDeltaX = 0;
+                let touchDeltaY = 0;
+                let isSwiping = false;
+                let isHorizontalSwipe = null;
+                let touchStartTime = 0;
+
+                heroSlider.addEventListener('touchstart', (e) => {
+                    if (e.touches.length !== 1) return;
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    touchDeltaX = 0;
+                    touchDeltaY = 0;
+                    isSwiping = true;
+                    isHorizontalSwipe = null;
+                    touchStartTime = Date.now();
+                    pauseSlider();
+                    wrapper.style.transition = 'none';
+                }, { passive: true });
+
+                heroSlider.addEventListener('touchmove', (e) => {
+                    if (!isSwiping || e.touches.length !== 1) return;
+                    touchDeltaX = e.touches[0].clientX - touchStartX;
+                    touchDeltaY = e.touches[0].clientY - touchStartY;
+
+                    if (isHorizontalSwipe === null) {
+                        if (Math.abs(touchDeltaX) > 7 || Math.abs(touchDeltaY) > 7) {
+                            isHorizontalSwipe = Math.abs(touchDeltaX) >= Math.abs(touchDeltaY);
+                        }
+                    }
+
+                    if (isHorizontalSwipe) {
+                        if (e.cancelable) e.preventDefault();
+                        let resistance = 1;
+                        if ((currentIndex === 0 && touchDeltaX > 0) || (currentIndex === slideCount - 1 && touchDeltaX < 0)) {
+                            resistance = 0.35;
+                        }
+                        const offset = touchDeltaX * resistance;
+                        wrapper.style.transform = `translate3d(calc(-${currentIndex * 100}% + ${offset}px), 0, 0)`;
+                    }
+                }, { passive: false });
+
+                const handleSwipeEnd = () => {
+                    if (!isSwiping) return;
+                    isSwiping = false;
+                    wrapper.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+
+                    if (isHorizontalSwipe) {
+                        const elapsed = Date.now() - touchStartTime;
+                        const velocity = Math.abs(touchDeltaX) / elapsed;
+
+                        if (Math.abs(touchDeltaX) > 40 || velocity > 0.35) {
+                            if (touchDeltaX < 0) {
+                                nextSlide();
+                            } else {
+                                prevSlide();
+                            }
+                        } else {
+                            updateSlider(true);
+                        }
+                    } else {
+                        updateSlider(true);
+                    }
+
+                    isHorizontalSwipe = null;
+                    resumeSlider();
+                };
+
+                heroSlider.addEventListener('touchend', handleSwipeEnd, { passive: true });
+                heroSlider.addEventListener('touchcancel', handleSwipeEnd, { passive: true });
+
+                // 🖱️ Mouse Drag (Desktop)
+                let isMouseDown = false;
+                let mouseStartX = 0;
+                let mouseDeltaX = 0;
+                let mouseStartTime = 0;
+                let draggedFar = false;
+
+                wrapper.addEventListener('mousedown', (e) => {
+                    if (e.target.closest('.slider-btn') || e.target.closest('.slider-dots')) return;
+                    isMouseDown = true;
+                    mouseStartX = e.clientX;
+                    mouseDeltaX = 0;
+                    mouseStartTime = Date.now();
+                    draggedFar = false;
+                    pauseSlider();
+                    wrapper.classList.add('is-dragging');
+                    wrapper.style.transition = 'none';
+                });
+
+                window.addEventListener('mousemove', (e) => {
+                    if (!isMouseDown) return;
+                    mouseDeltaX = e.clientX - mouseStartX;
+                    if (Math.abs(mouseDeltaX) > 6) {
+                        draggedFar = true;
+                    }
+                    let resistance = 1;
+                    if ((currentIndex === 0 && mouseDeltaX > 0) || (currentIndex === slideCount - 1 && mouseDeltaX < 0)) {
+                        resistance = 0.35;
+                    }
+                    const offset = mouseDeltaX * resistance;
+                    wrapper.style.transform = `translate3d(calc(-${currentIndex * 100}% + ${offset}px), 0, 0)`;
+                });
+
+                window.addEventListener('mouseup', () => {
+                    if (!isMouseDown) return;
+                    isMouseDown = false;
+                    wrapper.classList.remove('is-dragging');
+                    wrapper.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+
+                    const elapsed = Date.now() - mouseStartTime;
+                    const velocity = Math.abs(mouseDeltaX) / elapsed;
+
+                    if (Math.abs(mouseDeltaX) > 50 || velocity > 0.4) {
+                        if (mouseDeltaX < 0) {
+                            nextSlide();
+                        } else {
+                            prevSlide();
+                        }
+                    } else {
+                        updateSlider(true);
+                    }
+                    resumeSlider();
+                });
+
+                // Mencegah klik tautan terpicu saat menggeser banner dengan mouse
+                wrapper.addEventListener('click', (e) => {
+                    if (draggedFar) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        draggedFar = false;
+                    }
+                }, true);
+
+                // Inisialisasi awal
+                updateSlider(false);
                 resetInterval();
             }
-            
-            function resetInterval() {
-                clearInterval(slideInterval);
-                slideInterval = setInterval(nextSlide, 5000);
-            }
-            
-            prevBtn?.addEventListener('click', () => { prevSlide(); resetInterval(); });
-            nextBtn?.addEventListener('click', () => { nextSlide(); resetInterval(); });
-            
-            slideInterval = setInterval(nextSlide, 5000);
         }
     }
 
@@ -455,5 +731,42 @@ document.addEventListener('DOMContentLoaded', function() {
             showToast('Gagal menyalin tautan');
         }
         document.body.removeChild(textArea);
+    }
+
+    // 📱 Sticky Mobile Order Bar for Single Product
+    const stickyBar = document.getElementById('product-sticky-bar');
+    if (stickyBar) {
+        const mainActionBtn = document.querySelector('.single-product .btn-contact-us');
+        const triggerElement = (mainActionBtn && window.getComputedStyle(mainActionBtn).display !== 'none') 
+            ? mainActionBtn 
+            : document.querySelector('.single-product .product-title') || document.querySelector('.single-product .main-image');
+
+        if (triggerElement && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+                        stickyBar.classList.add('visible');
+                        stickyBar.setAttribute('aria-hidden', 'false');
+                    } else {
+                        stickyBar.classList.remove('visible');
+                        stickyBar.setAttribute('aria-hidden', 'true');
+                    }
+                });
+            }, { threshold: 0 });
+            observer.observe(triggerElement);
+        }
+
+        // Mobile scroll listener
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 768) {
+                if (window.scrollY > 80) {
+                    stickyBar.classList.add('visible');
+                    stickyBar.setAttribute('aria-hidden', 'false');
+                } else {
+                    stickyBar.classList.remove('visible');
+                    stickyBar.setAttribute('aria-hidden', 'true');
+                }
+            }
+        }, { passive: true });
     }
 });

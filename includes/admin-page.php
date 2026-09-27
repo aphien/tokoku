@@ -76,6 +76,10 @@ function tokoku_export_settings() {
     $json_data = json_encode( $export_data, JSON_PRETTY_PRINT );
     $filename  = 'tokoku-settings-backup-' . date('Y-m-d') . '.json';
 
+    if ( ob_get_level() ) {
+        ob_end_clean();
+    }
+
     header( 'Content-Description: File Transfer' );
     header( 'Content-Type: application/json; charset=UTF-8' );
     header( 'Content-Disposition: attachment; filename="' . $filename . '"' );

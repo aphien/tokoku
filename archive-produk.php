@@ -51,16 +51,32 @@ $all_cats       = get_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty
 
         <!-- Category Horizontal Filter Pill Bar & Sort -->
         <div class="archive-filter-bar">
-            <div class="category-pill-bar">
-                <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" class="category-pill <?php echo ! $is_cat_archive ? 'active' : ''; ?>">
-                    <span class="pill-icon">✨</span>
-                    <span class="pill-text">Semua Produk</span>
+            <div class="category-pill-bar" role="tablist" aria-label="<?php esc_attr_e( 'Filter Kategori', 'tokoku' ); ?>">
+                <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" 
+                   class="category-pill <?php echo ! $is_cat_archive ? 'active' : ''; ?>" 
+                   title="<?php esc_attr_e( 'Semua Produk', 'tokoku' ); ?>" 
+                   aria-label="<?php esc_attr_e( 'Semua Produk', 'tokoku' ); ?>">
+                    <span class="pill-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                        </svg>
+                    </span>
+                    <span class="pill-text"><?php esc_html_e( 'Semua Produk', 'tokoku' ); ?></span>
                 </a>
                 <?php if ( ! empty( $all_cats ) && ! is_wp_error( $all_cats ) ) : ?>
                     <?php foreach ( $all_cats as $cat ) : 
                         $is_active = ( $is_cat_archive && isset( $current_term->term_id ) && $current_term->term_id == $cat->term_id );
                     ?>
-                        <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="category-pill <?php echo $is_active ? 'active' : ''; ?>">
+                        <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" 
+                           class="category-pill <?php echo $is_active ? 'active' : ''; ?>" 
+                           title="<?php echo esc_attr( $cat->name ); ?>" 
+                           aria-label="<?php echo esc_attr( $cat->name ); ?>">
+                            <span class="pill-icon">
+                                <?php echo tokoku_get_category_icon_html( $cat->term_id, 20 ); ?>
+                            </span>
                             <span class="pill-text"><?php echo esc_html( $cat->name ); ?></span>
                             <?php if ( $cat->count > 0 ) : ?>
                                 <span class="pill-count"><?php echo esc_html( $cat->count ); ?></span>

@@ -46,6 +46,61 @@ get_header(); ?>
                             Tonton Video Produk
                         </a>
                     <?php endif; ?>
+
+                    <!-- Trust Badges (Desktop: Di Bawah Foto Produk, Teks & Ikon Rata Kiri) -->
+                    <div class="product-trust-badges">
+                        <div class="trust-badge-item">
+                            <div class="trust-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 20h9"></path>
+                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                </svg>
+                            </div>
+                            <div class="trust-content">
+                                <strong>Gratis Preview Desain</strong>
+                                <span>Konsultasi & revisi sebelum cetak</span>
+                            </div>
+                        </div>
+                        <div class="trust-badge-item">
+                            <div class="trust-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    <polyline points="9 12 11 14 15 10"></polyline>
+                                </svg>
+                            </div>
+                            <div class="trust-content">
+                                <strong>Garansi Pengiriman Aman</strong>
+                                <span>Ganti baru jika barang rusak/pecah</span>
+                            </div>
+                        </div>
+                        <div class="trust-badge-item">
+                            <div class="trust-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                            </div>
+                            <div class="trust-content">
+                                <strong>Pengerjaan Presisi & Cepat</strong>
+                                <span>Tepat waktu untuk deadline acara</span>
+                            </div>
+                        </div>
+                        <div class="trust-badge-item">
+                            <div class="trust-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 21h18"></path>
+                                    <path d="M5 21V7l8-4v18"></path>
+                                    <path d="M19 21V11l-6-4"></path>
+                                    <path d="M9 9v.01"></path>
+                                    <path d="M9 13v.01"></path>
+                                    <path d="M9 17v.01"></path>
+                                </svg>
+                            </div>
+                            <div class="trust-content">
+                                <strong>Tangan Pertama Pengrajin</strong>
+                                <span>Kualitas terjamin, harga terbaik</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-info">
@@ -59,6 +114,21 @@ get_header(); ?>
                         echo ' &raquo; <span class="current" aria-current="page">' . esc_html( get_the_title() ) . '</span>';
                         ?>
                     </nav>
+
+                    <!-- Lead Time & Fast Production Badge (Desktop: Di Atas Judul Produk) -->
+                    <div class="product-lead-time-bar">
+                        <div class="lead-time-icon-wrap">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="lead-time-info">
+                            <span class="lead-time-label">Estimasi Pengerjaan:</span>
+                            <span class="lead-time-val"><strong>2 – 3 Hari Kerja</strong> (Tergantung Qty & Desain)</span>
+                        </div>
+                        <span class="lead-time-chip">Siap Kirim Cepat</span>
+                    </div>
 
                     <?php
                     // Get all new meta values
@@ -98,14 +168,14 @@ get_header(); ?>
                     <?php if ( $show_price === 'yes' && $harga ) : ?>
                     <div class="product-price-display">
                         <?php if ( $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
-                            <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) ); ?></span>
-                            <span class="price-original"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga_diskon, 0, ',', '.' ) ); ?></span>
+                            <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) ); ?></span>
+                            <span class="price-original"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga_diskon, 0, ',', '.' ) ); ?></span>
                             <?php 
                             $diskon_persen = round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 );
                             echo '<span class="price-discount-badge">-' . $diskon_persen . '%</span>';
                             ?>
                         <?php else : ?>
-                            <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) ); ?></span>
+                            <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) ); ?></span>
                         <?php endif; ?>
                     </div>
                     <?php elseif ( $show_price === 'yes' ) : ?>
@@ -122,9 +192,9 @@ get_header(); ?>
                         <span class="variations-label">Pilihan:</span>
                         <div class="variations-list">
                             <?php foreach ( $pilihan_arr as $index => $pilihan ) : 
-                                $harga_varian = isset( $harga_arr[$index] ) && is_numeric($harga_arr[$index]) ? $harga_arr[$index] : '';
+                                $harga_varian = isset( $harga_arr[$index] ) && is_numeric($harga_arr[$index]) ? (float)$harga_arr[$index] : '';
                             ?>
-                                <button class="btn-variation" <?php if($harga_varian) echo 'data-price="' . esc_attr( $mata_uang . ' ' . number_format($harga_varian, 0, ',', '.') ) . '"'; ?>>
+                                <button class="btn-variation" <?php if($harga_varian) echo 'data-price="' . esc_attr( $mata_uang . ' ' . number_format((float)$harga_varian, 0, ',', '.') ) . '"'; ?>>
                                     <?php echo esc_html( $pilihan ); ?>
                                 </button>
                             <?php endforeach; ?>
@@ -215,7 +285,7 @@ get_header(); ?>
                     <div class="product-actions">
                         <?php
                         if ( $show_price === 'yes' ) {
-                            $price_val = $harga ? $mata_uang . ' ' . number_format( $harga, 0, ',', '.' ) : 'Hubungi Kami';
+                            $price_val = $harga ? $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) : 'Hubungi Kami';
                         } else {
                             $price_val = 'Tanyakan Harga';
                         }
@@ -229,56 +299,56 @@ get_header(); ?>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle; display: inline-block;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>
                             Pesan via WhatsApp
                         </button>
-                        
-                        <?php if ( $has_marketplace ) : ?>
-                        <div class="marketplace-links">
-                            <span class="marketplace-title">Atau Beli di Marketplace:</span>
-                            <div class="marketplace-buttons">
-                                <?php if ( $marketplace_shopee ) : ?>
-                                <a href="<?php echo esc_url( $marketplace_shopee ); ?>" target="_blank" class="btn-marketplace mp-shopee">
-                                    Shopee
-                                </a>
-                                <?php endif; ?>
-
-                                <?php if ( $marketplace_tokopedia ) : ?>
-                                <a href="<?php echo esc_url( $marketplace_tokopedia ); ?>" target="_blank" class="btn-marketplace mp-tokopedia">
-                                    Tokopedia
-                                </a>
-                                <?php endif; ?>
-
-                                <?php if ( $marketplace_lazada ) : ?>
-                                <a href="<?php echo esc_url( $marketplace_lazada ); ?>" target="_blank" class="btn-marketplace mp-lazada">
-                                    Lazada
-                                </a>
-                                <?php endif; ?>
-
-                                <?php if ( $marketplace_tiktok ) : ?>
-                                <a href="<?php echo esc_url( $marketplace_tiktok ); ?>" target="_blank" class="btn-marketplace mp-tiktok">
-                                    TikTok
-                                </a>
-                                <?php endif; ?>
-
-                                <?php if ( $marketplace_bukalapak ) : ?>
-                                <a href="<?php echo esc_url( $marketplace_bukalapak ); ?>" target="_blank" class="btn-marketplace mp-bukalapak">
-                                    Bukalapak
-                                </a>
-                                <?php endif; ?>
-
-                                <?php if ( $marketplace_blibli ) : ?>
-                                <a href="<?php echo esc_url( $marketplace_blibli ); ?>" target="_blank" class="btn-marketplace mp-blibli">
-                                    Blibli
-                                </a>
-                                <?php endif; ?>
-
-                                <?php if ( $marketplace_lainnya ) : ?>
-                                <a href="<?php echo esc_url( $marketplace_lainnya ); ?>" target="_blank" class="btn-marketplace mp-lainnya">
-                                    Lainnya
-                                </a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
                     </div>
+                        
+                    <?php if ( $has_marketplace ) : ?>
+                    <div class="marketplace-links">
+                        <span class="marketplace-title">Atau Beli di Marketplace:</span>
+                        <div class="marketplace-buttons">
+                            <?php if ( $marketplace_shopee ) : ?>
+                            <a href="<?php echo esc_url( $marketplace_shopee ); ?>" target="_blank" rel="noopener noreferrer" class="btn-marketplace mp-shopee">
+                                Shopee
+                            </a>
+                            <?php endif; ?>
+
+                            <?php if ( $marketplace_tokopedia ) : ?>
+                            <a href="<?php echo esc_url( $marketplace_tokopedia ); ?>" target="_blank" rel="noopener noreferrer" class="btn-marketplace mp-tokopedia">
+                                Tokopedia
+                            </a>
+                            <?php endif; ?>
+
+                            <?php if ( $marketplace_lazada ) : ?>
+                            <a href="<?php echo esc_url( $marketplace_lazada ); ?>" target="_blank" rel="noopener noreferrer" class="btn-marketplace mp-lazada">
+                                Lazada
+                            </a>
+                            <?php endif; ?>
+
+                            <?php if ( $marketplace_tiktok ) : ?>
+                            <a href="<?php echo esc_url( $marketplace_tiktok ); ?>" target="_blank" rel="noopener noreferrer" class="btn-marketplace mp-tiktok">
+                                TikTok Shop
+                            </a>
+                            <?php endif; ?>
+
+                            <?php if ( $marketplace_bukalapak ) : ?>
+                            <a href="<?php echo esc_url( $marketplace_bukalapak ); ?>" target="_blank" rel="noopener noreferrer" class="btn-marketplace mp-bukalapak">
+                                Bukalapak
+                            </a>
+                            <?php endif; ?>
+
+                            <?php if ( $marketplace_blibli ) : ?>
+                            <a href="<?php echo esc_url( $marketplace_blibli ); ?>" target="_blank" rel="noopener noreferrer" class="btn-marketplace mp-blibli">
+                                Blibli
+                            </a>
+                            <?php endif; ?>
+
+                            <?php if ( $marketplace_lainnya ) : ?>
+                            <a href="<?php echo esc_url( $marketplace_lainnya ); ?>" target="_blank" rel="noopener noreferrer" class="btn-marketplace mp-lainnya">
+                                Lainnya
+                            </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
 
                     <div class="product-share">
                         <span class="share-label">
@@ -387,12 +457,266 @@ get_header(); ?>
 
         <?php endwhile; ?>
 
+        <!-- Mobile Sticky Order Bar (Appears when scrolling down) -->
+        <div id="product-sticky-bar" class="single-product-sticky-bar" aria-hidden="true">
+            <div class="sticky-bar-centered-wrap">
+                <button type="button" class="btn-sticky-order-elegant btn-whatsapp-order"
+                        data-product-id="<?php the_ID(); ?>"
+                        data-product-name="<?php the_title(); ?>"
+                        data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
+                        data-product-url="<?php the_permalink(); ?>"
+                        data-product-price="<?php echo esc_attr( $price_val ); ?>"
+                        aria-label="Pesan via WhatsApp">
+                    <svg class="sticky-wa-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
+                    </svg>
+                    <span class="sticky-order-label">Pesan Sekarang via WhatsApp</span>
+                    <?php if ( $price_val && $price_val !== 'Tanyakan Harga' && $price_val !== 'Hubungi Kami' ) : ?>
+                        <span class="sticky-order-price-pill"><?php echo esc_html( $price_val ); ?></span>
+                    <?php endif; ?>
+                </button>
+            </div>
+        </div>
+
     </div>
 </main>
 
 <style>
+/* Trust Badges Widget (Desktop: below photo in product-gallery) */
+.product-trust-badges {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 14px;
+    margin-top: 20px;
+    margin-bottom: 0;
+    padding: 14px 16px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+.trust-badge-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 10px;
+    padding: 3px 0;
+}
+.trust-icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 10px;
+    background: rgba(var(--primary-rgb, 0, 123, 255), 0.1);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0;
+}
+.trust-content {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    min-width: 0;
+}
+.trust-content strong {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.25;
+    text-align: left;
+}
+.trust-content span {
+    font-size: 0.72rem;
+    color: var(--text2);
+    line-height: 1.3;
+    text-align: left;
+}
+:is(.theme-dark, html.theme-dark, body.theme-dark) .product-trust-badges {
+    background: rgba(30, 41, 59, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Lead Time Badge (Desktop: above title in product-info) */
+.product-lead-time-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(var(--primary-rgb, 0, 123, 255), 0.06);
+    border: 1.5px solid rgba(var(--primary-rgb, 0, 123, 255), 0.18);
+    border-radius: 14px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    transition: var(--ease);
+}
+.lead-time-icon-wrap {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0;
+}
+.lead-time-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    flex: 1;
+    min-width: 0;
+}
+.lead-time-label {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--text2);
+    line-height: 1.2;
+    text-align: left;
+}
+.lead-time-val {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.3;
+    text-align: left;
+}
+.lead-time-val strong {
+    color: var(--primary);
+    font-weight: 800;
+}
+.lead-time-chip {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--green, #22c55e);
+    color: #ffffff;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+:is(.theme-dark, html.theme-dark, body.theme-dark) .product-lead-time-bar {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Elegant Centered Mobile Sticky Order Bar (Docked Above Mobile Bottom Nav) */
+.single-product-sticky-bar {
+    position: fixed;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 998;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    padding: 10px 16px;
+    transform: translateY(200%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+.single-product-sticky-bar.visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.sticky-bar-centered-wrap {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-sticky-order-elegant {
+    width: 100%;
+    max-width: 440px;
+    padding: 12px 22px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #25D366 0%, #1ebd5d 100%);
+    color: #ffffff !important;
+    border: none;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.btn-sticky-order-elegant:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.45);
+}
+.sticky-wa-icon {
+    flex-shrink: 0;
+}
+.sticky-order-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sticky-order-price-pill {
+    background: rgba(0, 0, 0, 0.16);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+}
+:is(.theme-dark, html.theme-dark, body.theme-dark) .single-product-sticky-bar {
+    background: rgba(15, 23, 42, 0.96);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 769px) {
+    .single-product-sticky-bar {
+        display: none !important;
+    }
+}
+
 .single-product { padding: 40px 0; }
-.product-details { display: grid; grid-template-columns: 5fr 7fr; gap: 50px; margin-bottom: 60px; }
+/* Desktop: Ukuran Product Gallery 50% dan Product Info 50% */
+.product-details { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+    margin-bottom: 60px; 
+    align-items: start;
+}
+.product-gallery, .product-info {
+    width: 100%;
+    min-width: 0;
+}
 .main-image { border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); background: var(--bg2); }
 .main-image img { width: 100%; height: auto; display: block; transition: transform 0.15s ease-out; transform-origin: center center; }
 .gallery-thumbs { display: flex; gap: 12px; }
@@ -548,19 +872,231 @@ get_header(); ?>
 .product-description .content p:last-child { margin-bottom: 0; }
 
 @media (max-width: 768px) {
-    .single-product { padding: 20px 0; }
-    .product-gallery { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; }
-    .main-image { width: 95% !important; margin: 0 auto 15px !important; }
-    .gallery-thumbs { justify-content: center; width: 100%; }
-    .btn-contact-us { width: 90% !important; margin: 0 auto 20px !important; }
-    .product-description-wrapper { padding: 40px 0 55px; margin-top: 30px; }
-    .product-description { padding: 0 20px; }
-    .product-description h3 { font-size: 1.5rem; margin-bottom: 35px; }
-    .product-description .content { padding: 30px 20px; font-size: 1rem; border-radius: 0; box-shadow: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: transparent; }
+    .single-product {
+        padding: 10px 0 150px !important;
+    }
+    .product-details {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        margin-bottom: 25px;
+    }
+    /* Mobile: Buka wrapper gallery & info agar seluruh komponen dapat diatur urutannya */
+    .product-gallery,
+    .product-info {
+        display: contents !important;
+    }
+    /* Mobile: Hilangkan Breadcrumb */
+    .breadcrumb {
+        display: none !important;
+    }
+    .main-image {
+        order: 1 !important;
+        width: 100% !important;
+        margin: 0 0 10px !important;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+    .gallery-thumbs {
+        order: 2 !important;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .gallery-thumbs::-webkit-scrollbar {
+        display: none;
+    }
+    .gallery-thumbs .thumb {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 58px;
+        border-radius: 10px;
+    }
+    .gallery-thumbs img {
+        width: 58px;
+        height: 58px;
+    }
+    /* Mobile: Lead Time Di Bawah Galeri Foto (Bertukar Posisi dengan Trust Badges) */
+    .product-lead-time-bar {
+        order: 3 !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        padding: 12px 14px;
+        margin-top: 8px !important;
+        margin-bottom: 16px !important;
+        gap: 12px;
+    }
+    .lead-time-icon-wrap {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        margin: 0 !important;
+        flex-shrink: 0;
+    }
+    .lead-time-info {
+        text-align: left !important;
+        align-items: flex-start !important;
+        flex: 1;
+        min-width: 0;
+    }
+    .lead-time-label {
+        font-size: 0.74rem;
+        text-align: left !important;
+    }
+    .lead-time-val {
+        font-size: 0.84rem;
+        text-align: left !important;
+    }
+    .lead-time-chip {
+        font-size: 0.65rem;
+        padding: 3px 8px;
+        margin: 0 0 0 auto !important;
+        flex-shrink: 0;
+    }
+    /* Mobile Flex Reordering Produk */
+    .product-title {
+        order: 4 !important;
+        font-size: 1.38rem;
+        margin-bottom: 12px;
+        line-height: 1.3;
+    }
+    .product-price-display {
+        order: 5 !important;
+        margin-bottom: 14px;
+        gap: 8px;
+    }
+    .product-price-display .price-current {
+        font-size: 1.55rem;
+    }
+    .product-variations {
+        order: 6 !important;
+        margin-bottom: 20px;
+    }
+    .product-specs-table {
+        order: 7 !important;
+        margin-bottom: 20px;
+    }
+    .product-note-box {
+        order: 8 !important;
+        margin-bottom: 20px;
+    }
+    .preorder-notice {
+        order: 8 !important;
+        margin-bottom: 20px;
+    }
+    /* Mobile: Hilangkan Tombol Pesan via WhatsApp Inline */
+    .product-actions,
+    .btn-contact-us,
+    .btn.btn-primary.btn-lg.btn-block.btn-whatsapp-order.btn-contact-us {
+        display: none !important;
+    }
+    /* Mobile: Trust Badges di Atas Market Place (Bertukar Posisi dengan Lead Time) */
+    .product-trust-badges {
+        order: 9 !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px 8px;
+        padding: 12px 10px;
+        margin-top: 10px !important;
+        margin-bottom: 16px !important;
+    }
+    .trust-badge-item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: left;
+        gap: 8px;
+        padding: 3px 0;
+    }
+    .trust-icon {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        margin: 0 !important;
+    }
+    .trust-content {
+        text-align: left !important;
+        align-items: flex-start !important;
+    }
+    .trust-content strong {
+        font-size: 0.78rem;
+        text-align: left !important;
+    }
+    .trust-content span {
+        font-size: 0.68rem;
+        text-align: left !important;
+    }
+    .marketplace-links {
+        order: 10 !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+        padding-top: 4px !important;
+        border-top: none !important;
+    }
+    .marketplace-title {
+        text-align: left !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 12px !important;
+    }
+    .marketplace-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .btn-marketplace {
+        padding: 13px 8px;
+        font-size: 0.82rem;
+    }
+    .product-share {
+        order: 11 !important;
+        padding: 12px 14px;
+        border-radius: 14px;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .product-description-wrapper {
+        padding: 30px 0 45px;
+        margin-top: 20px;
+    }
+    .product-description {
+        padding: 0 16px;
+    }
+    .product-description h3 {
+        font-size: 1.35rem;
+        margin-bottom: 25px;
+    }
+    .product-description .content {
+        padding: 20px 16px;
+        font-size: 0.94rem;
+        line-height: 1.7;
+        border-radius: 16px;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+}
+@media (max-width: 380px) {
+    .product-trust-badges {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 992px) {
-    .product-details { grid-template-columns: 1fr; gap: 30px; }
     .product-title { font-size: 1.45rem; }
     .product-price-display .price-current { font-size: 1.55rem; }
     .breadcrumb { font-size: 0.78rem; }
@@ -615,30 +1151,102 @@ get_header(); ?>
 
 .marketplace-links { margin-bottom: 30px; padding-top: 20px; border-top: 1.5px dashed var(--border); }
 .marketplace-title { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text2); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-.marketplace-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.marketplace-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
 .btn-marketplace { 
-    display: flex; 
+    display: inline-flex; 
     align-items: center; 
     justify-content: center; 
     text-align: center; 
     width: 100%; 
-    padding: 12px 15px; 
-    border-radius: 10px; 
-    font-weight: 800; 
-    color: #fff; 
+    padding: 12px 14px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    color: #ffffff !important; 
     text-decoration: none; 
-    transition: var(--ease); 
-    font-size: 0.85rem; 
-    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease; 
+    font-size: 0.88rem; 
+    letter-spacing: 0.2px; 
+    position: relative; 
+    border: 1px solid rgba(255, 255, 255, 0.22); 
+    -webkit-tap-highlight-color: transparent !important; 
+    outline: none !important;
+    user-select: none;
 }
-.btn-marketplace:hover { transform: translateY(-2px); opacity: 0.9; color: #fff; }
-.mp-shopee { background: #ee4d2d; }
-.mp-tokopedia { background: #00aa5b; }
-.mp-lazada { background: #0f146d; }
-.mp-tiktok { background: #000000; }
-.mp-bukalapak { background: #e31e52; }
-.mp-blibli { background: #0095da; }
-.mp-lainnya { background: #6c757d; }
+.btn-marketplace:hover { 
+    transform: translateY(-2px); 
+    color: #ffffff !important; 
+}
+.btn-marketplace:active,
+.btn-marketplace:focus { 
+    transform: scale(0.98); 
+    color: #ffffff !important; 
+    outline: none !important;
+}
+
+/* Authentic Branded Marketplace Gradients - Background Tetap Sama & Tidak Berubah Saat Di-Hover / Di-Klik */
+.mp-shopee,
+.mp-shopee:hover,
+.mp-shopee:focus,
+.mp-shopee:active { 
+    background: linear-gradient(135deg, #FF5722 0%, #EE4D2D 55%, #D83A1A 100%) !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(238, 77, 45, 0.38) !important;
+}
+
+.mp-tokopedia,
+.mp-tokopedia:hover,
+.mp-tokopedia:focus,
+.mp-tokopedia:active { 
+    background: linear-gradient(135deg, #10B981 0%, #03AC0E 55%, #00880B 100%) !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(3, 172, 14, 0.38) !important;
+}
+
+.mp-lazada,
+.mp-lazada:hover,
+.mp-lazada:focus,
+.mp-lazada:active { 
+    background: linear-gradient(135deg, #0F146D 0%, #2A1B8C 45%, #E81A5D 100%) !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(232, 26, 93, 0.4) !important;
+}
+
+.mp-tiktok,
+.mp-tiktok:hover,
+.mp-tiktok:focus,
+.mp-tiktok:active { 
+    background: linear-gradient(135deg, #020202 0%, #161823 60%, #202434 100%) !important; 
+    border-color: rgba(254, 44, 85, 0.55) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
+}
+
+.mp-bukalapak,
+.mp-bukalapak:hover,
+.mp-bukalapak:focus,
+.mp-bukalapak:active { 
+    background: linear-gradient(135deg, #FF2B66 0%, #E31E52 50%, #A80D35 100%) !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(227, 30, 82, 0.38) !important;
+}
+
+.mp-blibli,
+.mp-blibli:hover,
+.mp-blibli:focus,
+.mp-blibli:active { 
+    background: linear-gradient(135deg, #00B4FF 0%, #0095DA 50%, #006FB0 100%) !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(0, 149, 218, 0.38) !important;
+}
+
+.mp-lainnya,
+.mp-lainnya:hover,
+.mp-lainnya:focus,
+.mp-lainnya:active { 
+    background: linear-gradient(135deg, #64748B 0%, #475569 50%, #334155 100%) !important; 
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(71, 85, 105, 0.35) !important;
+}
 
 @media (max-width: 768px) {
     .marketplace-buttons { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -663,8 +1271,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update price if available
             const newPrice = this.getAttribute('data-price');
-            if (newPrice && priceCurrent) {
-                priceCurrent.textContent = newPrice;
+            if (newPrice) {
+                if (priceCurrent) priceCurrent.textContent = newPrice;
+                const stickyPricePill = document.querySelector('.sticky-order-price-pill');
+                if (stickyPricePill) stickyPricePill.textContent = newPrice;
+                const stickyBtn = document.querySelector('.btn-sticky-order-elegant');
+                if (stickyBtn) stickyBtn.setAttribute('data-product-price', newPrice);
+                const mainBtn = document.querySelector('.btn-contact-us');
+                if (mainBtn) mainBtn.setAttribute('data-product-price', newPrice);
             }
         });
     });
