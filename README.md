@@ -1,10 +1,25 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.5)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.6)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.5 — 100/100 Mobile & Desktop PageSpeed Optimization (FCP, LCP & Speed Index Overhaul)
+## 🚀 Rilis Terbaru v2.4.6 — Modern Centered Product Card Image Overlay & User-Friendly UX
+
+Pembaruan **v2.4.6** menghadirkan desain visual kartu produk modern dan interaktif dengan konsep *Centered Image Overlay*, dirancang untuk memaksimalkan daya tarik visual plakat dan kemudahan pemesanan via WhatsApp:
+
+### 🎨 1. Desain Kartu Produk Centered Image Overlay (Desktop)
+*   **Tampilan Tengah di Atas Gambar (*Centered Overlay*)**: Kategori produk (pill badge), judul produk (white typography with glow/shadow), harga, dan tombol *Pesan Sekarang* ditempatkan secara terpusat (rata tengah / vertically & horizontally centered) di atas gambar produk.
+*   **Efek Interaksi Kursor (*Hover & Focus-Within Reveal*)**: Pada desktop, overlay tampil halus dan elegan saat kursor diarahkan ke kartu produk (`:hover` / `:focus-within`) dengan efek transisi *backdrop blur* (*glassmorphism frosted dark*), zoom gambar halus (`scale: 1.08`), dan pergeseran vertikal halus.
+*   **Tombol WhatsApp Terintegrasi**: Tombol *Pesan Sekarang* tampil ringkas dan menawan di tengah overlay dengan gradien khas WhatsApp hijau emerald dan bayangan glow lembut.
+
+### 📱 2. Desain Sentuh User-Friendly untuk Mobile
+*   **Aksesibilitas Sentuh Penuh Tanpa Ketergantungan Hover**: Pada perangkat seluler, tata letak overlay disesuaikan dengan gradien lembut dari bawah ke atas sehingga foto plakat tetap terlihat jelas di bagian atas, sementara badge kategori, judul produk, harga, dan tombol WhatsApp 1-tap mudah dibaca dan dijangkau dengan satu tangan.
+*   **Smart Touch Passthrough**: Ketukan pada separuh atas gambar langsung membuka halaman detail produk, ketukan pada pill kategori membuka arsip kategori, dan ketukan pada tombol WhatsApp langsung memicu formulir pemesanan.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.5 — 100/100 Mobile & Desktop PageSpeed Optimization (FCP, LCP & Speed Index Overhaul)
 
 Pembaruan **v2.4.5** mengimplementasikan serangkaian teknik optimasi performa web mutakhir untuk meraih skor maksimal (100 / Hijau) pada Google PageSpeed Insights dan Core Web Vitals, baik pada perangkat Mobile maupun Desktop.
 

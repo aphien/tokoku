@@ -1340,6 +1340,27 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.4.6 — Modern Centered Product Card Image Overlay & User-Friendly UX
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan ini merombak tampilan kartu produk dengan desain <em>Centered Image Overlay</em> modern, interaktif, dan sangat user-friendly baik di desktop maupun perangkat seluler.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🎨 1. Centered Image Overlay & Desktop Hover Effect</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Tampilan Rata Tengah di Atas Gambar</strong>: Badge kategori, judul produk putih elegan, harga, dan tombol WhatsApp tertata rapi di tengah-tengah gambar produk.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Hover Reveal & Glassmorphism</strong>: Di desktop, overlay transparan dengan efek <em>backdrop blur</em> halus muncul saat kursor diarahkan ke kartu produk.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 2. Desain Sentuh User-Friendly untuk Mobile</h5>
+                                <ul style="margin: 0 0 14px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Aksesibilitas Sentuh Penuh</strong>: Tampilan mobile otomatis menampilkan overlay bergradien elegan yang tetap memperlihatkan foto plakat di bagian atas dan tombol WhatsApp 1-tap yang mudah ditekan.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Smart Touch Passthrough</strong>: Sentuhan pada foto atas langsung membuka detail produk, sedangkan tombol WhatsApp langsung memicu pesanan.</li>
+                                </ul>
+
+                                <hr style="margin: 16px 0; border: none; border-top: 1px dashed #cbd5e1;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #334155; font-size: 1.02rem; font-weight: 800;">
                                     🚀 Rilis v2.4.5 — 100/100 Mobile & Desktop PageSpeed Optimization
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">
