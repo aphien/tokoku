@@ -41,6 +41,7 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
 
         <!-- Centered Overlay on Image (Tampilan Tengah di Atas Gambar / User Friendly) -->
         <div class="product-card__overlay">
+            <a href="<?php the_permalink(); ?>" class="product-card__stretch-link" aria-label="<?php the_title_attribute(); ?>"></a>
             <div class="product-card__overlay-inner">
                 <div class="product-card__category">
                     <?php
