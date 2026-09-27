@@ -17,9 +17,9 @@ get_header(); ?>
                 <div class="product-gallery">
                     <div class="main-image">
                         <?php if ( has_post_thumbnail() ) : ?>
-                            <?php the_post_thumbnail( 'tokoku-product-large', array( 'loading' => 'eager', 'fetchpriority' => 'high' ) ); ?>
+                            <?php the_post_thumbnail( 'tokoku-product-large', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'decoding' => 'sync' ) ); ?>
                         <?php else : ?>
-                            <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title(); ?>">
+                            <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="800" height="800" loading="eager" fetchpriority="high">
                         <?php endif; ?>
                     </div>
                     
@@ -31,7 +31,7 @@ get_header(); ?>
                         <div class="gallery-thumbs">
                             <?php foreach ( $ids as $id ) : ?>
                                 <div class="thumb">
-                                    <?php echo wp_get_attachment_image( $id, 'thumbnail' ); ?>
+                                    <?php echo wp_get_attachment_image( $id, 'thumbnail', false, array( 'loading' => 'lazy', 'decoding' => 'async' ) ); ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>

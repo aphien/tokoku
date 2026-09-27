@@ -66,13 +66,13 @@ get_header(); ?>
                     if ( $slide_count > 0 ) {
                         foreach ( $slides_data as $idx => $slide ) {
                             $is_first = ( $idx === 0 );
-                            $loading_attr = $is_first ? 'fetchpriority="high" loading="eager"' : 'loading="lazy" decoding="async"';
+                            $loading_attr = $is_first ? 'fetchpriority="high" loading="eager" decoding="sync"' : 'loading="lazy" decoding="async"';
                             
                             echo '<div class="slide" role="group" aria-roledescription="slide" aria-label="' . esc_attr( sprintf( __( 'Slide %d dari %d', 'tokoku' ), $idx + 1, $slide_count ) ) . '">';
                             if ( ! empty( $slide['link'] ) ) {
                                 echo '<a href="' . esc_url( $slide['link'] ) . '" class="slide-link" draggable="false">';
                             }
-                            echo '<img src="' . esc_url( $slide['img'] ) . '" alt="' . esc_attr( $slide['alt'] ) . '" draggable="false" ' . $loading_attr . '>';
+                            echo '<img src="' . esc_url( $slide['img'] ) . '" alt="' . esc_attr( $slide['alt'] ) . '" width="1200" height="438" sizes="(max-width: 768px) 100vw, 1200px" draggable="false" ' . $loading_attr . '>';
                             if ( ! empty( $slide['link'] ) ) {
                                 echo '</a>';
                             }
@@ -194,7 +194,7 @@ get_header(); ?>
                     wp_reset_postdata();
                 else :
                     echo '<div class="empty-products">
-                        <span class="dashicons dashicons-cart" style="font-size: 60px; width: 60px; height: 60px; color: #ccc; display: block; margin: 0 auto 15px;"></span>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 15px;" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                         <p>' . sprintf( wp_kses_post( __( 'Belum ada produk. <a href="%s">Tambah produk</a>', 'tokoku' ) ), esc_url( admin_url('post-new.php?post_type=produk') ) ) . '</p>
                     </div>';
                 endif;
@@ -203,8 +203,8 @@ get_header(); ?>
 
             <div class="section-footer">
                 <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" class="btn-view-all">
-                    Lihat Semua Produk
-                    <span class="dashicons dashicons-arrow-right-alt2"></span>
+                    <span>Lihat Semua Produk</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
         </div>
@@ -237,11 +237,11 @@ get_header(); ?>
                     if ( ! empty( $client_logos ) ) {
                         // Render original list
                         foreach ( $client_logos as $clogo ) {
-                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . $clogo['alt'] . '" loading="lazy" decoding="async"></div>';
+                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . $clogo['alt'] . '" width="160" height="60" loading="lazy" decoding="async"></div>';
                         }
                         // Duplicate for seamless infinite loop
                         foreach ( $client_logos as $clogo ) {
-                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . $clogo['alt'] . '" loading="lazy" decoding="async"></div>';
+                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . $clogo['alt'] . '" width="160" height="60" loading="lazy" decoding="async"></div>';
                         }
                     } else {
                         echo '<div class="logo-slide-placeholder">' . esc_html__( 'Tambahkan logo partner di admin panel.', 'tokoku' ) . '</div>';
@@ -276,12 +276,12 @@ get_header(); ?>
                             <div class="testimonial-slide">
                                 <div class="testimonial-card">
                                     <div class="testimonial-quote">
-                                        <span class="dashicons dashicons-format-quote" style="font-size: 40px; width: 40px; height: 40px; opacity: 0.2;"></span>
+                                        <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.18;" aria-hidden="true"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
                                     </div>
                                     <p class="testimonial-text">"<?php echo esc_html( $text ); ?>"</p>
                                     <div class="testimonial-author">
                                         <?php if ( $img ) : ?>
-                                            <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ); ?>" class="author-img">
+                                            <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ); ?>" class="author-img" width="48" height="48" loading="lazy" decoding="async">
                                         <?php endif; ?>
                                         <div class="author-info">
                                             <h4 class="author-name"><?php echo esc_html( $name ); ?></h4>
@@ -289,8 +289,8 @@ get_header(); ?>
                                                 <?php 
                                                 $rating = get_theme_mod( "tokoku_testi_rating_{$i}", 5 );
                                                 for ($r = 1; $r <= 5; $r++) {
-                                                    $star_class = $r <= $rating ? 'dashicons-star-filled' : 'dashicons-star-empty';
-                                                    echo '<span class="dashicons '.$star_class.'"></span>';
+                                                    $fill_color = $r <= $rating ? '#f59e0b' : '#cbd5e1';
+                                                    echo '<svg width="15" height="15" viewBox="0 0 24 24" fill="' . $fill_color . '" style="margin-right:2px;display:inline-block;vertical-align:middle;" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
                                                 }
                                                 ?>
                                             </div>
@@ -352,10 +352,10 @@ get_header(); ?>
                                         </h3>
                                         <div class="article-card__meta">
                                             <span class="article-author">
-                                                <span class="dashicons dashicons-admin-users" style="font-size: 14px; margin-top: 3px;"></span> BY <?php echo esc_html(strtoupper(get_the_author())); ?>
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px;" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> BY <?php echo esc_html(strtoupper(get_the_author())); ?>
                                             </span>
                                             <span class="article-date">
-                                                <span class="dashicons dashicons-calendar-alt" style="font-size: 14px; margin-top: 3px;"></span> <?php echo esc_html(strtoupper(get_the_date('j F Y'))); ?>
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px;" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <?php echo esc_html(strtoupper(get_the_date('j F Y'))); ?>
                                             </span>
                                         </div>
                                     </div>
@@ -371,11 +371,11 @@ get_header(); ?>
                     </div>
                 </div>
                 
-                <button class="article-slider-btn prev" id="article-prev">
-                    <span class="dashicons dashicons-arrow-left-alt2"></span>
+                <button class="article-slider-btn prev" id="article-prev" aria-label="<?php esc_attr_e( 'Artikel Sebelumnya', 'tokoku' ); ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
-                <button class="article-slider-btn next" id="article-next">
-                    <span class="dashicons dashicons-arrow-right-alt2"></span>
+                <button class="article-slider-btn next" id="article-next" aria-label="<?php esc_attr_e( 'Artikel Berikutnya', 'tokoku' ); ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
                 
                 <div class="article-slider-dots"></div>

@@ -13,6 +13,26 @@ if ( ! defined( 'ABSPATH' ) ) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
+    <!-- Dynamic LCP Image Preload for Ultra-Fast Mobile & Desktop Render -->
+    <?php
+    if ( is_front_page() || is_home() ) {
+        $lcp_banner = get_theme_mod( 'tokoku_slide_image_1' );
+        if ( ! empty( $lcp_banner ) ) {
+            echo '<link rel="preload" as="image" href="' . esc_url( $lcp_banner ) . '" fetchpriority="high">' . "\n";
+        }
+    } elseif ( is_singular( 'produk' ) && has_post_thumbnail() ) {
+        $lcp_product = get_the_post_thumbnail_url( get_the_ID(), 'tokoku-product-large' );
+        if ( $lcp_product ) {
+            echo '<link rel="preload" as="image" href="' . esc_url( $lcp_product ) . '" fetchpriority="high">' . "\n";
+        }
+    } elseif ( is_single() && has_post_thumbnail() ) {
+        $lcp_post = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+        if ( $lcp_post ) {
+            echo '<link rel="preload" as="image" href="' . esc_url( $lcp_post ) . '" fetchpriority="high">' . "\n";
+        }
+    }
+    ?>
+
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=tokoku_manifest' ) ); ?>">

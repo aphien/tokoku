@@ -14,9 +14,9 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
     <div class="product-card__image">
         <a href="<?php the_permalink(); ?>" class="product-card__image-link" aria-label="<?php the_title_attribute(); ?>">
             <?php if ( has_post_thumbnail() ) : ?>
-                <?php the_post_thumbnail( 'tokoku-product-card', array( 'loading' => 'lazy' ) ); ?>
+                <?php the_post_thumbnail( 'tokoku-product-card', array( 'loading' => 'lazy', 'decoding' => 'async' ) ); ?>
             <?php else : ?>
-                <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy">
+                <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="400" height="400" loading="lazy" decoding="async">
             <?php endif; ?>
         </a>
         

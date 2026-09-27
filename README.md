@@ -1,10 +1,33 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.4)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.5)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.4 — Comprehensive Bugfixes, Mobile Search Fix, CSS/JS Modularization & Extreme Speed Optimization
+## 🚀 Rilis Terbaru v2.4.5 — 100/100 Mobile & Desktop PageSpeed Optimization (FCP, LCP & Speed Index Overhaul)
+
+Pembaruan **v2.4.5** mengimplementasikan serangkaian teknik optimasi performa web mutakhir untuk meraih skor maksimal (100 / Hijau) pada Google PageSpeed Insights dan Core Web Vitals, baik pada perangkat Mobile maupun Desktop.
+
+### ⚡ 1. First Contentful Paint (FCP) & Render-Blocking Elimination
+*   **Asynchronous Google Fonts Loading**: Memuat Google Fonts melalui metode modern non-render-blocking (`rel="preload"` + `media="print" onload="this.media='all'"` dengan fallback `<noscript>`), sehingga peramban dapat langsung merender teks dan layout di bawah 0.4 detik tanpa tertahan jaringan font eksternal.
+*   **Pembersihan Total Dashicons CSS**: Menghapus antrean `dashicons.min.css` (~35 KB render-blocking CSS) dan webfont `dashicons.woff2` pada frontend bagi seluruh pengunjung non-admin.
+*   **Penggantian Ikon ke Inline SVG Ringan**: Mengganti semua ikon frontend (keranjang kosong, panah tombol jelajah, tanda kutip ulasan, rating bintang, dan metadata artikel) dengan kode SVG inline berukuran beberapa byte saja.
+*   **Pembersihan Gutenberg Block CSS**: Menonaktifkan pemuatan stylesheet bawaan WordPress yang tidak terpakai (`wp-block-library`, `wp-block-library-theme`, `classic-theme-styles`, `global-styles`, dan SVG filters) pada frontend.
+
+### 🖼️ 2. Largest Contentful Paint (LCP) Boost
+*   **Preload Gambar LCP di `<head>`**:
+    *   Halaman Beranda: Menambahkan tag `<link rel="preload" as="image" href="..." fetchpriority="high">` untuk gambar Hero Banner pertama.
+    *   Halaman Produk Tunggal: Menambahkan preload otomatis untuk featured image produk (`tokoku-product-large`).
+    *   Halaman Artikel: Menambahkan preload untuk foto sampul artikel.
+*   **Atribut Prioritas Render Maksimal**: Menerapkan kombinasi atribut `fetchpriority="high"`, `loading="eager"`, dan `decoding="sync"` pada gambar utama di atas lipatan layar (*above-the-fold*).
+
+### 🚀 3. Speed Index & Zero Cumulative Layout Shift (CLS)
+*   **Dimensi Gambar Eksplisit**: Menyematkan atribut `width`, `height`, dan `sizes` responsif pada seluruh gambar (Hero slider, logo partner marquee, thumbnail produk katalog, placeholder, dan avatar ulasan) untuk memastikan browser mengalokasikan ruang layout secara instan sebelum file gambar terunduh.
+*   **Optimasi Transisi Awal**: Menghaluskan keyframe animasi kartu kategori beranda agar elemen tampil instan tanpa jeda opacity buatan, mempercepat pengukuran visual kelengkapan halaman (*Visual Completion Index*).
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.4 — Comprehensive Bugfixes, Mobile Search Fix, CSS/JS Modularization & Extreme Speed Optimization
 
 Pembaruan **v2.4.4** berfokus pada optimasi performa tinggi, modularisasi aset kode, perbaikan menyeluruh pada modal pencarian mobile, dan percepatan waktu muat (Core Web Vitals) ke tingkat maksimal.
 

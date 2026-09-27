@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.4.4' );
+define( 'TOKOKU_VERSION', '2.4.5' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -48,8 +48,6 @@ add_action( 'after_setup_theme', 'tokoku_setup' );
  * style utama, script pencarian AJAX, dan WhatsApp.
  */
 function tokoku_scripts() {
-    wp_enqueue_style( 'dashicons' );
-    
     // Dynamic Google Fonts
     $body_font = get_theme_mod( 'tokoku_font_body', 'Plus Jakarta Sans' );
     $heading_font = get_theme_mod( 'tokoku_font_headings', 'Plus Jakarta Sans' );
@@ -62,7 +60,7 @@ function tokoku_scripts() {
     
     $google_fonts_url = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', $font_query ) . '&display=swap';
     wp_enqueue_style( 'tokoku-google-fonts', $google_fonts_url, array(), null );
-    wp_enqueue_style( 'tokoku-main-style', TOKOKU_URI . '/assets/css/main.css', array( 'tokoku-google-fonts', 'dashicons' ), TOKOKU_VERSION );
+    wp_enqueue_style( 'tokoku-main-style', TOKOKU_URI . '/assets/css/main.css', array( 'tokoku-google-fonts' ), TOKOKU_VERSION );
     wp_enqueue_style( 'tokoku-style', get_stylesheet_uri(), array( 'tokoku-main-style' ), TOKOKU_VERSION );
 
     wp_enqueue_script( 'tokoku-main-js', TOKOKU_URI . '/assets/js/main.js', array(), TOKOKU_VERSION, true );
@@ -109,6 +107,20 @@ function tokoku_resource_hints( $urls, $relation_type ) {
 add_filter( 'wp_resource_hints', 'tokoku_resource_hints', 10, 2 );
 
 /**
+ * Asynchronous Loading untuk Google Fonts (Eliminasi Render-Blocking CSS)
+ */
+function tokoku_async_styles( $tag, $handle, $href, $media ) {
+    if ( is_admin() ) return $tag;
+    if ( 'tokoku-google-fonts' === $handle ) {
+        return '<link rel="preload" as="style" href="' . esc_url( $href ) . '">' . "\n" .
+               '<link rel="stylesheet" id="tokoku-google-fonts-css" href="' . esc_url( $href ) . '" media="print" onload="this.media=\'all\'">' . "\n" .
+               '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '"></noscript>';
+    }
+    return $tag;
+}
+add_filter( 'style_loader_tag', 'tokoku_async_styles', 10, 4 );
+
+/**
  * Defer Non-Critical Frontend JavaScript
  */
 function tokoku_defer_scripts( $tag, $handle, $src ) {
@@ -122,6 +134,27 @@ function tokoku_defer_scripts( $tag, $handle, $src ) {
     return $tag;
 }
 add_filter( 'script_loader_tag', 'tokoku_defer_scripts', 10, 3 );
+
+/**
+ * Pembersihan Aset Tidak Terpakai pada Frontend (Gutenberg Block CSS, Classic Styles, Dashicons)
+ */
+function tokoku_optimize_frontend_assets() {
+    if ( ! is_admin() ) {
+        wp_dequeue_style( 'wp-block-library' );
+        wp_dequeue_style( 'wp-block-library-theme' );
+        wp_dequeue_style( 'wc-blocks-style' );
+        wp_dequeue_style( 'classic-theme-styles' );
+        wp_dequeue_style( 'global-styles' );
+        
+        if ( ! is_user_logged_in() ) {
+            wp_dequeue_style( 'dashicons' );
+            wp_deregister_style( 'dashicons' );
+        }
+    }
+}
+add_action( 'wp_enqueue_scripts', 'tokoku_optimize_frontend_assets', 100 );
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
+remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
 
 /**
  * Nonaktifkan Emoji WordPress untuk Mempercepat Loading Halaman
