@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.4.3' );
+define( 'TOKOKU_VERSION', '2.4.4' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -69,6 +69,11 @@ function tokoku_scripts() {
     wp_enqueue_script( 'tokoku-search-js', TOKOKU_URI . '/assets/js/search.js', array(), TOKOKU_VERSION, true );
     wp_enqueue_script( 'tokoku-whatsapp-js', TOKOKU_URI . '/assets/js/whatsapp.js', array(), TOKOKU_VERSION, true );
 
+    if ( is_singular( 'produk' ) ) {
+        wp_enqueue_style( 'tokoku-single-product-style', TOKOKU_URI . '/assets/css/single-product.css', array( 'tokoku-main-style' ), TOKOKU_VERSION );
+        wp_enqueue_script( 'tokoku-single-product-js', TOKOKU_URI . '/assets/js/single-product.js', array(), TOKOKU_VERSION, true );
+    }
+
     $wa_number  = get_theme_mod( 'tokoku_wa_number', '6281234567890' );
     $wa_message = get_theme_mod( 'tokoku_wa_message', "✧━━━━━━[ DETAIL PESANAN PLAKAT ]━━━━━━✧\n\nTerima kasih telah mempercayakan momen spesial Anda bersama kami. Berikut adalah rincian pesanan Anda:\n\n👤 Nama Pemesan : {nama}\n📦 Produk       : {produk}\n🏷️ SKU          : {sku}\n🔗 Link Produk  : {link}\n\n💰 Harga Satuan : {harga}\n🔢 Jumlah       : {jumlah}\n\n📝 Catatan / Detail Grafir:\n{catatan}\n\n✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━✧\nMohon periksa kembali detail di atas. Jika semua data sudah benar, silakan balas \"CONFIRM\" agar pesanan dapat segera kami proses. Terima kasih! ✨" );
 
@@ -85,6 +90,49 @@ function tokoku_scripts() {
     ) );
 }
 add_action( 'wp_enqueue_scripts', 'tokoku_scripts' );
+
+/**
+ * Resource Hints untuk Optimasi Kecepatan (Preconnect Google Fonts)
+ */
+function tokoku_resource_hints( $urls, $relation_type ) {
+    if ( 'preconnect' === $relation_type ) {
+        $urls[] = array(
+            'href' => 'https://fonts.googleapis.com',
+        );
+        $urls[] = array(
+            'href'        => 'https://fonts.gstatic.com',
+            'crossorigin' => 'anonymous',
+        );
+    }
+    return $urls;
+}
+add_filter( 'wp_resource_hints', 'tokoku_resource_hints', 10, 2 );
+
+/**
+ * Defer Non-Critical Frontend JavaScript
+ */
+function tokoku_defer_scripts( $tag, $handle, $src ) {
+    if ( is_admin() ) return $tag;
+    $defer_handles = array( 'tokoku-main-js', 'tokoku-search-js', 'tokoku-whatsapp-js', 'tokoku-single-product-js' );
+    if ( in_array( $handle, $defer_handles, true ) ) {
+        if ( false === strpos( $tag, ' defer' ) ) {
+            return str_replace( ' src=', ' defer src=', $tag );
+        }
+    }
+    return $tag;
+}
+add_filter( 'script_loader_tag', 'tokoku_defer_scripts', 10, 3 );
+
+/**
+ * Nonaktifkan Emoji WordPress untuk Mempercepat Loading Halaman
+ */
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+remove_action( 'admin_print_styles', 'print_emoji_styles' );
+remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 
 /**
  * Mengeluarkan CSS Tipografi Dinamis

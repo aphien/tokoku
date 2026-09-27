@@ -182,7 +182,9 @@ get_header(); ?>
                         'category__in'   => array( $post_cats[0]->term_id ),
                         'post__not_in'   => array( get_the_ID() ),
                         'posts_per_page' => 3,
-                        'orderby'        => 'rand',
+                        'no_found_rows'  => true,
+                        'orderby'        => 'date',
+                        'order'          => 'DESC',
                     );
                     $related_query = new WP_Query( $related_args );
 

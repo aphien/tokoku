@@ -1,10 +1,57 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.3)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.4)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.3 — Single Product Lead Time & Trust Badges, Glassmorphism Sticky Bar, Mobile Square Categories & Ultra-Smooth Animations
+## 🚀 Rilis Terbaru v2.4.4 — Comprehensive Bugfixes, Mobile Search Fix, CSS/JS Modularization & Extreme Speed Optimization
+
+Pembaruan **v2.4.4** berfokus pada optimasi performa tinggi, modularisasi aset kode, perbaikan menyeluruh pada modal pencarian mobile, dan percepatan waktu muat (Core Web Vitals) ke tingkat maksimal.
+
+### 📦 1. Pemisahan & Modularisasi CSS/JS Halaman Produk Tunggal (*Single Product*)
+*   **Ekstraksi Kode Bersih**:
+    *   Mengekstrak 977 baris kode CSS inline dan JavaScript inline dari `single-produk.php` ke file terpisah: [`assets/css/single-product.css`](file:///Users/m.alfiandiismet/server/jualplakat/app/public/wp-content/themes/tokoku/assets/css/single-product.css) dan [`assets/js/single-product.js`](file:///Users/m.alfiandiismet/server/jualplakat/app/public/wp-content/themes/tokoku/assets/js/single-product.js).
+    *   Ukuran payload HTML mentah halaman produk terpangkas lebih dari 50% (dari ~68 KB menjadi ~34 KB), mempercepat pengunduhan dan penguraian DOM oleh peramban.
+*   **Pemuatan Kondisional Cerdas**:
+    *   Aset style dan skrip produk tunggal kini dimuat secara kondisional hanya saat membuka halaman produk (`is_singular('produk')`), sehingga halaman Beranda, Kategori, dan Arsip Blog bebas dari beban CSS/JS produk.
+
+### 🔍 2. Perbaikan Total Navigasi & Modal Pencarian Mobile
+*   **Interaksi Modal Pencarian Instan**:
+    *   Memperbaiki event listener trigger pencarian modal mobile (`mobile-search-nav-trigger` / `#header-search-input-mobile`).
+    *   Mengetuk input pencarian di header pada layar mobile (`<= 768px`) kini otomatis membuka modal pencarian AJAX interaktif secara instan dan responsif.
+    *   Penanganan event tombol Escape, klik backdrop overlay, dan tombol tutup modal bekerja 100% mulus tanpa terjadi bubbling atau tabrakan event DOM.
+
+### ⚡ 3. Optimasi Kecepatan Ekstrem & Core Web Vitals (FCP / LCP / CLS)
+*   **Resource Hints Otomatis**:
+    *   Menambahkan header `preconnect` & `dns-prefetch` untuk `fonts.googleapis.com` dan `fonts.gstatic.com` via hook `wp_resource_hints` dan `<head>` tag, mempercepat pengunduhan Google Fonts (Inter).
+*   **Deferred JavaScript Execution**:
+    *   Menambahkan filter `script_loader_tag` untuk menerapkan atribut `defer` secara otomatis pada seluruh skrip tema frontend guna mengeliminasi *render-blocking resources*.
+*   **Pembersihan Skrip WP Emoji**:
+    *   Mematikan script dan stylesheet emoji bawaan WordPress di sisi pengunjung (`print_emoji_detection_script`, `print_emoji_styles`) untuk memangkas HTTP requests.
+*   **LCP Optimization pada Gambar Utama**:
+    *   Menambahkan atribut `fetchpriority="high"` dan `loading="eager"` pada gambar featured utama produk untuk rendering visual instan di atas lipatan layar (*above-the-fold*).
+*   **Throttling Query Database (`no_found_rows`)**:
+    *   Mengaktifkan `'no_found_rows' => true` pada query produk terkait, pencarian SKU/judul AJAX, produk beranda, dan artikel beranda untuk meniadakan kalkulasi `SQL_CALC_FOUND_ROWS` yang berat pada MySQL.
+*   **Query Artikel Terkait Cepat**:
+    *   Mengganti `ORDER BY RAND()` yang membebani CPU database dengan `ORDER BY date DESC` yang memanfaatkan indeks tabel secara optimal.
+*   **Transient Cache Rasio Banner**:
+    *   Menyimpan kalkulasi rasio aspek hero banner dalam transient cache selama 24 jam untuk menghilangkan disk I/O synchronous `@getimagesize` di setiap kunjungan beranda.
+*   **Optimasi Logo Partner Beranda**:
+    *   Menyederhanakan iterasi ganda logo partner menjadi perulangan tunggal yang ringan dengan atribut `loading="lazy"` dan `decoding="async"`.
+
+### 🚀 4. Scroll & Render Performance Smoothness
+*   **Single Loop `requestAnimationFrame`**:
+    *   Menggabungkan listener scroll sticky header dan tombol *Scroll to Top* ke dalam satu loop `requestAnimationFrame` dengan opsi `{ passive: true }` untuk mencegah stuttering/jank pada layar refresh rate tinggi (120Hz/ProMotion).
+*   **Resolusi Konflik Sticky Order Bar**:
+    *   Menyelaraskan IntersectionObserver dengan scroll handler untuk mencegah glitch saat bar pemesanan muncul/sembunyi.
+
+### 🛡️ 5. PWA Service Worker Enhancement
+*   **Strategi Caching Adaptif**:
+    *   Service Worker `sw.js` diperbarui ke versi `v2.4.4` dengan strategi Network-First untuk navigasi halaman HTML dan Stale-While-Revalidate untuk static assets, serta bypass aman untuk `/wp-admin/` dan `admin-ajax.php`.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.3 — Single Product Lead Time & Trust Badges, Glassmorphism Sticky Bar, Mobile Square Categories & Ultra-Smooth Animations
 
 Pembaruan **v2.4.3** menghadirkan penyempurnaan besar pada fleksibilitas kustomisasi admin, pengalaman visual modern (*Glassmorphism*), tata letak kategori mobile yang lebih rapi (*Square 1:1*), serta perbaikan total pada efek animasi menu mobile dan navigasi.
 

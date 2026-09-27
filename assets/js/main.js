@@ -48,31 +48,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 🕒 Sticky Header
+    // 🕒 Unified High-Performance Scroll Handler (Sticky Header & Scroll to Top)
     const header = document.querySelector('.site-header');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header?.classList.add('sticky');
-        } else {
-            header?.classList.remove('sticky');
-        }
-    });
-
-    /* ==========================================================================
-       2. DESKTOP SPECIFIC LOGIC
-       ========================================================================== */
-    
-    // 🚀 Scroll to Top (Elegant Version)
     const scrollTopBtn = document.getElementById('scroll-to-top');
-    if (scrollTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
+    let scrollTicking = false;
+
+    function handleScrollUpdates() {
+        const currentScrollY = window.scrollY || window.pageYOffset;
+
+        // Sticky Header
+        if (header) {
+            if (currentScrollY > 50) {
+                header.classList.add('sticky');
+            } else {
+                header.classList.remove('sticky');
+            }
+        }
+
+        // Scroll to Top Button
+        if (scrollTopBtn) {
+            if (currentScrollY > 300) {
                 scrollTopBtn.classList.add('active');
             } else {
                 scrollTopBtn.classList.remove('active');
             }
-        });
+        }
 
+        scrollTicking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            window.requestAnimationFrame(handleScrollUpdates);
+            scrollTicking = true;
+        }
+    }, { passive: true });
+
+    if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
@@ -749,14 +761,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 📱 Sticky Mobile Order Bar for Single Product
     const stickyBar = document.getElementById('product-sticky-bar');
     if (stickyBar) {
-        const mainActionBtn = document.querySelector('.single-product .btn-contact-us');
-        const triggerElement = (mainActionBtn && window.getComputedStyle(mainActionBtn).display !== 'none') 
-            ? mainActionBtn 
-            : document.querySelector('.single-product .product-title') || document.querySelector('.single-product .main-image');
+        const triggerElement = document.querySelector('.single-product .main-image') || document.querySelector('.single-product .product-info');
 
         if (triggerElement && 'IntersectionObserver' in window) {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
+                    // Tampilkan saat foto/header produk sudah dilewati ke atas
                     if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
                         stickyBar.classList.add('visible');
                         stickyBar.setAttribute('aria-hidden', 'false');
@@ -765,22 +775,29 @@ document.addEventListener('DOMContentLoaded', function() {
                         stickyBar.setAttribute('aria-hidden', 'true');
                     }
                 });
-            }, { threshold: 0 });
+            }, { threshold: 0.1 });
             observer.observe(triggerElement);
-        }
-
-        // Mobile scroll listener
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth <= 768) {
-                if (window.scrollY > 80) {
-                    stickyBar.classList.add('visible');
-                    stickyBar.setAttribute('aria-hidden', 'false');
-                } else {
-                    stickyBar.classList.remove('visible');
-                    stickyBar.setAttribute('aria-hidden', 'true');
+        } else {
+            // Fallback scroll listener untuk browser lama tanpa IntersectionObserver
+            let barTicking = false;
+            window.addEventListener('scroll', () => {
+                if (!barTicking) {
+                    window.requestAnimationFrame(() => {
+                        if (window.innerWidth <= 768) {
+                            if (window.scrollY > 350) {
+                                stickyBar.classList.add('visible');
+                                stickyBar.setAttribute('aria-hidden', 'false');
+                            } else {
+                                stickyBar.classList.remove('visible');
+                                stickyBar.setAttribute('aria-hidden', 'true');
+                            }
+                        }
+                        barTicking = false;
+                    });
+                    barTicking = true;
                 }
-            }
-        }, { passive: true });
+            }, { passive: true });
+        }
     }
 
 });

@@ -9,6 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Resource Hints & Preconnect for Fast Font Loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=tokoku_manifest' ) ); ?>">

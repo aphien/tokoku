@@ -69,25 +69,60 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Mobile Logic ---
-    if (mobileTrigger && modalOverlay) {
-        mobileTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => modalInput && modalInput.focus(), 200);
+    function openMobileModal() {
+        if (!modalOverlay) return;
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => modalInput && modalInput.focus(), 150);
 
-            if (!initialMobileLoaded) {
-                performSearch('', modalResults, 'mobile');
-                initialMobileLoaded = true;
+        if (!initialMobileLoaded) {
+            performSearch('', modalResults, 'mobile');
+            initialMobileLoaded = true;
+        }
+    }
+
+    function closeMobileModal() {
+        if (!modalOverlay) return;
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Open modal when tapping header search on mobile/tablet
+    if (desktopInput) {
+        desktopInput.addEventListener('focus', function(e) {
+            if (window.innerWidth <= 768 && modalOverlay) {
+                e.preventDefault();
+                this.blur();
+                openMobileModal();
             }
         });
+        desktopInput.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768 && modalOverlay) {
+                e.preventDefault();
+                this.blur();
+                openMobileModal();
+            }
+        });
+    }
 
+    if (mobileTrigger) {
+        mobileTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            openMobileModal();
+        });
+    }
+
+    if (modalOverlay) {
         if (modalBack) {
-            modalBack.addEventListener('click', () => {
-                modalOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
+            modalBack.addEventListener('click', closeMobileModal);
         }
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeMobileModal();
+            }
+        });
 
         if (modalInput) {
             modalInput.addEventListener('input', function() {

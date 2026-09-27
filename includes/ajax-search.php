@@ -27,12 +27,12 @@ function tokoku_ajax_search() {
 
     if ( ! empty( $keyword ) ) {
         // Langkah 1: Cari berdasarkan SKU (Kode Produk)
-        // Kita ambil maksimal 50 produk untuk akurasi perhitungan total hasil.
         $args_sku = array(
             'post_type'      => 'produk',
             'post_status'    => 'publish',
             'posts_per_page' => 50,
             'fields'         => 'ids',
+            'no_found_rows'  => true,
             'meta_query'     => array(
                 array(
                     'key'     => '_produk_sku',
@@ -51,6 +51,7 @@ function tokoku_ajax_search() {
             's'              => $keyword,
             'posts_per_page' => 50,
             'fields'         => 'ids',
+            'no_found_rows'  => true,
         );
         $query_title = new WP_Query( $args_title );
         $ids_title = $query_title->posts;

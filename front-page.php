@@ -35,19 +35,26 @@ get_header(); ?>
     }
     $slide_count = count( $slides_data );
 
-    // Deteksi rasio aspek banner secara otomatis agar tampilan tidak terpotong (zero layout shift)
+    // Deteksi rasio aspek banner secara otomatis dengan transient cache (zero layout shift, zero redundant disk I/O)
     $banner_ratio = '2.735 / 1';
     if ( ! empty( $slides_data[0]['img'] ) ) {
         $first_img_url = $slides_data[0]['img'];
-        $upload_dir    = wp_upload_dir();
-        if ( strpos( $first_img_url, $upload_dir['baseurl'] ) !== false ) {
-            $local_path = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $first_img_url );
-            if ( file_exists( $local_path ) ) {
-                $img_size = @getimagesize( $local_path );
-                if ( ! empty( $img_size[0] ) && ! empty( $img_size[1] ) ) {
-                    $banner_ratio = $img_size[0] . ' / ' . $img_size[1];
+        $ratio_cache_key = 'tokoku_banner_ratio_' . md5( $first_img_url );
+        $cached_ratio    = get_transient( $ratio_cache_key );
+        if ( false !== $cached_ratio ) {
+            $banner_ratio = $cached_ratio;
+        } else {
+            $upload_dir = wp_upload_dir();
+            if ( strpos( $first_img_url, $upload_dir['baseurl'] ) !== false ) {
+                $local_path = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $first_img_url );
+                if ( file_exists( $local_path ) ) {
+                    $img_size = @getimagesize( $local_path );
+                    if ( ! empty( $img_size[0] ) && ! empty( $img_size[1] ) ) {
+                        $banner_ratio = $img_size[0] . ' / ' . $img_size[1];
+                    }
                 }
             }
+            set_transient( $ratio_cache_key, $banner_ratio, DAY_IN_SECONDS );
         }
     }
     ?>
@@ -177,6 +184,7 @@ get_header(); ?>
                 $latest_products = new WP_Query( array(
                     'post_type'      => 'produk',
                     'posts_per_page' => 20,
+                    'no_found_rows'  => true,
                 ) );
 
                 if ( $latest_products->have_posts() ) :
@@ -214,25 +222,26 @@ get_header(); ?>
             <div class="logo-carousel-wrapper">
                 <div class="logo-track">
                     <?php
-                    $site_name   = esc_attr( get_bloginfo( 'name' ) );
-                    $logos_found = false;
+                    $site_name    = esc_attr( get_bloginfo( 'name' ) );
+                    $client_logos = array();
                     for ( $i = 1; $i <= 50; $i++ ) {
                         $logo = get_theme_mod( "tokoku_client_logo_{$i}" );
                         if ( $logo ) {
-                            $logos_found = true;
-                            $logo_alt    = sprintf( esc_attr__( 'Klien & Mitra %s - Logo %d', 'tokoku' ), $site_name, $i );
-                            echo '<div class="logo-slide"><img src="' . esc_url( $logo ) . '" alt="' . $logo_alt . '"></div>';
+                            $client_logos[] = array(
+                                'url' => $logo,
+                                'alt' => sprintf( esc_attr__( 'Klien & Mitra %s - Logo %d', 'tokoku' ), $site_name, $i ),
+                            );
                         }
                     }
                     
-                    // Duplicate for seamless loop if logos exist
-                    if ( $logos_found ) {
-                        for ( $i = 1; $i <= 50; $i++ ) {
-                            $logo = get_theme_mod( "tokoku_client_logo_{$i}" );
-                            if ( $logo ) {
-                                $logo_alt = sprintf( esc_attr__( 'Klien & Mitra %s - Logo %d', 'tokoku' ), $site_name, $i );
-                                echo '<div class="logo-slide"><img src="' . esc_url( $logo ) . '" alt="' . $logo_alt . '"></div>';
-                            }
+                    if ( ! empty( $client_logos ) ) {
+                        // Render original list
+                        foreach ( $client_logos as $clogo ) {
+                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . $clogo['alt'] . '" loading="lazy" decoding="async"></div>';
+                        }
+                        // Duplicate for seamless infinite loop
+                        foreach ( $client_logos as $clogo ) {
+                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . $clogo['alt'] . '" loading="lazy" decoding="async"></div>';
                         }
                     } else {
                         echo '<div class="logo-slide-placeholder">' . esc_html__( 'Tambahkan logo partner di admin panel.', 'tokoku' ) . '</div>';
@@ -319,6 +328,7 @@ get_header(); ?>
                         $latest_posts = new WP_Query( array(
                             'post_type'      => 'post',
                             'posts_per_page' => 6,
+                            'no_found_rows'  => true,
                         ) );
 
                         if ( $latest_posts->have_posts() ) :
