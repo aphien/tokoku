@@ -1,10 +1,56 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.3.9)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.1)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## ✨ Fitur Terbaru v2.3.9
+## ✨ Fitur Terbaru v2.4.1
+
+*   **Grid Kategori Desktop Satu Baris (Single-Row Modern Layout)**:
+    *   Deretan kategori pada beranda desktop kini tersusun rapi dalam 1 baris (`flex-wrap: nowrap`) dengan perataan tengah yang simetris dan elegan.
+    *   Proporsi kartu diperkecil 20% agar tidak memakan ruang berlebih dan tampil lebih kompak di berbagai resolusi layar monitor.
+    *   Dimensi ikon kategori desktop disesuaikan secara proporsional (88px dengan ikon 44px) untuk harmonisasi visual yang seimbang.
+*   **Perbaikan Efek Visual Kategori Anti-Potong (Overflow Fix)**:
+    *   Pembaruan kontainer kategori dengan `overflow: visible` dan penambahan *padding compensation* sehingga efek bayangan melayang (*hover box-shadow*), pendaran cahaya (*glow halo*), serta animasi naik (*lift-up transform*) tampil utuh tanpa terpotong batas kontainer.
+*   **Pembersihan Category Pill-Bar di Desktop**:
+    *   Komponen *category-pill-bar* kini disembunyikan pada layar desktop (`display: none`) untuk menjaga tampilan katalog tetap bersih, dan secara otomatis tampil optimal hanya di layar sentuh mobile.
+*   **Redesain Halaman Cara Pemesanan (`page-cara-pemesanan.php`)**:
+    *   Tampilan baru dengan estetika modern bergaya SaaS:
+        *   **Hero Section**: Badge verifikasi proses terpercaya, judul estetik, dan metrik kepercayaan (Ribuan Plakat Terkirim, Desain Mockup Gratis, Jaminan Kualitas).
+        *   **6 Langkah Visual Terstruktur**: Konsultasi & Pilih Produk, Kirim Materi / Logo, Preview Desain Gratis, Pembayaran DP 50%, Proses Produksi Cepat, dan Pelunasan & Pengiriman Aman.
+        *   **Panel Informasi Pembayaran**: Metode pembayaran transfer bank lengkap (BCA, Mandiri, BRI, BNI) dan info skema DP 50% yang transparan.
+        *   **Akordeon FAQ Interaktif**: Pertanyaan yang sering diajukan seputar pemesanan, minimal order, pengerjaan kilat, hingga garansi kerusakan saat pengiriman (tanpa ketergantungan library luar).
+        *   **Call To Action Ganda**: Tombol pesan langsung via WhatsApp dan unduh katalog.
+*   **Penyempurnaan Struktur CSS Core**:
+    *   Restorasi dan validasi modul styling v2.4.0 pada `assets/css/main.css` untuk memastikan kalkulator harga, galeri lightbox, floating WA, dan popup katalog bekerja mulus.
+
+---
+
+## ✨ Fitur v2.4.0
+
+*   **⏰ Countdown Timer Pemesanan (Urgency & Conversions)**:
+    *   Bar hitung mundur dinamis di halaman produk tunggal yang menghitung mundur ke pukul 17:00 setiap harinya.
+    *   Memberikan dorongan psikologis (*Urgency/FOMO*) kepada calon pembeli untuk segera memesan agar pesanan dapat masuk antrean produksi dan dikirim pada hari yang sama.
+*   **🧮 Kalkulator Estimasi Harga & Tier Grosir Interaktif**:
+    *   Kalkulator estimasi harga otomatis berbasis accordion di halaman detail produk.
+    *   Menampilkan tingkatan diskon kuantiti (*tiered pricing*): Satuan (1–9 pcs), Grosir Kecil (10–49 pcs), Grosir Sedang (50–99 pcs), dan Partai Besar (100+ pcs).
+    *   Dilengkapi tombol *"Pesan via WhatsApp dengan Detail Kalkulator"* yang langsung memformat rincian jumlah dan estimasi harga ke pesan WhatsApp.
+*   **🖼️ Lightbox Gallery Full-Screen**:
+    *   Galeri pratinjau foto produk resolusi tinggi layar penuh (*full-screen overlay*).
+    *   Mendukung gestur sentuh *swipe* di perangkat mobile, tombol navigasi panah keyboard (kiri/kanan/Esc), navigasi tombol visual, dan deretan thumbnail gambar yang responsif.
+*   **💬 WhatsApp Floating Chat Button**:
+    *   Tombol mengambang (*floating action button*) WhatsApp di pojok kanan bawah seluruh halaman situs.
+    *   Dilengkapi animasi pop-in saat pertama kali dimuat dan tooltip informatif saat cursor diarahkan.
+*   **🎁 Catalog Popup (Exit-Intent & Auto-Timer)**:
+    *   Modal penawaran unduh katalog produk gratis yang cerdas.
+    *   Muncul secara otomatis setelah 10 detik atau saat mendeteksi kursor pengunjung bergerak menuju tombol keluar (*exit-intent*), dilengkapi opsi unduh katalog langsung via WhatsApp.
+*   **🏆 Template Halaman Portofolio / Hasil Karya (`page-portofolio.php`)**:
+    *   Template khusus untuk menampilkan portofolio proyek dan hasil produksi plakat.
+    *   Menampilkan galeri dinamis dari data produk yang memiliki foto, dilengkapi counter jumlah foto, filter kategori, dan tombol ajakan konsultasi.
+
+---
+
+## ✨ Fitur v2.3.9
 
 *   **Template Pesan WhatsApp Premium (Branded Order Template)**:
     *   Pembaruan template pesan WhatsApp menjadi format profesional berlabel `[ DETAIL PESANAN PLAKAT ]` dengan pemisah dekoratif (`✧━━━━━✧`), emoji informatif, dan tata letak tabel pesanan yang mudah dibaca.

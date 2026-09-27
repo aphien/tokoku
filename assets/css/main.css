@@ -4077,7 +4077,7 @@ input#search-modal-input {
         backdrop-filter: none;
     }
 
-    /* Category - Khusus Mobile: 4 Ikon Berjejer, Square, Rata Tengah */
+    /* Category - Khusus Mobile: 4 Ikon Berjejer dan Rata Tengah */
     .category-grid {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
@@ -4085,8 +4085,7 @@ input#search-modal-input {
         width: 100% !important;
         max-width: 100% !important;
         justify-content: center !important;
-        justify-items: center !important;
-        align-items: center !important;
+        align-items: stretch !important;
         margin: 0 auto !important;
         padding: 8px 4px !important;
         overflow: visible !important;
@@ -4097,8 +4096,8 @@ input#search-modal-input {
         width: 100% !important;
         min-width: 0 !important;
         max-width: 100% !important;
-        aspect-ratio: 1 / 1 !important;  /* Square */
-        padding: 8px 4px !important;
+        aspect-ratio: auto !important;
+        padding: 10px 4px 8px !important;
         gap: 6px !important;
         background: var(--glass);
         backdrop-filter: blur(10px);
@@ -4109,7 +4108,7 @@ input#search-modal-input {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        justify-content: center !important;  /* Rata tengah vertikal */
+        justify-content: flex-start !important;
         text-align: center !important;
         box-sizing: border-box !important;
     }
@@ -4144,7 +4143,7 @@ input#search-modal-input {
     }
 
     .category-name {
-        font-size: 0.68rem !important;
+        font-size: 0.72rem !important;
         font-weight: 700 !important;
         line-height: 1.2 !important;
         text-align: center !important;
