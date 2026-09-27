@@ -800,4 +800,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // 📱 Mobile Product Card Touch / Selection Overlay Handler
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        document.addEventListener('touchstart', function(e) {
+            const card = e.target.closest('.product-card');
+            if (card) {
+                document.querySelectorAll('.product-card.is-active').forEach(c => {
+                    if (c !== card) c.classList.remove('is-active');
+                });
+                card.classList.add('is-active');
+            } else {
+                document.querySelectorAll('.product-card.is-active').forEach(c => {
+                    c.classList.remove('is-active');
+                });
+            }
+        }, { passive: true });
+    }
+
 });
