@@ -1,10 +1,63 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.2)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.3)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.2 — Codebase Cleanup & Performance Streamlining
+## 🚀 Rilis Terbaru v2.4.3 — Single Product Lead Time & Trust Badges, Glassmorphism Sticky Bar, Mobile Square Categories & Ultra-Smooth Animations
+
+Pembaruan **v2.4.3** menghadirkan penyempurnaan besar pada fleksibilitas kustomisasi admin, pengalaman visual modern (*Glassmorphism*), tata letak kategori mobile yang lebih rapi (*Square 1:1*), serta perbaikan total pada efek animasi menu mobile dan navigasi.
+
+### 🛠️ 1. Panel Pengaturan Baru di Admin: Lead Time Bar & Trust Badges
+*   **Tab Baru "Halaman Produk" (`tab-single-product`)**:
+    *   Tersedia langsung di menu pengaturan tema WordPress Admin untuk mengelola komponen konversi di halaman produk.
+*   **Product Lead Time Bar Dinamis (`product-lead-time-bar`)**:
+    *   Sakelar ON/OFF untuk menampilkan atau menyembunyikan bar estimasi waktu pengerjaan.
+    *   Teks label, nilai estimasi hari/waktu, subteks, serta teks badge (*chip*) kini dapat diubah bebas melalui admin dashboard.
+    *   Pilihan ikon fleksibel: 7 preset SVG (*Clock, Lightning, Truck, Calendar, Shield, Award, Star*), unggah gambar/ikon sendiri via WP Media Library, atau tempel kode SVG kustom (dilengkapi fungsi sanitasi keamanan `tokoku_sanitize_svg()`).
+    *   Efek animasi premium: sapuan kilap cahaya (*shimmer sweep*), pendaran ikon lembut, dan titik radar berkedip langsung (*live radar ping dot*).
+*   **Product Trust Badges Dinamis (`product-trust-badges`)**:
+    *   Sakelar ON/OFF untuk menampilkan atau menyembunyikan 4 kartu garansi & kepercayaan toko.
+    *   Tiap badge dapat diatur judul, deskripsi, dan ikonnya secara terpisah (preset ikon: *Design, Shield, Lightning, Craftsman, Award, Check, Heart, Box, Thumbs-up, Star*, gambar kustom, atau SVG).
+    *   Animasi melayang halus (*ambient float*) dan efek pegas dinamis saat disentuh/di-hover.
+
+### ✨ 2. Single Product Glassmorphism Sticky Order Bar
+*   **Tampilan Kaca Mengambang (*Glassmorphism*)**:
+    *   Bar pemesanan mengambang di halaman produk saat aktif kini menggunakan efek *frosted glass* modern (`backdrop-filter: blur(24px) saturate(180%)`, border specular reflektif, dan bayangan lembut).
+    *   Penyelarasan posisi presisi di atas bottom navigation mobile dengan memperhitungkan *safe-area-inset* perangkat layar modern (`bottom: calc(68px + env(safe-area-inset-bottom, 0px))`).
+*   **Animasi Tombol Sticky Order**:
+    *   Animasi muncul pegas (*pop entrance*), efek pendaran cahaya WhatsApp berkilau (*radiant pulse glow*), dan sapuan kilau (*shimmer light sweep*).
+
+### 📱 3. Tampilan Kategori Halaman Depan Mobile Menjadi Square (1:1)
+*   **Bentuk Kartu Kategori Square (1:1)**:
+    *   Kartu kategori (`.category-item`) pada layar mobile kini berasio simetris **Square 1:1** (`aspect-ratio: 1 / 1 !important;`).
+    *   Perataan tengah sempurna secara vertikal dan horizontal (`justify-content: center !important;`).
+    *   Proporsi ukuran ikon dinamis (`clamp`) dan tipografi seimbang, memastikan nama kategori 1 baris maupun 2 baris tampil rapi, pas, dan tidak meluber keluar kartu (*anti-overflow*).
+
+### 🎬 4. Perbaikan Total Efek Animasi Menu & Navigasi Mobile
+*   **Backdrop Overlay Lembut Tanpa Kedip**:
+    *   Menggantikan transisi instan `display: none`/`block` dengan animasi Fade-in / Fade-out halus berbasis `opacity` dan efek buram kaca (`backdrop-filter: blur(8px)`).
+*   **Drawer Sheet Hardware-Accelerated**:
+    *   Transisi geser menggunakan `translate3d(...)` dengan kurva pegas iOS (`cubic-bezier(0.32, 0.72, 0, 1)`), sudut melengkung modern (*sheet curvature* `border-top-left-radius: 20px`), dan dukungan tema gelap (*dark mode*).
+*   **Efek Muncul Bertingkat (*Staggered Waterfall Entrance*)**:
+    *   Tautan menu meluncur masuk secara berurutan (*delays* 0.06s – 0.34s) dari kanan ke kiri saat drawer dibuka.
+*   **Ikon Menu Bottom Nav Berubah Jadi 'X' (*Morphing Hamburger to Close*)**:
+    *   Tiga garis ikon hamburger di Bottom Navigation secara dinamis berputar membentuk silang 'X' saat menu aktif, dilengkapi pendaran cahaya ungu (*navMenuPulse*).
+*   **Akordion Submenu Halus**:
+    *   Submenu kini memiliki transisi slide vertikal akordion mulus dengan rotasi 180° pada indikator panah (*chevron*).
+*   **Kunci Gulir Latar Belakang (*Scroll Lock*)**:
+    *   Mencegah halaman utama ikut bergeser di belakang menu saat menu mobile sedang terbuka (`body.menu-open`).
+
+### 🎯 5. Optimasi Tombol & Navigasi Bawah
+*   **Tombol "Lihat Semua Produk" Proporsional**:
+    *   Ukuran tombol diperkecil 10% khusus mobile untuk keseimbangan visual beranda.
+    *   Dilengkapi animasi pendaran cahaya lembut (*pulse glow*), sapuan kilap berkilau (*shimmer reflection*), dan pantulan panah halus (*arrow bounce*).
+*   **Bottom Navigation**:
+    *   Ketinggian dinaikkan 5% (68px) dan ukuran ikon menu diperbesar untuk kenyamanan navigasi ibu jari.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.2 — Codebase Cleanup & Performance Streamlining
 
 Pembaruan **v2.4.2** berfokus pada penyederhanaan antarmuka pengguna (*UI streamlining*), optimasi kecepatan rendering halaman, serta pembersihan elemen-elemen dan widget non-esensial agar alur pemesanan plakat menjadi lebih fokus, bersih, cepat, dan konversi WhatsApp meningkat.
 

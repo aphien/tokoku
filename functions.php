@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.4.2' );
+define( 'TOKOKU_VERSION', '2.4.3' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -448,4 +448,173 @@ function tokoku_get_category_icon_html( $term_id = 0, $size = 20 ) {
     // Default fallback icon
     return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>';
 }
+
+/**
+ * Sanitasi Tag SVG untuk Keamanan Admin
+ */
+function tokoku_sanitize_svg( $svg ) {
+    if ( empty( $svg ) ) {
+        return '';
+    }
+    $allowed_tags = array(
+        'svg' => array(
+            'class'           => true,
+            'aria-hidden'     => true,
+            'aria-label'      => true,
+            'role'            => true,
+            'viewbox'         => true,
+            'width'           => true,
+            'height'          => true,
+            'fill'            => true,
+            'stroke'          => true,
+            'stroke-width'    => true,
+            'stroke-linecap'  => true,
+            'stroke-linejoin' => true,
+            'xmlns'           => true,
+        ),
+        'g' => array(
+            'fill'   => true,
+            'stroke' => true,
+        ),
+        'path' => array(
+            'd'               => true,
+            'fill'            => true,
+            'stroke'          => true,
+            'stroke-width'    => true,
+            'stroke-linecap'  => true,
+            'stroke-linejoin' => true,
+        ),
+        'circle' => array(
+            'cx'           => true,
+            'cy'           => true,
+            'r'            => true,
+            'fill'         => true,
+            'stroke'       => true,
+            'stroke-width' => true,
+        ),
+        'rect' => array(
+            'x'            => true,
+            'y'            => true,
+            'width'        => true,
+            'height'       => true,
+            'rx'           => true,
+            'ry'           => true,
+            'fill'         => true,
+            'stroke'       => true,
+            'stroke-width' => true,
+        ),
+        'line' => array(
+            'x1'           => true,
+            'y1'           => true,
+            'x2'           => true,
+            'y2'           => true,
+            'stroke'       => true,
+            'stroke-width' => true,
+            'stroke-linecap' => true,
+        ),
+        'polyline' => array(
+            'points'          => true,
+            'fill'            => true,
+            'stroke'          => true,
+            'stroke-width'    => true,
+            'stroke-linecap'  => true,
+            'stroke-linejoin' => true,
+        ),
+        'polygon' => array(
+            'points'          => true,
+            'fill'            => true,
+            'stroke'          => true,
+            'stroke-width'    => true,
+            'stroke-linecap'  => true,
+            'stroke-linejoin' => true,
+        ),
+    );
+    return wp_kses( $svg, $allowed_tags );
+}
+
+/**
+ * Render Ikon Lead Time Bar Halaman Produk
+ */
+function tokoku_get_lead_time_icon_html( $size = 18 ) {
+    $custom_img = get_theme_mod( 'tokoku_lead_time_icon_img' );
+    if ( ! empty( $custom_img ) ) {
+        return '<img src="' . esc_url( $custom_img ) . '" alt="" width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" style="object-fit:contain; display:block;">';
+    }
+
+    $custom_svg = get_theme_mod( 'tokoku_lead_time_icon_svg' );
+    if ( ! empty( $custom_svg ) ) {
+        return tokoku_sanitize_svg( $custom_svg );
+    }
+
+    $preset = get_theme_mod( 'tokoku_lead_time_icon', 'clock' );
+    switch ( $preset ) {
+        case 'lightning':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>';
+        case 'truck':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>';
+        case 'calendar':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
+        case 'shield':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>';
+        case 'award':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>';
+        case 'star':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+        case 'clock':
+        default:
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+    }
+}
+
+/**
+ * Render Ikon Trust Badge Halaman Produk
+ */
+function tokoku_get_trust_badge_icon_html( $index = 1, $size = 20 ) {
+    $custom_img = get_theme_mod( "tokoku_trust_badge_icon_img_{$index}" );
+    if ( ! empty( $custom_img ) ) {
+        return '<img src="' . esc_url( $custom_img ) . '" alt="" width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" style="object-fit:contain; display:block;">';
+    }
+
+    $custom_svg = get_theme_mod( "tokoku_trust_badge_icon_svg_{$index}" );
+    if ( ! empty( $custom_svg ) ) {
+        return tokoku_sanitize_svg( $custom_svg );
+    }
+
+    // Default presets for each badge index
+    $default_presets = array(
+        1 => 'design',
+        2 => 'shield',
+        3 => 'lightning',
+        4 => 'craftsman',
+    );
+    $default_preset = isset( $default_presets[$index] ) ? $default_presets[$index] : 'design';
+    $preset = get_theme_mod( "tokoku_trust_badge_icon_{$index}", $default_preset );
+
+    switch ( $preset ) {
+        case 'design':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>';
+        case 'shield':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>';
+        case 'lightning':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>';
+        case 'craftsman':
+        case 'factory':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path><path d="M9 9v.01"></path><path d="M9 13v.01"></path><path d="M9 17v.01"></path></svg>';
+        case 'award':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>';
+        case 'check':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+        case 'heart':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>';
+        case 'box':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><line x1="1" y1="3" x2="23" y2="3"></line><line x1="10" y1="12" x2="14" y2="12"></line></svg>';
+        case 'thumbs-up':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>';
+        case 'star':
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+        default:
+            return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+    }
+}
+
 

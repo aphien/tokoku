@@ -1022,3 +1022,21 @@
         white-space: nowrap;
     }
 }
+
+/* Single Product Admin Card Styles */
+.tokoku-product-badge-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.tokoku-product-badge-card:hover {
+    border-color: #93c5fd !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08) !important;
+    transform: translateY(-2px);
+}
+
+.tokoku-product-badge-card .tokoku-field label {
+    margin-bottom: 5px;
+    color: #475569;
+    font-weight: 600;
+}
+

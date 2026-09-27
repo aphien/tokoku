@@ -48,59 +48,32 @@ get_header(); ?>
                     <?php endif; ?>
 
                     <!-- Trust Badges (Desktop: Di Bawah Foto Produk, Teks & Ikon Rata Kiri) -->
+                    <?php if ( get_theme_mod( 'tokoku_enable_trust_badges', 'yes' ) !== 'no' ) : 
+                        $badge_defaults = array(
+                            1 => array( 'title' => 'Gratis Preview Desain',     'desc' => 'Konsultasi & revisi sebelum cetak' ),
+                            2 => array( 'title' => 'Garansi Pengiriman Aman',   'desc' => 'Ganti baru jika barang rusak/pecah' ),
+                            3 => array( 'title' => 'Pengerjaan Presisi & Cepat','desc' => 'Tepat waktu untuk deadline acara' ),
+                            4 => array( 'title' => 'Tangan Pertama Pengrajin',  'desc' => 'Kualitas terjamin, harga terbaik' ),
+                        );
+                    ?>
                     <div class="product-trust-badges">
+                        <?php for ( $bi = 1; $bi <= 4; $bi++ ) : 
+                            $btitle = get_theme_mod( "tokoku_trust_badge_title_{$bi}", $badge_defaults[$bi]['title'] );
+                            $bdesc  = get_theme_mod( "tokoku_trust_badge_desc_{$bi}", $badge_defaults[$bi]['desc'] );
+                            if ( empty( $btitle ) ) continue;
+                        ?>
                         <div class="trust-badge-item">
                             <div class="trust-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 20h9"></path>
-                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                                </svg>
+                                <?php echo tokoku_get_trust_badge_icon_html( $bi, 20 ); ?>
                             </div>
                             <div class="trust-content">
-                                <strong>Gratis Preview Desain</strong>
-                                <span>Konsultasi & revisi sebelum cetak</span>
+                                <strong><?php echo esc_html( $btitle ); ?></strong>
+                                <span><?php echo esc_html( $bdesc ); ?></span>
                             </div>
                         </div>
-                        <div class="trust-badge-item">
-                            <div class="trust-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                    <polyline points="9 12 11 14 15 10"></polyline>
-                                </svg>
-                            </div>
-                            <div class="trust-content">
-                                <strong>Garansi Pengiriman Aman</strong>
-                                <span>Ganti baru jika barang rusak/pecah</span>
-                            </div>
-                        </div>
-                        <div class="trust-badge-item">
-                            <div class="trust-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                                </svg>
-                            </div>
-                            <div class="trust-content">
-                                <strong>Pengerjaan Presisi & Cepat</strong>
-                                <span>Tepat waktu untuk deadline acara</span>
-                            </div>
-                        </div>
-                        <div class="trust-badge-item">
-                            <div class="trust-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 21h18"></path>
-                                    <path d="M5 21V7l8-4v18"></path>
-                                    <path d="M19 21V11l-6-4"></path>
-                                    <path d="M9 9v.01"></path>
-                                    <path d="M9 13v.01"></path>
-                                    <path d="M9 17v.01"></path>
-                                </svg>
-                            </div>
-                            <div class="trust-content">
-                                <strong>Tangan Pertama Pengrajin</strong>
-                                <span>Kualitas terjamin, harga terbaik</span>
-                            </div>
-                        </div>
+                        <?php endfor; ?>
                     </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="product-info">
@@ -116,19 +89,28 @@ get_header(); ?>
                     </nav>
 
                     <!-- Lead Time & Fast Production Badge (Desktop: Di Atas Judul Produk) -->
+                    <?php if ( get_theme_mod( 'tokoku_enable_lead_time', 'yes' ) !== 'no' ) : 
+                        $lt_label = get_theme_mod( 'tokoku_lead_time_label', 'Estimasi Pengerjaan:' );
+                        $lt_val   = get_theme_mod( 'tokoku_lead_time_val', '2 – 3 Hari Kerja' );
+                        $lt_sub   = get_theme_mod( 'tokoku_lead_time_sub', '(Tergantung Qty & Desain)' );
+                        $lt_chip  = get_theme_mod( 'tokoku_lead_time_chip', 'Siap Kirim Cepat' );
+                    ?>
                     <div class="product-lead-time-bar">
                         <div class="lead-time-icon-wrap">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
+                            <?php echo tokoku_get_lead_time_icon_html( 18 ); ?>
                         </div>
                         <div class="lead-time-info">
-                            <span class="lead-time-label">Estimasi Pengerjaan:</span>
-                            <span class="lead-time-val"><strong>2 – 3 Hari Kerja</strong> (Tergantung Qty & Desain)</span>
+                            <?php if ( ! empty( $lt_label ) ) : ?><span class="lead-time-label"><?php echo esc_html( $lt_label ); ?></span><?php endif; ?>
+                            <span class="lead-time-val">
+                                <?php if ( ! empty( $lt_val ) ) : ?><strong><?php echo esc_html( $lt_val ); ?></strong><?php endif; ?>
+                                <?php if ( ! empty( $lt_sub ) ) : ?> <?php echo esc_html( $lt_sub ); ?><?php endif; ?>
+                            </span>
                         </div>
-                        <span class="lead-time-chip">Siap Kirim Cepat</span>
+                        <?php if ( ! empty( $lt_chip ) ) : ?>
+                            <span class="lead-time-chip"><?php echo esc_html( $lt_chip ); ?></span>
+                        <?php endif; ?>
                     </div>
+                    <?php endif; ?>
 
                     <?php
                     // Get all new meta values
@@ -502,6 +484,7 @@ get_template_part( 'template-parts/whatsapp-modal' );
     border: 1px solid var(--border);
     border-radius: 14px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    transition: var(--ease);
 }
 .trust-badge-item {
     display: flex;
@@ -509,7 +492,13 @@ get_template_part( 'template-parts/whatsapp-modal' );
     justify-content: flex-start;
     text-align: left;
     gap: 10px;
-    padding: 3px 0;
+    padding: 5px 6px;
+    border-radius: 10px;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, box-shadow 0.25s ease;
+}
+.trust-badge-item:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: rgba(var(--primary-rgb, 0, 123, 255), 0.06);
 }
 .trust-icon {
     width: 34px;
@@ -523,6 +512,25 @@ get_template_part( 'template-parts/whatsapp-modal' );
     justify-content: center;
     flex-shrink: 0;
     margin: 0;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    animation: trustIconFloat 4s infinite ease-in-out;
+}
+.trust-badge-item:hover .trust-icon {
+    transform: scale(1.14) rotate(5deg);
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb, 0, 123, 255), 0.35);
+}
+.trust-badge-item:hover .trust-icon svg {
+    stroke: #ffffff;
+}
+.trust-icon img,
+.trust-icon .trust-badge-custom-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
 }
 .trust-content {
     display: flex;
@@ -548,8 +556,20 @@ get_template_part( 'template-parts/whatsapp-modal' );
     background: rgba(30, 41, 59, 0.5);
     border-color: rgba(255, 255, 255, 0.1);
 }
+:is(.theme-dark, html.theme-dark, body.theme-dark) .trust-badge-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
 
-/* Lead Time Badge (Desktop: above title in product-info) */
+@keyframes trustIconFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+/* Lead Time Badge (Desktop: above title in product-info) with Animations */
 .product-lead-time-bar {
     display: flex;
     align-items: center;
@@ -562,7 +582,27 @@ get_template_part( 'template-parts/whatsapp-modal' );
     border-radius: 14px;
     margin-top: 8px;
     margin-bottom: 20px;
-    transition: var(--ease);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.product-lead-time-bar:hover {
+    transform: translateY(-2px);
+    border-color: rgba(var(--primary-rgb, 0, 123, 255), 0.38);
+    box-shadow: 0 6px 20px rgba(var(--primary-rgb, 0, 123, 255), 0.12);
+}
+/* Shimmer Light Reflection on Lead Time Bar */
+.product-lead-time-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    animation: leadTimeShimmer 5s infinite ease-in-out;
+    pointer-events: none;
 }
 .lead-time-icon-wrap {
     width: 34px;
@@ -575,6 +615,14 @@ get_template_part( 'template-parts/whatsapp-modal' );
     justify-content: center;
     flex-shrink: 0;
     margin: 0;
+    animation: leadTimeIconPulse 3.5s infinite ease-in-out;
+}
+.lead-time-icon-wrap img,
+.lead-time-icon-wrap .lead-time-custom-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: block;
 }
 .lead-time-info {
     display: flex;
@@ -604,36 +652,93 @@ get_template_part( 'template-parts/whatsapp-modal' );
 .lead-time-chip {
     font-size: 0.68rem;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 20px;
     background: var(--green, #22c55e);
     color: #ffffff;
     white-space: nowrap;
     flex-shrink: 0;
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.35);
+    animation: leadTimeChipPulse 2.8s infinite ease-in-out;
+}
+.lead-time-chip::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-block;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
+    animation: chipDotPing 2s infinite;
 }
 :is(.theme-dark, html.theme-dark, body.theme-dark) .product-lead-time-bar {
     background: rgba(30, 41, 59, 0.6);
     border-color: rgba(255, 255, 255, 0.12);
 }
+:is(.theme-dark, html.theme-dark, body.theme-dark) .product-lead-time-bar::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+}
 
-/* Elegant Centered Mobile Sticky Order Bar (Docked Above Mobile Bottom Nav) */
+@keyframes leadTimeShimmer {
+    0% {
+        left: -120%;
+    }
+    30%, 100% {
+        left: 200%;
+    }
+}
+
+@keyframes leadTimeIconPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@keyframes leadTimeChipPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+}
+
+@keyframes chipDotPing {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 5px rgba(255, 255, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+/* Glassmorphism Centered Mobile Sticky Order Bar (Docked Above Mobile Bottom Nav) */
 .single-product-sticky-bar {
     position: fixed;
-    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     width: 100%;
     z-index: 998;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.65);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.8), 0 -8px 30px rgba(0, 0, 0, 0.08);
     padding: 10px 16px;
     transform: translateY(200%);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, background 0.3s ease;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -644,6 +749,10 @@ get_template_part( 'template-parts/whatsapp-modal' );
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), 0 -8px 32px rgba(0, 0, 0, 0.09);
 }
 .sticky-bar-centered-wrap {
     width: 100%;
@@ -652,7 +761,15 @@ get_template_part( 'template-parts/whatsapp-modal' );
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
+
+/* Animations for Button in sticky-bar-centered-wrap */
+.single-product-sticky-bar.visible .btn-sticky-order-elegant {
+    animation: stickyBtnPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               stickyBtnPulseGlow 3s infinite ease-in-out 0.5s;
+}
+
 .btn-sticky-order-elegant {
     width: 100%;
     max-width: 440px;
@@ -671,17 +788,35 @@ get_template_part( 'template-parts/whatsapp-modal' );
     line-height: 1.2;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.4);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
+    position: relative;
+    overflow: hidden;
 }
+
+/* Shimmer Light Sweep on Sticky WA Button */
+.btn-sticky-order-elegant::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-22deg);
+    animation: stickyShineSweep 3.5s infinite ease-in-out;
+    pointer-events: none;
+}
+
 .btn-sticky-order-elegant:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.45);
+    transform: scale(0.96);
+    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.5);
 }
 .sticky-wa-icon {
     flex-shrink: 0;
+    animation: waIconBounce 2.8s infinite ease-in-out;
 }
 .sticky-order-label {
     white-space: nowrap;
@@ -700,10 +835,59 @@ get_template_part( 'template-parts/whatsapp-modal' );
     flex-shrink: 0;
 }
 :is(.theme-dark, html.theme-dark, body.theme-dark) .single-product-sticky-bar {
-    background: rgba(15, 23, 42, 0.96);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+    background: rgba(15, 23, 42, 0.76);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.08), 0 -8px 32px rgba(0, 0, 0, 0.5);
+}
+:is(.theme-dark, html.theme-dark, body.theme-dark) .single-product-sticky-bar.visible {
+    background: rgba(15, 23, 42, 0.82);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.12), 0 -8px 36px rgba(0, 0, 0, 0.55);
+}
+
+@keyframes stickyBtnPop {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes stickyBtnPulseGlow {
+    0%, 100% {
+        box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45);
+    }
+    50% {
+        box-shadow: 0 6px 24px rgba(37, 211, 102, 0.65), 0 0 0 4px rgba(37, 211, 102, 0.2);
+    }
+}
+
+@keyframes stickyShineSweep {
+    0% {
+        left: -100%;
+    }
+    30%, 100% {
+        left: 200%;
+    }
+}
+
+@keyframes waIconBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    15% {
+        transform: scale(1.15) rotate(-6deg);
+    }
+    30% {
+        transform: scale(1.15) rotate(6deg);
+    }
+    45% {
+        transform: scale(1);
+    }
 }
 
 @media (min-width: 769px) {

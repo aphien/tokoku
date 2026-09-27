@@ -464,6 +464,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeMenu();
             }
         });
+
+        // 📂 Mobile Submenu Accordion Toggle
+        const subMenuToggles = menuDrawer.querySelectorAll('.menu-item-has-children > a');
+        subMenuToggles.forEach((link) => {
+            link.addEventListener('click', (e) => {
+                const parent = link.parentElement;
+                const subMenu = parent?.querySelector('.sub-menu');
+                if (subMenu) {
+                    e.preventDefault();
+                    parent.classList.toggle('active');
+                }
+            });
+        });
     }
 
     // 💬 Testimonials Slider
