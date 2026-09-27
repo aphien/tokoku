@@ -4,18 +4,18 @@
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.6 — Modern Centered Product Card Image Overlay & User-Friendly UX
+## 🚀 Rilis Terbaru v2.4.6 — Product Card Layout Refinement, Responsive Typography & Clean Mobile UX
 
-Pembaruan **v2.4.6** menghadirkan desain visual kartu produk modern dan interaktif dengan konsep *Centered Image Overlay*, dirancang untuk memaksimalkan daya tarik visual plakat dan kemudahan pemesanan via WhatsApp:
+Pembaruan **v2.4.6** menyempurnakan struktur tata letak kartu produk (*Product Card*) pada katalog beranda dan arsip, merapikan hierarki konten visual, serta mengoptimalkan pengalaman pengguna (*User Experience*) di perangkat mobile.
 
-### 🎨 1. Desain Kartu Produk Centered Image Overlay (Desktop)
-*   **Tampilan Tengah di Atas Gambar (*Centered Overlay*)**: Kategori produk (pill badge), judul produk (white typography with glow/shadow), harga, dan tombol *Pesan Sekarang* ditempatkan secara terpusat (rata tengah / vertically & horizontally centered) di atas gambar produk.
-*   **Efek Interaksi Kursor (*Hover & Focus-Within Reveal*)**: Pada desktop, overlay tampil halus dan elegan saat kursor diarahkan ke kartu produk (`:hover` / `:focus-within`) dengan efek transisi *backdrop blur* (*glassmorphism frosted dark*), zoom gambar halus (`scale: 1.08`), dan pergeseran vertikal halus.
-*   **Tombol WhatsApp Terintegrasi**: Tombol *Pesan Sekarang* tampil ringkas dan menawan di tengah overlay dengan gradien khas WhatsApp hijau emerald dan bayangan glow lembut.
+### 🎨 1. Penyempurnaan Tata Letak Kartu Produk (*Product Card*)
+*   **Struktur Kartu Produk Bersih**: Mengembalikan tata letak klasik elegan dengan pemisahan proporsional antara gambar thumbnail produk dan blok informasi teks di bawahnya (`.product-card__content`).
+*   **Hierarki Visual Jelas**: Penataan kategori produk, judul 2-baris rapi (*line-clamp*), harga dinamis (*current & discount price*), dan tombol pemesanan WhatsApp satu blok yang konsisten di semua resolusi layar.
+*   **Efek Interaktif Halus**: Transisi zoom gambar elegan (`transform: scale(1.1)`) saat di-hover tanpa mengaburkan detail foto plakat.
 
-### 📱 2. Desain Sentuh User-Friendly untuk Mobile
-*   **Aksesibilitas Sentuh Penuh Tanpa Ketergantungan Hover**: Pada perangkat seluler, tata letak overlay disesuaikan dengan gradien lembut dari bawah ke atas sehingga foto plakat tetap terlihat jelas di bagian atas, sementara badge kategori, judul produk, harga, dan tombol WhatsApp 1-tap mudah dibaca dan dijangkau dengan satu tangan.
-*   **Smart Touch Passthrough**: Ketukan pada separuh atas gambar langsung membuka halaman detail produk, ketukan pada pill kategori membuka arsip kategori, dan ketukan pada tombol WhatsApp langsung memicu formulir pemesanan.
+### 📱 2. Penyesuaian Tampilan Mobile Super Rapi
+*   **Tipografi Mobile Proporsional**: Penyesuaian ukuran font judul produk, kategori, dan harga agar pas di layar kecil tanpa terpotong.
+*   **Tombol WhatsApp Kompak**: Tombol pemesanan WhatsApp berukuran slender dengan padding ergonomis dan ikon WhatsApp SVG tajam untuk mempermudah pemesanan instan lewat jempol (*one-thumb navigation*).
 
 ---
 

@@ -1340,51 +1340,22 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
-                                    🚀 Rilis v2.4.6 — Modern Centered Product Card Image Overlay & User-Friendly UX
+                                    🚀 Rilis v2.4.6 — Product Card Layout Refinement & Clean Mobile UX
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan ini merombak tampilan kartu produk dengan desain <em>Centered Image Overlay</em> modern, interaktif, dan sangat user-friendly baik di desktop maupun perangkat seluler.
+                                    Pembaruan ini menyempurnakan struktur tata letak kartu produk pada katalog, merapikan hierarki visual informasi, dan mengoptimalkan navigasi sentuh pemesanan WhatsApp di perangkat mobile.
                                 </p>
 
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🎨 1. Centered Image Overlay & Desktop Hover Effect</h5>
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🎨 1. Penyempurnaan Tata Letak Kartu Produk</h5>
                                 <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Tampilan Rata Tengah di Atas Gambar</strong>: Badge kategori, judul produk putih elegan, harga, dan tombol WhatsApp tertata rapi di tengah-tengah gambar produk.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Hover Reveal & Glassmorphism</strong>: Di desktop, overlay transparan dengan efek <em>backdrop blur</em> halus muncul saat kursor diarahkan ke kartu produk.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Struktur Kartu Bersih</strong>: Pemisahan proporsional antara gambar produk dan blok detail informasi (kategori, judul 2-baris, dan harga).</li>
+                                    <li style="margin-bottom: 4px;"><strong>Efek Interaktif Halus</strong>: Zoom gambar halus (<code>transform: scale(1.1)</code>) saat hover tanpa mengurangi ketajaman foto plakat.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Tombol Pesan WhatsApp Slender</strong>: Tombol WhatsApp responsif dengan ikon SVG tajam dan padding proporsional.</li>
                                 </ul>
 
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 2. Desain Sentuh User-Friendly untuk Mobile</h5>
-                                <ul style="margin: 0 0 14px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Aksesibilitas Sentuh Penuh</strong>: Tampilan mobile otomatis menampilkan overlay bergradien elegan yang tetap memperlihatkan foto plakat di bagian atas dan tombol WhatsApp 1-tap yang mudah ditekan.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Smart Touch Passthrough</strong>: Sentuhan pada foto atas langsung membuka detail produk, sedangkan tombol WhatsApp langsung memicu pesanan.</li>
-                                </ul>
-
-                                <hr style="margin: 16px 0; border: none; border-top: 1px dashed #cbd5e1;">
-
-                                <h4 style="margin: 0 0 8px 0; color: #334155; font-size: 1.02rem; font-weight: 800;">
-                                    🚀 Rilis v2.4.5 — 100/100 Mobile & Desktop PageSpeed Optimization
-                                </h4>
-                                <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan ini mengimplementasikan serangkaian teknik optimasi performa web mutakhir untuk meraih skor maksimal (100 / Hijau) pada Google PageSpeed Insights dan Core Web Vitals.
-                                </p>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚡ 1. First Contentful Paint (FCP) & Render-Blocking Elimination</h5>
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚡ 2. Fondasi Performa Tinggi (v2.4.5)</h5>
                                 <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Asynchronous Google Fonts</strong>: Memuat Google Fonts dengan metode non-render-blocking (<code>rel="preload"</code> + <code>media="print" onload="this.media='all'"</code>) untuk rendering instan tanpa tertahan font eksternal.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Eradikasi Dashicons CSS (-35 KB)</strong>: Menghapus total antrean <code>dashicons.min.css</code> dan font file pada frontend untuk pengunjung non-login.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Konversi ke Inline SVG Ringan</strong>: Seluruh ikon frontend diubah menjadi SVG inline berukuran beberapa byte.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Pembersihan Gutenberg Block CSS</strong>: Menonaktifkan stylesheet bawaan WordPress yang tidak digunakan (<code>wp-block-library</code>, <code>global-styles</code>).</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🖼️ 2. Largest Contentful Paint (LCP) Boost</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Preload Gambar LCP di &lt;head&gt;</strong>: Preload otomatis gambar slide banner pertama, featured image produk, dan cover artikel.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Prioritas Render Maksimal</strong>: Atribut <code>fetchpriority="high"</code>, <code>loading="eager"</code>, dan <code>decoding="sync"</code> pada gambar utama.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🧈 3. Speed Index & Zero CLS (Cumulative Layout Shift)</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Dimensi Gambar Eksplisit</strong>: Menyematkan atribut <code>width</code>, <code>height</code>, dan <code>sizes</code> pada semua elemen gambar untuk mencegah pergeseran tata letak.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Visual Completion Index</strong>: Animasi kartu kategori dioptimalkan agar render visual selesai secara instan.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Skor Kecepatan Maksimal</strong>: Google Fonts asynchronous, eliminasi Dashicons di frontend, LCP image preload, dan zero layout shift (CLS = 0).</li>
                                 </ul>
                             </div>
                         </div>
