@@ -1899,10 +1899,11 @@ html.theme-dark .category-item::after {
 }
 
 .product-card__title a {
-    font-size: 1rem;
+    font-size: 1.02rem;
     font-weight: 800;
     color: #0f172a !important;
     line-height: 1.35;
+    letter-spacing: -0.2px;
     text-align: center;
     text-decoration: none;
     display: -webkit-box;
@@ -1923,20 +1924,20 @@ html.theme-dark .category-item::after {
     justify-content: center;
     gap: 8px;
     flex-wrap: wrap;
-    margin: 2px 0 4px 0;
+    margin: 2px 0 6px 0;
     text-align: center;
 }
 
 .product-card__price .price-current {
     font-weight: 800;
     color: var(--primary);
-    font-size: 1.05rem;
-    letter-spacing: -0.2px;
+    font-size: 1.08rem;
+    letter-spacing: -0.3px;
     text-shadow: 0 1px 6px rgba(255, 255, 255, 0.95);
 }
 
 .product-card__price .price-original {
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     color: #64748b;
     text-decoration: line-through;
     text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
@@ -1944,8 +1945,9 @@ html.theme-dark .category-item::after {
 
 .product-card__price .price-call {
     color: var(--primary);
-    font-weight: 700;
+    font-weight: 800;
     font-size: 0.95rem;
+    text-shadow: 0 1px 6px rgba(255, 255, 255, 0.95);
 }
 
 .product-card .btn-whatsapp-order {
@@ -1954,12 +1956,13 @@ html.theme-dark .category-item::after {
     justify-content: center;
     gap: 6px;
     width: auto;
-    min-width: 145px;
+    min-width: 120px;
     margin-top: 4px;
-    padding: 9px 18px;
-    border-radius: 12px;
+    padding: 8px 18px;
+    border-radius: 50px;
     font-size: 0.86rem;
     font-weight: 700;
+    letter-spacing: 0.2px;
     background: linear-gradient(135deg, #25D366, #128C7E);
     color: #ffffff !important;
     border: none;
@@ -7234,7 +7237,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
     .product-card__title a {
         color: #0f172a !important;
-        font-size: 0.82rem;
+        font-size: 0.86rem;
         line-height: 1.25;
         font-weight: 800;
         text-shadow: 0 1px 6px rgba(255, 255, 255, 0.95), 0 0 3px rgba(255, 255, 255, 0.9);
@@ -7242,33 +7245,34 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     }
 
     .product-card__price {
-        margin: 1px 0 2px;
+        margin: 1px 0 4px;
         gap: 4px;
         padding-top: 0;
     }
 
     .product-card__price .price-current {
         color: var(--primary) !important;
-        font-size: 0.86rem;
+        font-size: 0.9rem;
         font-weight: 800;
         text-shadow: 0 1px 6px rgba(255, 255, 255, 0.95);
     }
 
     .product-card__price .price-original {
         color: #64748b !important;
-        font-size: 0.68rem;
+        font-size: 0.7rem;
         text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
     }
 
     .product-card .btn-whatsapp-order {
-        width: 100%;
-        min-width: unset;
+        width: auto;
+        min-width: 105px;
         max-width: 100%;
-        margin-top: 2px;
-        padding: 6px 8px;
+        margin-top: 3px;
+        padding: 6px 14px;
         min-height: 32px;
-        font-size: 0.76rem;
-        border-radius: 8px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        border-radius: 50px;
         box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
     }
 
