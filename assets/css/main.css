@@ -1800,7 +1800,7 @@ html.theme-dark .category-item::after {
     background: #64748b;
 }
 
-/* Centered Overlay on Image (Tampilan Tengah di Atas Gambar / User Friendly) */
+/* Centered Overlay on Image - White Transparent Glassmorphism (Putih Transparan) */
 .product-card__overlay {
     position: absolute;
     inset: 0;
@@ -1811,9 +1811,10 @@ html.theme-dark .category-item::after {
     justify-content: center;
     text-align: center;
     padding: 20px 16px;
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.88) 100%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.96) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -1849,9 +1850,9 @@ html.theme-dark .category-item::after {
 .product-card__category a,
 .product-card__category span {
     display: inline-block;
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: #ffffff !important;
+    background: rgba(var(--primary-rgb), 0.1);
+    border: 1px solid rgba(var(--primary-rgb), 0.25);
+    color: var(--primary) !important;
     font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1859,14 +1860,16 @@ html.theme-dark .category-item::after {
     padding: 3px 12px;
     border-radius: 20px;
     text-decoration: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     transition: all 0.25s ease;
 }
 
 .product-card__category a:hover {
-    background: rgba(255, 255, 255, 0.32);
-    border-color: rgba(255, 255, 255, 0.55);
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff !important;
     transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(var(--primary-rgb), 0.3);
 }
 
 .product-card__title {
@@ -1879,7 +1882,7 @@ html.theme-dark .category-item::after {
 .product-card__title a {
     font-size: 1rem;
     font-weight: 800;
-    color: #ffffff !important;
+    color: #0f172a !important;
     line-height: 1.35;
     text-align: center;
     text-decoration: none;
@@ -1887,13 +1890,12 @@ html.theme-dark .category-item::after {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
-    transition: color 0.2s ease, text-shadow 0.2s ease;
+    text-shadow: none;
+    transition: color 0.2s ease;
 }
 
 .product-card__title a:hover {
-    color: #38bdf8 !important;
-    text-shadow: 0 2px 12px rgba(56, 189, 248, 0.6);
+    color: var(--primary) !important;
 }
 
 .product-card__price {
@@ -1908,20 +1910,20 @@ html.theme-dark .category-item::after {
 
 .product-card__price .price-current {
     font-weight: 800;
-    color: #38bdf8;
+    color: var(--primary);
     font-size: 1.05rem;
     letter-spacing: -0.2px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    text-shadow: none;
 }
 
 .product-card__price .price-original {
     font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.65);
+    color: #94a3b8;
     text-decoration: line-through;
 }
 
 .product-card__price .price-call {
-    color: #38bdf8;
+    color: var(--primary);
     font-weight: 700;
     font-size: 0.95rem;
 }
@@ -7133,9 +7135,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         visibility: visible !important;
         pointer-events: none !important;
         transform: none !important;
-        background: linear-gradient(to top, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0.82) 48%, rgba(15, 23, 42, 0.1) 100%) !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.9) 55%, rgba(255, 255, 255, 0.15) 100%) !important;
+        backdrop-filter: blur(2px) !important;
+        -webkit-backdrop-filter: blur(2px) !important;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -7161,15 +7163,22 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
     .product-card__category a,
     .product-card__category span {
+        background: rgba(var(--primary-rgb), 0.12);
+        border: 1px solid rgba(var(--primary-rgb), 0.25);
+        color: var(--primary) !important;
         font-size: 0.62rem;
         padding: 2px 8px;
         border-radius: 12px;
         letter-spacing: 0.3px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .product-card__title a {
+        color: #0f172a !important;
         font-size: 0.82rem;
         line-height: 1.25;
+        font-weight: 800;
+        text-shadow: none;
         -webkit-line-clamp: 2;
     }
 
@@ -7180,10 +7189,14 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     }
 
     .product-card__price .price-current {
+        color: var(--primary) !important;
         font-size: 0.86rem;
+        font-weight: 800;
+        text-shadow: none;
     }
 
     .product-card__price .price-original {
+        color: #94a3b8 !important;
         font-size: 0.68rem;
     }
 
