@@ -163,19 +163,62 @@ jQuery(document).ready(function($) {
         status.hide();
         loader.css('display', 'flex');
         
-        // Markdown parser for changelog
+        // Advanced Markdown parser for changelog
         var formatLog = function(text) {
-            if (!text) return 'Tidak ada catatan rilis.';
-            var html = text
-                .replace(/^### (.*$)/gim, '<h4 style="margin:15px 0 5px 0; color:#1e293b; font-size:1.1rem;">$1</h4>')
-                .replace(/^## (.*$)/gim, '<h3 style="margin:20px 0 10px 0; color:#0f172a; border-bottom:1px solid #e2e8f0; padding-bottom:5px; font-size:1.3rem;">$1</h3>')
-                .replace(/^# (.*$)/gim, '<h2 style="margin:20px 0 10px 0; color:#0f172a; border-bottom:2px solid #e2e8f0; padding-bottom:5px; font-size:1.5rem;">$1</h2>')
-                .replace(/^\> (.*$)/gim, '<blockquote style="border-left:4px solid #cbd5e1; background:#f8fafc; padding:10px 15px; color:#64748b; margin:10px 0; border-radius:0 8px 8px 0;">$1</blockquote>')
-                .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-                .replace(/`([^`]+)`/g, '<code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-size:0.9em; color:#db2777;">$1</code>')
-                .replace(/^\s*[-*]\s(.*$)/gim, '<li style="margin-bottom:6px; margin-left:20px; list-style-type:disc;">$1</li>');
-            return '<div style="font-family:system-ui,-apple-system,sans-serif; line-height:1.6; color:#475569;">' + html.replace(/\n/g, '<br/>').replace(/(<br\/>)+<li/g, '<li').replace(/<\/li>(<br\/>)+/g, '</li>') + '</div>';
+            if (!text) return '<p style="color:#64748b; font-style:italic;">Tidak ada catatan rilis detail.</p>';
+            
+            var src = text.trim();
+
+            // Escape raw HTML entities
+            src = src
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Fenced code blocks
+            src = src.replace(/```([a-z0-9_-]*)\n([\s\S]*?)```/gim, function(match, lang, code) {
+                return '<pre style="background:#0f172a; color:#f8fafc; padding:12px 16px; border-radius:8px; font-size:0.85rem; overflow-x:auto; margin:12px 0; font-family:Consolas,Monaco,monospace;"><code>' + code.trim() + '</code></pre>';
+            });
+
+            // Horizontal rules
+            src = src.replace(/^---$/gim, '<hr style="border:none; border-top:1px solid #e2e8f0; margin:16px 0;">');
+
+            // Headers
+            src = src.replace(/^#### (.*$)/gim, '<h5 style="margin:14px 0 6px 0; color:#334155; font-size:1rem; font-weight:700;">$1</h5>');
+            src = src.replace(/^### (.*$)/gim, '<h4 style="margin:18px 0 8px 0; color:#1e293b; font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:6px;">$1</h4>');
+            src = src.replace(/^## (.*$)/gim, '<h3 style="margin:22px 0 10px 0; color:#0f172a; font-size:1.3rem; font-weight:800; border-bottom:1.5px solid #e2e8f0; padding-bottom:6px;">$1</h3>');
+            src = src.replace(/^# (.*$)/gim, '<h2 style="margin:24px 0 12px 0; color:#0f172a; font-size:1.5rem; font-weight:800; border-bottom:2px solid #3b82f6; padding-bottom:8px;">$1</h2>');
+
+            // Blockquotes
+            src = src.replace(/^&gt; (.*$)/gim, '<blockquote style="border-left:4px solid #3b82f6; background:#eff6ff; padding:10px 16px; color:#1e40af; margin:12px 0; border-radius:0 8px 8px 0; font-size:0.92rem;">$1</blockquote>');
+
+            // Bold and Italic
+            src = src.replace(/\*\*\*(.*?)\*\*\*/gim, '<strong><em>$1</em></strong>');
+            src = src.replace(/\*\*(.*?)\*\*/gim, '<strong style="color:#0f172a; font-weight:700;">$1</strong>');
+            src = src.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+
+            // Inline Code
+            src = src.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9; color:#0284c7; padding:2px 6px; border-radius:4px; font-size:0.88em; font-family:Consolas,monospace; border:1px solid #e2e8f0;">$1</code>');
+
+            // Markdown Links [text](url)
+            src = src.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#2563eb; text-decoration:underline; font-weight:600;">$1</a>');
+
+            // Bullet Lists (Nested & Top Level)
+            src = src.replace(/^(\s*)[-*]\s(.*$)/gim, function(match, spaces, content) {
+                var indent = spaces.length >= 4 ? 'margin-left:36px; list-style-type:circle;' : 'margin-left:18px; list-style-type:disc;';
+                return '<li style="margin-bottom:6px; ' + indent + ' color:#334155; line-height:1.5;">' + content + '</li>';
+            });
+
+            return '<div class="tokoku-changelog-content" style="font-family:system-ui,-apple-system,sans-serif; line-height:1.65; color:#334155; font-size:0.92rem;">' +
+                   src.replace(/\n\n+/g, '<br/><br/>')
+                      .replace(/\n/g, '<br/>')
+                      .replace(/(<br\/>)+<li/g, '<li')
+                      .replace(/<\/li>(<br\/>)+/g, '</li>')
+                      .replace(/(<br\/>)+<h/g, '<h')
+                      .replace(/(<br\/>)+<hr/g, '<hr')
+                      .replace(/(<br\/>)+<blockquote/g, '<blockquote')
+                      .replace(/(<br\/>)+<pre/g, '<pre') +
+                   '</div>';
         };
 
         // Call GitHub API for latest release (with cache-busting)
@@ -212,7 +255,7 @@ jQuery(document).ready(function($) {
 
                 var rawTag       = data.tag_name || '';
                 var latestVersion = rawTag.replace(/[^0-9.]/g, '');
-                var releaseName  = data.name || rawTag;
+                var releaseName  = data.name || ('v' + latestVersion);
                 var downloadUrl  = data.zipball_url || ('https://github.com/' + repo + '/archive/refs/tags/' + rawTag + '.zip');
                 var logHtml      = formatLog(data.body);
 
@@ -251,29 +294,39 @@ jQuery(document).ready(function($) {
                                 '</div>' +
                                 '<div style="padding: 25px; background: #f8fafc;">' +
                                     '<h4 style="margin: 0 0 15px 0; color: #0f172a; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: 700;">' +
-                                        '<span class="dashicons dashicons-media-text" style="color:#007bff;"></span> Log Pembaruan (Changelog)' +
+                                        '<span class="dashicons dashicons-media-text" style="color:#007bff;"></span> Catatan Rilis & Log Pembaruan (Changelog) ' + releaseName +
                                     '</h4>' +
-                                    '<div style="background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 350px; overflow-y: auto;">' +
+                                    '<div style="background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 400px; overflow-y: auto;">' +
                                         logHtml +
                                     '</div>' +
                                 '</div>' +
                                 '</div>');
                 } else {
-                    status.html('<div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 22px;">' +
-                                '<div style="display: flex; align-items: center; gap: 12px; color: #065f46; margin-bottom: 10px;">' +
-                                    '<span class="dashicons dashicons-yes-alt" style="font-size: 26px; width: 26px; height: 26px; color: #059669;"></span> ' +
-                                    '<strong style="font-size: 1.15rem; font-weight: 800;">TokoKu v' + currentVersion + ' adalah versi terbaru.</strong>' +
+                    status.html('<div style="background: #fff; border-radius: 12px; border: 1px solid #a7f3d0; box-shadow: 0 10px 25px rgba(5, 150, 105, 0.08); overflow: hidden;">' +
+                                '<div style="background: #ecfdf5; padding: 22px; border-bottom: 1px solid #a7f3d0;">' +
+                                    '<div style="display: flex; align-items: center; gap: 12px; color: #065f46; margin-bottom: 8px;">' +
+                                        '<span class="dashicons dashicons-yes-alt" style="font-size: 26px; width: 26px; height: 26px; color: #059669;"></span> ' +
+                                        '<strong style="font-size: 1.2rem; font-weight: 800;">TokoKu v' + currentVersion + ' adalah versi terbaru.</strong>' +
+                                    '</div>' +
+                                    '<p style="margin: 0 0 16px 0; font-size: 0.92rem; color: #047857;">Tema Anda sudah menggunakan kode, optimasi kecepatan, dan fitur termutakhir dari rilis resmi TokoKu.</p>' +
+                                    '<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">' +
+                                        '<button type="button" id="tokoku-install-update" data-url="' + downloadUrl + '" class="button button-secondary tokoku-reinstall-btn">' +
+                                            '<span class="dashicons dashicons-update"></span><span class="tokoku-btn-text">Instal Ulang / Paksa Sinkronkan Versi Ini</span>' +
+                                        '</button>' +
+                                        '<div id="tokoku-install-loader" style="display: none; align-items: center; gap: 10px; color: #007bff; font-weight: 700;">' +
+                                            '<span class="spinner is-active" style="float: none; margin: 0;"></span> Memproses pengunduhan dan instalasi...' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<p style="margin: 12px 0 0 0; font-size: 0.8rem; color: #059669; opacity: 0.85;">Terakhir diperiksa: ' + new Date().toLocaleString() + '</p>' +
                                 '</div>' +
-                                '<p style="margin: 0 0 15px 0; font-size: 0.92rem; color: #047857;">Tema Anda sudah menggunakan kode dan fitur termutakhir dari rilis resmi TokoKu.</p>' +
-                                '<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">' +
-                                    '<button type="button" id="tokoku-install-update" data-url="' + downloadUrl + '" class="button button-secondary tokoku-reinstall-btn">' +
-                                        '<span class="dashicons dashicons-update"></span><span class="tokoku-btn-text">Instal Ulang / Paksa Perbarui Versi Ini</span>' +
-                                    '</button>' +
-                                    '<div id="tokoku-install-loader" style="display: none; align-items: center; gap: 10px; color: #007bff; font-weight: 700;">' +
-                                        '<span class="spinner is-active" style="float: none; margin: 0;"></span> Memproses pengunduhan dan instalasi...' +
+                                '<div style="padding: 22px; background: #f8fafc;">' +
+                                    '<h4 style="margin: 0 0 14px 0; color: #0f172a; display: flex; align-items: center; gap: 8px; font-size: 1.05rem; font-weight: 700;">' +
+                                        '<span class="dashicons dashicons-media-text" style="color:#059669;"></span> Catatan Rilis & Log Pembaruan (Changelog) ' + releaseName +
+                                    '</h4>' +
+                                    '<div style="background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 400px; overflow-y: auto;">' +
+                                        logHtml +
                                     '</div>' +
                                 '</div>' +
-                                '<p style="margin: 12px 0 0 0; font-size: 0.82rem; color: #6b7280;">Terakhir diperiksa: ' + new Date().toLocaleString() + '</p>' +
                                 '</div>');
                 }
                 status.fadeIn();

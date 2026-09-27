@@ -1291,37 +1291,87 @@ function tokoku_settings_page_html() {
                     <!-- Tab: Update -->
                     <div id="tab-update" class="tokoku-tab-panel">
                         <h2><?php _e( 'Pembaruan Tema TokoKu', 'tokoku' ); ?></h2>
-                        <div class="tokoku-update-card" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <div class="tokoku-update-card" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                             <div style="display: flex; align-items: flex-start; gap: 20px;">
-                                <div style="width: 60px; height: 60px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #007bff; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,123,255,0.15);">
-                                    <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+                                <div style="width: 56px; height: 56px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #007bff; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,123,255,0.15);">
+                                    <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
                                 </div>
                                 <div>
-                                    <h3 style="margin: 0 0 5px 0; font-size: 1.25rem; font-weight: 800; color: #0f172a;"><?php _e( 'Versi Tema Saat Ini:', 'tokoku' ); ?> <span style="color: #007bff;">v<?php echo TOKOKU_VERSION; ?></span></h3>
-                                    <p style="margin: 0; color: #64748b; font-size: 0.95rem;"><?php _e( 'Pastikan tema Anda selalu menggunakan versi terbaru untuk fitur dan keamanan terbaik.', 'tokoku' ); ?></p>
+                                    <h3 style="margin: 0 0 6px 0; font-size: 1.25rem; font-weight: 800; color: #0f172a;">
+                                        <?php _e( 'Versi Tema Saat Ini:', 'tokoku' ); ?> 
+                                        <span style="color: #007bff; background: #eff6ff; padding: 3px 10px; border-radius: 6px; border: 1px solid #bfdbfe; font-size: 1.15rem;">v<?php echo TOKOKU_VERSION; ?></span>
+                                        <span style="color: #059669; background: #ecfdf5; padding: 3px 10px; border-radius: 6px; border: 1px solid #a7f3d0; font-size: 0.85rem; font-weight: 700; margin-left: 6px;">Aktif & Optimal</span>
+                                    </h3>
+                                    <p style="margin: 0; color: #64748b; font-size: 0.95rem;"><?php _e( 'Pastikan tema Anda selalu menggunakan versi terbaru untuk fitur dan performa kecepatan terbaik.', 'tokoku' ); ?></p>
                                 </div>
                             </div>
 
-                            <hr style="margin: 25px 0; border: none; border-top: 1px solid #e2e8f0;">
+                            <hr style="margin: 22px 0; border: none; border-top: 1px solid #e2e8f0;">
 
-                            <div id="tokoku-update-status" style="margin-bottom: 20px; padding: 15px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; display: none;">
-                                <!-- Status will be injected here -->
+                            <div id="tokoku-update-status" style="margin-bottom: 20px; display: none;">
+                                <!-- Live GitHub Status & Changelog will be injected here -->
                             </div>
 
-                            <button type="button" id="tokoku-check-update" class="button button-primary tokoku-check-update-btn">
-                                <span class="dashicons dashicons-search"></span><span class="tokoku-btn-text"><?php _e( 'Cek Pembaruan Sekarang', 'tokoku' ); ?></span>
-                            </button>
+                            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                                <button type="button" id="tokoku-check-update" class="button button-primary tokoku-check-update-btn">
+                                    <span class="dashicons dashicons-search"></span><span class="tokoku-btn-text"><?php _e( 'Cek Pembaruan dari GitHub', 'tokoku' ); ?></span>
+                                </button>
+                                <a href="https://github.com/aphien/tokoku/releases" target="_blank" rel="noopener noreferrer" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
+                                    <span class="dashicons dashicons-external" style="color: #64748b;"></span>
+                                    <span><?php _e( 'Lihat Rilis di GitHub', 'tokoku' ); ?></span>
+                                </a>
+                            </div>
                             
                             <div id="tokoku-update-loader" style="display: none; margin-top: 15px; align-items: center; gap: 10px; color: #007bff; font-weight: 600;">
                                 <span class="spinner is-active" style="float: none; margin: 0;"></span>
-                                <span><?php _e( 'Menghubungkan ke server pembaruan GitHub...', 'tokoku' ); ?></span>
+                                <span><?php _e( 'Menghubungkan ke GitHub & mengunduh catatan rilis...', 'tokoku' ); ?></span>
                             </div>
                         </div>
 
-                        <div style="margin-top: 30px; background: #fff8e1; border-left: 4px solid #ffc107; padding: 20px; border-radius: 4px;">
-                            <h4 style="margin: 0 0 10px 0; color: #856404;"><span class="dashicons dashicons-warning" style="vertical-align: middle;"></span> <?php _e( 'Penting:', 'tokoku' ); ?></h4>
-                            <p style="margin: 0; font-size: 0.9rem; color: #856404; line-height: 1.5;">
-                                <?php _e( 'Selalu lakukan backup pengaturan tema Anda di tab "Impor & Ekspor" sebelum melakukan pembaruan besar untuk mencegah kehilangan konfigurasi.', 'tokoku' ); ?>
+                        <!-- Catatan Rilis Default (Changelog Versi Aktif) -->
+                        <div class="tokoku-changelog-card" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;">
+                                <h3 style="margin: 0; color: #0f172a; font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                                    <span class="dashicons dashicons-media-text" style="color:#007bff;"></span>
+                                    <?php _e( 'Log Pembaruan & Fitur Rilis Tema (v' . TOKOKU_VERSION . ')', 'tokoku' ); ?>
+                                </h3>
+                                <span style="font-size: 0.8rem; background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Changelog Resmi</span>
+                            </div>
+
+                            <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.4.5 — 100/100 Mobile & Desktop PageSpeed Optimization
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan ini mengimplementasikan serangkaian teknik optimasi performa web mutakhir untuk meraih skor maksimal (100 / Hijau) pada Google PageSpeed Insights dan Core Web Vitals.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚡ 1. First Contentful Paint (FCP) & Render-Blocking Elimination</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Asynchronous Google Fonts</strong>: Memuat Google Fonts dengan metode non-render-blocking (<code>rel="preload"</code> + <code>media="print" onload="this.media='all'"</code>) untuk rendering instan tanpa tertahan font eksternal.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Eradikasi Dashicons CSS (-35 KB)</strong>: Menghapus total antrean <code>dashicons.min.css</code> dan font file pada frontend untuk pengunjung non-login.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Konversi ke Inline SVG Ringan</strong>: Seluruh ikon frontend diubah menjadi SVG inline berukuran beberapa byte.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Pembersihan Gutenberg Block CSS</strong>: Menonaktifkan stylesheet bawaan WordPress yang tidak digunakan (<code>wp-block-library</code>, <code>global-styles</code>).</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🖼️ 2. Largest Contentful Paint (LCP) Boost</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Preload Gambar LCP di &lt;head&gt;</strong>: Preload otomatis gambar slide banner pertama, featured image produk, dan cover artikel.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Prioritas Render Maksimal</strong>: Atribut <code>fetchpriority="high"</code>, <code>loading="eager"</code>, dan <code>decoding="sync"</code> pada gambar utama.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🧈 3. Speed Index & Zero CLS (Cumulative Layout Shift)</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Dimensi Gambar Eksplisit</strong>: Menyematkan atribut <code>width</code>, <code>height</code>, dan <code>sizes</code> pada semua elemen gambar untuk mencegah pergeseran tata letak.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Visual Completion Index</strong>: Animasi kartu kategori dioptimalkan agar render visual selesai secara instan.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 25px; background: #fff8e1; border-left: 4px solid #ffc107; padding: 18px 20px; border-radius: 8px;">
+                            <h4 style="margin: 0 0 6px 0; color: #856404; display: flex; align-items: center; gap: 6px;"><span class="dashicons dashicons-warning" style="vertical-align: middle;"></span> <?php _e( 'Tips Cadangan:', 'tokoku' ); ?></h4>
+                            <p style="margin: 0; font-size: 0.88rem; color: #856404; line-height: 1.5;">
+                                <?php _e( 'Anda dapat mengekspor atau mencadangkan seluruh konfigurasi toko Anda di tab "Impor & Ekspor" sebelum memperbarui tema.', 'tokoku' ); ?>
                             </p>
                         </div>
                     </div>
