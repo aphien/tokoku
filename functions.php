@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.4.8' );
+define( 'TOKOKU_VERSION', '2.4.9' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -506,7 +506,7 @@ function tokoku_get_category_icon_html( $term_id = 0, $size = 20 ) {
         if ( $icon_id ) {
             $icon_url = wp_get_attachment_image_url( $icon_id, 'thumbnail' );
             if ( $icon_url ) {
-                return '<img src="' . esc_url( $icon_url ) . '" class="pill-icon-img" width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" alt="" loading="lazy">';
+                return '<img src="' . esc_url( $icon_url ) . '" class="pill-icon-img" width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" alt="" loading="lazy" decoding="async">';
             }
         }
         
@@ -697,5 +697,54 @@ function tokoku_get_trust_badge_icon_html( $index = 1, $size = 20 ) {
             return '<svg width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
     }
 }
+
+/**
+ * ==========================================================================
+ * WEBP IMAGE UPLOAD & OPTIMIZATION SUPPORT (CORE WEB VITALS BOOST)
+ * ==========================================================================
+ */
+
+/**
+ * Aktifkan dukungan upload file WebP di Media Library WordPress
+ */
+function tokoku_enable_webp_upload( $mimes ) {
+    $mimes['webp'] = 'image/webp';
+    return $mimes;
+}
+add_filter( 'upload_mimes', 'tokoku_enable_webp_upload' );
+
+/**
+ * Pastikan WordPress dapat menghasilkan dan menampilkan thumbnail WebP
+ */
+function tokoku_webp_is_displayable( $result, $path ) {
+    if ( false === $result ) {
+        $displayable_image_types = array( IMAGETYPE_WEBP );
+        $info = @getimagesize( $path );
+        if ( ! empty( $info ) && in_array( $info[2], $displayable_image_types, true ) ) {
+            $result = true;
+        }
+    }
+    return $result;
+}
+add_filter( 'file_is_displayable_image', 'tokoku_webp_is_displayable', 10, 2 );
+
+/**
+ * Optimasi rasio kompresi gambar WordPress (85% optimal untuk PageSpeed & ketajaman foto)
+ */
+add_filter( 'wp_editor_set_quality', function( $quality ) {
+    return 85;
+} );
+
+/**
+ * Otomatis tambahkan atribut decoding="async" pada semua gambar WordPress untuk render non-blocking
+ */
+function tokoku_add_decoding_async_attribute( $attr ) {
+    if ( ! isset( $attr['decoding'] ) ) {
+        $attr['decoding'] = 'async';
+    }
+    return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'tokoku_add_decoding_async_attribute' );
+
 
 

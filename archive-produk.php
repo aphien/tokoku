@@ -128,7 +128,7 @@ $all_cats       = get_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty
                                     <span class="cat-bullet"></span>
                                     Semua Kategori
                                 </span>
-                                <span class="count"><?php echo esc_html( wp_count_posts( 'produk' )->publish ); ?></span>
+                                <span class="count"><?php echo esc_html( wp_count_posts( 'produk' )->publish ?? 0 ); ?></span>
                             </a>
                         </li>
                         <?php

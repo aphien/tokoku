@@ -230,7 +230,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (total > 0) {
-            const viewAllUrl = `${tokokuSearch.homeUrl}produk/`;
+            const trimmedKeyword = keyword ? keyword.trim() : '';
+            const viewAllUrl = trimmedKeyword.length > 0
+                ? `${tokokuSearch.homeUrl}?s=${encodeURIComponent(trimmedKeyword)}&post_type=produk`
+                : `${tokokuSearch.homeUrl}produk/`;
             html += `<div class="search-results-footer"><a href="${viewAllUrl}">LIHAT SEMUA PRODUK... (${total})</a></div>`;
         }
 

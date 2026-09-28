@@ -489,6 +489,75 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        // 👆 Swipe right to close menu drawer
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchDiffX = 0;
+        let isHorizontalSwipe = false;
+
+        menuDrawer.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                touchDiffX = 0;
+                isHorizontalSwipe = false;
+            }
+        }, { passive: true });
+
+        menuDrawer.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1) {
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                touchDiffX = currentX - touchStartX;
+                const touchDiffY = Math.abs(currentY - touchStartY);
+
+                // Detect horizontal swipe to right
+                if (touchDiffX > 15 && touchDiffX > touchDiffY * 1.2) {
+                    isHorizontalSwipe = true;
+                }
+            }
+        }, { passive: true });
+
+        menuDrawer.addEventListener('touchend', () => {
+            if (isHorizontalSwipe && touchDiffX > 50) {
+                closeMenu();
+            }
+            isHorizontalSwipe = false;
+            touchDiffX = 0;
+        }, { passive: true });
+
+        // 🔗 Auto-close menu when clicking links that navigate or jump to page anchors
+        const navLinks = menuDrawer.querySelectorAll('.mobile-nav-list a');
+        navLinks.forEach((link) => {
+            link.addEventListener('click', () => {
+                const isParentToggle = link.parentElement?.classList.contains('menu-item-has-children') && (link.getAttribute('href') === '#' || link.getAttribute('href') === 'javascript:void(0)');
+                if (isParentToggle) return;
+
+                const href = link.getAttribute('href') || '';
+                if (href.startsWith('#') || href.includes('#')) {
+                    closeMenu();
+                }
+            });
+        });
+    }
+
+    // 🏷️ Mobile Bottom Nav Kategori Smooth Scroll
+    const bottomNavKategori = document.querySelector('.bottom-nav .nav-kategori');
+    if (bottomNavKategori) {
+        bottomNavKategori.addEventListener('click', (e) => {
+            if (menuDrawer?.classList.contains('active')) {
+                closeMenu();
+            }
+            const href = bottomNavKategori.getAttribute('href') || '';
+            if (href.includes('#categories') && (window.location.pathname === '/' || window.location.pathname === '')) {
+                const target = document.getElementById('categories');
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
     }
 
     // 💬 Testimonials Slider
@@ -767,13 +836,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     // Tampilkan saat foto/header produk sudah dilewati ke atas
-                    if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-                        stickyBar.classList.add('visible');
-                        stickyBar.setAttribute('aria-hidden', 'false');
-                    } else {
-                        stickyBar.classList.remove('visible');
-                        stickyBar.setAttribute('aria-hidden', 'true');
-                    }
+                    const isVisible = (!entry.isIntersecting && entry.boundingClientRect.top < 0);
+                    stickyBar.classList.toggle('visible', isVisible);
+                    stickyBar.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+                    document.body.classList.toggle('has-sticky-order-bar', isVisible);
                 });
             }, { threshold: 0.1 });
             observer.observe(triggerElement);
@@ -784,13 +850,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!barTicking) {
                     window.requestAnimationFrame(() => {
                         if (window.innerWidth <= 768) {
-                            if (window.scrollY > 350) {
-                                stickyBar.classList.add('visible');
-                                stickyBar.setAttribute('aria-hidden', 'false');
-                            } else {
-                                stickyBar.classList.remove('visible');
-                                stickyBar.setAttribute('aria-hidden', 'true');
-                            }
+                            const isVisible = (window.scrollY > 350);
+                            stickyBar.classList.toggle('visible', isVisible);
+                            stickyBar.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+                            document.body.classList.toggle('has-sticky-order-bar', isVisible);
                         }
                         barTicking = false;
                     });

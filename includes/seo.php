@@ -451,3 +451,149 @@ function tokoku_breadcrumb_schema_markup() {
     echo '</script>' . "\n";
 }
 add_action( 'wp_head', 'tokoku_breadcrumb_schema_markup', 11 );
+
+/**
+ * Output LocalBusiness & Organization Schema Markup (JSON-LD) on Front Page
+ */
+function tokoku_local_business_schema_markup() {
+    if ( ! is_front_page() ) {
+        return;
+    }
+
+    $site_name = get_bloginfo( 'name' );
+    $site_desc = get_theme_mod( 'tokoku_seo_desc', get_bloginfo( 'description' ) );
+    $address   = get_theme_mod( 'tokoku_store_address', '' );
+    $email     = get_theme_mod( 'tokoku_store_email', '' );
+    $wa_raw    = get_theme_mod( 'tokoku_wa_number', '' );
+
+    // Format nomor telepon
+    $phone = '';
+    if ( ! empty( $wa_raw ) ) {
+        $clean_wa = preg_replace( '/\D/', '', $wa_raw );
+        $phone    = '+' . ltrim( $clean_wa, '+' );
+    }
+
+    // Logo / Image URL
+    $image = '';
+    if ( has_custom_logo() ) {
+        $logo_id  = get_theme_mod( 'custom_logo' );
+        $logo_url = wp_get_attachment_image_url( $logo_id, 'full' );
+        if ( $logo_url ) {
+            $image = $logo_url;
+        }
+    }
+    if ( empty( $image ) ) {
+        $image = get_theme_mod( 'tokoku_seo_og_image', '' );
+    }
+    if ( empty( $image ) ) {
+        $site_icon_id = get_option( 'site_icon' );
+        if ( $site_icon_id ) {
+            $image = wp_get_attachment_image_url( $site_icon_id, 'full' );
+        }
+    }
+
+    // Social Links
+    $social_keys = array( 'facebook', 'instagram', 'tiktok', 'youtube', 'twitter', 'linkedin' );
+    $same_as     = array();
+    foreach ( $social_keys as $skey ) {
+        $slink = get_theme_mod( "tokoku_social_{$skey}", '' );
+        if ( ! empty( $slink ) ) {
+            $same_as[] = esc_url( $slink );
+        }
+    }
+
+    // Opening hours
+    $opening_hours = array();
+    for ( $j = 1; $j <= 3; $j++ ) {
+        $jam = get_theme_mod( "tokoku_jam_op_{$j}", '' );
+        if ( ! empty( $jam ) ) {
+            $opening_hours[] = sanitize_text_field( $jam );
+        }
+    }
+
+    $schema = array(
+        '@context'    => 'https://schema.org',
+        '@type'       => 'LocalBusiness',
+        'name'        => $site_name,
+        'description' => wp_strip_all_tags( $site_desc ),
+        'url'         => home_url( '/' ),
+        'priceRange'  => '$$',
+    );
+
+    if ( ! empty( $image ) ) {
+        $schema['image'] = esc_url( $image );
+        $schema['logo']  = esc_url( $image );
+    }
+
+    if ( ! empty( $phone ) ) {
+        $schema['telephone'] = $phone;
+    }
+
+    if ( ! empty( $email ) ) {
+        $schema['email'] = sanitize_email( $email );
+    }
+
+    if ( ! empty( $address ) ) {
+        $schema['address'] = array(
+            '@type'          => 'PostalAddress',
+            'streetAddress'  => wp_strip_all_tags( $address ),
+            'addressCountry' => 'ID',
+        );
+    }
+
+    if ( ! empty( $opening_hours ) ) {
+        $schema['openingHours'] = $opening_hours;
+    }
+
+    if ( ! empty( $same_as ) ) {
+        $schema['sameAs'] = $same_as;
+    }
+
+    echo "<!-- TokoKu LocalBusiness Schema Markup -->\n";
+    echo '<script type="application/ld+json">' . "\n";
+    echo wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ) . "\n";
+    echo '</script>' . "\n";
+}
+add_action( 'wp_head', 'tokoku_local_business_schema_markup', 12 );
+
+/**
+ * Output FAQPage Schema Markup (JSON-LD) on Front Page for Google Rich Snippets
+ */
+function tokoku_faq_schema_markup() {
+    if ( ! is_front_page() ) {
+        return;
+    }
+
+    $faq_entities = array();
+    for ( $i = 1; $i <= 10; $i++ ) {
+        $question = get_theme_mod( "tokoku_faq_q_{$i}", '' );
+        $answer   = get_theme_mod( "tokoku_faq_a_{$i}", '' );
+
+        if ( ! empty( $question ) && ! empty( $answer ) ) {
+            $faq_entities[] = array(
+                '@type'          => 'Question',
+                'name'           => wp_strip_all_tags( $question ),
+                'acceptedAnswer' => array(
+                    '@type' => 'Answer',
+                    'text'  => wp_strip_all_tags( $answer ),
+                ),
+            );
+        }
+    }
+
+    if ( empty( $faq_entities ) ) {
+        return;
+    }
+
+    $schema = array(
+        '@context'   => 'https://schema.org',
+        '@type'      => 'FAQPage',
+        'mainEntity' => $faq_entities,
+    );
+
+    echo "<!-- TokoKu FAQPage Schema Markup -->\n";
+    echo '<script type="application/ld+json">' . "\n";
+    echo wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ) . "\n";
+    echo '</script>' . "\n";
+}
+add_action( 'wp_head', 'tokoku_faq_schema_markup', 13 );

@@ -64,10 +64,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     </script>
     <style>
         /* Critical Hiding & Structural Display */
-        .search-modal-overlay, .mobile-menu-overlay { display: none !important; }
-        .search-modal-overlay.active, .mobile-menu-overlay.active { display: flex !important; }
-        .mobile-menu-drawer { visibility: hidden; }
-        .mobile-menu-drawer.active { visibility: visible; }
+        .search-modal-overlay { display: none !important; }
+        .search-modal-overlay.active { display: flex !important; }
+        .mobile-menu-overlay { opacity: 0; visibility: hidden; pointer-events: none; }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+        .mobile-menu-drawer { transform: translate3d(105%, 0, 0); visibility: hidden; }
+        .mobile-menu-drawer.active { transform: translate3d(0, 0, 0); visibility: visible; }
         
         /* Logo Switching */
         .logo-dark { display: none !important; }

@@ -1,10 +1,33 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.8)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.9)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.8 — Dynamic Product Slider Autoplay & Customizable Stock Notice
+## 🚀 Rilis Terbaru v2.4.9 — Golden Ratio Typography, Mobile UX Harmony & Core Web Vitals
+
+Pembaruan **v2.4.9** menghadirkan standarisasi sistem tipografi harmoni berbasis skala matematika Augmented Fourth (×1.414) dan Rasio Emas (φ = 1.618) di seluruh antarmuka tema, penyatuan visual Sticky Order Bar dan Bottom Navigation mobile, drawer gesture swipe-to-close, penambahan Schema.org SEO rich snippets (LocalBusiness & FAQPage), serta optimasi Core Web Vitals dan perbaikan stabilitas kode.
+
+### 📐 1. Sistem Tipografi Harmoni (Golden Ratio Scale)
+*   **Standarisasi 8 Token Font-Size CSS**: Mengganti 330+ ukuran font dan line-height acak/ad-hoc dengan 8 variabel terstruktur: `--fs-2xs` (0.65rem), `--fs-xs` (0.75rem), `--fs-sm` (0.875rem), `--fs-base` (1rem), `--fs-md` (1.125rem), `--fs-lg` (1.414rem), `--fs-xl` (2rem), dan `--fs-xxl` (2.828rem).
+*   **4 Token Line-Height Rasio Emas**: `--lh-tight` (1.236), `--lh-snug` (1.382), `--lh-base` (1.618), dan `--lh-relaxed` (1.764) untuk keterbacaan tipografi editorial yang nyaman dan proporsional.
+*   **Hierarki Visual Komprehensif**: Penyelarasan visual pada H1–H6, nama produk katalog, kartu produk, label harga, status stok, metadata, tombol CTA, formulir, hingga navigasi header dan footer.
+
+### 📱 2. Harmonisasi Navigasi Mobile & Sticky Order Bar
+*   **Integrasi Sticky Order Bar & Bottom Navigation**: Desain glassmorphism frosted glass yang selaras, penambahan class dinamis `has-sticky-order-bar` pada body saat sticky bar aktif agar konten tidak tumpang tindih dengan navigasi bawah.
+*   **Gesture Swipe to Close Drawer**: Menu drawer samping mobile kini dapat ditutup dengan sapuan jari alami (*swipe right*).
+*   **Auto-Close on Anchor Links**: Menu navigasi otomatis menutup ketika pengguna mengklik link navigasi jangkar (*anchor link*) di halaman yang sama.
+*   **Pembersihan Menu Footer**: Efek hover menu footer diperjelas, tombol WhatsApp redundan di menu mobile dirapikan, dan kategori desktop otomatis rata tengah (*centered*).
+
+### ⚡ 3. SEO Rich Snippets & Optimasi Core Web Vitals
+*   **Schema.org JSON-LD LocalBusiness & FAQPage**: Peningkatan visibilitas SEO Google dengan structured data LocalBusiness (alamat, jam operasional, kontak, profil sosial) dan FAQPage rich snippets di beranda.
+*   **Dukungan WebP & Rendering Asinkron**: Dukungan upload file WebP di media library WordPress, otomatisasi atribut `decoding="async"` untuk mencegah render-blocking, serta kualitas kompresi editor optimal pada 85%.
+*   **Pinch-to-Zoom Modular**: Script interaksi pinch zoom dan swipe down to close pada detail produk dipindahkan dari tag inline PHP ke modul JavaScript utama (`assets/js/single-product.js`).
+*   **Perbaikan Bug PHP & WhatsApp**: Perbaikan warning *division by zero* pada perhitungan diskon harga nol (`$harga_diskon > 0`), sinkronisasi nama variasi produk ke format pesan WhatsApp (`data-variation`), dan proteksi output buffering pada live search AJAX.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.8 — Dynamic Product Slider Autoplay & Customizable Stock Notice
 
 Pembaruan **v2.4.8** menghadirkan perombakan total pada galeri produk menjadi slider interaktif berperforma tinggi dengan fitur pergantian slide otomatis (*autoplay*), navigasi sentuh (*swipe gesture*), indikator slide elegan, modal zoom/lightbox terintegrasi, serta penambahan menu admin untuk mengkustomisasi judul dan teks keterangan notice status stok secara bebas.
 

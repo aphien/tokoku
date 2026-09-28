@@ -109,7 +109,9 @@ function tokoku_ajax_search() {
         }
     }
 
-    ob_clean();
+    if ( ob_get_length() ) {
+        ob_clean();
+    }
     wp_send_json_success( array(
         'products'   => $products,
         'categories' => $cat_results,

@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const variationBtns = document.querySelectorAll('.btn-variation');
     const priceCurrent = document.querySelector('.product-price-display .price-current');
+    const mainBtn = document.querySelector('.btn-contact-us');
+    const stickyBtn = document.querySelector('.btn-sticky-order-elegant');
+    const baseProductName = (mainBtn ? mainBtn.getAttribute('data-product-name') : '') || document.querySelector('.product-title')?.textContent.trim() || document.title;
     
     variationBtns.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -8,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
             variationBtns.forEach(b => b.classList.remove('active'));
             // Add to clicked
             this.classList.add('active');
+
+            // Update product name with selected variation for WhatsApp order
+            const varName = this.getAttribute('data-variation') || this.textContent.trim();
+            const fullTitle = (baseProductName && varName) ? `${baseProductName} (${varName})` : (varName || baseProductName);
+            if (mainBtn) mainBtn.setAttribute('data-product-name', fullTitle);
+            if (stickyBtn) stickyBtn.setAttribute('data-product-name', fullTitle);
             
             // Update price if available
             const newPrice = this.getAttribute('data-price');
@@ -15,9 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (priceCurrent) priceCurrent.textContent = newPrice;
                 const stickyPricePill = document.querySelector('.sticky-order-price-pill');
                 if (stickyPricePill) stickyPricePill.textContent = newPrice;
-                const stickyBtn = document.querySelector('.btn-sticky-order-elegant');
                 if (stickyBtn) stickyBtn.setAttribute('data-product-price', newPrice);
-                const mainBtn = document.querySelector('.btn-contact-us');
                 if (mainBtn) mainBtn.setAttribute('data-product-price', newPrice);
             }
         });
@@ -270,4 +277,187 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === 'Escape') closeLightbox();
         });
     }
+
+    // 📱 Mobile Touch Pinch-to-Zoom & Pan System
+    (function initMobileZoom() {
+        if (window.innerWidth > 768) return;
+
+        const openBtn  = document.getElementById('open-zoom-btn');
+        const closeBtn = document.getElementById('close-zoom-btn');
+        const overlay  = document.getElementById('mobile-zoom-overlay');
+        const zoomImg  = document.getElementById('zoom-overlay-img');
+        const srcImg   = document.getElementById('main-product-img');
+
+        if (!overlay || !zoomImg) return;
+
+        let scale = 1, minScale = 1, maxScale = 5;
+        let tx = 0, ty = 0;
+        let lastTapTime = 0;
+        let rafPending = false;
+        let needsApply = false;
+
+        let pinching = false;
+        let initDist = 0, initScale = 1;
+        let initTx = 0, initTy = 0;
+        let pinchMidX = 0, pinchMidY = 0;
+
+        let panning = false;
+        let panStartX = 0, panStartY = 0;
+        let panInitTx = 0, panInitTy = 0;
+
+        let swipeDY = 0;
+
+        function dist(a, b) {
+            const dx = a.clientX - b.clientX, dy = a.clientY - b.clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function clamp() {
+            if (scale <= 1) { tx = 0; ty = 0; return; }
+            const visW = zoomImg.offsetWidth, visH = zoomImg.offsetHeight;
+            const maxTx = Math.max(0, (visW * scale - visW) / (2 * scale));
+            const maxTy = Math.max(0, (visH * scale - visH) / (2 * scale));
+            tx = Math.max(-maxTx, Math.min(maxTx, tx));
+            ty = Math.max(-maxTy, Math.min(maxTy, ty));
+        }
+
+        function scheduleApply() {
+            needsApply = true;
+            if (rafPending) return;
+            rafPending = true;
+            requestAnimationFrame(() => {
+                rafPending = false;
+                if (!needsApply) return;
+                needsApply = false;
+                zoomImg.style.transform = `scale(${scale}) translate(${tx}px,${ty}px)`;
+            });
+        }
+
+        function applyNow(animated) {
+            zoomImg.style.transition = animated ? 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
+            zoomImg.style.transform  = `scale(${scale}) translate(${tx}px,${ty}px)`;
+        }
+
+        function reset(animated) {
+            scale = 1; tx = 0; ty = 0;
+            applyNow(animated);
+        }
+
+        function openZoom() {
+            const activeSlide = document.querySelector('.product-slide.is-active img') || srcImg;
+            if (!activeSlide) return;
+            let best = activeSlide.src;
+            if (activeSlide.srcset) {
+                const parts = activeSlide.srcset.split(',').map(s => s.trim().split(/\s+/));
+                const sorted = parts.sort((a, b) => (parseInt(b[1], 10) || 0) - (parseInt(a[1], 10) || 0));
+                if (sorted[0] && sorted[0][0]) best = sorted[0][0];
+            }
+            zoomImg.src = best;
+            reset(false);
+            overlay.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeZoom() {
+            overlay.classList.remove('is-open');
+            document.body.style.overflow = '';
+            overlay.style.transform = '';
+            overlay.style.opacity   = '';
+        }
+
+        if (openBtn) {
+            openBtn.addEventListener('click', (e) => { e.preventDefault(); openZoom(); });
+        }
+
+        const trackWrap = document.getElementById('main-product-image-wrap') || srcImg;
+        if (trackWrap) {
+            trackWrap.addEventListener('click', (e) => {
+                if (e.target.closest('.product-slider-nav') || e.target.closest('.mobile-zoom-btn')) return;
+                if (trackWrap.getAttribute('data-swiped') === 'true') return;
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    openZoom();
+                }
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeZoom(); });
+            closeBtn.addEventListener('touchend', (e) => { e.preventDefault(); e.stopPropagation(); closeZoom(); }, { passive: false });
+        }
+
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeZoom(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeZoom(); });
+
+        zoomImg.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                pinching   = true; panning = false;
+                initDist   = dist(e.touches[0], e.touches[1]);
+                initScale  = scale;
+                initTx     = tx; initTy = ty;
+                pinchMidX  = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                pinchMidY  = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                swipeDY    = 0;
+            } else if (e.touches.length === 1) {
+                const now = Date.now();
+                if (now - lastTapTime < 280) {
+                    e.preventDefault();
+                    if (scale > 1) { reset(true); } else { scale = 2.5; tx = 0; ty = 0; applyNow(true); }
+                    lastTapTime = 0; return;
+                }
+                lastTapTime = now;
+                panning = true; pinching = false;
+                panStartX = e.touches[0].clientX;
+                panStartY = e.touches[0].clientY;
+                panInitTx = tx; panInitTy = ty;
+                swipeDY = 0;
+            }
+        }, { passive: false });
+
+        zoomImg.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (pinching && e.touches.length === 2) {
+                const newDist = dist(e.touches[0], e.touches[1]);
+                const newScale = Math.max(minScale, Math.min(maxScale, initScale * (newDist / initDist)));
+                tx = initTx + (pinchMidX / window.innerWidth - 0.5) * (initScale - newScale) * zoomImg.offsetWidth / newScale;
+                ty = initTy + (pinchMidY / window.innerHeight - 0.5) * (initScale - newScale) * zoomImg.offsetHeight / newScale;
+                scale = newScale;
+                clamp();
+                scheduleApply();
+            } else if (panning && e.touches.length === 1) {
+                const dx = e.touches[0].clientX - panStartX;
+                const dy = e.touches[0].clientY - panStartY;
+                swipeDY = dy;
+                if (scale <= 1) {
+                    if (dy > 0) {
+                        overlay.style.transition = 'none';
+                        overlay.style.transform  = `translateY(${dy * 0.4}px)`;
+                        overlay.style.opacity    = Math.max(0.4, 1 - dy / 300);
+                    }
+                } else {
+                    tx = panInitTx + dx / scale;
+                    ty = panInitTy + dy / scale;
+                    clamp();
+                    scheduleApply();
+                }
+            }
+        }, { passive: false });
+
+        zoomImg.addEventListener('touchend', () => {
+            if (scale <= 1 && swipeDY > 90) {
+                overlay.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+                overlay.style.transform  = 'translateY(100%)';
+                overlay.style.opacity    = '0';
+                setTimeout(closeZoom, 260);
+            } else {
+                overlay.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+                overlay.style.transform  = '';
+                overlay.style.opacity    = '';
+            }
+            pinching = false; panning = false; swipeDY = 0;
+            if (scale < minScale) { scale = minScale; tx = 0; ty = 0; applyNow(true); }
+            clamp(); applyNow(false);
+        }, { passive: true });
+    })();
 });

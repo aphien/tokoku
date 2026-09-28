@@ -24,9 +24,9 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
         <div class="product-card__badges">
             <?php if ( $harga && $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
                 <?php 
-                $diskon_persen = round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 );
+                $diskon_persen = ( (float)$harga_diskon > 0 ) ? round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 ) : 0;
                 ?>
-                <span class="product-card__badge badge-discount">-<?php echo $diskon_persen; ?>%</span>
+                <span class="product-card__badge badge-discount">-<?php echo esc_html( $diskon_persen ); ?>%</span>
             <?php endif; ?>
 
             <?php if ( $stok_status['class'] === 'stok-habis' ) : ?>
@@ -75,7 +75,7 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
         </div>
         <?php endif; ?>
 
-        <button class="btn btn-primary btn-block btn-whatsapp-order" 
+        <button type="button" class="btn btn-primary btn-block btn-whatsapp-order" 
                 data-product-id="<?php the_ID(); ?>"
                 data-product-name="<?php the_title_attribute(); ?>"
                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"

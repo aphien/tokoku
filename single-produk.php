@@ -236,8 +236,8 @@ get_header(); ?>
                             <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) ); ?></span>
                             <span class="price-original"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga_diskon, 0, ',', '.' ) ); ?></span>
                             <?php 
-                            $diskon_persen = round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 );
-                            echo '<span class="price-discount-badge">-' . $diskon_persen . '%</span>';
+                            $diskon_persen = ( (float)$harga_diskon > 0 ) ? round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 ) : 0;
+                            echo '<span class="price-discount-badge">-' . esc_html( $diskon_persen ) . '%</span>';
                             ?>
                         <?php else : ?>
                             <span class="price-current"><?php echo esc_html( $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) ); ?></span>
@@ -259,7 +259,7 @@ get_header(); ?>
                             <?php foreach ( $pilihan_arr as $index => $pilihan ) : 
                                 $harga_varian = isset( $harga_arr[$index] ) && is_numeric($harga_arr[$index]) ? (float)$harga_arr[$index] : '';
                             ?>
-                                <button class="btn-variation" <?php if($harga_varian) echo 'data-price="' . esc_attr( $mata_uang . ' ' . number_format((float)$harga_varian, 0, ',', '.') ) . '"'; ?>>
+                                <button type="button" class="btn-variation" <?php if($harga_varian) echo 'data-price="' . esc_attr( $mata_uang . ' ' . number_format((float)$harga_varian, 0, ',', '.') ) . '"'; ?> data-variation="<?php echo esc_attr( $pilihan ); ?>">
                                     <?php echo esc_html( $pilihan ); ?>
                                 </button>
                             <?php endforeach; ?>
@@ -398,9 +398,9 @@ get_header(); ?>
                             $price_val = 'Tanyakan Harga';
                         }
                         ?>
-                        <button class="btn btn-primary btn-lg btn-block btn-whatsapp-order btn-contact-us"
+                        <button type="button" class="btn btn-primary btn-lg btn-block btn-whatsapp-order btn-contact-us"
                                 data-product-id="<?php the_ID(); ?>"
-                                data-product-name="<?php the_title(); ?>"
+                                data-product-name="<?php the_title_attribute(); ?>"
                                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                                 data-product-url="<?php the_permalink(); ?>"
                                 data-product-price="<?php echo esc_attr( $price_val ); ?>">
@@ -573,7 +573,7 @@ get_header(); ?>
             <div class="sticky-bar-centered-wrap">
                 <button type="button" class="btn-sticky-order-elegant btn-whatsapp-order"
                         data-product-id="<?php the_ID(); ?>"
-                        data-product-name="<?php the_title(); ?>"
+                        data-product-name="<?php the_title_attribute(); ?>"
                         data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                         data-product-url="<?php the_permalink(); ?>"
                         data-product-price="<?php echo esc_attr( $price_val ); ?>"
@@ -602,8 +602,6 @@ get_header(); ?>
     </div>
 </div>
 
-<?php get_footer(); ?>
-
 <!-- Mobile Zoom Overlay -->
 <div class="mobile-zoom-overlay" id="mobile-zoom-overlay" role="dialog" aria-modal="true" aria-label="Perbesar Gambar">
     <div class="mobile-zoom-overlay__inner" id="zoom-inner">
@@ -617,198 +615,5 @@ get_header(); ?>
     </div>
 </div>
 
-<script>
-(function () {
-    'use strict';
-    if (window.innerWidth > 768) return;
-
-    var openBtn  = document.getElementById('open-zoom-btn');
-    var closeBtn = document.getElementById('close-zoom-btn');
-    var overlay  = document.getElementById('mobile-zoom-overlay');
-    var zoomImg  = document.getElementById('zoom-overlay-img');
-    var srcImg   = document.getElementById('main-product-img');
-
-    if (!openBtn || !overlay || !zoomImg || !srcImg) return;
-
-    /* ── State ── */
-    var scale      = 1, minScale = 1, maxScale = 5;
-    var tx = 0, ty = 0;          // translate (dalam koordinat gambar)
-    var lastTapTime = 0;
-    var rafPending  = false;
-    var needsApply  = false;
-
-    /* ── Pinch state ── */
-    var pinching  = false;
-    var initDist  = 0, initScale = 1;
-    var initTx    = 0, initTy    = 0;
-    var pinchMidX = 0, pinchMidY = 0;  // midpoint di layar saat pinch mulai
-
-    /* ── Pan state ── */
-    var panning    = false;
-    var panStartX  = 0, panStartY  = 0;
-    var panInitTx  = 0, panInitTy  = 0;
-
-    /* ── Swipe-down-to-close ── */
-    var swipeStartY = 0, swipeDY = 0;
-
-    function dist(a, b) {
-        var dx = a.clientX - b.clientX, dy = a.clientY - b.clientY;
-        return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    function clamp() {
-        if (scale <= 1) { tx = 0; ty = 0; return; }
-        var imgW = zoomImg.naturalWidth  || zoomImg.offsetWidth;
-        var imgH = zoomImg.naturalHeight || zoomImg.offsetHeight;
-        var visW = zoomImg.offsetWidth, visH = zoomImg.offsetHeight;
-        var maxTx = Math.max(0, (visW * scale - visW) / (2 * scale));
-        var maxTy = Math.max(0, (visH * scale - visH) / (2 * scale));
-        tx = Math.max(-maxTx, Math.min(maxTx, tx));
-        ty = Math.max(-maxTy, Math.min(maxTy, ty));
-    }
-
-    function scheduleApply() {
-        needsApply = true;
-        if (rafPending) return;
-        rafPending = true;
-        requestAnimationFrame(function () {
-            rafPending = false;
-            if (!needsApply) return;
-            needsApply = false;
-            zoomImg.style.transform = 'scale(' + scale + ') translate(' + tx + 'px,' + ty + 'px)';
-        });
-    }
-
-    function applyNow(animated) {
-        zoomImg.style.transition = animated ? 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
-        zoomImg.style.transform  = 'scale(' + scale + ') translate(' + tx + 'px,' + ty + 'px)';
-    }
-
-    function reset(animated) {
-        scale = 1; tx = 0; ty = 0;
-        applyNow(animated);
-    }
-
-    /* ── Open / Close ── */
-    function openZoom() {
-        // Gunakan gambar dari slide yang sedang aktif
-        var activeSlide = document.querySelector('.product-slide.is-active img') || srcImg;
-        var best = activeSlide.src;
-        if (activeSlide.srcset) {
-            var parts = activeSlide.srcset.split(',').map(function(s) { return s.trim().split(/\s+/); });
-            var sorted = parts.sort(function(a,b) { return (parseInt(b[1]) || 0) - (parseInt(a[1]) || 0); });
-            if (sorted[0] && sorted[0][0]) best = sorted[0][0];
-        }
-        zoomImg.src = best;
-        reset(false);
-        overlay.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeZoom() {
-        overlay.classList.remove('is-open');
-        document.body.style.overflow = '';
-        overlay.style.transform = '';
-        overlay.style.opacity   = '';
-    }
-
-    /* ── Event bindings ── */
-    openBtn.addEventListener('click', function (e) { e.preventDefault(); openZoom(); });
-
-    // Tap pada gambar utama di mobile untuk buka pinch zoom (kecuali saat swipe)
-    var trackWrap = document.getElementById('main-product-image-wrap') || srcImg;
-    trackWrap.addEventListener('click', function (e) {
-        if (e.target.closest('.product-slider-nav') || e.target.closest('.mobile-zoom-btn')) return;
-        if (trackWrap.getAttribute('data-swiped') === 'true') return;
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            openZoom();
-        }
-    });
-
-    // Close button — area klik lebih besar via padding trick
-    closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeZoom(); });
-    closeBtn.addEventListener('touchend', function(e) { e.preventDefault(); e.stopPropagation(); closeZoom(); }, { passive: false });
-
-    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeZoom(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeZoom(); });
-
-    /* ── Touch on overlay image ── */
-    zoomImg.addEventListener('touchstart', function (e) {
-        if (e.touches.length === 2) {
-            e.preventDefault();
-            pinching   = true; panning = false;
-            initDist   = dist(e.touches[0], e.touches[1]);
-            initScale  = scale;
-            initTx     = tx; initTy = ty;
-            pinchMidX  = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-            pinchMidY  = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-            swipeDY    = 0;
-        } else if (e.touches.length === 1) {
-            var now = Date.now();
-            if (now - lastTapTime < 280) {
-                e.preventDefault();
-                if (scale > 1) { reset(true); } else { scale = 2.5; tx = 0; ty = 0; applyNow(true); }
-                lastTapTime = 0; return;
-            }
-            lastTapTime = now;
-            panning = true; pinching = false;
-            panStartX = e.touches[0].clientX;
-            panStartY = e.touches[0].clientY;
-            panInitTx = tx; panInitTy = ty;
-            swipeStartY = e.touches[0].clientY; swipeDY = 0;
-        }
-    }, { passive: false });
-
-    zoomImg.addEventListener('touchmove', function (e) {
-        e.preventDefault();
-        if (pinching && e.touches.length === 2) {
-            var newDist = dist(e.touches[0], e.touches[1]);
-            var newScale = Math.max(minScale, Math.min(maxScale, initScale * (newDist / initDist)));
-            // Pertahankan pusat pinch sebagai titik tetap
-            var ratio = newScale / initScale;
-            tx = pinchMidX / newScale - pinchMidX / initScale + initTx * (initScale / newScale) * ratio;
-            tx = initTx + (pinchMidX / window.innerWidth - 0.5) * (initScale - newScale) * zoomImg.offsetWidth / newScale;
-            ty = initTy + (pinchMidY / window.innerHeight - 0.5) * (initScale - newScale) * zoomImg.offsetHeight / newScale;
-            scale = newScale;
-            clamp();
-            scheduleApply();
-        } else if (panning && e.touches.length === 1) {
-            var dx = e.touches[0].clientX - panStartX;
-            var dy = e.touches[0].clientY - panStartY;
-            swipeDY = dy;
-            if (scale <= 1) {
-                // Swipe down to close
-                if (dy > 0) {
-                    overlay.style.transition = 'none';
-                    overlay.style.transform  = 'translateY(' + (dy * 0.4) + 'px)';
-                    overlay.style.opacity    = Math.max(0.4, 1 - dy / 300);
-                }
-            } else {
-                tx = panInitTx + dx / scale;
-                ty = panInitTy + dy / scale;
-                clamp();
-                scheduleApply();
-            }
-        }
-    }, { passive: false });
-
-    zoomImg.addEventListener('touchend', function (e) {
-        if (scale <= 1 && swipeDY > 90) {
-            // Swipe down confirmed: close
-            overlay.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
-            overlay.style.transform  = 'translateY(100%)';
-            overlay.style.opacity    = '0';
-            setTimeout(closeZoom, 260);
-        } else {
-            overlay.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
-            overlay.style.transform  = '';
-            overlay.style.opacity    = '';
-        }
-        pinching = false; panning = false; swipeDY = 0;
-        if (scale < minScale) { scale = minScale; tx = 0; ty = 0; applyNow(true); }
-        clamp(); applyNow(false);
-    }, { passive: true });
-})();
-</script>
+<?php get_footer(); ?>
 

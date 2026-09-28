@@ -1453,6 +1453,36 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.4.9 — Golden Ratio Typography, Mobile UX Harmony & Core Web Vitals
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan ini menghadirkan standarisasi sistem tipografi harmoni (Augmented Fourth ×1.414 &amp; Golden Ratio) di seluruh tema, penyatuan antarmuka Sticky Order Bar dan Bottom Navigation mobile, gesture swipe drawer, penambahan schema SEO Google Rich Snippets, serta optimasi Core Web Vitals dan perbaikan stabilitas kode.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📐 1. Sistem Tipografi Harmoni (Golden Ratio Scale)</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Skala Font Terstandarisasi</strong>: Mengganti 330+ ukuran font dan line-height acak dengan 8 token modular CSS (Augmented Fourth ×1.414) dan 4 token line-height rasio emas (φ = 1.618).</li>
+                                    <li style="margin-bottom: 4px;"><strong>Hierarki Visual Presisi</strong>: Memastikan kontras ukuran heading (H1–H6), judul produk, harga, badge, formulir, dan navigasi tampak seimbang dan nyaman dibaca di desktop maupun mobile.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 2. Harmonisasi Navigasi Mobile &amp; Sticky Order Bar</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Sticky Order Bar &amp; Bottom Nav Terpadu</strong>: Desain glassmorphism frosted glass yang selaras, penyesuaian padding dinamis dengan class <code>has-sticky-order-bar</code> sehingga elemen tidak tumpang tindih.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Gesture Swipe to Close Drawer</strong>: Drawer navigasi samping kini dapat ditutup dengan sapuan jari (*swipe right*) yang natural.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Penyederhanaan Menu Footer</strong>: Efek hover bersih dan interaktif, tombol WhatsApp redundan dirapikan, serta navigasi kategori desktop otomatis rata tengah (*centered*).</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚡ 3. SEO Rich Snippets &amp; Optimasi Core Web Vitals</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Schema.org LocalBusiness &amp; FAQPage</strong>: Otomatis menyuntikkan schema JSON-LD terstruktur untuk Google Rich Results (informasi toko, kontak, jam operasional, dan FAQ).</li>
+                                    <li style="margin-bottom: 4px;"><strong>WebP Upload &amp; Async Decoding</strong>: Dukungan resmi upload WebP di media library, kompresi gambar optimal 85%, dan otomatisasi atribut <code>decoding="async"</code>.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Pinch-to-Zoom Modular</strong>: Script zoom foto mobile dipindahkan ke modul JS utama dengan <code>requestAnimationFrame</code>.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Perbaikan Bug PHP &amp; WhatsApp</strong>: Mengatasi warning pembagian nol pada persentase diskon serta sinkronisasi pilihan variasi produk ke teks pesanan WhatsApp.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
                                     🚀 Rilis v2.4.8 — Dynamic Product Slider Autoplay & Customizable Stock Notice
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">
