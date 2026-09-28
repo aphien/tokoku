@@ -1,10 +1,31 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.6)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.7)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.6 — Product Card Layout Refinement, Responsive Typography & Clean Mobile UX
+## 🚀 Rilis Terbaru v2.4.7 — Animated Stock Badges, Special Badges & Clean Mobile Single Product
+
+Pembaruan **v2.4.7** menghadirkan badge ketersediaan stok beranimasi pada tabel spesifikasi detail produk, restrukturisasi posisi label khusus (special badge) pada katalog desktop, serta pembersihan elemen visual mobile untuk pengalaman penjelajahan yang lebih cepat dan bebas distraksi.
+
+### 🟢 1. Badge Stok Beranimasi di Detail Produk (*Single Product*)
+*   **Indikator Animasi Pulse Dot**: Status ketersediaan stok di tabel spesifikasi produk dilengkapi badge interaktif yang hidup:
+    *   **Tersedia**: Pill hijau segar dengan titik *pulse dot* berdenyut lembut.
+    *   **Pre Order**: Pill oranye dengan ikon jam dan denyut perhatian.
+    *   **Habis**: Pill merah elegan menginformasikan stok sedang kosong.
+*   **Notice Stok Minimalis Desktop**: Tampilan notice status stok dirombak menjadi strip minimalis tipis satu baris dengan border elegan, menggantikan box besar sebelumnya.
+
+### 🏷️ 2. Restrukturisasi Label Khusus (*Special Badge*)
+*   **Pemisahan Posisi Badge Kartu Produk**: Label khusus (*Featured / Terlaris / Baru*) kini menempati sudut kanan atas kartu produk dengan gradien oranye-merah dan efek *glow pulse*, terpisah dari badge diskon dan stok di sudut kiri atas.
+*   **Galeri Produk Bersih**: Menghapus badge label khusus yang menumpuk di atas foto utama halaman single produk, memastikan foto plakat tampil bersih dan profesional di desktop maupun mobile.
+
+### 📱 3. Optimasi Antarmuka Mobile Rapi & Ringkas
+*   **Bebas Distraksi di Mobile**: Menyembunyikan notice stok, trust badge duplikat, dan badge katalog di layar perangkat seluler demi menghemat ruang vertikal layar pengguna.
+*   **Tombol Marketplace Rata Tengah**: Judul dan tombol tautan marketplace kini otomatis rata tengah (*center-aligned*) pada tampilan mobile.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.6 — Product Card Layout Refinement, Responsive Typography & Clean Mobile UX
 
 Pembaruan **v2.4.6** menyempurnakan struktur tata letak kartu produk (*Product Card*) pada katalog beranda dan arsip, merapikan hierarki konten visual, serta mengoptimalkan pengalaman pengguna (*User Experience*) di perangkat mobile.
 

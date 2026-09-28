@@ -435,7 +435,7 @@
     width: 100%;
     min-width: 0;
 }
-.main-image { border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); background: var(--bg2); }
+.main-image { border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); background: var(--bg2); position: relative; }
 .main-image img { width: 100%; height: auto; display: block; transition: transform 0.15s ease-out; transform-origin: center center; }
 .gallery-thumbs { display: flex; gap: 12px; }
 .gallery-thumbs .thumb { cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: var(--ease); }
@@ -459,6 +459,53 @@
 
 /* Pre Order styles */
 .is-preorder { color: var(--orange); font-weight: 700; display: flex; align-items: center; gap: 6px; }
+/* ── Stok Notice (Tersedia / Habis / Pre Order) — Minimalis ── */
+.stok-notice {
+    margin-bottom: 22px;
+    padding: 11px 16px;
+    border-radius: 8px;
+    border-left: 3px solid;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+}
+.stok-notice .notice-title {
+    font-weight: 700;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+.stok-notice p {
+    color: var(--text2);
+    margin: 0 0 0 4px;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    display: inline;
+}
+/* Tersedia — Hijau */
+.stok-notice--tersedia {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+}
+.stok-notice--tersedia .notice-title { color: #059669; }
+/* Habis — Merah */
+.stok-notice--habis {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+.stok-notice--habis .notice-title { color: #dc2626; }
+/* Pre Order — Oranye */
+.stok-notice--preorder {
+    border-color: var(--orange);
+    background: rgba(245, 158, 11, 0.05);
+}
+.stok-notice--preorder .notice-title { color: var(--orange); }
+/* Legacy */
 .preorder-notice { margin-bottom: 30px; padding: 20px; background: var(--bg2); border-left: 4px solid var(--orange); border-radius: 8px; }
 .preorder-notice .notice-title { color: var(--orange); font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 .preorder-notice p { color: var(--text2); margin: 0; font-size: 0.9rem; line-height: 1.5; }
@@ -609,15 +656,16 @@
         display: none !important;
     }
     .main-image {
-        order: 1 !important;
+        order: 2 !important;
         width: 100% !important;
         margin: 0 0 10px !important;
         border-radius: 18px;
         overflow: hidden;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        position: relative;
     }
     .gallery-thumbs {
-        order: 2 !important;
+        order: 3 !important;
         width: 100%;
         display: flex;
         justify-content: flex-start;
@@ -641,9 +689,9 @@
         width: 58px;
         height: 58px;
     }
-    /* Mobile: Lead Time Di Bawah Galeri Foto (Bertukar Posisi dengan Trust Badges) */
+    /* Mobile: Lead Time Di Atas Gambar Produk */
     .product-lead-time-bar {
-        order: 3 !important;
+        order: 1 !important;
         width: 100% !important;
         box-sizing: border-box;
         display: flex !important;
@@ -685,13 +733,13 @@
     }
     /* Mobile Flex Reordering Produk */
     .product-title {
-        order: 4 !important;
+        order: 5 !important;
         font-size: 1.38rem;
         margin-bottom: 12px;
         line-height: 1.3;
     }
     .product-price-display {
-        order: 5 !important;
+        order: 6 !important;
         margin-bottom: 14px;
         gap: 8px;
     }
@@ -699,20 +747,21 @@
         font-size: 1.55rem;
     }
     .product-variations {
-        order: 6 !important;
-        margin-bottom: 20px;
-    }
-    .product-specs-table {
         order: 7 !important;
         margin-bottom: 20px;
     }
-    .product-note-box {
+    .product-specs-table {
         order: 8 !important;
         margin-bottom: 20px;
     }
-    .preorder-notice {
-        order: 8 !important;
+    .product-note-box {
+        order: 9 !important;
         margin-bottom: 20px;
+    }
+    /* Mobile: Stok Notice (Tersedia / Habis / Pre Order) Disembunyikan */
+    .preorder-notice,
+    .stok-notice {
+        display: none !important;
     }
     /* Mobile: Hilangkan Tombol Pesan via WhatsApp Inline */
     .product-actions,
@@ -720,42 +769,38 @@
     .btn.btn-primary.btn-lg.btn-block.btn-whatsapp-order.btn-contact-us {
         display: none !important;
     }
-    /* Mobile: Trust Badges di Atas Market Place (Bertukar Posisi dengan Lead Time) */
+    /* Mobile: Trust Badges – Disembunyikan */
     .product-trust-badges {
-        order: 9 !important;
-        width: 100% !important;
-        box-sizing: border-box;
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px 8px;
-        padding: 12px 10px;
-        margin-top: 10px !important;
-        margin-bottom: 16px !important;
+        display: none !important;
     }
     .trust-badge-item {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         text-align: left;
-        gap: 8px;
-        padding: 3px 0;
+        gap: 10px;
+        padding: 6px 8px;
+        border-radius: 10px;
+        background: rgba(var(--primary-rgb, 0, 123, 255), 0.04);
     }
     .trust-icon {
         width: 30px;
         height: 30px;
         min-width: 30px;
         margin: 0 !important;
+        flex-shrink: 0;
     }
     .trust-content {
         text-align: left !important;
         align-items: flex-start !important;
+        flex: 1;
     }
     .trust-content strong {
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         text-align: left !important;
     }
     .trust-content span {
-        font-size: 0.68rem;
+        font-size: 0.7rem;
         text-align: left !important;
     }
     .marketplace-links {
@@ -767,8 +812,8 @@
         border-top: none !important;
     }
     .marketplace-title {
-        text-align: left !important;
-        font-size: 0.85rem !important;
+        text-align: center !important;
+        font-size: 0.83rem !important;
         margin-bottom: 12px !important;
     }
     .marketplace-buttons {
@@ -779,6 +824,8 @@
     .btn-marketplace {
         padding: 13px 8px;
         font-size: 0.82rem;
+        justify-content: center;
+        text-align: center;
     }
     .product-share {
         order: 11 !important;
@@ -972,4 +1019,270 @@
     .special-label { display: block; width: fit-content; margin-bottom: 12px; margin-right: 0; padding: 4px 10px; font-size: 0.65rem; line-height: 1.2; }
     .product-tag-badge { padding: 8px 14px; font-size: 0.8rem; border-radius: 6px; }
 }
+
+/* ============================================================
+   STOK BADGE — Animasi di Tabel Spesifikasi
+   ============================================================ */
+
+.stok-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px 5px 8px;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    animation: stokBadgeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes stokBadgeIn {
+    from { opacity: 0; transform: scale(0.85) translateX(-4px); }
+    to   { opacity: 1; transform: scale(1) translateX(0); }
+}
+.stok-badge__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+}
+.stok-badge__dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    animation: stokDotPulse 1.8s ease-in-out infinite;
+}
+@keyframes stokDotPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50%       { transform: scale(1.9); opacity: 0; }
+}
+.stok-badge__count {
+    font-weight: 600;
+    font-size: 0.75rem;
+    opacity: 0.72;
+    margin-left: 2px;
+}
+/* Tersedia — Hijau */
+.stok-badge--tersedia {
+    color: #059669;
+    background: rgba(16, 185, 129, 0.10);
+    border: 1.5px solid rgba(16, 185, 129, 0.25);
+}
+.stok-badge--tersedia .stok-badge__dot { background: #10b981; }
+.stok-badge--tersedia .stok-badge__dot::after { background: rgba(16, 185, 129, 0.30); }
+/* Pre Order — Oranye */
+.stok-badge--preorder {
+    color: #d97706;
+    background: rgba(245, 158, 11, 0.10);
+    border: 1.5px solid rgba(245, 158, 11, 0.28);
+}
+.stok-badge--preorder .stok-badge__dot { background: #f59e0b; }
+.stok-badge--preorder .stok-badge__dot::after { background: rgba(245, 158, 11, 0.30); animation-duration: 2.2s; }
+/* Habis — Merah */
+.stok-badge--habis {
+    color: #dc2626;
+    background: rgba(239, 68, 68, 0.09);
+    border: 1.5px solid rgba(239, 68, 68, 0.22);
+}
+.stok-badge--habis svg { opacity: 0.85; }
+/* Dark mode */
+:is(.theme-dark, html.theme-dark, body.theme-dark) .stok-badge--tersedia { color: #34d399; background: rgba(16,185,129,0.13); }
+:is(.theme-dark, html.theme-dark, body.theme-dark) .stok-badge--preorder { color: #fbbf24; background: rgba(245,158,11,0.13); }
+:is(.theme-dark, html.theme-dark, body.theme-dark) .stok-badge--habis    { color: #f87171; background: rgba(239,68,68,0.13); }
+
+/* ============================================================
+   SPECIAL LABEL BADGE — Kanan Atas Gambar Produk
+   ============================================================ */
+
+.product-special-label-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 8;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 13px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(135deg, #f97316, #ef4444);
+    box-shadow: 0 3px 14px rgba(239, 68, 68, 0.38);
+    pointer-events: none;
+    animation: specialLabelIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both,
+               specialLabelGlow 2.8s ease-in-out 0.6s infinite;
+}
+.product-special-label-badge .dashicons {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+    line-height: 1;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+@keyframes specialLabelIn {
+    from { opacity: 0; transform: translateY(-10px) scale(0.85); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes specialLabelGlow {
+    0%, 100% { box-shadow: 0 3px 14px rgba(239, 68, 68, 0.38); }
+    50%       { box-shadow: 0 5px 24px rgba(239, 68, 68, 0.65); }
+}
+@media (max-width: 768px) {
+    .product-special-label-badge {
+        top: 10px;
+        right: 58px;
+        font-size: 0.65rem;
+        padding: 4px 10px;
+    }
+}
+
+/* ============================================================
+   MOBILE ZOOM — Tombol & Overlay (Responsif)
+   ============================================================ */
+
+/* Tombol Zoom – hanya tampil di mobile */
+.mobile-zoom-btn {
+    display: none;
+    outline: none;
+    border: none;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    .mobile-zoom-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        z-index: 10;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.52);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
+        color: #fff;
+        transition: background 0.2s ease, transform 0.15s ease;
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    }
+    .mobile-zoom-btn:active {
+        transform: scale(0.88);
+        background: rgba(0, 0, 0, 0.75);
+    }
+    .mobile-zoom-btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        pointer-events: none;
+    }
+}
+
+/* Zoom Overlay Fullscreen */
+.mobile-zoom-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: rgba(0, 0, 0, 0.96);
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+.mobile-zoom-overlay.is-open {
+    display: flex;
+    animation: zoomOverlayIn 0.22s ease both;
+}
+@keyframes zoomOverlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.mobile-zoom-overlay__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.mobile-zoom-overlay__img {
+    max-width: 100vw;
+    max-height: 100dvh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transform-origin: center center;
+    transform: scale(1) translate(0px, 0px);
+    user-select: none;
+    -webkit-user-drag: none;
+    will-change: transform;
+    touch-action: none;
+    display: block;
+}
+.mobile-zoom-overlay__close {
+    position: fixed;
+    top: env(safe-area-inset-top, 16px);
+    right: 16px;
+    margin-top: 16px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255, 255, 255, 0.30) !important;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.6rem;
+    line-height: 1;
+    font-weight: 300;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, transform 0.15s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    padding: 0;
+    outline: none;
+}
+.mobile-zoom-overlay__close:active {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(0.9);
+}
+.mobile-zoom-overlay__hint {
+    position: fixed;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.60);
+    font-size: 0.72rem;
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.3px;
+    background: rgba(0,0,0,0.35);
+    padding: 5px 14px;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    animation: zoomHintFade 3.5s ease forwards;
+}
+@keyframes zoomHintFade {
+    0%   { opacity: 1; }
+    65%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
 

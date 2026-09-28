@@ -1340,6 +1340,33 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.4.7 — Animated Stock Badges, Special Badges & Clean Mobile Single Product
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan ini menambahkan badge ketersediaan stok beranimasi di tabel spesifikasi produk, merapikan letak label khusus di katalog desktop, serta menyederhanakan tampilan mobile pada halaman produk tunggal.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🟢 1. Badge Stok Beranimasi di Detail Produk</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Indikator Animasi Pulse Dot</strong>: Status ketersediaan stok di tabel spesifikasi kini dilengkapi badge warna interaktif (Hijau untuk Tersedia, Oranye untuk Pre-Order, Merah untuk Habis) dengan animasi titik berdenyut (<em>pulse dot</em>).</li>
+                                    <li style="margin-bottom: 4px;"><strong>Notice Stok Minimalis Desktop</strong>: Tampilan notice status stok di bawah catatan produk dirancang ulang menjadi strip minimalis yang elegan dan rapi.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🏷️ 2. Restrukturisasi Label Khusus (Special Badge)</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Pemisahan Posisi Badge</strong>: Label khusus kartu produk diposisikan di sudut kanan atas dengan efek kilau gradien halus, terpisah dari badge diskon dan status di sudut kiri atas.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Galeri Produk Lebih Bersih</strong>: Menghilangkan badge label khusus yang menumpuk di atas foto halaman single produk agar fokus ke visual produk plakat.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 3. Optimasi Antarmuka Mobile Rapi & Ringkas</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Bebas Distraksi</strong>: Menyembunyikan notice stok, trust badge duplikat, dan badge kartu katalog di mobile sehingga menghemat ruang vertikal layar.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Marketplace Rata Tengah</strong>: Teks judul dan tombol tautan marketplace kini otomatis rata tengah di layar perangkat seluler.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
                                     🚀 Rilis v2.4.6 — Product Card Layout Refinement & Clean Mobile UX
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

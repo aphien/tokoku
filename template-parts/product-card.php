@@ -19,12 +19,9 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
                 <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="400" height="400" loading="lazy" decoding="async">
             <?php endif; ?>
         </a>
-        
-        <div class="product-card__badges">
-            <?php if ( $label_khusus ) : ?>
-                <span class="product-card__badge badge-featured"><?php echo esc_html( $label_khusus ); ?></span>
-            <?php endif; ?>
 
+        <!-- Badge Kiri Atas: Diskon, Habis, Pre-Order -->
+        <div class="product-card__badges">
             <?php if ( $harga && $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
                 <?php 
                 $diskon_persen = round( ( ( (float)$harga_diskon - (float)$harga ) / (float)$harga_diskon ) * 100 );
@@ -38,6 +35,13 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
                 <span class="product-card__badge badge-preorder">Pre-Order</span>
             <?php endif; ?>
         </div>
+
+        <!-- Badge Kanan Atas: Label Khusus / Special Label -->
+        <?php if ( $label_khusus ) : ?>
+        <div class="product-card__special-badge">
+            <span><?php echo esc_html( $label_khusus ); ?></span>
+        </div>
+        <?php endif; ?>
     </div>
 
     <div class="product-card__content">

@@ -15,13 +15,24 @@ get_header(); ?>
         <?php while ( have_posts() ) : the_post(); ?>
             <div class="product-details">
                 <div class="product-gallery">
-                    <div class="main-image">
+                    <div class="main-image" id="main-product-image-wrap">
                         <?php if ( has_post_thumbnail() ) : ?>
-                            <?php the_post_thumbnail( 'tokoku-product-large', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'decoding' => 'sync' ) ); ?>
+                            <?php the_post_thumbnail( 'tokoku-product-large', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'decoding' => 'sync', 'id' => 'main-product-img' ) ); ?>
                         <?php else : ?>
-                            <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="800" height="800" loading="eager" fetchpriority="high">
+                            <img id="main-product-img" src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="800" height="800" loading="eager" fetchpriority="high">
                         <?php endif; ?>
+
+                        <!-- Tombol Zoom (hanya mobile) -->
+                        <button class="mobile-zoom-btn" id="open-zoom-btn" aria-label="Perbesar Gambar" title="Perbesar Gambar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                            </svg>
+                        </button>
                     </div>
+
+
+
                     
                     <?php
                     $gallery_ids = get_post_meta( get_the_ID(), '_produk_gallery', true );
@@ -131,20 +142,12 @@ get_header(); ?>
                     $marketplace_lainnya   = get_post_meta( get_the_ID(), '_produk_marketplace_lainnya', true );
 
                     $has_marketplace = ($marketplace_shopee || $marketplace_tokopedia || $marketplace_lazada || $marketplace_tiktok || $marketplace_bukalapak || $marketplace_blibli || $marketplace_lainnya);
-                    $label_khusus   = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
-                    $label_khusus_icon = get_post_meta( get_the_ID(), '_produk_label_khusus_icon', true );
                     $mata_uang      = get_theme_mod( 'tokoku_currency', 'Rp' );
                     $show_price     = get_theme_mod( 'tokoku_show_price', 'yes' );
                     ?>
 
                     <h1 class="product-title">
-                        <?php 
-                        if ( $label_khusus ) {
-                            $icon_class = $label_khusus_icon ? esc_attr( $label_khusus_icon ) : 'dashicons-star-filled';
-                            echo '<span class="special-label"><span class="dashicons ' . $icon_class . '" style="vertical-align: middle; margin-top: -3px; font-size: 16px; width: 16px; height: 16px;"></span> ' . esc_html( $label_khusus ) . '</span>';
-                        }
-                        the_title(); 
-                        ?>
+                        <?php the_title(); ?>
                     </h1>
 
                     <?php if ( $show_price === 'yes' && $harga ) : ?>
@@ -199,12 +202,28 @@ get_header(); ?>
                         
                         <div class="spec-row">
                             <div class="spec-label">Stok</div>
-                            <div class="spec-value <?php echo esc_attr( $stok['class'] ); ?> <?php echo $stok['class'] == 'stok-preorder' ? 'is-preorder' : ''; ?>">
-                                <?php if ( $stok['class'] == 'stok-preorder' ) : ?>
-                                    <span class="dashicons dashicons-clock" style="font-size: 16px; width: 16px; height: 16px;"></span>
+                            <div class="spec-value">
+                                <?php
+                                $stok_class = $stok['class'];
+                                if ( $stok_class === 'stok-tersedia' ) :
+                                ?>
+                                    <span class="stok-badge stok-badge--tersedia">
+                                        <span class="stok-badge__dot"></span>
+                                        <?php echo esc_html( $stok['label'] ); ?>
+                                        <?php if ( $jumlah_stok ) echo '<span class="stok-badge__count">(' . esc_html( $jumlah_stok ) . ')</span>'; ?>
+                                    </span>
+                                <?php elseif ( $stok_class === 'stok-preorder' ) : ?>
+                                    <span class="stok-badge stok-badge--preorder">
+                                        <span class="stok-badge__dot"></span>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        <?php echo esc_html( $stok['label'] ); ?>
+                                    </span>
+                                <?php elseif ( $stok_class === 'stok-habis' ) : ?>
+                                    <span class="stok-badge stok-badge--habis">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                        <?php echo esc_html( $stok['label'] ); ?>
+                                    </span>
                                 <?php endif; ?>
-                                <?php echo $stok['label']; ?>
-                                <?php if ( $jumlah_stok ) echo ' <span class="stock-count">(' . esc_html( $jumlah_stok ) . ')</span>'; ?>
                             </div>
                         </div>
                         
@@ -254,10 +273,26 @@ get_header(); ?>
                     </div>
                     <?php endif; ?>
 
-                    <?php if ( $stok['class'] == 'stok-preorder' ) : ?>
-                    <div class="preorder-notice">
+                    <?php if ( $stok['class'] == 'stok-tersedia' ) : ?>
+                    <div class="stok-notice stok-notice--tersedia">
                         <div class="notice-title">
-                            <span class="dashicons dashicons-clock" style="font-size: 24px; width: 24px; height: 24px;"></span>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            STOK TERSEDIA
+                        </div>
+                        <p>Produk ini tersedia dan siap untuk dipesan sekarang.</p>
+                    </div>
+                    <?php elseif ( $stok['class'] == 'stok-habis' ) : ?>
+                    <div class="stok-notice stok-notice--habis">
+                        <div class="notice-title">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            STOK HABIS
+                        </div>
+                        <p>Produk ini sedang tidak tersedia. Hubungi kami untuk informasi ketersediaan berikutnya.</p>
+                    </div>
+                    <?php elseif ( $stok['class'] == 'stok-preorder' ) : ?>
+                    <div class="stok-notice stok-notice--preorder">
+                        <div class="notice-title">
+                            <span class="dashicons dashicons-clock" style="font-size: 22px; width: 22px; height: 22px;"></span>
                             PRE ORDER
                         </div>
                         <p>Hubungi kami untuk informasi lebih lanjut mengenai pemesanan produk ini.</p>
@@ -467,3 +502,201 @@ get_header(); ?>
 </main>
 
 <?php get_footer(); ?>
+
+<!-- Mobile Zoom Overlay -->
+<div class="mobile-zoom-overlay" id="mobile-zoom-overlay" role="dialog" aria-modal="true" aria-label="Perbesar Gambar">
+    <div class="mobile-zoom-overlay__inner" id="zoom-inner">
+        <img class="mobile-zoom-overlay__img" id="zoom-overlay-img" src="" alt="Zoom Produk" draggable="false">
+        <button class="mobile-zoom-overlay__close" id="close-zoom-btn" aria-label="Tutup" type="button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+        <span class="mobile-zoom-overlay__hint">Cubit untuk zoom &bull; Geser untuk pindah</span>
+    </div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+    if (window.innerWidth > 768) return;
+
+    var openBtn  = document.getElementById('open-zoom-btn');
+    var closeBtn = document.getElementById('close-zoom-btn');
+    var overlay  = document.getElementById('mobile-zoom-overlay');
+    var zoomImg  = document.getElementById('zoom-overlay-img');
+    var srcImg   = document.getElementById('main-product-img');
+
+    if (!openBtn || !overlay || !zoomImg || !srcImg) return;
+
+    /* ── State ── */
+    var scale      = 1, minScale = 1, maxScale = 5;
+    var tx = 0, ty = 0;          // translate (dalam koordinat gambar)
+    var lastTapTime = 0;
+    var rafPending  = false;
+    var needsApply  = false;
+
+    /* ── Pinch state ── */
+    var pinching  = false;
+    var initDist  = 0, initScale = 1;
+    var initTx    = 0, initTy    = 0;
+    var pinchMidX = 0, pinchMidY = 0;  // midpoint di layar saat pinch mulai
+
+    /* ── Pan state ── */
+    var panning    = false;
+    var panStartX  = 0, panStartY  = 0;
+    var panInitTx  = 0, panInitTy  = 0;
+
+    /* ── Swipe-down-to-close ── */
+    var swipeStartY = 0, swipeDY = 0;
+
+    function dist(a, b) {
+        var dx = a.clientX - b.clientX, dy = a.clientY - b.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function clamp() {
+        if (scale <= 1) { tx = 0; ty = 0; return; }
+        var imgW = zoomImg.naturalWidth  || zoomImg.offsetWidth;
+        var imgH = zoomImg.naturalHeight || zoomImg.offsetHeight;
+        var visW = zoomImg.offsetWidth, visH = zoomImg.offsetHeight;
+        var maxTx = Math.max(0, (visW * scale - visW) / (2 * scale));
+        var maxTy = Math.max(0, (visH * scale - visH) / (2 * scale));
+        tx = Math.max(-maxTx, Math.min(maxTx, tx));
+        ty = Math.max(-maxTy, Math.min(maxTy, ty));
+    }
+
+    function scheduleApply() {
+        needsApply = true;
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(function () {
+            rafPending = false;
+            if (!needsApply) return;
+            needsApply = false;
+            zoomImg.style.transform = 'scale(' + scale + ') translate(' + tx + 'px,' + ty + 'px)';
+        });
+    }
+
+    function applyNow(animated) {
+        zoomImg.style.transition = animated ? 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
+        zoomImg.style.transform  = 'scale(' + scale + ') translate(' + tx + 'px,' + ty + 'px)';
+    }
+
+    function reset(animated) {
+        scale = 1; tx = 0; ty = 0;
+        applyNow(animated);
+    }
+
+    /* ── Open / Close ── */
+    function openZoom() {
+        // Gunakan src terbesar dari srcset jika ada
+        var best = srcImg.src;
+        if (srcImg.srcset) {
+            var parts = srcImg.srcset.split(',').map(function(s) { return s.trim().split(/\s+/); });
+            var sorted = parts.sort(function(a,b) { return (parseInt(b[1]) || 0) - (parseInt(a[1]) || 0); });
+            if (sorted[0] && sorted[0][0]) best = sorted[0][0];
+        }
+        zoomImg.src = best;
+        reset(false);
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeZoom() {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+        overlay.style.transform = '';
+        overlay.style.opacity   = '';
+    }
+
+    /* ── Event bindings ── */
+    openBtn.addEventListener('click', function (e) { e.preventDefault(); openZoom(); });
+    srcImg.addEventListener ('click', function (e) { e.preventDefault(); openZoom(); });
+
+    // Close button — area klik lebih besar via padding trick
+    closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeZoom(); });
+    closeBtn.addEventListener('touchend', function(e) { e.preventDefault(); e.stopPropagation(); closeZoom(); }, { passive: false });
+
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeZoom(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeZoom(); });
+
+    /* ── Touch on overlay image ── */
+    zoomImg.addEventListener('touchstart', function (e) {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            pinching   = true; panning = false;
+            initDist   = dist(e.touches[0], e.touches[1]);
+            initScale  = scale;
+            initTx     = tx; initTy = ty;
+            pinchMidX  = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+            pinchMidY  = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+            swipeDY    = 0;
+        } else if (e.touches.length === 1) {
+            var now = Date.now();
+            if (now - lastTapTime < 280) {
+                e.preventDefault();
+                if (scale > 1) { reset(true); } else { scale = 2.5; tx = 0; ty = 0; applyNow(true); }
+                lastTapTime = 0; return;
+            }
+            lastTapTime = now;
+            panning = true; pinching = false;
+            panStartX = e.touches[0].clientX;
+            panStartY = e.touches[0].clientY;
+            panInitTx = tx; panInitTy = ty;
+            swipeStartY = e.touches[0].clientY; swipeDY = 0;
+        }
+    }, { passive: false });
+
+    zoomImg.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+        if (pinching && e.touches.length === 2) {
+            var newDist = dist(e.touches[0], e.touches[1]);
+            var newScale = Math.max(minScale, Math.min(maxScale, initScale * (newDist / initDist)));
+            // Pertahankan pusat pinch sebagai titik tetap
+            var ratio = newScale / initScale;
+            tx = pinchMidX / newScale - pinchMidX / initScale + initTx * (initScale / newScale) * ratio;
+            tx = initTx + (pinchMidX / window.innerWidth - 0.5) * (initScale - newScale) * zoomImg.offsetWidth / newScale;
+            ty = initTy + (pinchMidY / window.innerHeight - 0.5) * (initScale - newScale) * zoomImg.offsetHeight / newScale;
+            scale = newScale;
+            clamp();
+            scheduleApply();
+        } else if (panning && e.touches.length === 1) {
+            var dx = e.touches[0].clientX - panStartX;
+            var dy = e.touches[0].clientY - panStartY;
+            swipeDY = dy;
+            if (scale <= 1) {
+                // Swipe down to close
+                if (dy > 0) {
+                    overlay.style.transition = 'none';
+                    overlay.style.transform  = 'translateY(' + (dy * 0.4) + 'px)';
+                    overlay.style.opacity    = Math.max(0.4, 1 - dy / 300);
+                }
+            } else {
+                tx = panInitTx + dx / scale;
+                ty = panInitTy + dy / scale;
+                clamp();
+                scheduleApply();
+            }
+        }
+    }, { passive: false });
+
+    zoomImg.addEventListener('touchend', function (e) {
+        if (scale <= 1 && swipeDY > 90) {
+            // Swipe down confirmed: close
+            overlay.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+            overlay.style.transform  = 'translateY(100%)';
+            overlay.style.opacity    = '0';
+            setTimeout(closeZoom, 260);
+        } else {
+            overlay.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+            overlay.style.transform  = '';
+            overlay.style.opacity    = '';
+        }
+        pinching = false; panning = false; swipeDY = 0;
+        if (scale < minScale) { scale = minScale; tx = 0; ty = 0; applyNow(true); }
+        clamp(); applyNow(false);
+    }, { passive: true });
+})();
+</script>
+
