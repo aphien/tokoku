@@ -15,11 +15,89 @@ get_header(); ?>
         <?php while ( have_posts() ) : the_post(); ?>
             <div class="product-details">
                 <div class="product-gallery">
-                    <div class="main-image" id="main-product-image-wrap">
-                        <?php if ( has_post_thumbnail() ) : ?>
-                            <?php the_post_thumbnail( 'tokoku-product-large', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'decoding' => 'sync', 'id' => 'main-product-img' ) ); ?>
-                        <?php else : ?>
-                            <img id="main-product-img" src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="800" height="800" loading="eager" fetchpriority="high">
+                    <?php
+                    // Kumpulkan semua gambar galeri (Foto Utama + Galeri Tambahan)
+                    $all_gallery = array();
+                    $featured_id = get_post_thumbnail_id();
+                    if ( $featured_id ) {
+                        $all_gallery[] = array(
+                            'id'     => $featured_id,
+                            'large'  => wp_get_attachment_image_url( $featured_id, 'tokoku-product-large' ) ?: wp_get_attachment_image_url( $featured_id, 'full' ),
+                            'thumb'  => wp_get_attachment_image_url( $featured_id, 'thumbnail' ) ?: wp_get_attachment_image_url( $featured_id, 'medium' ),
+                            'srcset' => wp_get_attachment_image_srcset( $featured_id, 'tokoku-product-large' ),
+                            'alt'    => get_post_meta( $featured_id, '_wp_attachment_image_alt', true ) ?: get_the_title(),
+                        );
+                    }
+
+                    $gallery_ids = get_post_meta( get_the_ID(), '_produk_gallery', true );
+                    if ( $gallery_ids ) {
+                        $raw_ids = is_array( $gallery_ids ) ? $gallery_ids : explode( ',', $gallery_ids );
+                        foreach ( $raw_ids as $gid ) {
+                            $gid = (int) trim( $gid );
+                            if ( ! $gid || ( $featured_id && $gid === (int) $featured_id ) ) {
+                                continue;
+                            }
+                            $large_url = wp_get_attachment_image_url( $gid, 'tokoku-product-large' ) ?: wp_get_attachment_image_url( $gid, 'full' );
+                            if ( $large_url ) {
+                                $all_gallery[] = array(
+                                    'id'     => $gid,
+                                    'large'  => $large_url,
+                                    'thumb'  => wp_get_attachment_image_url( $gid, 'thumbnail' ) ?: wp_get_attachment_image_url( $gid, 'medium' ),
+                                    'srcset' => wp_get_attachment_image_srcset( $gid, 'tokoku-product-large' ),
+                                    'alt'    => get_post_meta( $gid, '_wp_attachment_image_alt', true ) ?: get_the_title(),
+                                );
+                            }
+                        }
+                    }
+
+                    // Fallback jika belum ada foto
+                    if ( empty( $all_gallery ) ) {
+                        $placeholder_url = esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' );
+                        $all_gallery[] = array(
+                            'id'     => 0,
+                            'large'  => $placeholder_url,
+                            'thumb'  => $placeholder_url,
+                            'srcset' => '',
+                            'alt'    => get_the_title(),
+                        );
+                    }
+                    $total_slides = count( $all_gallery );
+                    $slider_autoplay = get_theme_mod( 'tokoku_product_slider_autoplay', 'yes' ) !== 'no';
+                    $slider_delay    = (int) get_theme_mod( 'tokoku_product_slider_delay', 4 );
+                    if ( $slider_delay < 2 ) $slider_delay = 4;
+                    ?>
+
+                    <div class="main-image <?php echo $total_slides > 1 ? 'has-slider' : ''; ?>" 
+                         id="main-product-image-wrap"
+                         data-autoplay="<?php echo $slider_autoplay ? 'true' : 'false'; ?>"
+                         data-autoplay-delay="<?php echo esc_attr( $slider_delay * 1000 ); ?>">
+                        <div class="product-slider-track" id="product-slider-track">
+                            <?php foreach ( $all_gallery as $i => $img ) : ?>
+                                <div class="product-slide <?php echo $i === 0 ? 'is-active' : ''; ?>" data-slide-index="<?php echo $i; ?>">
+                                    <img src="<?php echo esc_url( $img['large'] ); ?>"
+                                         <?php if ( ! empty( $img['srcset'] ) ) : ?>srcset="<?php echo esc_attr( $img['srcset'] ); ?>"<?php endif; ?>
+                                         alt="<?php echo esc_attr( $img['alt'] ); ?>"
+                                         width="800" height="800"
+                                         loading="<?php echo $i === 0 ? 'eager' : 'lazy'; ?>"
+                                         <?php if ( $i === 0 ) : ?>fetchpriority="high" decoding="sync" id="main-product-img"<?php else : ?>decoding="async"<?php endif; ?>
+                                         class="product-slide-img">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <?php if ( $total_slides > 1 ) : ?>
+                            <!-- Navigasi Panah Slider (Desktop & Tablet) -->
+                            <button type="button" class="product-slider-nav slider-nav-prev" id="product-slider-prev" aria-label="Gambar Sebelumnya">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                            </button>
+                            <button type="button" class="product-slider-nav slider-nav-next" id="product-slider-next" aria-label="Gambar Berikutnya">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                            </button>
+
+                            <!-- Badge Indikator Slide (e.g. 1 / 4) -->
+                            <div class="product-slider-counter" id="product-slider-counter" aria-hidden="true">
+                                <span class="slider-counter-current">1</span> / <span class="slider-counter-total"><?php echo $total_slides; ?></span>
+                            </div>
                         <?php endif; ?>
 
                         <!-- Tombol Zoom (hanya mobile) -->
@@ -31,19 +109,21 @@ get_header(); ?>
                         </button>
                     </div>
 
-
-
-                    
-                    <?php
-                    $gallery_ids = get_post_meta( get_the_ID(), '_produk_gallery', true );
-                    if ( $gallery_ids ) :
-                        $ids = explode( ',', $gallery_ids );
-                        ?>
-                        <div class="gallery-thumbs">
-                            <?php foreach ( $ids as $id ) : ?>
-                                <div class="thumb">
-                                    <?php echo wp_get_attachment_image( $id, 'thumbnail', false, array( 'loading' => 'lazy', 'decoding' => 'async' ) ); ?>
-                                </div>
+                    <?php if ( $total_slides > 1 ) : ?>
+                        <!-- Thumbnail Bar Galeri Produk -->
+                        <div class="gallery-thumbs" id="product-gallery-thumbs" role="tablist" aria-label="Galeri Gambar Produk">
+                            <?php foreach ( $all_gallery as $i => $img ) : ?>
+                                <button type="button" 
+                                        class="thumb <?php echo $i === 0 ? 'is-active' : ''; ?>" 
+                                        data-slide-index="<?php echo $i; ?>" 
+                                        role="tab" 
+                                        aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>"
+                                        aria-label="Lihat gambar <?php echo $i + 1; ?>">
+                                    <img src="<?php echo esc_url( $img['thumb'] ); ?>" 
+                                         alt="<?php echo esc_attr( $img['alt'] ); ?>" 
+                                         width="150" height="150" 
+                                         loading="lazy" decoding="async">
+                                </button>
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
@@ -273,30 +353,41 @@ get_header(); ?>
                     </div>
                     <?php endif; ?>
 
-                    <?php if ( $stok['class'] == 'stok-tersedia' ) : ?>
-                    <div class="stok-notice stok-notice--tersedia">
-                        <div class="notice-title">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            STOK TERSEDIA
+                    <?php 
+                    $enable_stock_notice = get_theme_mod( 'tokoku_enable_stock_notice', 'yes' ) !== 'no';
+                    if ( $enable_stock_notice ) :
+                        $notice_tersedia_title = get_theme_mod( 'tokoku_notice_tersedia_title', 'STOK TERSEDIA' );
+                        $notice_tersedia_desc  = get_theme_mod( 'tokoku_notice_tersedia_desc', 'Produk ini tersedia dan siap untuk dipesan sekarang.' );
+                        $notice_habis_title    = get_theme_mod( 'tokoku_notice_habis_title', 'STOK HABIS' );
+                        $notice_habis_desc     = get_theme_mod( 'tokoku_notice_habis_desc', 'Produk ini sedang tidak tersedia. Hubungi kami untuk informasi ketersediaan berikutnya.' );
+                        $notice_preorder_title = get_theme_mod( 'tokoku_notice_preorder_title', 'PRE ORDER' );
+                        $notice_preorder_desc  = get_theme_mod( 'tokoku_notice_preorder_desc', 'Hubungi kami untuk informasi lebih lanjut mengenai pemesanan produk ini.' );
+                    ?>
+                        <?php if ( $stok['class'] == 'stok-tersedia' ) : ?>
+                        <div class="stok-notice stok-notice--tersedia">
+                            <div class="notice-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <?php echo esc_html( $notice_tersedia_title ); ?>
+                            </div>
+                            <p><?php echo nl2br( esc_html( $notice_tersedia_desc ) ); ?></p>
                         </div>
-                        <p>Produk ini tersedia dan siap untuk dipesan sekarang.</p>
-                    </div>
-                    <?php elseif ( $stok['class'] == 'stok-habis' ) : ?>
-                    <div class="stok-notice stok-notice--habis">
-                        <div class="notice-title">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                            STOK HABIS
+                        <?php elseif ( $stok['class'] == 'stok-habis' ) : ?>
+                        <div class="stok-notice stok-notice--habis">
+                            <div class="notice-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                <?php echo esc_html( $notice_habis_title ); ?>
+                            </div>
+                            <p><?php echo nl2br( esc_html( $notice_habis_desc ) ); ?></p>
                         </div>
-                        <p>Produk ini sedang tidak tersedia. Hubungi kami untuk informasi ketersediaan berikutnya.</p>
-                    </div>
-                    <?php elseif ( $stok['class'] == 'stok-preorder' ) : ?>
-                    <div class="stok-notice stok-notice--preorder">
-                        <div class="notice-title">
-                            <span class="dashicons dashicons-clock" style="font-size: 22px; width: 22px; height: 22px;"></span>
-                            PRE ORDER
+                        <?php elseif ( $stok['class'] == 'stok-preorder' ) : ?>
+                        <div class="stok-notice stok-notice--preorder">
+                            <div class="notice-title">
+                                <span class="dashicons dashicons-clock" style="font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php echo esc_html( $notice_preorder_title ); ?>
+                            </div>
+                            <p><?php echo nl2br( esc_html( $notice_preorder_desc ) ); ?></p>
                         </div>
-                        <p>Hubungi kami untuk informasi lebih lanjut mengenai pemesanan produk ini.</p>
-                    </div>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                     <div class="product-actions">
@@ -501,6 +592,16 @@ get_header(); ?>
     </div>
 </main>
 
+<!-- Desktop Lightbox Modal -->
+<div class="tokoku-lightbox" id="tokoku-lightbox" style="display: none;" role="dialog" aria-modal="true" aria-label="Preview Gambar Produk">
+    <button type="button" class="tokoku-lightbox-close" aria-label="Tutup Preview">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="tokoku-lightbox-content">
+        <img id="tokoku-lightbox-img" src="" alt="Preview Produk">
+    </div>
+</div>
+
 <?php get_footer(); ?>
 
 <!-- Mobile Zoom Overlay -->
@@ -590,10 +691,11 @@ get_header(); ?>
 
     /* ── Open / Close ── */
     function openZoom() {
-        // Gunakan src terbesar dari srcset jika ada
-        var best = srcImg.src;
-        if (srcImg.srcset) {
-            var parts = srcImg.srcset.split(',').map(function(s) { return s.trim().split(/\s+/); });
+        // Gunakan gambar dari slide yang sedang aktif
+        var activeSlide = document.querySelector('.product-slide.is-active img') || srcImg;
+        var best = activeSlide.src;
+        if (activeSlide.srcset) {
+            var parts = activeSlide.srcset.split(',').map(function(s) { return s.trim().split(/\s+/); });
             var sorted = parts.sort(function(a,b) { return (parseInt(b[1]) || 0) - (parseInt(a[1]) || 0); });
             if (sorted[0] && sorted[0][0]) best = sorted[0][0];
         }
@@ -612,7 +714,17 @@ get_header(); ?>
 
     /* ── Event bindings ── */
     openBtn.addEventListener('click', function (e) { e.preventDefault(); openZoom(); });
-    srcImg.addEventListener ('click', function (e) { e.preventDefault(); openZoom(); });
+
+    // Tap pada gambar utama di mobile untuk buka pinch zoom (kecuali saat swipe)
+    var trackWrap = document.getElementById('main-product-image-wrap') || srcImg;
+    trackWrap.addEventListener('click', function (e) {
+        if (e.target.closest('.product-slider-nav') || e.target.closest('.mobile-zoom-btn')) return;
+        if (trackWrap.getAttribute('data-swiped') === 'true') return;
+        if (window.innerWidth <= 768) {
+            e.preventDefault();
+            openZoom();
+        }
+    });
 
     // Close button — area klik lebih besar via padding trick
     closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeZoom(); });

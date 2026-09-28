@@ -192,17 +192,28 @@ function tokoku_save_admin_settings() {
         // Menu Order
         'tokoku_admin_menu_order' => 'sanitize_text_field',
 
-        // Single Product (Lead Time Bar & Trust Badges)
-        'tokoku_enable_lead_time'    => 'sanitize_text_field',
-        'tokoku_lead_time_icon'      => 'sanitize_text_field',
-        'tokoku_lead_time_icon_img'  => 'esc_url_raw',
-        'tokoku_lead_time_icon_svg'  => 'tokoku_sanitize_svg',
-        'tokoku_lead_time_label'     => 'sanitize_text_field',
-        'tokoku_lead_time_val'       => 'sanitize_text_field',
-        'tokoku_lead_time_sub'       => 'sanitize_text_field',
-        'tokoku_lead_time_chip'      => 'sanitize_text_field',
+        // Single Product (Gallery Slider, Lead Time Bar, Trust Badges, Stock Notice)
+        'tokoku_product_slider_autoplay' => 'sanitize_text_field',
+        'tokoku_product_slider_delay'    => 'absint',
+        'tokoku_enable_lead_time'        => 'sanitize_text_field',
+        'tokoku_lead_time_icon'          => 'sanitize_text_field',
+        'tokoku_lead_time_icon_img'      => 'esc_url_raw',
+        'tokoku_lead_time_icon_svg'      => 'tokoku_sanitize_svg',
+        'tokoku_lead_time_label'         => 'sanitize_text_field',
+        'tokoku_lead_time_val'           => 'sanitize_text_field',
+        'tokoku_lead_time_sub'           => 'sanitize_text_field',
+        'tokoku_lead_time_chip'          => 'sanitize_text_field',
 
-        'tokoku_enable_trust_badges' => 'sanitize_text_field',
+        'tokoku_enable_trust_badges'     => 'sanitize_text_field',
+
+        // Stock Notice
+        'tokoku_enable_stock_notice'     => 'sanitize_text_field',
+        'tokoku_notice_tersedia_title'   => 'sanitize_text_field',
+        'tokoku_notice_tersedia_desc'    => 'sanitize_textarea_field',
+        'tokoku_notice_habis_title'      => 'sanitize_text_field',
+        'tokoku_notice_habis_desc'       => 'sanitize_textarea_field',
+        'tokoku_notice_preorder_title'   => 'sanitize_text_field',
+        'tokoku_notice_preorder_desc'    => 'sanitize_textarea_field',
     );
 
     // Trust Badges Repeater
@@ -741,7 +752,36 @@ function tokoku_settings_page_html() {
                     <!-- Tab: Single Product (Lead Time & Trust Badges) -->
                     <div id="tab-single-product" class="tokoku-tab-panel">
                         <h2><?php _e( 'Halaman Produk & Keunggulan', 'tokoku' ); ?></h2>
-                        <p class="description" style="margin-bottom:25px;"><?php _e( 'Kelola tampilan Estimasi Pengerjaan (Lead Time Bar) dan Badge Keunggulan Toko (Trust Badges) yang muncul di halaman produk.', 'tokoku' ); ?></p>
+                        <p class="description" style="margin-bottom:25px;"><?php _e( 'Kelola tampilan Slider Galeri Foto, Estimasi Pengerjaan (Lead Time Bar), dan Badge Keunggulan Toko (Trust Badges) yang muncul di halaman produk.', 'tokoku' ); ?></p>
+
+                        <!-- Product Gallery Slider Settings -->
+                        <div class="tokoku-settings-group" style="margin-bottom: 35px; padding: 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 1.15rem; color: #0f172a;">
+                                    <span class="dashicons dashicons-images-alt2" style="color: #007bff; font-size: 22px; width: 22px; height: 22px;"></span>
+                                    <?php _e( 'Galeri & Slider Foto Produk', 'tokoku' ); ?>
+                                </h3>
+                                <div>
+                                    <select name="tokoku_product_slider_autoplay" style="font-weight: 700;">
+                                        <option value="yes" <?php selected( get_theme_mod( 'tokoku_product_slider_autoplay', 'yes' ), 'yes' ); ?>><?php _e( 'Slide Otomatis (Aktif)', 'tokoku' ); ?></option>
+                                        <option value="no" <?php selected( get_theme_mod( 'tokoku_product_slider_autoplay', 'yes' ), 'no' ); ?>><?php _e( 'Manual (Nonaktif)', 'tokoku' ); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="tokoku-tip" style="margin-bottom: 16px;"><?php _e( 'Jika produk memiliki lebih dari 1 foto/galeri, gambar produk akan berganti secara otomatis. Slider otomatis dijeda sementara saat kursor diarahkan atau layar disentuh agar pembeli nyaman mengamati detail produk.', 'tokoku' ); ?></p>
+
+                            <div class="tokoku-field" style="max-width: 320px; margin-bottom: 0;">
+                                <label><?php _e( 'Kecepatan / Durasi Berganti Slide', 'tokoku' ); ?></label>
+                                <?php $ps_delay = (int) get_theme_mod( 'tokoku_product_slider_delay', 4 ); ?>
+                                <select name="tokoku_product_slider_delay">
+                                    <option value="3" <?php selected( $ps_delay, 3 ); ?>><?php _e( '3 Detik (Cepat)', 'tokoku' ); ?></option>
+                                    <option value="4" <?php selected( $ps_delay, 4 ); ?>><?php _e( '4 Detik (Standar Rekomendasi)', 'tokoku' ); ?></option>
+                                    <option value="5" <?php selected( $ps_delay, 5 ); ?>><?php _e( '5 Detik (Sedang)', 'tokoku' ); ?></option>
+                                    <option value="6" <?php selected( $ps_delay, 6 ); ?>><?php _e( '6 Detik (Lambat)', 'tokoku' ); ?></option>
+                                    <option value="8" <?php selected( $ps_delay, 8 ); ?>><?php _e( '8 Detik (Sangat Lambat)', 'tokoku' ); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
                         <!-- Lead Time Bar Settings -->
                         <div class="tokoku-settings-group" style="margin-bottom: 35px; padding: 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0;">
@@ -810,6 +850,79 @@ function tokoku_settings_page_html() {
                                 <div class="tokoku-field">
                                     <label><?php _e( 'Teks Chip / Badge Kanan', 'tokoku' ); ?></label>
                                     <input type="text" name="tokoku_lead_time_chip" value="<?php echo esc_attr( get_theme_mod( 'tokoku_lead_time_chip', 'Siap Kirim Cepat' ) ); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stock Status Notice Settings -->
+                        <div class="tokoku-settings-group" style="margin-bottom: 35px; padding: 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 1.15rem; color: #0f172a;">
+                                    <span class="dashicons dashicons-bell" style="color: #f59e0b; font-size: 22px; width: 22px; height: 22px;"></span>
+                                    <?php _e( 'Notice Status Stok Produk', 'tokoku' ); ?>
+                                </h3>
+                                <div>
+                                    <select name="tokoku_enable_stock_notice" style="font-weight: 700;">
+                                        <option value="yes" <?php selected( get_theme_mod( 'tokoku_enable_stock_notice', 'yes' ), 'yes' ); ?>><?php _e( 'Tampilkan', 'tokoku' ); ?></option>
+                                        <option value="no" <?php selected( get_theme_mod( 'tokoku_enable_stock_notice', 'yes' ), 'no' ); ?>><?php _e( 'Sembunyikan', 'tokoku' ); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="tokoku-tip" style="margin-bottom: 20px;"><?php _e( 'Kustomisasi judul dan keterangan teks notice status stok (Tersedia, Habis, dan Pre Order) yang tampil di bawah catatan produk.', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+                                <!-- 1. Stok Tersedia -->
+                                <div class="tokoku-product-badge-card" style="background: #ffffff; border: 1.5px solid #10b981; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(16,185,129,0.06);">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
+                                        <strong style="color: #059669; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                                            <span style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:#ecfdf5; color:#059669; font-size:12px; font-weight:800;">✓</span>
+                                            <?php _e( 'Notice: Stok Tersedia', 'tokoku' ); ?>
+                                        </strong>
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 14px;">
+                                        <label style="font-size: 13px;"><?php _e( 'Judul Notice', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_notice_tersedia_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_notice_tersedia_title', 'STOK TERSEDIA' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label style="font-size: 13px;"><?php _e( 'Keterangan Teks Notice', 'tokoku' ); ?></label>
+                                        <textarea name="tokoku_notice_tersedia_desc" rows="3" style="font-size: 13px; line-height: 1.45;"><?php echo esc_textarea( get_theme_mod( 'tokoku_notice_tersedia_desc', 'Produk ini tersedia dan siap untuk dipesan sekarang.' ) ); ?></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- 2. Stok Habis -->
+                                <div class="tokoku-product-badge-card" style="background: #ffffff; border: 1.5px solid #ef4444; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(239,68,68,0.06);">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
+                                        <strong style="color: #dc2626; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                                            <span style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:#fef2f2; color:#dc2626; font-size:12px; font-weight:800;">✕</span>
+                                            <?php _e( 'Notice: Stok Habis', 'tokoku' ); ?>
+                                        </strong>
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 14px;">
+                                        <label style="font-size: 13px;"><?php _e( 'Judul Notice', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_notice_habis_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_notice_habis_title', 'STOK HABIS' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label style="font-size: 13px;"><?php _e( 'Keterangan Teks Notice', 'tokoku' ); ?></label>
+                                        <textarea name="tokoku_notice_habis_desc" rows="3" style="font-size: 13px; line-height: 1.45;"><?php echo esc_textarea( get_theme_mod( 'tokoku_notice_habis_desc', 'Produk ini sedang tidak tersedia. Hubungi kami untuk informasi ketersediaan berikutnya.' ) ); ?></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- 3. Pre Order -->
+                                <div class="tokoku-product-badge-card" style="background: #ffffff; border: 1.5px solid #f59e0b; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(245,158,11,0.06);">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
+                                        <strong style="color: #d97706; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                                            <span style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:#fffbeb; color:#d97706; font-size:12px; font-weight:800;">⏳</span>
+                                            <?php _e( 'Notice: Pre Order', 'tokoku' ); ?>
+                                        </strong>
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 14px;">
+                                        <label style="font-size: 13px;"><?php _e( 'Judul Notice', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_notice_preorder_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_notice_preorder_title', 'PRE ORDER' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label style="font-size: 13px;"><?php _e( 'Keterangan Teks Notice', 'tokoku' ); ?></label>
+                                        <textarea name="tokoku_notice_preorder_desc" rows="3" style="font-size: 13px; line-height: 1.45;"><?php echo esc_textarea( get_theme_mod( 'tokoku_notice_preorder_desc', 'Hubungi kami untuk informasi lebih lanjut mengenai pemesanan produk ini.' ) ); ?></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1340,6 +1453,28 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.4.8 — Dynamic Product Slider Autoplay & Customizable Stock Notice
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan ini mengubah galeri produk menjadi slider interaktif dengan fitur pergantian slide otomatis (autoplay), gesture swipe layar sentuh, navigasi frosted glass, serta penambahan menu admin untuk mengedit judul dan keterangan teks notice status stok.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🖼️ 1. Galeri & Slider Foto Produk Interaktif</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Slide Otomatis (Autoplay)</strong>: Berganti gambar secara otomatis dan mulus dengan smart pause saat kursor diarahkan, saat layar disentuh/diswipe, saat modal zoom terbuka, atau saat tab browser tidak aktif.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Kontrol Admin</strong>: Opsi menyalakan/mematikan slide otomatis serta memilih durasi (3s, 4s, 5s, 6s, 8s) di WP Admin Halaman Produk.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Navigasi Modern & Touch Swipe</strong>: Tombol panah frosted glass, counter slide (1 / N), thumbnail bar dengan scroll otomatis, dan gestur swipe sentuh di mobile.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📝 2. Kustomisasi Teks Notice Status Stok</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Pengaturan Teks di Admin</strong>: Judul dan keterangan teks untuk status Tersedia, Habis, dan Pre Order kini dapat dikustomisasi secara bebas dengan dukungan multi-baris.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Master Toggle</strong>: Opsi menampilkan atau menyembunyikan strip notice status stok secara global.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
                                     🚀 Rilis v2.4.7 — Animated Stock Badges, Special Badges & Clean Mobile Single Product
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

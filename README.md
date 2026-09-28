@@ -1,10 +1,36 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.7)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.8)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.7 — Animated Stock Badges, Special Badges & Clean Mobile Single Product
+## 🚀 Rilis Terbaru v2.4.8 — Dynamic Product Slider Autoplay & Customizable Stock Notice
+
+Pembaruan **v2.4.8** menghadirkan perombakan total pada galeri produk menjadi slider interaktif berperforma tinggi dengan fitur pergantian slide otomatis (*autoplay*), navigasi sentuh (*swipe gesture*), indikator slide elegan, modal zoom/lightbox terintegrasi, serta penambahan menu admin untuk mengkustomisasi judul dan teks keterangan notice status stok secara bebas.
+
+### 🖼️ 1. Galeri & Slider Foto Produk Interaktif (Single Product)
+*   **Penggabungan Foto Utama & Galeri Tambahan**: Foto utama (*featured image*) otomatis menjadi slide #1 dan terhubung dengan seluruh foto galeri tambahan (`_produk_gallery`), sehingga pengunjung dapat dengan mudah kembali ke foto utama.
+*   **Engine Slide Otomatis (*Autoplay*)**:
+    *   Galeri produk otomatis berganti gambar secara berkala (default: 4 detik) untuk menampilkan berbagai sudut produk plakat.
+    *   **Smart Pause**: Otomatis dijeda saat kursor mouse diarahkan (*hover desktop*), saat layar disentuh/digeser (*touch swipe mobile*), saat modal zoom/lightbox terbuka, atau saat pengunjung berpindah tab browser (*Page Visibility API*).
+    *   **Timer Reset**: Menghitung ulang timer jeda secara otomatis ketika pengguna mengklik panah navigasi atau thumbnail secara manual.
+*   **Kontrol Pengaturan di WP Admin**: Opsi mengaktifkan/menonaktifkan autoplay serta memilih durasi jeda (3, 4, 5, 6, atau 8 detik) melalui menu **Pengaturan TokoKu -> Halaman Produk -> Galeri & Slider Foto Produk**.
+*   **Touch Swipe & Keyboard Navigation**: Mendukung gestur swipe layar sentuh yang mulus dan tombol keyboard panah kiri/kanan (`ArrowLeft` & `ArrowRight`).
+*   **Navigasi Frosted Glass & Counter**: Tombol panah navigasi elegan dengan efek blur kaca semi-transparan, badge counter posisi slide (`1 / N`), dan thumbnail bar horizontal dengan highlight aktif yang bergeser otomatis (*auto-scroll*).
+*   **Desktop Lightbox & Mobile Pinch Zoom**: Integrasi modal lightbox desktop dan zoom layar penuh mobile yang selalu menampilkan gambar resolusi tinggi dari slide yang sedang aktif.
+
+### 📝 2. Kustomisasi Teks Notice Status Stok di Halaman Admin
+*   **Pengaturan Fleksibel**: Menu baru di **WP Admin -> Pengaturan TokoKu -> Halaman Produk -> Notice Status Stok Produk** untuk mengelola tampilan dan isi teks notice stok.
+*   **Master Toggle**: Opsi untuk menampilkan atau menyembunyikan strip notice status stok secara global.
+*   **3 Status Stok Dapat Dikustomisasi**:
+    *   **Stok Tersedia**: Judul dan keterangan teks dapat diedit bebas (Default: `STOK TERSEDIA` — *Produk ini tersedia dan siap untuk dipesan sekarang.*).
+    *   **Stok Habis**: Judul dan keterangan teks dapat diedit bebas (Default: `STOK HABIS` — *Produk ini sedang tidak tersedia. Hubungi kami untuk informasi ketersediaan berikutnya.*).
+    *   **Pre Order**: Judul dan keterangan teks dapat diedit bebas (Default: `PRE ORDER` — *Hubungi kami untuk informasi lebih lanjut mengenai pemesanan produk ini.*).
+*   **Dukungan Baris Baru**: Mendukung format baris baru (*multi-line*) dengan sanitasi aman sehingga tampilan keterangan di halaman produk tetap rapi dan terstruktur.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.7 — Animated Stock Badges, Special Badges & Clean Mobile Single Product
 
 Pembaruan **v2.4.7** menghadirkan badge ketersediaan stok beranimasi pada tabel spesifikasi detail produk, restrukturisasi posisi label khusus (special badge) pada katalog desktop, serta pembersihan elemen visual mobile untuk pengalaman penjelajahan yang lebih cepat dan bebas distraksi.
 
