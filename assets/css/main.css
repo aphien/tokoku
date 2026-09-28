@@ -1783,11 +1783,15 @@ html.theme-dark .category-item::after {
 }
 
 .badge-discount {
-    background: var(--red);
+    background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
 .badge-soldout {
-    background: #64748b;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.badge-preorder {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
 }
 
 .product-card__content {
@@ -4360,9 +4364,9 @@ input#search-modal-input {
     }
 
     .category-icon {
-        width: clamp(40px, 10.5vw, 50px) !important;
-        height: clamp(40px, 10.5vw, 50px) !important;
-        border-radius: 13px !important;
+        width: clamp(44px, 11.5vw, 55px) !important; /* Perbesar 10% dari 40-50px */
+        height: clamp(44px, 11.5vw, 55px) !important;
+        border-radius: clamp(12px, 3.2vw, 15px) !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -4371,21 +4375,21 @@ input#search-modal-input {
     }
 
     .category-icon svg {
-        width: clamp(20px, 5.2vw, 25px) !important;
-        height: clamp(20px, 5.2vw, 25px) !important;
+        width: clamp(22px, 5.8vw, 28px) !important; /* Perbesar 10% dari 20-25px */
+        height: clamp(22px, 5.8vw, 28px) !important;
     }
 
     .category-icon img,
     .category-icon .category-icon-img {
-        width: clamp(24px, 6.2vw, 30px) !important;
-        height: clamp(24px, 6.2vw, 30px) !important;
+        width: clamp(27px, 6.8vw, 33px) !important; /* Perbesar 10% dari 24-30px */
+        height: clamp(27px, 6.8vw, 33px) !important;
         object-fit: contain !important;
     }
 
     .category-icon .dashicons {
-        font-size: clamp(20px, 5.2vw, 25px) !important;
-        width: clamp(20px, 5.2vw, 25px) !important;
-        height: clamp(20px, 5.2vw, 25px) !important;
+        font-size: clamp(22px, 5.8vw, 28px) !important; /* Perbesar 10% dari 20-25px */
+        width: clamp(22px, 5.8vw, 28px) !important;
+        height: clamp(22px, 5.8vw, 28px) !important;
     }
 
     .category-name {
@@ -5502,30 +5506,41 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     position: static;
     display: inline-flex;
     align-items: center;
-    padding: 4px 9px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 50px;
     font-size: 0.72rem;
     font-weight: 800;
     line-height: 1.2;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
     color: #ffffff;
+    white-space: nowrap;
 }
 
 .product-card__badges .badge-featured {
     background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
 }
 
 .product-card__badges .badge-discount {
     background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.38);
 }
 
 .product-card__badges .badge-soldout {
-    background: #64748b;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
 }
 
 .product-card__badges .badge-preorder {
-    background: linear-gradient(135deg, #0284c7, #0369a1);
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.product-card__badges .badge-available,
+.product-card__badges .badge-tersedia {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.38);
 }
 
 /* Label Khusus / Special Badge — Kanan Atas Gambar Kartu Produk */
@@ -7524,9 +7539,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         width: 100% !important;
         min-width: 0 !important;
         aspect-ratio: 1 / 1 !important; /* Tampilan Kategori Halaman Depan Mobile: Square (1:1) */
-        padding: 5px 2px 4px !important;
-        border-radius: 12px !important;
-        gap: 2px !important;
+        padding: clamp(4px, 1.2vw, 6px) clamp(2px, 0.8vw, 4px) !important;
+        border-radius: clamp(12px, 3vw, 14px) !important;
+        gap: clamp(2px, 0.8vw, 4px) !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
@@ -7537,9 +7552,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     }
 
     .category-icon {
-        width: 40px !important;
-        height: 40px !important;
-        border-radius: 11px !important;
+        width: clamp(44px, 11.2vw, 48px) !important; /* Perbesar 10% dari 40px (otomatis responsive) */
+        height: clamp(44px, 11.2vw, 48px) !important;
+        border-radius: clamp(12px, 3vw, 14px) !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -7548,28 +7563,29 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     }
 
     .category-icon svg {
-        width: 21px !important;
-        height: 21px !important;
+        width: clamp(23px, 5.8vw, 26px) !important; /* Perbesar 10% dari 21px */
+        height: clamp(23px, 5.8vw, 26px) !important;
     }
 
     .category-icon img,
     .category-icon .category-icon-img {
-        width: 25px !important;
-        height: 25px !important;
+        width: clamp(28px, 6.8vw, 31px) !important; /* Perbesar 10% dari 25px */
+        height: clamp(28px, 6.8vw, 31px) !important;
         object-fit: contain !important;
     }
 
     .category-icon .dashicons {
-        font-size: 21px !important;
-        width: 21px !important;
-        height: 21px !important;
+        font-size: clamp(23px, 5.8vw, 26px) !important; /* Perbesar 10% dari 21px */
+        width: clamp(23px, 5.8vw, 26px) !important;
+        height: clamp(23px, 5.8vw, 26px) !important;
     }
 
     .category-name {
-        font-size: 0.62rem !important;
-        line-height: 1.12 !important;
+        font-size: clamp(0.62rem, 1.8vw + 0.25rem, 0.68rem) !important;
+        line-height: 1.15 !important;
         font-weight: 700 !important;
         text-align: center !important;
+        word-break: break-word !important;
     }
 }
 
