@@ -1,10 +1,173 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.4.9)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.5.7)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.4.9 — Golden Ratio Typography, Mobile UX Harmony & Core Web Vitals
+## 🚀 Rilis Terbaru v2.5.7 — Redesain Modern Navigasi Tab Produk (Desktop & Mobile)
+
+Pembaruan **v2.5.7** menghadirkan penyempurnaan desain dan pengalaman pengguna (*user experience*) pada navigasi tab informasi & spesifikasi produk (`.product-tabs-nav`):
+
+1. **Tampilan Desktop (Floating Glassmorphism Pill)**:
+   - Menggunakan bingkai kapsul modern (*segmented pill control*) dengan efek kaca halus (*backdrop-filter: blur(10px)*), sudut bulat penuh (*border-radius: 9999px*), dan bayangan elevasi berkedalaman.
+   - Tombol tab menggunakan font `'Inter'` berbobot tebal (Bold 700) dengan transisi animasi mikro saat disentuh atau diarahkan kursor (*icon micro-bounce*).
+   - Tab aktif tampil memikat dengan gradien tema utama (*linear-gradient*), bayangan bersinar (*soft glow*), dan teks putih kontras tinggi.
+   - Dilengkapi dukungan penuh mode gelap (*dark mode*) yang presisi dan tidak menyilaukan.
+
+2. **Tampilan Mobile & Tablet (Touch-Friendly Horizontal Scroll & Auto-Centering)**:
+   - **Horizontal Inertia Scroll**: Pada layar ponsel, tab tersusun dalam track gulir horizontal yang mulus tanpa scrollbar bawaan yang mengganggu.
+   - **Scroll Snap & Touch Target Nyaman**: Dilengkapi fitur `scroll-snap-type: x mandatory` dengan tinggi sentuh minimum 44px (`min-height: 44px`) untuk kemudahan navigasi jempol (*thumb-friendly*).
+   - **Auto-Centering Saat Diklik**: Setiap kali tombol tab ditekan pada perangkat seluler, tab tersebut otomatis bergulir mulus ke posisi tengah (*smooth scroll into view*).
+   - **Responsif Fleksibel Tablet**: Pada resolusi tablet (580px - 768px), ketiga tab otomatis menyesuaikan diri secara simetris (*flex: 1; justify-content: center*).
+   - **Animasi Transisi Panel**: Panel konten tab bertransisi dengan efek fade-in dan slide-up halus (`@keyframes tabFadeInUp`).
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.6 — Tampilan Quote Kekinian: Merriweather +20%, Floating Quote Badge & Bersih Tanpa Pill
+
+Pembaruan **v2.5.6** menghadirkan penyempurnaan desain testimoni bergaya kutipan editorial kontemporer (*modern trendy quote*):
+
+1. **Font BlockQuote Merriweather & Diperbesar +20%**:
+   - Kutipan ulasan utama dikunci khusus ke font editorial **'Merriweather'** (*serif* bergaya buku editorial).
+   - Ukuran font diperbesar 20% menjadi `clamp(1.5rem, 1.32rem + 0.9vw, 2.1rem)` (pada mobile: `clamp(1.35rem, 1.625rem)`), berbobot tebal **Bold 700**, gaya *italic* miring yang mewah, dengan *line-height* proporsional `1.48`.
+2. **Lencana Ikon Kutipan Kekinian (*Floating Modern Quote Badge*)**:
+   - Di bagian atas kutipan ditambahkan badge lingkaran mengambang bergradasi lembut dengan ikon petik ganda modern (*quote mark*) dengan efek hover interaktif (*scale & micro-rotate*).
+3. **Pembersihan Tampilan Nama (*Remove Verified Pill*)**:
+   - Elemen badge kapsul `testi-verified-pill` di samping nama telah dihilangkan sepenuhnya agar tampilan nama lebih bersih, lapang, dan elegan.
+   - Kepercayaan pelanggan tetap terjaga kuat melalui lencana centang hijau terverifikasi di sudut foto avatar (`.testi-avatar-badge`), disusul bintang emas dan skor rating di baris bawahnya.
+4. **Harmoni Judul Section Tetap Serasi**:
+   - Judul section *"Apa Kata Klien Tentang Toko Kami"* tetap seragam dan proporsional dengan judul *"Partner & Klien Kami"* menggunakan `<h2 class="section-title">`.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.4 — Expert Typography Design System: Inter & Merriweather Pairing, Fluid Scaling & Eye-Strain Free Contrast
+
+Pembaruan **v2.5.4** menghadirkan standarisasi tipografi tingkat profesional yang dirancang oleh UI/UX Designer & Frontend Developer ahli untuk kenyamanan membaca maksimal (*optimal reading flow*) dan estetika visual premium pada layar desktop maupun perangkat seluler:
+
+1. **Font Pairing Sempurna (Inter & Merriweather)**:
+   - **Headings (H1 – H6)**: Menggunakan **'Inter'** (sans-serif modern, geometris, tegas, dan berwibawa) dengan fallback sistem yang tangguh.
+   - **Body Text**: Menggunakan **'Merriweather'** (serif editorial dengan *x-height* proporsional, dirancang khusus untuk keterbacaan tinggi di layar digital) untuk seluruh teks deskripsi produk, artikel blog, dan testimoni.
+   - **Elemen UI**: Tombol, menu navigasi, badge, chip stok, label formulir, dan angka harga tetap menggunakan `'Inter'` agar tampil bersih dan presisi.
+
+2. **Tipografi Responsif Menggunakan CSS `clamp()`**:
+   - Skala ukuran font menggunakan kalkulasi fluid `clamp()` (kombinasi `rem` dan `vw`):
+     - **H1**: `clamp(2rem, 1.35rem + 2.6vw, 3.25rem)` — Megah di desktop, proporsional tanpa pernah meluap di mobile.
+     - **H2**: `clamp(1.6rem, 1.15rem + 1.8vw, 2.35rem)`.
+     - **H3**: `clamp(1.3rem, 1rem + 1.2vw, 1.75rem)`.
+     - **H4 – H6**: `clamp(1.1rem, ...)` hingga `clamp(0.85rem, ...)`.
+     - **Body Text**: `clamp(0.975rem, 0.92rem + 0.25vw, 1.0625rem)`.
+   - Menjamin tata letak teks tidak pernah patah atau terpotong pada berbagai resolusi layar.
+
+3. **Hierarki Visual & Bobot Font Tegas (*Hierarchy & Weights*)**:
+   - **H1**: Bobot ekstra tebal (*Extra Bold 800*) dengan *letter-spacing* `-0.03em`.
+   - **H2 & H3**: Bobot tebal (*Bold 700*) dengan *letter-spacing* `-0.025em`.
+   - **Body Text**: Bobot reguler (*Regular 400*) yang ringan dipandang mata saat membaca teks panjang.
+
+4. **Kerapatan Baris & Ruang Putih (*Spacing & Layout*)**:
+   - **Body Line-Height 1.6**: Memenuhi kaidah kenyamanan membaca internasional untuk ritme vertikal yang ideal.
+   - **Headings Line-Height 1.15 – 1.2**: Sangat rapat (*tight & crisp*) untuk mencegah jarak antar baris judul yang terlalu renggang.
+   - **Margin Antar Paragraf**: Diberikan jarak yang lega (`margin-bottom: 1.5em;`) serta ruang putih yang cukup pada setiap section.
+
+5. **Kontras Nyaman Tanpa Lelah Mata (*Contrast & Eye-Strain Protection*)**:
+   - Menghindari kontras ekstrem hitam pekat (`#000000`) di atas putih menyilaukan (`#FFFFFF`).
+   - Warna teks utama menggunakan **Dark Charcoal / Slate Gray (`#1F2937`)** yang lembut namun berkarakter tegas.
+   - Latar belakang kanvas menggunakan **Soft Off-White (`#F8FAFC`)**, dipadukan dengan permukaan kartu putih bersih (`#FFFFFF`) berkontur bayangan halus (*ambient shadow*).
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.3 — Editable Product Detail Hub, Colorful Dashboard Icons, No Auto-Scroll & Clean Single View
+
+Pembaruan **v2.5.3** menghadirkan kustomisasi penuh pada area informasi produk di panel admin, pemulihan estetika warna-warni pada dasbor admin, perbaikan tuntas bug pengguliran otomatis (*auto-scroll*), serta eliminasi banner konsultasi gratis untuk pengalaman berbelanja yang lebih mulus dan profesional:
+
+1. **Fitur Admin: "Informasi & Detail Produk" Full Editable**:
+   - Ditambahkan modul pengaturan lengkap di **WP Admin -> Pengaturan TokoKu -> Halaman Produk -> Informasi & Detail Produk (Hub Deskripsi, Spesifikasi & Panduan)**.
+   - **Teks Header & Tab**: Pemilik toko dapat mengedit teks badge/eyebrow, judul utama bagian, serta teks label pada 3 tab navigasi (*Deskripsi & Fitur*, *Spesifikasi Detail*, *Cara Pesan & Garansi*).
+   - **3 Kartu Keunggulan Nilai (*Value Highlights*)**: Judul dan penjelasan 3 kartu mikro (Kualitas Material, Free Desain Mockup, dan Pengerjaan Cepat) dapat diubah atau disembunyikan kapan saja.
+   - **Spesifikasi Default**: Kustomisasi informasi Kemasan/Packaging, Format File Desain, dan Minimum Pemesanan secara langsung dari panel admin.
+   - **Panduan 4 Langkah Pemesanan (*Cara Pesan*)**: Judul dan deskripsi teks untuk Langkah 01 (Konsultasi & Konsep), Langkah 02 (Preview & ACC Mockup), Langkah 03 (Proses Produksi Cepat), dan Langkah 04 (Packing & Pengiriman) dapat dikustomisasi bebas.
+   - **Kotak Jaminan Garansi 100%**: Judul dan komitmen teks garansi kerusakan/pecah ganti baru dapat disesuaikan dengan kebijakan toko, atau dinonaktifkan jika diinginkan.
+   - **Master Toggle Fleksibel**: Pilihan untuk menampilkan mode Hub Tab modern atau mode sederhana (hanya isi konten teks produk).
+
+2. **Nonaktifkan Pengguliran Otomatis ke Atas (*Auto-Scroll to Top*)**:
+   - Memperbaiki bug yang menyebabkan halaman desktop maupun ponsel tiba-tiba melompat/tergulung sendiri ke atas saat pengunjung sedang fokus membaca deskripsi produk atau ulasan pelanggan.
+   - Diperbaiki dengan mengganti manipulasi viewport global `scrollIntoView()` menjadi pengguliran horizontal kontainer mandiri (`thumbsContainer.scrollTo`) pada galeri thumbnail.
+   - Menambahkan deteksi *In-Viewport Guard*: Interval pergantian slide otomatis (*autoplay*) otomatis dijeda saat galeri foto tidak sedang tampak di layar pengguna, menghemat pemakaian memori dan mencegah lonjakan scroll.
+
+3. **Tampilan Dasbor Admin Tetap Berwarna-Warni**:
+   - Mempertahankan palet warna ikon navigasi dasbor admin yang cerah, kaya, dan beragam (Emerald, WhatsApp Green, Purple, Amber, Rose, Gold, Cyan, Indigo, Blue, Slate, Pink, Sky, Zinc) serta kartu metrik statistik berwarna-warni untuk kemudahan identifikasi visual modul tema.
+
+4. **Hilangkan Tampilan Konsultasi Gratis**:
+   - Menghapus banner *Konsultasi Gratis* dari halaman detail produk tunggal (`single-produk.php`) agar layout lebih bersih, rapi, dan tidak repetitif dengan tombol pemesanan WhatsApp yang sudah ada di area atas.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.2 — Golden Ratio Typography, Mobile Reviews Under Image & Harmonious Brand Palette
+
+Pembaruan **v2.5.2** mengimplementasikan tiga penyempurnaan utama sesuai standar desain grafis dan tipografi modern:
+1. **Otomatisasi Tipografi Golden Ratio (Desktop & Mobile)**: Seluruh ukuran font (`font-size`) dan tinggi baris (`line-height`) pada setiap pembaruan komponen (Product Description Hub, Testimonial Slider, dan Dasbor Admin) kini otomatis dan seragam mematuhi skala Golden Ratio (`--fs-2xs`, `--fs-xs`, `--fs-sm`, `--fs-base`, `--fs-md`, `--fs-lg`, `--fs-xl`, `--fs-xxl` dan `--lh-tight`, `--lh-snug`, `--lh-base`, `--lh-relaxed`), beradaptasi mulus (*fluid responsive*) di layar desktop maupun seluler.
+2. **Khusus Tampilan Mobile: Ulasan Tepat di Bawah Gambar Produk**: Pada layar smartphone (`@media (max-width: 768px)`), letak ringkasan rating dan ulasan pelanggan (`.product-rating-summary`) diposisikan tepat di bawah gambar produk utama dan galeri thumbnail (`order: 4 !important;`), mendahului judul produk (`order: 5 !important;`), memberikan bukti sosial (*social proof*) instan bagi pembeli.
+3. **Harmonisasi Warna Aksen ("Senada")**: Seluruh elemen aksen (kartu keunggulan, lencana verifikasi, kotak garansi kualitas, denyut status, border gradien, banner konsultasi, dan lencana ikon pada bilah navigasi dasbor admin) diselaraskan sepenuhnya ke palet warna utama toko (`var(--primary)`, `var(--primary-dark)`, dan `--primary-rgb`) menggantikan warna-warni yang acak.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.1 — Interactive Product Details Hub, Trendy Client Testimonials & Modern Admin Dashboard
+
+Pembaruan **v2.5.1** menghadirkan penyempurnaan menyeluruh pada antarmuka pengguna (UI/UX) toko dan panel kendali admin:
+1. **Peningkatan Tampilan Deskripsi Produk**: Mengubah area deskripsi produk menjadi *Interactive Product Hub* modern dengan 3 tab dinamis (Deskripsi & Fitur, Spesifikasi Detail Teknis, serta Cara Pesan & Garansi 100%), kartu keunggulan *value proposition*, grid spesifikasi rapi, dan banner konsultasi WhatsApp langsung.
+2. **Desain Ulasan Klien Modern ("Kekinian")**: Perombakan total slider testimoni beranda dengan lencana *Pembeli Terverifikasi* (centang hijau), ringkasan skor rating 4.9/5.0, kartu ulasan *glassmorphism* modern dengan aksen *quote watermark*, avatar klien dinamis (dengan *fallback initials* artistik), dan tombol panah navigasi melayang (*floating navigation arrows*).
+3. **Penyusunan Ulang & Ikon Baru Dasbor Admin**: Restrukturisasi navigasi pengaturan tema menjadi 5 kelompok modul yang logis dan intuitif, dilengkapi ikon SVG crisp beresolusi tinggi, badge warna tematik per modul, judul utama yang tegas, serta sub-deskripsi informatif agar sangat mudah dipahami oleh pemilik toko.
+
+### 💎 1. Area Deskripsi Produk Interaktif (Desktop & Mobile)
+*   **Navigasi Tab Interaktif (Segmented Control)**:
+    *   **Tab 1 (Deskripsi & Fitur)**: Dilengkapi 3 micro-card *Value Highlights* (Material Kualitas Unggulan, Free Desain & Mockup, Pengerjaan Cepat & Rapi), tipografi editorial yang nyaman dibaca, serta styling tag produk berdesain modern *pill hashtag* (`#PlakatAkrilik`).
+    *   **Tab 2 (Spesifikasi Detail)**: Tabel grid modern dua kolom (responsif 1 kolom di mobile) yang merangkum Kode SKU, Kategori, Ketersediaan Stok, Estimasi Pengerjaan, Berat Produk, Kemasan Box Beludru, Format File Desain (CDR/AI/PDF), dan Minimum Order.
+    *   **Tab 3 (Cara Pesan & Garansi)**: Alur 4 langkah mudah pemesanan (Konsultasi -> Preview ACC Mockup -> Produksi Cepat -> Packing & Pengiriman) serta Banner Garansi 100% (*Rusak/Pecah Saat Pengiriman Kami Ganti Baru*).
+*   **Banner Konsultasi WhatsApp Cepat**: Terletak di bagian bawah tab deskripsi dengan avatar customer support online dan tombol langsung menuju chat WhatsApp dengan judul produk otomatis.
+*   **Optimal di Mobile & Desktop**: Transisi animasi mulus (*fade & slide*), ramah sentuhan jari (*touch scrollable* di smartphone), dan mendukung tema terang maupun gelap (*Dark Mode*).
+
+### 💬 2. Ulasan Klien Estetika Kekinian (Modern Testimonials)
+*   **Header Section Modern**: Eyebrow chip dengan animasi titik berkedip (*pulsing green dot*), judul elegan, dan lencana kepuasan *100% Pesanan Selesai Memuaskan*.
+*   **Kartu Ulasan Modern (Glassmorphism & Gradient Border)**: Sudut melengkung halus (`border-radius: 28px`), border atas bergradasi warna halus, dan ambient shadow yang bersih.
+*   **Lencana Pembeli Terverifikasi**: Menegaskan kredibilitas toko (*social proof*) dengan chip centang hijau `✓ Pembeli Terverifikasi`.
+*   **Avatar Profil Dinamis & Initial Fallback**: Jika klien tidak memiliki foto profil, sistem secara otomatis menghasilkan avatar inisial nama bergradasi warna modern.
+*   **Navigasi Slider Panah & Dots**: Tombol panah melayang di kiri dan kanan dengan efek hover bercahaya, serta indikator pil dots yang memanjang saat aktif.
+
+### 🎛️ 3. Ikon Baru & Tata Letak Terstruktur di Dasbor Admin
+*   **Ikon SVG Tajam & Jelas**: Menggantikan ikon lama dengan ikon vektor geometris modern beresolusi tinggi yang memiliki bentuk tegas dan mudah dikenali.
+*   **Lencana Warna Tematik per Modul**: Setiap menu memiliki wadah warna (*icon badge*) tersendiri (Emerald, WhatsApp Green, Purple, Amber, Rose, Gold, Cyan, Indigo, Blue, Slate, Pink, Sky, dan Zinc).
+*   **Restrukturisasi 5 Kelompok Logis**:
+    1.  **Pengaturan Utama**: *Identitas Toko*, *WhatsApp & CS*, *Warna & Tampilan*.
+    2.  **Katalog & Konten Etalase**: *Halaman Produk*, *Banner Slider*, *Ulasan & Klien*, *Tanya Jawab (FAQ)*.
+    3.  **Desain & Optimasi**: *SEO & Metadata*, *Font & Tipografi*.
+    4.  **Navigasi & Footer**: *Footer Website*, *Media Sosial*.
+    5.  **Sistem & Cadangan**: *Pembaruan Tema*, *Cadangan & Impor*.
+*   **Label Informatif**: Setiap item navigasi dilengkapi judul yang tegas dan sub-penjelasan fungsi modul untuk pengalaman navigasi yang intuitif.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.0 — Google Product Rich Snippets (Schema.org Fix) & Star Rating Social Proof
+
+Pembaruan **v2.5.0** menyelesaikan peringatan kritis Google Search Console: **`Either "offers", "review", or "aggregateRating" should be specified`** pada Product snippets Google Rich Results secara tuntas dan terstandarisasi. Pembaruan ini menambahkan dukungan `AggregateOffer` untuk produk multi-variasi, `aggregateRating` & `review` terstruktur, kontrol rating custom per produk maupun global di menu admin, serta lencana rating bintang elegan (*social proof*) di halaman produk.
+
+### ⭐ 1. Penyelesaian Tuntas Error Google Product Snippets
+*   **Fix Peringatan GSC `Either "offers", "review", or "aggregateRating" should be specified`**: Menambahkan objek terstruktur `aggregateRating` dan `review` pada schema `Product` (JSON-LD) yang memastikan seluruh halaman produk selalu lolos validasi Google Rich Results, bahkan untuk produk berharga custom atau produk dengan tombol "Hubungi Kami" (*call for price*).
+*   **Dukungan `AggregateOffer` Multi-Harga**: Untuk produk yang memiliki beberapa variasi harga (`_produk_multi_harga`), schema otomatis menghasilkan tipe `AggregateOffer` dengan properti `lowPrice`, `highPrice`, dan `offerCount`.
+*   **Kelengkapan Properti Penawaran Google**: Menambahkan `priceValidUntil` (+1 tahun otomatis), metadata `seller` (organisasi resmi toko), dan multi-gambar galeri produk agar memenuhi seluruh rekomendasi Merchant Listings.
+*   **Fail-Safe Guard**: Memastikan jika rating dimatikan dan produk tidak memiliki harga sama sekali, tema tidak mencetak schema `Product` yang tidak lengkap, mencegah Google menandai halaman sebagai error.
+
+### 🌟 2. Pengaturan Rating & Review di Admin dan Meta Box
+*   **Kontrol Rating Global di Theme Settings**: Tab **SEO & Metadata** kini dilengkapi pengaturan aktivasi schema rating, nilai rating bawaan (default: 4.9), dan jumlah ulasan bawaan (default: 24).
+*   **Input Rating Kustom per Produk**: Di halaman edit produk (Meta Box **Detail**), admin kini dapat menentukan nilai rating spesifik (1.0 – 5.0) dan jumlah ulasan untuk produk unggulan tertentu.
+*   **Koleksi Ulasan Dinamis**: Schema ulasan (`Review`) secara cerdas memprioritaskan komentar pengunjung yang telah disetujui, testimoni toko tema, atau ulasan pembeli terverifikasi.
+
+### ✨ 3. Badge Rating Bintang Elegan di Halaman Produk
+*   **Lencana Social Proof Visual**: Menampilkan bintang oranye (⭐⭐⭐⭐⭐), angka rating, dan jumlah ulasan terverifikasi tepat di bawah judul produk pada `single-produk.php`.
+*   **Sinkronisasi Google Guidelines**: Memenuhi panduan Google bahwa data terstruktur (*structured data*) harus mencerminkan konten visual yang dapat dilihat langsung oleh pengunjung di halaman.
+*   **Toggle Fleksibel**: Dapat diaktifkan/dinonaktifkan kapan saja melalui menu **Halaman Produk & Keunggulan** di pengaturan tema.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.4.9 — Golden Ratio Typography, Mobile UX Harmony & Core Web Vitals
 
 Pembaruan **v2.4.9** menghadirkan standarisasi sistem tipografi harmoni berbasis skala matematika Augmented Fourth (×1.414) dan Rasio Emas (φ = 1.618) di seluruh antarmuka tema, penyatuan visual Sticky Order Bar dan Bottom Navigation mobile, drawer gesture swipe-to-close, penambahan Schema.org SEO rich snippets (LocalBusiness & FAQPage), serta optimasi Core Web Vitals dan perbaikan stabilitas kode.
 

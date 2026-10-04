@@ -7,15 +7,20 @@
    VARIABLES
    ========================================== */
 :root {
-    --bg: #ffffff;
-    --bg2: #f8fafc;
+    /* Backgrounds & Canvas Contrast (Reduced eye strain: Soft Off-White instead of harsh pure white) */
+    --bg: #f8fafc;
+    --bg2: #f1f5f9;
     --card-bg: #ffffff;
-    --card-text: #0f172a;
-    --glass: rgba(255, 255, 255, 0.92);
-    --glass-border: rgba(226, 232, 240, 0.85);
+    --card-text: #1f2937;
+    --glass: rgba(255, 255, 255, 0.94);
+    --glass-border: rgba(226, 232, 240, 0.9);
     --glass-blur: blur(16px);
-    --text: #0f172a;
-    --text2: #64748b;
+
+    /* Typography Colors (Dark Charcoal / Slate Gray #1F2937 instead of harsh pure black) */
+    --text: #1f2937;
+    --text2: #4b5563;
+    --text-muted: #6b7280;
+
     --primary: #007bff;
     --primary-dark: #0056b3;
     --primary-rgb: 0, 123, 255;
@@ -25,41 +30,52 @@
     --red: #ef4444;
     --orange: #f59e0b;
     --radius: 12px;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.07);
     --ease: all 0.3s ease;
     --max-w: 1200px;
+
+    /* Font Families: Inter for Headings, Merriweather for Body */
+    --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: 'Merriweather', Georgia, Cambria, "Times New Roman", Times, serif;
 
     /* Slider Tokens (Light Mode Default) */
     --slider-btn-bg: rgba(255, 255, 255, 0.88);
     --slider-btn-bg-hover: #ffffff;
-    --slider-btn-color: #0f172a;
+    --slider-btn-color: #1f2937;
     --slider-btn-color-hover: var(--primary, #007bff);
     --slider-btn-border: rgba(255, 255, 255, 0.85);
-    --slider-btn-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    --slider-btn-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.22);
-    --slider-dots-bg: rgba(15, 23, 42, 0.35);
+    --slider-btn-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --slider-btn-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.18);
+    --slider-dots-bg: rgba(31, 41, 55, 0.35);
     --slider-dots-border: rgba(255, 255, 255, 0.18);
     --slider-dot-color: rgba(255, 255, 255, 0.55);
     --slider-dot-active: #ffffff;
 
-    /* Golden Ratio Typography Scale (Augmented Fourth ×1.414) */
-    --fs-2xs: clamp(0.64rem, 0.08vw + 0.62rem, 0.694rem);
-    --fs-xs: clamp(0.72rem, 0.12vw + 0.69rem, 0.8rem);
-    --fs-sm: clamp(0.85rem, 0.18vw + 0.82rem, 0.938rem);
-    --fs-base: clamp(0.95rem, 0.25vw + 0.9rem, 1.063rem);
-    --fs-md: clamp(1.15rem, 0.4vw + 1.05rem, 1.313rem);
-    --fs-lg: clamp(1.4rem, 0.7vw + 1.2rem, 1.75rem);
-    --fs-xl: clamp(1.8rem, 1.2vw + 1.4rem, 2.375rem);
-    --fs-xxl: clamp(2.2rem, 2vw + 1.7rem, 3.188rem);
+    /* Fluid Typography Scale via clamp() */
+    --fs-h1: clamp(2rem, 1.35rem + 2.6vw, 3.25rem);
+    --fs-h2: clamp(1.6rem, 1.15rem + 1.8vw, 2.35rem);
+    --fs-h3: clamp(1.3rem, 1rem + 1.2vw, 1.75rem);
+    --fs-h4: clamp(1.1rem, 0.95rem + 0.6vw, 1.35rem);
+    --fs-h5: clamp(0.95rem, 0.88rem + 0.35vw, 1.15rem);
+    --fs-h6: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
+    --fs-body: clamp(0.975rem, 0.92rem + 0.25vw, 1.0625rem);
+    --fs-base: clamp(0.975rem, 0.92rem + 0.25vw, 1.0625rem);
+    --fs-sm: clamp(0.85rem, 0.82rem + 0.15vw, 0.925rem);
+    --fs-xs: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+    --fs-2xs: clamp(0.65rem, 0.62rem + 0.1vw, 0.7rem);
+    --fs-md: var(--fs-h4);
+    --fs-lg: var(--fs-h3);
+    --fs-xl: var(--fs-h2);
+    --fs-xxl: var(--fs-h1);
 
-    /* Golden Ratio Line Heights */
-    --lh-tight: 1.236;
-    --lh-snug: 1.382;
-    --lh-base: 1.618;
-    --lh-relaxed: 1.764;
+    /* Typography Line Heights */
+    --lh-tight: 1.15;       /* Headings H1-H2 tight crisp line-height (1.1 - 1.2) */
+    --lh-snug: 1.25;        /* Subheadings H3-H4 */
+    --lh-base: 1.6;         /* Body prose optimal reading flow (1.6) */
+    --lh-relaxed: 1.75;
 }
 
 :root.theme-dark,
@@ -151,55 +167,83 @@ html {
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-body);
     background: var(--bg);
     color: var(--text);
     line-height: var(--lh-base);
-    font-size: var(--fs-base);
+    font-size: var(--fs-body);
+    font-weight: 400;
     overflow-x: hidden;
     transition: background 0.3s, color 0.3s;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+/* Paragraphs & Reading Flow */
+p {
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: var(--lh-base);
+    margin-bottom: 1.5em;
+    color: var(--text);
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+/* Headings Typography Hierarchy & Weights */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    font-weight: 800;
-    line-height: var(--lh-tight);
-    letter-spacing: -0.02em;
+    font-family: var(--font-heading);
     color: var(--text);
-    margin-bottom: 0.5em;
+    margin-bottom: 0.6em;
+    letter-spacing: -0.025em;
 }
 
 h1 {
-    font-size: var(--fs-xxl);
+    font-size: var(--fs-h1);
+    font-weight: 800;
+    line-height: var(--lh-tight);
+    letter-spacing: -0.03em;
 }
 
 h2 {
-    font-size: var(--fs-xl);
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
 }
 
 h3 {
-    font-size: var(--fs-lg);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: var(--lh-snug);
+    letter-spacing: -0.02em;
 }
 
 h4 {
-    font-size: var(--fs-md);
+    font-size: var(--fs-h4);
+    font-weight: 600;
+    line-height: 1.3;
 }
 
 h5 {
-    font-size: var(--fs-base);
-    font-weight: 700;
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    line-height: 1.35;
 }
 
 h6 {
-    font-size: var(--fs-sm);
-    font-weight: 700;
+    font-size: var(--fs-h6);
+    font-weight: 600;
+    line-height: 1.4;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
 }
 
 a {
@@ -218,8 +262,10 @@ img {
     display: block;
 }
 
-button {
-    font-family: inherit;
+button,
+.btn,
+.button {
+    font-family: var(--font-heading);
 }
 
 input[type="text"]:not(.search-input):not(.search-modal-input),
@@ -1754,6 +1800,7 @@ input.search-input:active,
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
     color: var(--card-text, var(--text));
+    cursor: pointer;
 }
 
 .product-card:hover {
@@ -1826,10 +1873,11 @@ input.search-input:active,
 }
 
 .product-card__title a {
+    font-family: var(--font-heading, 'Inter', sans-serif);
     font-size: var(--fs-sm);
     font-weight: 700;
     color: var(--card-text);
-    line-height: var(--lh-snug);
+    line-height: var(--lh-snug, 1.25);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -2636,171 +2684,398 @@ input.search-input:active,
     z-index: 0;
 }
 
+/* ========================================================
+   TESTIMONIALS SLIDER SECTION (Captivating & Elegant)
+   ======================================================== */
+.testimonials-section {
+    padding: 85px 0 95px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ambient Radial Glow */
+.testimonials-section::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 680px;
+    height: 380px;
+    background: radial-gradient(ellipse at center, rgba(var(--primary-rgb), 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.testimonials-section .section-header {
+    margin-bottom: 42px;
+    position: relative;
+    z-index: 1;
+}
+
+.testimonials-section .section-subtitle {
+    font-size: var(--fs-base);
+    color: var(--text2);
+    max-width: 620px;
+    margin: 12px auto 0;
+    line-height: var(--lh-base);
+}
+
+/* Slider Layout & Nav Controls */
+.testimonials-slider-container {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.testi-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid rgba(var(--primary-rgb), 0.16);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .testi-slider-arrow {
+    background: var(--bg2);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.testi-slider-prev {
+    left: -24px;
+}
+
+.testi-slider-next {
+    right: -24px;
+}
+
+.testi-slider-arrow:hover {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 10px 28px rgba(var(--primary-rgb), 0.4);
+}
+
+.testi-slider-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
 .testimonials-slider {
     position: relative;
     overflow: hidden;
-    max-width: 850px;
-    margin: 0 auto;
+    width: 100%;
     z-index: 1;
 }
 
 .testimonials-wrapper {
     display: flex;
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .testimonial-slide {
     width: 100%;
     flex-shrink: 0;
-    padding: 20px;
+    padding: 8px 12px;
 }
 
+/* ========================================================
+   Captivating & Modern Testimonial Card Layout (Ala Quote Kekinian)
+   - Blockquote: Font Merriweather, Tebal & Diperbesar 20%
+   - Bagian Bawahnya: Foto + Badge Centang, Sebelahnya Nama, Dibawahnya Bintang / Ulasan
+   ======================================================== */
 .testimonial-card {
     background: var(--card-bg, #ffffff);
-    padding: 50px 40px;
-    border-radius: 32px;
-    text-align: center;
+    padding: 48px 52px 42px;
+    border-radius: 28px;
+    border: 1px solid rgba(var(--primary-rgb), 0.14);
+    box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.05), 0 20px 50px -20px rgba(var(--primary-rgb), 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.35s ease;
     position: relative;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
-    transition: all 0.4s ease;
+    overflow: hidden;
 }
 
 :is(.theme-dark, html.theme-dark, body.theme-dark) .testimonial-card {
     background: var(--bg2);
-    border-color: var(--border);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    border-color: rgba(var(--primary-rgb), 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 50px -10px rgba(0, 0, 0, 0.08), 0 24px 60px -15px rgba(var(--primary-rgb), 0.22);
+    border-color: rgba(var(--primary-rgb), 0.32);
 }
 
-.testimonial-quote {
+/* Subtle Top Accent Glow */
+.testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    border-radius: 0 0 4px 4px;
+}
+
+/* Modern Floating Quote Icon Badge (Ala Quote Kekinian) */
+.testi-quote-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.14), rgba(var(--primary-rgb), 0.04));
     color: var(--primary);
-    margin-bottom: 25px;
-    opacity: 0.15;
+    border: 1px solid rgba(var(--primary-rgb), 0.22);
+    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.15);
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.testimonial-text {
-    font-size: var(--fs-md);
-    line-height: var(--lh-relaxed);
-    font-weight: 500;
+.testimonial-card:hover .testi-quote-badge {
+    transform: scale(1.12) rotate(-6deg);
+}
+
+/* Testimonial BlockQuote (Font Merriweather, Tebal & Diperbesar 20%) */
+.testi-quote {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: clamp(1.5rem, 1.32rem + 0.9vw, 2.1rem);
+    line-height: 1.48;
+    font-weight: 700;
     font-style: italic;
     color: var(--text);
-    margin-bottom: 35px;
+    max-width: 760px;
+    margin: 0 auto 34px;
+    text-align: center;
+    letter-spacing: -0.015em;
     position: relative;
 }
 
-.testimonial-author {
+/* Bagian Bawah: Foto + Badge Centang, Sebelahnya Nama, Dibawahnya Bintang / Ulasan */
+.testi-bottom {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 18px;
-    padding-top: 25px;
+    padding-top: 26px;
     border-top: 1px solid var(--border);
+    max-width: 480px;
+    margin: 0 auto;
 }
 
-.author-img {
-    width: 65px;
-    height: 65px;
-    border-radius: 20px;
+/* Foto Avatar + Badge Centang */
+.testi-avatar-wrap {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+}
+
+.testi-avatar-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--border);
-    box-shadow: var(--shadow-sm);
+    border: 3px solid var(--card-bg, #ffffff);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.35), 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
-.author-info {
+.testi-avatar-initial {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark, #0284c7));
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-weight: 800;
+    font-size: 1.35rem;
+    line-height: 1;
+    border: 3px solid var(--card-bg, #ffffff);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.35), 0 8px 18px rgba(var(--primary-rgb), 0.25);
+}
+
+.testi-avatar-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #10b981;
+    color: #ffffff;
+    border: 2px solid var(--card-bg, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .testi-avatar-badge {
+    border-color: var(--bg2);
+}
+
+/* Sebelahnya: Info Nama & Rating */
+.testi-author-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     text-align: left;
+    gap: 4px;
 }
 
-.author-name {
-    font-size: var(--fs-base);
+/* Sebelahnya Nama (Tanpa Verified Pill) */
+.testi-author-name {
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.25rem);
     font-weight: 800;
     color: var(--text);
-    margin-bottom: 4px;
+    margin: 0;
+    line-height: var(--lh-tight);
+    letter-spacing: -0.015em;
 }
 
-.author-rating {
-    color: #fbbf24;
+/* Dibawahnya Bintang / Ulasan */
+.testi-rating-wrap {
     display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.testi-stars {
+    display: flex;
+    align-items: center;
     gap: 3px;
 }
 
-.author-rating .dashicons {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+.testi-stars svg {
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(245, 158, 11, 0.25));
 }
 
+.testi-rating-score {
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-weight: 800;
+    font-size: 0.875rem;
+    color: #d97706;
+    line-height: 1;
+}
+
+.testi-rating-label {
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: 0.8125rem;
+    color: var(--text2);
+    font-weight: 500;
+    line-height: 1;
+}
+
+/* Dots Pagination */
 .testimonial-dots {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin-top: 40px;
+    align-items: center;
+    gap: 10px;
+    margin-top: 34px;
 }
 
 .testi-dot {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    background: var(--border);
+    background: rgba(var(--primary-rgb), 0.2);
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.testi-dot:hover {
+    background: rgba(var(--primary-rgb), 0.45);
+    transform: scale(1.2);
 }
 
 .testi-dot.active {
-    width: 35px;
-    background: var(--primary);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+    width: 32px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark, #0284c7));
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(var(--primary-rgb), 0.35);
 }
 
-/* Mobile Adjustments for Testimonials */
+/* Responsive */
+@media (max-width: 992px) {
+    .testi-slider-prev { left: -10px; }
+    .testi-slider-next { right: -10px; }
+}
+
 @media (max-width: 768px) {
     .testimonials-section {
-        padding: 60px 0;
+        padding: 55px 0 65px;
     }
-
+    .testi-slider-arrow {
+        display: none;
+    }
     .testimonial-card {
-        padding: 35px 25px;
-        border-radius: 30px;
+        padding: 32px 22px 26px;
+        border-radius: 20px;
     }
-
-    .testimonial-text {
-        font-size: var(--fs-base);
-        line-height: var(--lh-base);
-        margin-bottom: 25px;
+    .testi-quote-badge {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 16px;
     }
-
-    .author-img {
-        width: 55px;
-        height: 55px;
-        border-radius: 15px;
+    .testi-quote {
+        font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.625rem);
+        line-height: 1.45;
+        margin-bottom: 24px;
     }
-
-    .author-name {
-        font-size: var(--fs-sm);
+    .testi-bottom {
+        gap: 14px;
+        padding-top: 20px;
+        max-width: 100%;
+        justify-content: center;
     }
-}
-
-@media (max-width: 480px) {
-    .testimonial-text {
-        font-size: var(--fs-sm);
-        line-height: var(--lh-snug);
-        margin-bottom: 20px;
+    .testi-avatar-wrap {
+        width: 48px;
+        height: 48px;
     }
-
-    .testimonial-card {
-        padding: 30px 20px;
-        border-radius: 25px;
+    .testi-avatar-img,
+    .testi-avatar-initial {
+        width: 48px;
+        height: 48px;
+        font-size: 1.15rem;
     }
-
-    .author-img {
-        width: 45px;
-        height: 45px;
-        gap: 12px;
+    .testi-author-name {
+        font-size: 1rem;
+    }
+    .testi-rating-wrap {
+        gap: 6px;
+    }
+    .testi-stars svg {
+        width: 15px;
+        height: 15px;
+    }
+    .testi-rating-label {
+        display: none;
     }
 }
 

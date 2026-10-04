@@ -589,9 +589,24 @@ document.addEventListener('DOMContentLoaded', function() {
             testiDots.forEach((d, i) => d.classList.toggle('active', i === index));
         }
         
-        function nextTesti() {
-            currentTesti = (currentTesti + 1) % testiSlides.length;
+        function prevTesti() {
+            currentTesti = (currentTesti - 1 + testiSlides.length) % testiSlides.length;
             goToTesti(currentTesti);
+        }
+
+        const prevArrow = document.getElementById('testi-prev-btn');
+        const nextArrow = document.getElementById('testi-next-btn');
+        if (prevArrow) {
+            prevArrow.addEventListener('click', () => {
+                prevTesti();
+                resetTestiTimer();
+            });
+        }
+        if (nextArrow) {
+            nextArrow.addEventListener('click', () => {
+                nextTesti();
+                resetTestiTimer();
+            });
         }
 
         let testiTimer = setInterval(nextTesti, 5000);
@@ -862,5 +877,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }, { passive: true });
         }
     }
+
+    // 🛒 Product Card Full-Click Navigation
+    // Memungkinkan klik di area mana pun pada kartu produk untuk langsung membuka halaman detail produk
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+        
+        // Jangan navigasi jika user mengklik tombol WhatsApp order, link tag/kategori, atau tombol lain
+        if (e.target.closest('.btn-whatsapp-order') || e.target.closest('a') || e.target.closest('button')) {
+            return;
+        }
+
+        const link = card.querySelector('.product-card__title a') || card.querySelector('.product-card__image-link');
+        if (link && link.href) {
+            window.location.href = link.href;
+        }
+    });
 
 });

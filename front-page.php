@@ -258,56 +258,89 @@ get_header(); ?>
     <section class="testimonials-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Ulasan Klien</h2>
+                <h2 class="section-title"><?php esc_html_e( 'Apa Kata Klien Tentang Toko Kami', 'tokoku' ); ?></h2>
+                <p class="section-subtitle"><?php esc_html_e( 'Ulasan autentik dari pelanggan yang telah memesan plakat berkualitas kami.', 'tokoku' ); ?></p>
             </div>
             
-            <div class="testimonials-slider" id="testimonials-slider">
-                <div class="testimonials-wrapper">
-                    <?php
-                    $testis_found = false;
-                    for ( $i = 1; $i <= 20; $i++ ) {
-                        $name = get_theme_mod( "tokoku_testi_name_{$i}" );
-                        $text = get_theme_mod( "tokoku_testi_text_{$i}" );
-                        $img  = get_theme_mod( "tokoku_testi_img_{$i}" );
-                        
-                        if ( $name || $text ) {
-                            $testis_found = true;
-                            ?>
-                            <div class="testimonial-slide">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-quote">
-                                        <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.18;" aria-hidden="true"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                                    </div>
-                                    <p class="testimonial-text">"<?php echo esc_html( $text ); ?>"</p>
-                                    <div class="testimonial-author">
-                                        <?php if ( $img ) : ?>
-                                            <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ); ?>" class="author-img" width="48" height="48" loading="lazy" decoding="async">
-                                        <?php endif; ?>
-                                        <div class="author-info">
-                                            <h4 class="author-name"><?php echo esc_html( $name ); ?></h4>
-                                            <div class="author-rating">
-                                                <?php 
-                                                $rating = get_theme_mod( "tokoku_testi_rating_{$i}", 5 );
-                                                for ($r = 1; $r <= 5; $r++) {
-                                                    $fill_color = $r <= $rating ? '#f59e0b' : '#cbd5e1';
-                                                    echo '<svg width="15" height="15" viewBox="0 0 24 24" fill="' . $fill_color . '" style="margin-right:2px;display:inline-block;vertical-align:middle;" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
-                                                }
-                                                ?>
+            <div class="testimonials-slider-container">
+                <!-- Navigation Arrows -->
+                <button type="button" class="testi-slider-arrow testi-slider-prev" id="testi-prev-btn" aria-label="<?php esc_attr_e( 'Testimoni Sebelumnya', 'tokoku' ); ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button type="button" class="testi-slider-arrow testi-slider-next" id="testi-next-btn" aria-label="<?php esc_attr_e( 'Testimoni Berikutnya', 'tokoku' ); ?>">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+
+                <div class="testimonials-slider" id="testimonials-slider">
+                    <div class="testimonials-wrapper">
+                        <?php
+                        $testis_found = false;
+                        for ( $i = 1; $i <= 20; $i++ ) {
+                            $name = get_theme_mod( "tokoku_testi_name_{$i}" );
+                            $text = get_theme_mod( "tokoku_testi_text_{$i}" );
+                            $img  = get_theme_mod( "tokoku_testi_img_{$i}" );
+                            
+                            if ( $name || $text ) {
+                                $testis_found = true;
+                                $rating = (int) get_theme_mod( "tokoku_testi_rating_{$i}", 5 );
+                                if ( $rating < 1 || $rating > 5 ) $rating = 5;
+                                ?>
+                                <div class="testimonial-slide">
+                                    <div class="testimonial-card">
+                                        <!-- Modern Floating Quote Icon Badge (Ala Quote Kekinian) -->
+                                        <div class="testi-quote-badge" aria-hidden="true">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                                        </div>
+
+                                        <!-- Testimonial Quote (Merriweather, Tebal & Diperbesar 20%) -->
+                                        <blockquote class="testi-quote">
+                                            “<?php echo esc_html( $text ); ?>”
+                                        </blockquote>
+
+                                        <!-- Bagian Bawah: Foto + Badge Centang / Verifikasi, Sebelahnya Nama, Dibawahnya Bintang / Ulasan -->
+                                        <div class="testi-bottom">
+                                            <div class="testi-avatar-wrap">
+                                                <?php if ( $img ) : ?>
+                                                    <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ); ?>" class="testi-avatar-img" width="56" height="56" loading="lazy" decoding="async">
+                                                <?php else : ?>
+                                                    <div class="testi-avatar-initial">
+                                                        <?php echo esc_html( mb_substr( $name ? $name : 'U', 0, 1 ) ); ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                                <span class="testi-avatar-badge" title="<?php esc_attr_e( 'Pelanggan Terverifikasi', 'tokoku' ); ?>">
+                                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                                </span>
+                                            </div>
+
+                                            <div class="testi-author-info">
+                                                <h4 class="testi-author-name"><?php echo esc_html( $name ); ?></h4>
+
+                                                <div class="testi-rating-wrap">
+                                                    <div class="testi-stars" aria-label="<?php echo sprintf( esc_attr__( 'Rating %d dari 5', 'tokoku' ), $rating ); ?>">
+                                                        <?php for ( $r = 1; $r <= 5; $r++ ) : 
+                                                            $fill_color = $r <= $rating ? '#f59e0b' : '#e2e8f0';
+                                                        ?>
+                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="<?php echo esc_attr( $fill_color ); ?>" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                                        <?php endfor; ?>
+                                                    </div>
+                                                    <span class="testi-rating-score"><?php echo number_format( $rating, 1 ); ?></span>
+                                                    <span class="testi-rating-label">• <?php esc_html_e( 'Ulasan Pembeli', 'tokoku' ); ?></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            }
                         }
-                    }
-                    
-                    if ( ! $testis_found ) {
-                        echo '<p class="empty-msg">' . esc_html__( 'Belum ada testimoni klien.', 'tokoku' ) . '</p>';
-                    }
-                    ?>
+                        
+                        if ( ! $testis_found ) {
+                            echo '<p class="empty-msg">' . esc_html__( 'Belum ada testimoni klien.', 'tokoku' ) . '</p>';
+                        }
+                        ?>
+                    </div>
+                    <div class="testimonial-dots"></div>
                 </div>
-                <div class="testimonial-dots"></div>
             </div>
         </div>
     </section>

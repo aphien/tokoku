@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.4.9' );
+define( 'TOKOKU_VERSION', '2.5.5' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -48,14 +48,26 @@ add_action( 'after_setup_theme', 'tokoku_setup' );
  * style utama, script pencarian AJAX, dan WhatsApp.
  */
 function tokoku_scripts() {
-    // Dynamic Google Fonts
-    $body_font = get_theme_mod( 'tokoku_font_body', 'Plus Jakarta Sans' );
-    $heading_font = get_theme_mod( 'tokoku_font_headings', 'Plus Jakarta Sans' );
+    // Dynamic Google Fonts: Defaults to Merriweather (Body) and Inter (Headings)
+    $body_font    = get_theme_mod( 'tokoku_font_body' );
+    if ( empty( $body_font ) || 'Plus Jakarta Sans' === $body_font ) {
+        $body_font = 'Merriweather';
+    }
+    $heading_font = get_theme_mod( 'tokoku_font_headings' );
+    if ( empty( $heading_font ) || 'Plus Jakarta Sans' === $heading_font ) {
+        $heading_font = 'Inter';
+    }
     $fonts_to_load = array_unique( array( $body_font, $heading_font ) );
     $font_query = array();
     
     foreach ( $fonts_to_load as $font ) {
-        $font_query[] = str_replace( ' ', '+', $font ) . ':ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400';
+        if ( 'Merriweather' === $font ) {
+            $font_query[] = 'Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700';
+        } elseif ( 'Inter' === $font ) {
+            $font_query[] = 'Inter:wght@400;500;600;700;800;900';
+        } else {
+            $font_query[] = str_replace( ' ', '+', $font ) . ':ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400';
+        }
     }
     
     $google_fonts_url = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', $font_query ) . '&display=swap';
@@ -173,30 +185,134 @@ remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
  * yang dipilih pengguna di menu Customizer.
  */
 function tokoku_typography_css() {
-    $body_font    = get_theme_mod( 'tokoku_font_body', 'Plus Jakarta Sans' );
-    $heading_font = get_theme_mod( 'tokoku_font_headings', 'Plus Jakarta Sans' );
+    $body_font    = get_theme_mod( 'tokoku_font_body' );
+    if ( empty( $body_font ) || 'Plus Jakarta Sans' === $body_font ) {
+        $body_font = 'Merriweather';
+    }
+    $heading_font = get_theme_mod( 'tokoku_font_headings' );
+    if ( empty( $heading_font ) || 'Plus Jakarta Sans' === $heading_font ) {
+        $heading_font = 'Inter';
+    }
     $base_size    = get_theme_mod( 'tokoku_font_size_base', 16 );
     $h1_size      = get_theme_mod( 'tokoku_font_size_h1', 2.5 );
 
+    $is_serif_body    = in_array( $body_font, array( 'Merriweather', 'Playfair Display' ), true );
+    $body_fallback    = $is_serif_body ? "Georgia, Cambria, 'Times New Roman', Times, serif" : "system-ui, -apple-system, sans-serif";
+    $heading_fallback = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
     ?>
     <style id="tokoku-typography-custom">
         :root {
-            --font-body: '<?php echo esc_attr( $body_font ); ?>', sans-serif;
-            --font-heading: '<?php echo esc_attr( $heading_font ); ?>', sans-serif;
+            --font-body: '<?php echo esc_attr( $body_font ); ?>', <?php echo $body_fallback; ?>;
+            --font-heading: '<?php echo esc_attr( $heading_font ); ?>', <?php echo $heading_fallback; ?>;
             --font-size-base: <?php echo absint( $base_size ); ?>px;
+
+            /* Fluid Typography Scale */
+            --fs-h1: clamp(2rem, 1.35rem + 2.6vw, 3.25rem);
+            --fs-h2: clamp(1.6rem, 1.15rem + 1.8vw, 2.35rem);
+            --fs-h3: clamp(1.3rem, 1rem + 1.2vw, 1.75rem);
+            --fs-h4: clamp(1.1rem, 0.95rem + 0.6vw, 1.35rem);
+            --fs-h5: clamp(0.95rem, 0.88rem + 0.35vw, 1.15rem);
+            --fs-h6: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
+            --fs-body: clamp(0.975rem, 0.92rem + 0.25vw, 1.0625rem);
+
+            /* Typography Line Heights */
+            --lh-tight: 1.15;
+            --lh-snug: 1.25;
+            --lh-base: 1.6;
+            --lh-relaxed: 1.75;
         }
-        body { font-family: var(--font-body); font-size: var(--font-size-base); }
-        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
-        h1 { font-size: <?php echo esc_attr( $h1_size ); ?>rem; }
-        h2 { font-size: calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.8); }
-        h3 { font-size: calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.6); }
-        
-        /* Penyesuaian ukuran font maksimal untuk tampilan mobile agar lebih proporsional */
-        @media (max-width: 768px) {
-            body { font-size: calc(var(--font-size-base) * 0.95); }
-            h1 { font-size: clamp(1.6rem, calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.65), 2.2rem); }
-            h2 { font-size: clamp(1.4rem, calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.55), 1.8rem); }
-            h3 { font-size: clamp(1.2rem, calc(<?php echo esc_attr( $h1_size ); ?>rem * 0.45), 1.5rem); }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--fs-body);
+            font-weight: 400;
+            line-height: var(--lh-base);
+            color: var(--text);
+            background-color: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Headings - Bold / Heavy Weights & Tight Crisp Line-Height */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text);
+            margin-bottom: 0.6em;
+            letter-spacing: -0.025em;
+        }
+
+        h1 {
+            font-size: var(--fs-h1);
+            font-weight: 800;
+            line-height: var(--lh-tight);
+            letter-spacing: -0.03em;
+        }
+
+        h2 {
+            font-size: var(--fs-h2);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        h3 {
+            font-size: var(--fs-h3);
+            font-weight: 700;
+            line-height: var(--lh-snug);
+            letter-spacing: -0.02em;
+        }
+
+        h4 {
+            font-size: var(--fs-h4);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h5 {
+            font-size: var(--fs-h5);
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        h6 {
+            font-size: var(--fs-h6);
+            font-weight: 600;
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Paragraphs - Optimal Reading Flow & Generous Spacing */
+        p {
+            font-family: var(--font-body);
+            font-weight: 400;
+            line-height: var(--lh-base);
+            margin-bottom: 1.5em;
+            color: var(--text);
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* UI Elements - Crisp Geometric Sans-Serif (Inter) */
+        button,
+        input,
+        select,
+        textarea,
+        .btn,
+        .button,
+        .nav-link,
+        .menu-item,
+        .section-badge,
+        .badge,
+        .chip,
+        .product-tag-pill,
+        .product-price,
+        .price,
+        .specs-item-label,
+        .specs-item-sku {
+            font-family: var(--font-heading);
         }
     </style>
     <?php

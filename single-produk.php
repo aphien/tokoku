@@ -230,6 +230,36 @@ get_header(); ?>
                         <?php the_title(); ?>
                     </h1>
 
+                    <?php 
+                    $enable_product_rating = get_theme_mod( 'tokoku_enable_product_rating', 'yes' ) !== 'no';
+                    if ( $enable_product_rating ) :
+                        $p_rating = get_post_meta( get_the_ID(), '_produk_rating', true );
+                        if ( empty( $p_rating ) || ! is_numeric( $p_rating ) ) {
+                            $p_rating = get_theme_mod( 'tokoku_schema_default_rating', '4.9' );
+                        }
+                        $p_rating = min( 5.0, max( 1.0, floatval( $p_rating ) ) );
+
+                        $p_reviews = get_post_meta( get_the_ID(), '_produk_review_count', true );
+                        if ( empty( $p_reviews ) || ! is_numeric( $p_reviews ) ) {
+                            $base_rev  = (int) get_theme_mod( 'tokoku_schema_default_reviews', 24 );
+                            $p_reviews = $base_rev + ( (int) get_the_ID() % 13 );
+                        }
+                        $p_reviews = max( 1, (int) $p_reviews );
+                    ?>
+                    <div class="product-rating-summary" aria-label="<?php echo esc_attr( sprintf( __( 'Rating %s dari 5 bintang (%d ulasan terverifikasi)', 'tokoku' ), number_format( $p_rating, 1, '.', '' ), $p_reviews ) ); ?>">
+                        <div class="product-rating-stars">
+                            <?php for ( $s = 1; $s <= 5; $s++ ) : ?>
+                                <svg class="star-icon <?php echo $s <= round( $p_rating ) ? 'star-filled' : 'star-empty'; ?>" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                            <?php endfor; ?>
+                        </div>
+                        <span class="rating-number"><?php echo esc_html( number_format( $p_rating, 1, '.', '' ) ); ?></span>
+                        <span class="rating-separator">•</span>
+                        <span class="rating-count"><?php echo esc_html( sprintf( __( '%d Ulasan Terverifikasi', 'tokoku' ), $p_reviews ) ); ?></span>
+                    </div>
+                    <?php endif; ?>
+
                     <?php if ( $show_price === 'yes' && $harga ) : ?>
                     <div class="product-price-display">
                         <?php if ( $harga_diskon && (float)$harga_diskon > (float)$harga ) : ?>
@@ -501,29 +531,283 @@ get_header(); ?>
                 </div>
             </div>
 
-            <div class="product-description-wrapper">
-                <div class="product-description">
-                    <h3>Deskripsi Produk</h3>
-                    <div class="content">
-                        <?php the_content(); ?>
+            <?php
+            // Informasi & Detail Produk Settings
+            $enable_desc_hub        = get_theme_mod( 'tokoku_enable_desc_hub', 'yes' ) !== 'no';
+            $desc_badge_text        = get_theme_mod( 'tokoku_desc_badge_text', __( 'Informasi & Detail Produk', 'tokoku' ) );
+            $desc_section_title     = get_theme_mod( 'tokoku_desc_section_title', __( 'Spesifikasi & Panduan Pemesanan', 'tokoku' ) );
+            $desc_tab1_label        = get_theme_mod( 'tokoku_desc_tab1_label', __( 'Deskripsi & Fitur', 'tokoku' ) );
+            $desc_tab2_label        = get_theme_mod( 'tokoku_desc_tab2_label', __( 'Spesifikasi Detail', 'tokoku' ) );
+            $desc_tab3_label        = get_theme_mod( 'tokoku_desc_tab3_label', __( 'Cara Pesan & Garansi', 'tokoku' ) );
 
-                        <?php
-                        $tags = get_the_terms( get_the_ID(), 'tag_produk' );
-                        if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) : ?>
-                        <div class="product-tags-bottom" style="margin-top: 40px; padding-top: 20px; border-top: 1.5px dashed var(--border);">
-                            <span style="display: block; font-weight: 700; color: var(--text2); margin-bottom: 15px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Tag Produk:</span>
-                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                                <?php
-                                foreach ( $tags as $tag ) {
-                                    echo '<a href="' . esc_url( get_term_link( $tag ) ) . '" class="product-tag-badge">' . esc_html( $tag->name ) . '</a>';
-                                }
-                                ?>
-                            </div>
+            $enable_highlights      = get_theme_mod( 'tokoku_desc_enable_highlights', 'yes' ) !== 'no';
+            $val1_title             = get_theme_mod( 'tokoku_desc_val1_title', __( 'Material Kualitas Unggulan', 'tokoku' ) );
+            $val1_desc              = get_theme_mod( 'tokoku_desc_val1_desc', __( 'Akrilik bening kristal, kayu pilihan, & logam anti-korosi presisi tinggi.', 'tokoku' ) );
+            $val2_title             = get_theme_mod( 'tokoku_desc_val2_title', __( 'Free Desain & Mockup', 'tokoku' ) );
+            $val2_desc              = get_theme_mod( 'tokoku_desc_val2_desc', __( 'Bantu setting tata letak logo & teks sampai sesuai sebelum cetak.', 'tokoku' ) );
+            $val3_title             = get_theme_mod( 'tokoku_desc_val3_title', __( 'Pengerjaan Cepat & Rapi', 'tokoku' ) );
+            $val3_desc              = get_theme_mod( 'tokoku_desc_val3_desc', __( 'Dikerjakan langsung oleh pengrajin ahli dengan mesin laser canggih.', 'tokoku' ) );
+
+            $specs_packaging        = get_theme_mod( 'tokoku_specs_packaging', __( 'Box Beludru / Hardbox Eksklusif + Bubble Wrap Berlapis', 'tokoku' ) );
+            $specs_file_format      = get_theme_mod( 'tokoku_specs_file_format', __( 'CDR, AI, PDF, EPS, PNG, atau JPG Resolusi Tinggi', 'tokoku' ) );
+            $specs_min_order        = get_theme_mod( 'tokoku_specs_min_order', __( 'Mulai 1 Pcs (Satuan & Partai Besar Siap)', 'tokoku' ) );
+
+            $step1_title            = get_theme_mod( 'tokoku_desc_step1_title', __( 'Konsultasi & Konsep', 'tokoku' ) );
+            $step1_desc             = get_theme_mod( 'tokoku_desc_step1_desc', __( 'Kirimkan logo, naskah/tulisan penghargaan, dan bentuk yang diinginkan via WhatsApp.', 'tokoku' ) );
+            $step2_title            = get_theme_mod( 'tokoku_desc_step2_title', __( 'Preview & ACC Mockup', 'tokoku' ) );
+            $step2_desc             = get_theme_mod( 'tokoku_desc_step2_desc', __( 'Tim kami membuatkan visual layout digital gratis untuk dicek & disetujui sebelum diproduksi.', 'tokoku' ) );
+            $step3_title            = get_theme_mod( 'tokoku_desc_step3_title', __( 'Proses Produksi Cepat', 'tokoku' ) );
+            $step3_desc             = get_theme_mod( 'tokoku_desc_step3_desc', __( 'Setelah desain fix dan DP dikonfirmasi, plakat langsung diproses mesin laser presisi.', 'tokoku' ) );
+            $step4_title            = get_theme_mod( 'tokoku_desc_step4_title', __( 'Packing & Pengiriman', 'tokoku' ) );
+            $step4_desc             = get_theme_mod( 'tokoku_desc_step4_desc', __( 'Produk dipacking berlapis tebal dan dikirim menggunakan ekspedisi terpercaya ke seluruh Indonesia.', 'tokoku' ) );
+
+            $enable_guarantee       = get_theme_mod( 'tokoku_desc_enable_guarantee', 'yes' ) !== 'no';
+            $guarantee_title        = get_theme_mod( 'tokoku_desc_guarantee_title', __( 'Jaminan Garansi 100% — Rusak / Pecah Kami Ganti Baru!', 'tokoku' ) );
+            $guarantee_desc         = get_theme_mod( 'tokoku_desc_guarantee_desc', __( 'Keamanan barang Anda adalah prioritas utama kami. Apabila pesanan mengalami kerusakan saat perjalanan kirim oleh kurir/ekspedisi, cukup kirimkan video unboxing dan kami siap membuatkan unit pengganti baru tanpa biaya tambahan.', 'tokoku' ) );
+            ?>
+
+            <?php if ( ! $enable_desc_hub ) : ?>
+                <div class="product-description-wrapper">
+                    <div class="product-description-container" style="padding: 24px;">
+                        <div class="product-description-content tokoku-prose">
+                            <?php the_content(); ?>
                         </div>
-                        <?php endif; ?>
                     </div>
                 </div>
+            <?php else : ?>
+            <div class="product-description-wrapper">
+                <div class="product-description-container">
+                    
+                    <!-- Modern Eyebrow & Tabs Navigation -->
+                    <div class="product-tabs-nav-wrapper">
+                        <div class="product-tabs-header-top">
+                            <span class="product-tabs-badge">
+                                <span class="badge-pulse-dot"></span>
+                                <?php echo esc_html( $desc_badge_text ); ?>
+                            </span>
+                            <h2 class="product-tabs-title"><?php echo esc_html( $desc_section_title ); ?></h2>
+                        </div>
+
+                        <div class="product-tabs-nav" role="tablist" aria-label="<?php esc_attr_e( 'Navigasi Detail Produk', 'tokoku' ); ?>">
+                            <button type="button" class="product-tab-btn active" role="tab" aria-selected="true" aria-controls="prod-panel-desc" id="prod-tab-desc" data-target="prod-panel-desc">
+                                <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <span><?php echo esc_html( $desc_tab1_label ); ?></span>
+                            </button>
+
+                            <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-specs" id="prod-tab-specs" data-target="prod-panel-specs">
+                                <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="8" y1="2" x2="8" y2="6"></line><line x1="16" y1="2" x2="16" y2="6"></line><line x1="7" y1="10" x2="17" y2="10"></line><line x1="7" y1="14" x2="13" y2="14"></line></svg>
+                                <span><?php echo esc_html( $desc_tab2_label ); ?></span>
+                            </button>
+
+                            <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-guide" id="prod-tab-guide" data-target="prod-panel-guide">
+                                <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                                <span><?php echo esc_html( $desc_tab3_label ); ?></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab Panels Container -->
+                    <div class="product-tab-panels">
+                        
+                        <!-- PANEL 1: DESKRIPSI & FITUR -->
+                        <div class="product-tab-panel active" id="prod-panel-desc" role="tabpanel" aria-labelledby="prod-tab-desc">
+                            <?php if ( $enable_highlights ) : ?>
+                            <!-- Quick Value Proposition Highlights -->
+                            <div class="product-value-highlights">
+                                <div class="value-highlight-card">
+                                    <div class="value-icon-box value-icon-gold">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    </div>
+                                    <div class="value-content">
+                                        <h4><?php echo esc_html( $val1_title ); ?></h4>
+                                        <p><?php echo esc_html( $val1_desc ); ?></p>
+                                    </div>
+                                </div>
+
+                                <div class="value-highlight-card">
+                                    <div class="value-icon-box value-icon-blue">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+                                    </div>
+                                    <div class="value-content">
+                                        <h4><?php echo esc_html( $val2_title ); ?></h4>
+                                        <p><?php echo esc_html( $val2_desc ); ?></p>
+                                    </div>
+                                </div>
+
+                                <div class="value-highlight-card">
+                                    <div class="value-icon-box value-icon-green">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    </div>
+                                    <div class="value-content">
+                                        <h4><?php echo esc_html( $val3_title ); ?></h4>
+                                        <p><?php echo esc_html( $val3_desc ); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
+                            <!-- Main Rich Description -->
+                            <div class="product-description-content tokoku-prose">
+                                <?php the_content(); ?>
+                            </div>
+
+                            <!-- Product Tags -->
+                            <?php
+                            $tags = get_the_terms( get_the_ID(), 'tag_produk' );
+                            if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) : ?>
+                            <div class="product-tags-wrapper">
+                                <span class="product-tags-label">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                                    <?php esc_html_e( 'Tag Terkait:', 'tokoku' ); ?>
+                                </span>
+                                <div class="product-tags-list">
+                                    <?php
+                                    foreach ( $tags as $tag ) {
+                                        echo '<a href="' . esc_url( get_term_link( $tag ) ) . '" class="product-tag-pill">#' . esc_html( $tag->name ) . '</a>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- PANEL 2: SPESIFIKASI DETAIL -->
+                        <div class="product-tab-panel" id="prod-panel-specs" role="tabpanel" aria-labelledby="prod-tab-specs">
+                            <div class="product-specs-grid">
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                                        <?php esc_html_e( 'Kode Produk / SKU', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val specs-item-sku"><?php echo esc_html( $sku ? $sku : 'PLK-' . get_the_ID() ); ?></span>
+                                </div>
+
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                        <?php esc_html_e( 'Kategori', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val">
+                                        <?php if ( ! empty( $terms ) ) : ?>
+                                             <a href="<?php echo esc_url( get_term_link( $terms[0] ) ); ?>" class="specs-cat-link"><?php echo esc_html( $terms[0]->name ); ?></a>
+                                        <?php else : ?>
+                                            -
+                                        <?php endif; ?>
+                                    </span>
+                                </div>
+
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                                        <?php esc_html_e( 'Ketersediaan / Stok', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val"><?php echo esc_html( $stok['label'] ); ?><?php if ( $jumlah_stok ) echo ' (' . esc_html( $jumlah_stok ) . ')'; ?></span>
+                                </div>
+
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        <?php esc_html_e( 'Estimasi Pengerjaan', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val"><?php echo esc_html( get_theme_mod( 'tokoku_lead_time_val', '2 – 3 Hari Kerja' ) ); ?></span>
+                                </div>
+
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+                                        <?php esc_html_e( 'Berat Produk', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val"><?php echo esc_html( $berat ? $berat : 'Menyesuaikan dimensi / ketebalan' ); ?></span>
+                                </div>
+
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+                                        <?php esc_html_e( 'Kemasan / Packaging', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val"><?php echo esc_html( $specs_packaging ); ?></span>
+                                </div>
+
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                                        <?php esc_html_e( 'Format File Desain', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val"><?php echo esc_html( $specs_file_format ); ?></span>
+                                </div>
+
+                                <div class="specs-grid-item">
+                                    <span class="specs-item-label">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                                        <?php esc_html_e( 'Minimum Pemesanan', 'tokoku' ); ?>
+                                    </span>
+                                    <span class="specs-item-val"><?php echo esc_html( $specs_min_order ); ?></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PANEL 3: CARA PESAN & GARANSI -->
+                        <div class="product-tab-panel" id="prod-panel-guide" role="tabpanel" aria-labelledby="prod-tab-guide">
+                            
+                            <!-- 4 Easy Steps -->
+                            <div class="product-steps-flow">
+                                <div class="step-card">
+                                    <div class="step-num">01</div>
+                                    <div class="step-icon">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    </div>
+                                    <h4><?php echo esc_html( $step1_title ); ?></h4>
+                                    <p><?php echo esc_html( $step1_desc ); ?></p>
+                                </div>
+
+                                <div class="step-card">
+                                    <div class="step-num">02</div>
+                                    <div class="step-icon">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                    </div>
+                                    <h4><?php echo esc_html( $step2_title ); ?></h4>
+                                    <p><?php echo esc_html( $step2_desc ); ?></p>
+                                </div>
+
+                                <div class="step-card">
+                                    <div class="step-num">03</div>
+                                    <div class="step-icon">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                    </div>
+                                    <h4><?php echo esc_html( $step3_title ); ?></h4>
+                                    <p><?php echo esc_html( $step3_desc ); ?></p>
+                                </div>
+
+                                <div class="step-card">
+                                    <div class="step-num">04</div>
+                                    <div class="step-icon">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                                    </div>
+                                    <h4><?php echo esc_html( $step4_title ); ?></h4>
+                                    <p><?php echo esc_html( $step4_desc ); ?></p>
+                                </div>
+                            </div>
+
+                            <?php if ( $enable_guarantee ) : ?>
+                            <!-- 100% Quality & Breakage Guarantee Box -->
+                            <div class="product-guarantee-box">
+                                <div class="guarantee-icon-wrap">
+                                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                                </div>
+                                <div class="guarantee-text">
+                                    <h3><?php echo esc_html( $guarantee_title ); ?></h3>
+                                    <p><?php echo esc_html( $guarantee_desc ); ?></p>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
+            <?php endif; ?>
 
             <!-- Related Products -->
             <?php

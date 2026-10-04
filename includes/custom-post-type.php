@@ -181,13 +181,26 @@ add_action( 'manage_produk_posts_custom_column', 'tokoku_produk_custom_column', 
 
 /**
  * Memperbarui (Flush) Rewrite Rules
- * Dijalankan otomatis saat tema diaktifkan agar URL produk (permalink)
- * langsung berfungsi dan tidak menghasilkan error 404 (Page Not Found).
+ * Dijalankan otomatis saat tema diaktifkan atau saat versi tema diperbarui,
+ * agar URL permalink produk langsung berfungsi dan tidak menghasilkan error 404 (Page Not Found).
  */
 function tokoku_rewrite_flush() {
     tokoku_register_produk_cpt();
     tokoku_register_kategori_taxonomy();
     tokoku_register_tag_taxonomy();
-    flush_rewrite_rules();
+    flush_rewrite_rules( false );
 }
 add_action( 'after_switch_theme', 'tokoku_rewrite_flush' );
+
+/**
+ * Pengecekan Rewrite Rules Otomatis (Self-healing permalinks)
+ * Memastikan aturan rewrite untuk post type 'produk' selalu ada di database.
+ */
+function tokoku_auto_check_rewrite_rules() {
+    $version = get_option( 'tokoku_cpt_rewrite_version', '' );
+    if ( $version !== TOKOKU_VERSION ) {
+        tokoku_rewrite_flush();
+        update_option( 'tokoku_cpt_rewrite_version', TOKOKU_VERSION );
+    }
+}
+add_action( 'init', 'tokoku_auto_check_rewrite_rules', 99 );

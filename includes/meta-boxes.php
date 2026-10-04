@@ -51,6 +51,8 @@ function tokoku_produk_meta_box_callback( $post ) {
     $label_khusus_icon = get_post_meta( $post->ID, '_produk_label_khusus_icon', true );
     $berat          = get_post_meta( $post->ID, '_produk_berat', true );
     $wa_text        = get_post_meta( $post->ID, '_produk_whatsapp_text', true );
+    $rating         = get_post_meta( $post->ID, '_produk_rating', true );
+    $review_count   = get_post_meta( $post->ID, '_produk_review_count', true );
 
     $gallery_ids    = get_post_meta( $post->ID, '_produk_gallery', true );
     $video_url      = get_post_meta( $post->ID, '_produk_video', true );
@@ -366,6 +368,24 @@ function tokoku_produk_meta_box_callback( $post ) {
                     <label for="tokoku_wa_text"><?php _e( 'Pesan WhatsApp Khusus', 'tokoku' ); ?></label>
                     <textarea id="tokoku_wa_text" name="_produk_whatsapp_text"><?php echo esc_textarea( $wa_text ); ?></textarea>
                 </div>
+                <div class="tokoku-meta-grid" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #dcdcde;">
+                    <div class="tokoku-meta-field">
+                        <label for="tokoku_rating"><?php _e( 'Rating Bintang Produk (SEO Google)', 'tokoku' ); ?></label>
+                        <div class="tokoku-meta-input-wrapper">
+                            <span class="tokoku-meta-icon"><span class="dashicons dashicons-star-filled" style="color: #f59e0b;"></span></span>
+                            <input type="number" id="tokoku_rating" name="_produk_rating" step="0.1" min="1" max="5" value="<?php echo esc_attr( $rating ); ?>" placeholder="Contoh: 4.9 (Kosongkan untuk default)">
+                        </div>
+                        <p class="tokoku-tip" style="font-size: 11px; color: #64748b; margin-top: 4px;"><?php _e( 'Nilai rating 1.0 – 5.0 untuk Google Rich Snippets.', 'tokoku' ); ?></p>
+                    </div>
+                    <div class="tokoku-meta-field">
+                        <label for="tokoku_review_count"><?php _e( 'Jumlah Ulasan (Review Count)', 'tokoku' ); ?></label>
+                        <div class="tokoku-meta-input-wrapper">
+                            <span class="tokoku-meta-icon"><span class="dashicons dashicons-admin-comments" style="color: #007bff;"></span></span>
+                            <input type="number" id="tokoku_review_count" name="_produk_review_count" min="1" value="<?php echo esc_attr( $review_count ); ?>" placeholder="Contoh: 28 (Kosongkan untuk default)">
+                        </div>
+                        <p class="tokoku-tip" style="font-size: 11px; color: #64748b; margin-top: 4px;"><?php _e( 'Membantu Google menampilkan ulasan terverifikasi dan memenuhi schema Product.', 'tokoku' ); ?></p>
+                    </div>
+                </div>
             </div>
 
             <!-- Tab 3: Galeri -->
@@ -561,6 +581,8 @@ function tokoku_save_produk_meta( $post_id ) {
         '_produk_marketplace_bukalapak' => 'esc_url_raw',
         '_produk_marketplace_blibli'    => 'esc_url_raw',
         '_produk_marketplace_lainnya'   => 'esc_url_raw',
+        '_produk_rating'                => 'sanitize_text_field',
+        '_produk_review_count'           => 'intval',
     );
 
     foreach ( $fields as $key => $sanitize_fn ) {

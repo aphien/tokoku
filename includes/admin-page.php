@@ -178,6 +178,9 @@ function tokoku_save_admin_settings() {
         'tokoku_seo_desc'         => 'sanitize_textarea_field',
         'tokoku_seo_keywords'     => 'sanitize_text_field',
         'tokoku_seo_og_image'     => 'esc_url_raw',
+        'tokoku_schema_rating_enable'   => 'sanitize_text_field',
+        'tokoku_schema_default_rating'  => 'sanitize_text_field',
+        'tokoku_schema_default_reviews' => 'absint',
 
         // Typography
         'tokoku_font_body'        => 'sanitize_text_field',
@@ -205,6 +208,7 @@ function tokoku_save_admin_settings() {
         'tokoku_lead_time_chip'          => 'sanitize_text_field',
 
         'tokoku_enable_trust_badges'     => 'sanitize_text_field',
+        'tokoku_enable_product_rating'   => 'sanitize_text_field',
 
         // Stock Notice
         'tokoku_enable_stock_notice'     => 'sanitize_text_field',
@@ -214,6 +218,39 @@ function tokoku_save_admin_settings() {
         'tokoku_notice_habis_desc'       => 'sanitize_textarea_field',
         'tokoku_notice_preorder_title'   => 'sanitize_text_field',
         'tokoku_notice_preorder_desc'    => 'sanitize_textarea_field',
+
+        // Informasi & Detail Produk (Hub Deskripsi, Spesifikasi & Panduan)
+        'tokoku_enable_desc_hub'         => 'sanitize_text_field',
+        'tokoku_desc_badge_text'         => 'sanitize_text_field',
+        'tokoku_desc_section_title'      => 'sanitize_text_field',
+        'tokoku_desc_tab1_label'         => 'sanitize_text_field',
+        'tokoku_desc_tab2_label'         => 'sanitize_text_field',
+        'tokoku_desc_tab3_label'         => 'sanitize_text_field',
+
+        'tokoku_desc_enable_highlights'  => 'sanitize_text_field',
+        'tokoku_desc_val1_title'         => 'sanitize_text_field',
+        'tokoku_desc_val1_desc'          => 'sanitize_text_field',
+        'tokoku_desc_val2_title'         => 'sanitize_text_field',
+        'tokoku_desc_val2_desc'          => 'sanitize_text_field',
+        'tokoku_desc_val3_title'         => 'sanitize_text_field',
+        'tokoku_desc_val3_desc'          => 'sanitize_text_field',
+
+        'tokoku_specs_packaging'         => 'sanitize_text_field',
+        'tokoku_specs_file_format'       => 'sanitize_text_field',
+        'tokoku_specs_min_order'         => 'sanitize_text_field',
+
+        'tokoku_desc_step1_title'        => 'sanitize_text_field',
+        'tokoku_desc_step1_desc'         => 'sanitize_textarea_field',
+        'tokoku_desc_step2_title'        => 'sanitize_text_field',
+        'tokoku_desc_step2_desc'         => 'sanitize_textarea_field',
+        'tokoku_desc_step3_title'        => 'sanitize_text_field',
+        'tokoku_desc_step3_desc'         => 'sanitize_textarea_field',
+        'tokoku_desc_step4_title'        => 'sanitize_text_field',
+        'tokoku_desc_step4_desc'         => 'sanitize_textarea_field',
+
+        'tokoku_desc_enable_guarantee'   => 'sanitize_text_field',
+        'tokoku_desc_guarantee_title'    => 'sanitize_text_field',
+        'tokoku_desc_guarantee_desc'     => 'sanitize_textarea_field',
     );
 
     // Trust Badges Repeater
@@ -310,36 +347,36 @@ add_action( 'admin_post_tokoku_save_settings', 'tokoku_save_admin_settings' );
 
 
 /**
- * Helper: Mengembalikan SVG Icon Crisp untuk Admin Tabs
+ * Helper: Mengembalikan SVG Icon Crisp & Modern untuk Admin Tabs
  */
 function tokoku_get_admin_icon( $icon_key ) {
     switch ( $icon_key ) {
         case 'general':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>';
         case 'whatsapp':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.11-.23-.17-.48-.29z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>';
         case 'appearance':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.22 19.57 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1.1-.3-.4-.4-.8-.4-1.4 0-1.1.9-2 2-2h2.4c3.6 0 6.5-2.9 6.5-6.5C23 5.8 18 2 12 2z"/></svg>';
         case 'single-product':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>';
         case 'slider':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line><polygon points="10 8 15 10 10 12 10 8" fill="currentColor"></polygon></svg>';
         case 'testimonials':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"></polygon></svg>';
         case 'social':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>';
         case 'footer':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 3h16c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2zm0 2v8h16V5H4zm0 10v4h16v-4H4z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="15" x2="9" y2="21"></line></svg>';
         case 'typography':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9.93 13.5h4.14L12 7.98zM20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-4.05 16.5l-1.14-3H9.17l-1.12 3H5.96l5.11-13h1.86l5.11 13h-2.09z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>';
         case 'seo':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M12 10l-2-2-2 2v2h4z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><path d="m11 8 3 3-3 3"></path></svg>';
         case 'faq':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm1.07-4.75l-.9.92C12.45 10.9 12 11.5 12 13h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.67z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
         case 'update':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>';
         case 'import-export':
-            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>';
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>';
         default:
             return '<span class="dashicons dashicons-' . esc_attr( $icon_key ) . '"></span>';
     }
@@ -494,58 +531,148 @@ function tokoku_settings_page_html() {
             </div>
 
             <div class="tokoku-settings-container">
-                <div class="tokoku-settings-nav tokoku-sortable-nav">
+                <div class="tokoku-settings-nav">
                     <?php
-                    // Define all tabs with modern icons
-                    $all_tabs = array(
-                        'tab-general'        => array( 'icon' => 'general',        'label' => __( 'General', 'tokoku' ) ),
-                        'tab-whatsapp'       => array( 'icon' => 'whatsapp',       'label' => __( 'WhatsApp', 'tokoku' ) ),
-                        'tab-appearance'     => array( 'icon' => 'appearance',     'label' => __( 'Appearance', 'tokoku' ) ),
-                        'tab-single-product' => array( 'icon' => 'single-product', 'label' => __( 'Halaman Produk', 'tokoku' ) ),
-                        'tab-slider'         => array( 'icon' => 'slider',         'label' => __( 'Banner Slider', 'tokoku' ) ),
-                        'tab-testimonials'   => array( 'icon' => 'testimonials',   'label' => __( 'Testimoni & Logo', 'tokoku' ) ),
-                        'tab-social'         => array( 'icon' => 'social',         'label' => __( 'Social Media', 'tokoku' ) ),
-                        'tab-footer'         => array( 'icon' => 'footer',         'label' => __( 'Footer', 'tokoku' ) ),
-                        'tab-typography'     => array( 'icon' => 'typography',     'label' => __( 'Typography', 'tokoku' ) ),
-                        'tab-seo'            => array( 'icon' => 'seo',            'label' => __( 'SEO & Meta', 'tokoku' ) ),
-                        'tab-faq'            => array( 'icon' => 'faq',            'label' => __( 'FAQ', 'tokoku' ) ),
-                        'tab-update'         => array( 'icon' => 'update',         'label' => __( 'Pembaruan Tema', 'tokoku' ) ),
-                        'tab-import-export'  => array( 'icon' => 'import-export',  'label' => __( 'Import & Ekspor', 'tokoku' ) ),
+                    // Define categorized tab groups for clear logical organization
+                    $tab_groups = array(
+                        'utama' => array(
+                            'title' => __( 'PENGATURAN UTAMA', 'tokoku' ),
+                            'tabs'  => array(
+                                'tab-general'    => array( 
+                                    'icon'  => 'general',
+                                    'color' => 'emerald',
+                                    'title' => __( 'Identitas Toko', 'tokoku' ),
+                                    'desc'  => __( 'Logo, Nama & Slogan Toko', 'tokoku' ),
+                                ),
+                                'tab-whatsapp'   => array( 
+                                    'icon'  => 'whatsapp',
+                                    'color' => 'whatsapp',
+                                    'title' => __( 'WhatsApp & CS', 'tokoku' ),
+                                    'desc'  => __( 'Nomor WA & Pesan Otomatis', 'tokoku' ),
+                                ),
+                                'tab-appearance' => array( 
+                                    'icon'  => 'appearance',
+                                    'color' => 'purple',
+                                    'title' => __( 'Warna & Tampilan', 'tokoku' ),
+                                    'desc'  => __( 'Warna Brand & Mode Gelap', 'tokoku' ),
+                                ),
+                            ),
+                        ),
+                        'konten' => array(
+                            'title' => __( 'KATALOG & KONTEN ETALASE', 'tokoku' ),
+                            'tabs'  => array(
+                                'tab-single-product' => array( 
+                                    'icon'  => 'single-product',
+                                    'color' => 'amber',
+                                    'title' => __( 'Halaman Produk', 'tokoku' ),
+                                    'desc'  => __( 'Layout, Badges & Estimasi', 'tokoku' ),
+                                ),
+                                'tab-slider'         => array( 
+                                    'icon'  => 'slider',
+                                    'color' => 'rose',
+                                    'title' => __( 'Banner Slider', 'tokoku' ),
+                                    'desc'  => __( 'Slide Promo & Kecepatan', 'tokoku' ),
+                                ),
+                                'tab-testimonials'   => array( 
+                                    'icon'  => 'testimonials',
+                                    'color' => 'gold',
+                                    'title' => __( 'Ulasan & Klien', 'tokoku' ),
+                                    'desc'  => __( 'Testimoni & Logo Mitra', 'tokoku' ),
+                                ),
+                                'tab-faq'            => array( 
+                                    'icon'  => 'faq',
+                                    'color' => 'cyan',
+                                    'title' => __( 'Tanya Jawab (FAQ)', 'tokoku' ),
+                                    'desc'  => __( 'Daftar Tanya Jawab Toko', 'tokoku' ),
+                                ),
+                            ),
+                        ),
+                        'optimasi' => array(
+                            'title' => __( 'DESAIN & OPTIMASI', 'tokoku' ),
+                            'tabs'  => array(
+                                'tab-seo'        => array( 
+                                    'icon'  => 'seo',
+                                    'color' => 'indigo',
+                                    'title' => __( 'SEO & Metadata', 'tokoku' ),
+                                    'desc'  => __( 'Google Rich Snippet & Meta', 'tokoku' ),
+                                ),
+                                'tab-typography' => array( 
+                                    'icon'  => 'typography',
+                                    'color' => 'blue',
+                                    'title' => __( 'Font & Tipografi', 'tokoku' ),
+                                    'desc'  => __( 'Pilihan Font & Ukuran Teks', 'tokoku' ),
+                                ),
+                            ),
+                        ),
+                        'footer' => array(
+                            'title' => __( 'NAVIGASI & FOOTER', 'tokoku' ),
+                            'tabs'  => array(
+                                'tab-footer' => array( 
+                                    'icon'  => 'footer',
+                                    'color' => 'slate',
+                                    'title' => __( 'Footer Website', 'tokoku' ),
+                                    'desc'  => __( 'Kolom Bawah & Alamat', 'tokoku' ),
+                                ),
+                                'tab-social' => array( 
+                                    'icon'  => 'social',
+                                    'color' => 'pink',
+                                    'title' => __( 'Media Sosial', 'tokoku' ),
+                                    'desc'  => __( 'Instagram, TikTok, FB, dll', 'tokoku' ),
+                                ),
+                            ),
+                        ),
+                        'sistem' => array(
+                            'title' => __( 'SISTEM & CADANGAN', 'tokoku' ),
+                            'tabs'  => array(
+                                'tab-update'        => array( 
+                                    'icon'  => 'update',
+                                    'color' => 'sky',
+                                    'title' => __( 'Pembaruan Tema', 'tokoku' ),
+                                    'desc'  => __( 'Cek & Pasang Versi Terbaru', 'tokoku' ),
+                                ),
+                                'tab-import-export' => array( 
+                                    'icon'  => 'import-export',
+                                    'color' => 'zinc',
+                                    'title' => __( 'Cadangan & Impor', 'tokoku' ),
+                                    'desc'  => __( 'Ekspor / Impor Pengaturan', 'tokoku' ),
+                                ),
+                            ),
+                        ),
                     );
 
-                    // Get saved order or use default
-                    $saved_order = get_theme_mod( 'tokoku_admin_menu_order', 'tab-general,tab-whatsapp,tab-appearance,tab-single-product,tab-slider,tab-testimonials,tab-social,tab-footer,tab-typography,tab-seo,tab-faq,tab-update,tab-import-export' );
-                    $order_array = explode( ',', $saved_order );
-                    
-                    // Filter out any tabs that no longer exist
-                    $order_array = array_filter( $order_array, function($tab_id) use ($all_tabs) {
-                        return isset( $all_tabs[$tab_id] );
-                    });
+                    $active_tab_param = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'tab-general';
+                    $first_tab_rendered = true;
 
-                    // Add any new tabs that are missing from saved order
-                    foreach ( $all_tabs as $tab_id => $data ) {
-                        if ( ! in_array( $tab_id, $order_array ) ) {
-                            $order_array[] = $tab_id;
-                        }
-                    }
-
-                    $first_tab = true;
-                    foreach ( $order_array as $tab_id ) : 
-                        $tab = $all_tabs[$tab_id];
-                        $active_class = $first_tab ? 'active' : '';
-                        ?>
-                        <div class="tokoku-nav-item <?php echo esc_attr( $active_class ); ?>" data-tab="<?php echo esc_attr( $tab_id ); ?>">
-                            <span class="tokoku-nav-icon">
-                                <?php echo tokoku_get_admin_icon( $tab['icon'] ); ?>
-                            </span>
-                            <span class="tokoku-nav-label"><?php echo esc_html( $tab['label'] ); ?></span>
-                            <span class="tokoku-drag-handle dashicons dashicons-menu" title="<?php esc_attr_e( 'Geser untuk mengatur urutan', 'tokoku' ); ?>"></span>
+                    foreach ( $tab_groups as $group_key => $group ) : ?>
+                        <div class="tokoku-nav-group">
+                            <div class="tokoku-nav-group-header">
+                                <span class="tokoku-nav-group-title"><?php echo esc_html( $group['title'] ); ?></span>
+                            </div>
+                            <div class="tokoku-nav-group-items">
+                                <?php foreach ( $group['tabs'] as $tab_id => $tab ) : 
+                                    $is_active = ( $tab_id === $active_tab_param ) || ( empty( $active_tab_param ) && $first_tab_rendered );
+                                    $active_class = $is_active ? 'active' : '';
+                                ?>
+                                    <div class="tokoku-nav-item <?php echo esc_attr( $active_class ); ?>" data-tab="<?php echo esc_attr( $tab_id ); ?>">
+                                        <span class="tokoku-nav-icon tokoku-icon--<?php echo esc_attr( $tab['color'] ); ?>">
+                                            <?php echo tokoku_get_admin_icon( $tab['icon'] ); ?>
+                                        </span>
+                                        <div class="tokoku-nav-label-box">
+                                            <strong class="tokoku-nav-title"><?php echo esc_html( $tab['title'] ); ?></strong>
+                                            <span class="tokoku-nav-desc"><?php echo esc_html( $tab['desc'] ); ?></span>
+                                        </div>
+                                        <span class="tokoku-nav-chevron" aria-hidden="true">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                        </span>
+                                    </div>
+                                <?php 
+                                    $first_tab_rendered = false;
+                                endforeach; ?>
+                            </div>
                         </div>
-                    <?php 
-                        $first_tab = false;
-                    endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
-                <input type="hidden" name="tokoku_admin_menu_order" id="tokoku_admin_menu_order" value="<?php echo esc_attr( $saved_order ); ?>">
+                <input type="hidden" name="tokoku_admin_menu_order" id="tokoku_admin_menu_order" value="tab-general,tab-whatsapp,tab-appearance,tab-single-product,tab-slider,tab-testimonials,tab-faq,tab-seo,tab-typography,tab-footer,tab-social,tab-update,tab-import-export">
 
                 <div class="tokoku-settings-content">
                     <!-- Tab: General -->
@@ -753,6 +880,23 @@ function tokoku_settings_page_html() {
                     <div id="tab-single-product" class="tokoku-tab-panel">
                         <h2><?php _e( 'Halaman Produk & Keunggulan', 'tokoku' ); ?></h2>
                         <p class="description" style="margin-bottom:25px;"><?php _e( 'Kelola tampilan Slider Galeri Foto, Estimasi Pengerjaan (Lead Time Bar), dan Badge Keunggulan Toko (Trust Badges) yang muncul di halaman produk.', 'tokoku' ); ?></p>
+
+                        <!-- Social Proof & Star Rating Display -->
+                        <div class="tokoku-settings-group" style="margin-bottom: 35px; padding: 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 1.15rem; color: #0f172a;">
+                                    <span class="dashicons dashicons-star-filled" style="color: #f59e0b; font-size: 22px; width: 22px; height: 22px;"></span>
+                                    <?php _e( 'Badge Rating Bintang & Ulasan (Social Proof)', 'tokoku' ); ?>
+                                </h3>
+                                <div>
+                                    <select name="tokoku_enable_product_rating" style="font-weight: 700;">
+                                        <option value="yes" <?php selected( get_theme_mod( 'tokoku_enable_product_rating', 'yes' ), 'yes' ); ?>><?php _e( 'Tampilkan (Rekomendasi)', 'tokoku' ); ?></option>
+                                        <option value="no" <?php selected( get_theme_mod( 'tokoku_enable_product_rating', 'yes' ), 'no' ); ?>><?php _e( 'Sembunyikan', 'tokoku' ); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="tokoku-tip" style="margin-top: 10px; margin-bottom: 0;"><?php _e( 'Menampilkan badge rating bintang interaktif dan jumlah ulasan terverifikasi tepat di bawah judul produk. Memperkuat kepercayaan calon pelanggan dan menyelaraskan konten halaman dengan Schema Google Rich Snippets.', 'tokoku' ); ?></p>
+                        </div>
 
                         <!-- Product Gallery Slider Settings -->
                         <div class="tokoku-settings-group" style="margin-bottom: 35px; padding: 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0;">
@@ -1020,6 +1164,213 @@ function tokoku_settings_page_html() {
                             </div>
                         </div>
 
+                        <!-- Informasi & Detail Produk (Hub Deskripsi, Spesifikasi & Panduan) -->
+                        <div class="tokoku-settings-group" style="margin-top: 35px; padding: 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 1.15rem; color: #0f172a;">
+                                    <span class="dashicons dashicons-text-page" style="color: #6366f1; font-size: 22px; width: 22px; height: 22px;"></span>
+                                    <?php _e( 'Informasi & Detail Produk (Hub Deskripsi, Spesifikasi & Panduan)', 'tokoku' ); ?>
+                                </h3>
+                                <div>
+                                    <select name="tokoku_enable_desc_hub" style="font-weight: 700;">
+                                        <option value="yes" <?php selected( get_theme_mod( 'tokoku_enable_desc_hub', 'yes' ), 'yes' ); ?>><?php _e( 'Tampilkan Hub Tab (Aktif)', 'tokoku' ); ?></option>
+                                        <option value="no" <?php selected( get_theme_mod( 'tokoku_enable_desc_hub', 'yes' ), 'no' ); ?>><?php _e( 'Sederhana (Hanya Konten Teks)', 'tokoku' ); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="tokoku-tip" style="margin-bottom: 22px;"><?php _e( 'Kustomisasi seluruh konten teks, judul, label tab navigasi, 3 kartu keunggulan nilai, spesifikasi kemasan, panduan 4 langkah pemesanan, dan kotak garansi yang tampil di halaman produk.', 'tokoku' ); ?></p>
+
+                            <!-- Sub 1: Header & Tab Labels -->
+                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 16px 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                                    <span class="dashicons dashicons-tag" style="color: #6366f1;"></span>
+                                    <?php _e( '1. Judul Bagian & Label Tab Navigasi', 'tokoku' ); ?>
+                                </h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Teks Badge / Eyebrow', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_desc_badge_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_badge_text', 'Informasi & Detail Produk' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Judul Utama Bagian', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_desc_section_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_section_title', 'Spesifikasi & Panduan Pemesanan' ) ); ?>">
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Label Tab 1', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_desc_tab1_label" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_tab1_label', 'Deskripsi & Fitur' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Label Tab 2', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_desc_tab2_label" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_tab2_label', 'Spesifikasi Detail' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Label Tab 3', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_desc_tab3_label" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_tab3_label', 'Cara Pesan & Garansi' ) ); ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sub 2: 3 Value Proposition Highlights -->
+                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                                    <h4 style="margin: 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                                        <span class="dashicons dashicons-awards" style="color: #f59e0b;"></span>
+                                        <?php _e( '2. Tiga Kartu Keunggulan Nilai (Di Tab Deskripsi)', 'tokoku' ); ?>
+                                    </h4>
+                                    <div>
+                                        <select name="tokoku_desc_enable_highlights" style="font-size: 13px;">
+                                            <option value="yes" <?php selected( get_theme_mod( 'tokoku_desc_enable_highlights', 'yes' ), 'yes' ); ?>><?php _e( 'Tampilkan', 'tokoku' ); ?></option>
+                                            <option value="no" <?php selected( get_theme_mod( 'tokoku_desc_enable_highlights', 'yes' ), 'no' ); ?>><?php _e( 'Sembunyikan', 'tokoku' ); ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                                    <!-- Highlight 1 -->
+                                    <div style="background: #fffdf5; border: 1px solid #fef3c7; border-radius: 10px; padding: 14px;">
+                                        <strong style="color: #b45309; font-size: 13px; display: block; margin-bottom: 10px;">⭐ <?php _e( 'Kartu Keunggulan 1', 'tokoku' ); ?></strong>
+                                        <div class="tokoku-field" style="margin-bottom: 10px;">
+                                            <label style="font-size: 12px;"><?php _e( 'Judul Singkat', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_desc_val1_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_val1_title', 'Material Kualitas Unggulan' ) ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_desc_val1_desc" rows="2" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_val1_desc', 'Akrilik bening kristal, kayu pilihan, & logam anti-korosi presisi tinggi.' ) ); ?></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Highlight 2 -->
+                                    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 14px;">
+                                        <strong style="color: #0369a1; font-size: 13px; display: block; margin-bottom: 10px;">✏️ <?php _e( 'Kartu Keunggulan 2', 'tokoku' ); ?></strong>
+                                        <div class="tokoku-field" style="margin-bottom: 10px;">
+                                            <label style="font-size: 12px;"><?php _e( 'Judul Singkat', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_desc_val2_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_val2_title', 'Free Desain & Mockup' ) ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_desc_val2_desc" rows="2" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_val2_desc', 'Bantu setting tata letak logo & teks sampai sesuai sebelum cetak.' ) ); ?></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Highlight 3 -->
+                                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px;">
+                                        <strong style="color: #15803d; font-size: 13px; display: block; margin-bottom: 10px;">⚡ <?php _e( 'Kartu Keunggulan 3', 'tokoku' ); ?></strong>
+                                        <div class="tokoku-field" style="margin-bottom: 10px;">
+                                            <label style="font-size: 12px;"><?php _e( 'Judul Singkat', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_desc_val3_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_val3_title', 'Pengerjaan Cepat & Rapi' ) ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_desc_val3_desc" rows="2" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_val3_desc', 'Dikerjakan langsung oleh pengrajin ahli dengan mesin laser canggih.' ) ); ?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sub 3: Spesifikasi Default Info -->
+                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 16px 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                                    <span class="dashicons dashicons-clipboard" style="color: #0284c7;"></span>
+                                    <?php _e( '3. Spesifikasi Tambahan (Di Tab Spesifikasi)', 'tokoku' ); ?>
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Kemasan / Packaging', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_specs_packaging" value="<?php echo esc_attr( get_theme_mod( 'tokoku_specs_packaging', 'Box Beludru / Hardbox Eksklusif + Bubble Wrap Berlapis' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Format File Desain', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_specs_file_format" value="<?php echo esc_attr( get_theme_mod( 'tokoku_specs_file_format', 'CDR, AI, PDF, EPS, PNG, atau JPG Resolusi Tinggi' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Minimum Pemesanan', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_specs_min_order" value="<?php echo esc_attr( get_theme_mod( 'tokoku_specs_min_order', 'Mulai 1 Pcs (Satuan & Partai Besar Siap)' ) ); ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sub 4: 4 Easy Steps -->
+                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 16px 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                                    <span class="dashicons dashicons-randomize" style="color: #8b5cf6;"></span>
+                                    <?php _e( '4. Panduan 4 Langkah Cara Pesan (Di Tab Cara Pesan & Garansi)', 'tokoku' ); ?>
+                                </h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                                    <!-- Step 1 -->
+                                    <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; background: #fafafa;">
+                                        <strong style="color: #6366f1; font-size: 13px; display: block; margin-bottom: 10px;">Langkah 01</strong>
+                                        <div class="tokoku-field" style="margin-bottom: 10px;">
+                                            <label style="font-size: 12px;"><?php _e( 'Judul Langkah', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_desc_step1_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_step1_title', 'Konsultasi & Konsep' ) ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_desc_step1_desc" rows="3" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_step1_desc', 'Kirimkan logo, naskah/tulisan penghargaan, dan bentuk yang diinginkan via WhatsApp.' ) ); ?></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Step 2 -->
+                                    <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; background: #fafafa;">
+                                        <strong style="color: #6366f1; font-size: 13px; display: block; margin-bottom: 10px;">Langkah 02</strong>
+                                        <div class="tokoku-field" style="margin-bottom: 10px;">
+                                            <label style="font-size: 12px;"><?php _e( 'Judul Langkah', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_desc_step2_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_step2_title', 'Preview & ACC Mockup' ) ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_desc_step2_desc" rows="3" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_step2_desc', 'Tim kami membuatkan visual layout digital gratis untuk dicek & disetujui sebelum diproduksi.' ) ); ?></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Step 3 -->
+                                    <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; background: #fafafa;">
+                                        <strong style="color: #6366f1; font-size: 13px; display: block; margin-bottom: 10px;">Langkah 03</strong>
+                                        <div class="tokoku-field" style="margin-bottom: 10px;">
+                                            <label style="font-size: 12px;"><?php _e( 'Judul Langkah', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_desc_step3_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_step3_title', 'Proses Produksi Cepat' ) ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_desc_step3_desc" rows="3" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_step3_desc', 'Setelah desain fix dan DP dikonfirmasi, plakat langsung diproses mesin laser presisi.' ) ); ?></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Step 4 -->
+                                    <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; background: #fafafa;">
+                                        <strong style="color: #6366f1; font-size: 13px; display: block; margin-bottom: 10px;">Langkah 04</strong>
+                                        <div class="tokoku-field" style="margin-bottom: 10px;">
+                                            <label style="font-size: 12px;"><?php _e( 'Judul Langkah', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_desc_step4_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_step4_title', 'Packing & Pengiriman' ) ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_desc_step4_desc" rows="3" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_step4_desc', 'Produk dipacking berlapis tebal dan dikirim menggunakan ekspedisi terpercaya ke seluruh Indonesia.' ) ); ?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sub 5: 100% Guarantee Box -->
+                            <div style="background: #ffffff; border: 1.5px solid #22c55e; border-radius: 12px; padding: 20px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                                    <h4 style="margin: 0; color: #15803d; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                                        <span class="dashicons dashicons-shield-alt" style="color: #22c55e;"></span>
+                                        <?php _e( '5. Kotak Jaminan Garansi 100%', 'tokoku' ); ?>
+                                    </h4>
+                                    <div>
+                                        <select name="tokoku_desc_enable_guarantee" style="font-size: 13px; font-weight: 700;">
+                                            <option value="yes" <?php selected( get_theme_mod( 'tokoku_desc_enable_guarantee', 'yes' ), 'yes' ); ?>><?php _e( 'Tampilkan', 'tokoku' ); ?></option>
+                                            <option value="no" <?php selected( get_theme_mod( 'tokoku_desc_enable_guarantee', 'yes' ), 'no' ); ?>><?php _e( 'Sembunyikan', 'tokoku' ); ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom: 14px;">
+                                    <label><?php _e( 'Judul Jaminan Garansi', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_desc_guarantee_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_guarantee_title', 'Jaminan Garansi 100% — Rusak / Pecah Kami Ganti Baru!' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom: 0;">
+                                    <label><?php _e( 'Keterangan Komitmen Garansi', 'tokoku' ); ?></label>
+                                    <textarea name="tokoku_desc_guarantee_desc" rows="3"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_guarantee_desc', 'Keamanan barang Anda adalah prioritas utama kami. Apabila pesanan mengalami kerusakan saat perjalanan kirim oleh kurir/ekspedisi, cukup kirimkan video unboxing dan kami siap membuatkan unit pengganti baru tanpa biaya tambahan.' ) ); ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+
                         <?php tokoku_render_tab_save_button(); ?>
                     </div>
 
@@ -1253,8 +1604,9 @@ function tokoku_settings_page_html() {
                             <h3><?php _e( 'Jenis Font (Typography)', 'tokoku' ); ?></h3>
                             <?php 
                             $fonts = array(
+                                'Merriweather'      => 'Merriweather (Editorial Serif — Rekomendasi Body)',
+                                'Inter'             => 'Inter (Clean & Modern — Rekomendasi Headings)',
                                 'Plus Jakarta Sans' => 'Plus Jakarta Sans',
-                                'Inter'             => 'Inter',
                                 'Poppins'           => 'Poppins',
                                 'Roboto'            => 'Roboto',
                                 'Montserrat'        => 'Montserrat',
@@ -1269,7 +1621,7 @@ function tokoku_settings_page_html() {
                                 <label><?php _e( 'Font Utama (Body)', 'tokoku' ); ?></label>
                                 <select name="tokoku_font_body">
                                     <?php foreach ( $fonts as $val => $lbl ) : ?>
-                                        <option value="<?php echo esc_attr( $val ); ?>" <?php selected( get_theme_mod( 'tokoku_font_body', 'Plus Jakarta Sans' ), $val ); ?>><?php echo esc_html( $lbl ); ?></option>
+                                        <option value="<?php echo esc_attr( $val ); ?>" <?php selected( get_theme_mod( 'tokoku_font_body', 'Merriweather' ), $val ); ?>><?php echo esc_html( $lbl ); ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <p class="tokoku-tip"><?php _e( 'Kegunaan: Font ini akan digunakan untuk seluruh teks deskripsi, artikel, dan informasi produk.', 'tokoku' ); ?></p>
@@ -1278,7 +1630,7 @@ function tokoku_settings_page_html() {
                                 <label><?php _e( 'Font Judul (Headings)', 'tokoku' ); ?></label>
                                 <select name="tokoku_font_headings">
                                     <?php foreach ( $fonts as $val => $lbl ) : ?>
-                                        <option value="<?php echo esc_attr( $val ); ?>" <?php selected( get_theme_mod( 'tokoku_font_headings', 'Plus Jakarta Sans' ), $val ); ?>><?php echo esc_html( $lbl ); ?></option>
+                                        <option value="<?php echo esc_attr( $val ); ?>" <?php selected( get_theme_mod( 'tokoku_font_headings', 'Inter' ), $val ); ?>><?php echo esc_html( $lbl ); ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <p class="tokoku-tip"><?php _e( 'Kegunaan: Font khusus untuk Judul Section (H1, H2, H3) agar terlihat lebih menonjol dan berkarakter.', 'tokoku' ); ?></p>
@@ -1328,6 +1680,38 @@ function tokoku_settings_page_html() {
                                 <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_seo_og_image' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                             </div>
                             <p class="tokoku-tip"><?php _e( 'Kegunaan: Memberikan tampilan profesional saat link website dibagikan ke calon pembeli.', 'tokoku' ); ?></p>
+                        </div>
+
+                        <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+                        
+                        <!-- Schema Product Snippets & Rating -->
+                        <div class="tokoku-settings-group" style="padding: 24px; background: #f8fafc; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+                                <h3 style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 1.15rem; color: #0f172a;">
+                                    <span class="dashicons dashicons-star-filled" style="color: #f59e0b; font-size: 22px; width: 22px; height: 22px;"></span>
+                                    <?php _e( 'Schema.org Google Rich Snippets (Rating & Review Produk)', 'tokoku' ); ?>
+                                </h3>
+                                <div>
+                                    <select name="tokoku_schema_rating_enable" style="font-weight: 700;">
+                                        <option value="yes" <?php selected( get_theme_mod( 'tokoku_schema_rating_enable', 'yes' ), 'yes' ); ?>><?php _e( 'Aktif (Rekomendasi Google)', 'tokoku' ); ?></option>
+                                        <option value="no" <?php selected( get_theme_mod( 'tokoku_schema_rating_enable', 'yes' ), 'no' ); ?>><?php _e( 'Nonaktif', 'tokoku' ); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="tokoku-tip" style="margin-bottom: 18px;"><?php _e( 'Otomatis menyuntikkan structured data aggregateRating dan review ke schema Product. Fitur ini secara tuntas menyelesaikan pesan error Google Search Console: "Either offers, review, or aggregateRating should be specified" pada produk dengan harga custom/Hubungi Kami, sekaligus memunculkan bintang ulasan oranye di hasil pencarian Google.', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="tokoku-field" style="margin-bottom: 0;">
+                                    <label><?php _e( 'Nilai Rating Bintang Bawaan', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_schema_default_rating" value="<?php echo esc_attr( get_theme_mod( 'tokoku_schema_default_rating', '4.9' ) ); ?>" placeholder="Contoh: 4.9">
+                                    <p class="tokoku-tip"><?php _e( 'Skala 1.0 – 5.0 (dapat disesuaikan spesifik per produk di halaman edit produk).', 'tokoku' ); ?></p>
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom: 0;">
+                                    <label><?php _e( 'Jumlah Ulasan Bawaan (Review Count)', 'tokoku' ); ?></label>
+                                    <input type="number" name="tokoku_schema_default_reviews" value="<?php echo esc_attr( get_theme_mod( 'tokoku_schema_default_reviews', 24 ) ); ?>" min="1" placeholder="Contoh: 24">
+                                    <p class="tokoku-tip"><?php _e( 'Jumlah ulasan yang tercatat di Google Rich Snippets.', 'tokoku' ); ?></p>
+                                </div>
+                            </div>
                         </div>
 
                         <?php tokoku_render_tab_save_button(); ?>

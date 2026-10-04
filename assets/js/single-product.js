@@ -63,13 +63,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Update active thumbnail state and auto-scroll thumbnail into view
+        // Update active thumbnail state without scrolling page window
+        const thumbsContainer = document.getElementById('product-gallery-thumbs');
         thumbs.forEach((thumb, i) => {
             const isActive = (i === currentSlide);
             thumb.classList.toggle('is-active', isActive);
             thumb.setAttribute('aria-selected', isActive ? 'true' : 'false');
-            if (isActive) {
-                thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+            if (isActive && thumbsContainer) {
+                // Scroll ONLY inside the horizontal thumbnail container, NEVER scroll window/page
+                const thumbLeft = thumb.offsetLeft;
+                const thumbWidth = thumb.offsetWidth;
+                const containerWidth = thumbsContainer.clientWidth;
+                thumbsContainer.scrollTo({
+                    left: thumbLeft - (containerWidth / 2) + (thumbWidth / 2),
+                    behavior: 'smooth'
+                });
             }
         });
 
@@ -97,6 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
         stopAutoplay();
         autoplayTimer = setInterval(() => {
             if (!isPaused && !isModalActive() && !document.hidden) {
+                // Do not autoplay if gallery is scrolled out of viewport
+                if (mainImgWrap) {
+                    const rect = mainImgWrap.getBoundingClientRect();
+                    const isVisible = (rect.bottom > 50 && rect.top < window.innerHeight);
+                    if (!isVisible) return;
+                }
                 goToSlide(currentSlide + 1);
             }
         }, autoplayDelay);
@@ -460,4 +474,40 @@ document.addEventListener('DOMContentLoaded', function() {
             clamp(); applyNow(false);
         }, { passive: true });
     })();
+
+    // 📑 Interactive Product Details Tabs
+    const productTabBtns = document.querySelectorAll('.product-tab-btn');
+    const productTabPanels = document.querySelectorAll('.product-tab-panel');
+
+    if (productTabBtns.length > 0 && productTabPanels.length > 0) {
+        productTabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                if (!targetId) return;
+
+                // Update active button state & accessibility attributes
+                productTabBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+
+                // Switch active panel with smooth animation
+                productTabPanels.forEach(panel => {
+                    if (panel.id === targetId) {
+                        panel.classList.add('active');
+                    } else {
+                        panel.classList.remove('active');
+                    }
+                });
+
+                // Smoothly center the clicked tab in horizontal scroll on mobile/narrow viewports
+                const parentNav = this.closest('.product-tabs-nav');
+                if (parentNav && parentNav.scrollWidth > parentNav.clientWidth) {
+                    this.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            });
+        });
+    }
 });
