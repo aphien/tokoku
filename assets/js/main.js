@@ -774,6 +774,71 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // 📱 Mobile Slider for Related Articles (single.php)
+    const relatedSlider = document.getElementById('related-articles-slider');
+    const relatedDotsContainer = document.getElementById('related-slider-dots');
+
+    if (relatedSlider && relatedDotsContainer) {
+        const items = relatedSlider.querySelectorAll('.related-article-item');
+        if (items.length > 1) {
+            // Build pagination dots
+            items.forEach((item, index) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'related-slider-dot' + (index === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Artikel ke-${index + 1}`);
+                dot.addEventListener('click', () => {
+                    item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                });
+                relatedDotsContainer.appendChild(dot);
+            });
+
+            // Update active dot on scroll
+            let scrollRaf;
+            relatedSlider.addEventListener('scroll', () => {
+                cancelAnimationFrame(scrollRaf);
+                scrollRaf = requestAnimationFrame(() => {
+                    const sliderCenter = relatedSlider.scrollLeft + (relatedSlider.offsetWidth / 2);
+                    let closestIndex = 0;
+                    let closestDistance = Infinity;
+
+                    items.forEach((item, index) => {
+                        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
+                        const distance = Math.abs(sliderCenter - itemCenter);
+                        if (distance < closestDistance) {
+                            closestDistance = distance;
+                            closestIndex = index;
+                        }
+                    });
+
+                    const dots = relatedDotsContainer.querySelectorAll('.related-slider-dot');
+                    dots.forEach((dot, idx) => {
+                        dot.classList.toggle('active', idx === closestIndex);
+                    });
+                });
+            }, { passive: true });
+
+            // Mouse drag support for testing desktop/mobile view
+            let isDown = false;
+            let startX, scrollLeft;
+            relatedSlider.addEventListener('mousedown', (e) => {
+                if (window.innerWidth > 768) return;
+                isDown = true;
+                startX = e.pageX - relatedSlider.offsetLeft;
+                scrollLeft = relatedSlider.scrollLeft;
+            });
+            window.addEventListener('mouseup', () => { isDown = false; });
+            relatedSlider.addEventListener('mouseleave', () => { isDown = false; });
+            relatedSlider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - relatedSlider.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                relatedSlider.scrollLeft = scrollLeft - walk;
+            });
+        }
+    }
+
     // 🏎️ Logo Marquee Pause on Hover
     const logoTrack = document.querySelector('.logo-track');
     if (logoTrack) {

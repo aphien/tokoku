@@ -7051,23 +7051,160 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     overflow: hidden;
 }
 
-/* Related Posts Section */
+/* Related Posts Section (Samakan Dengan Tampilan Artikel Terbaru & Slider Khusus Mobile) */
 .related-posts-section {
-    margin-top: 50px;
-    padding-top: 40px;
-    border-top: 1.5px solid var(--border);
+    margin-top: 60px;
+    padding-top: 50px;
+    border-top: 1.5px dashed var(--border);
+    position: relative;
 }
 
-.related-posts-heading {
-    font-size: var(--fs-md);
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 24px;
-    letter-spacing: -0.4px;
+.related-posts-section .section-header {
+    margin-bottom: 35px;
+    text-align: center;
 }
 
-.related-grid {
-    margin-bottom: 0;
+.related-slider-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.related-articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.related-article-item {
+    display: flex;
+    width: 100%;
+}
+
+.related-articles-grid .article-card {
+    aspect-ratio: 4/5;
+    border-radius: var(--radius);
+    width: 100%;
+}
+
+.related-slider-dots {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .related-articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .related-posts-section {
+        margin-top: 40px;
+        padding-top: 32px;
+    }
+
+    .related-posts-section .section-header {
+        margin-bottom: 20px;
+    }
+
+    .related-slider-wrapper {
+        margin-left: -20px;
+        margin-right: -20px;
+        width: calc(100% + 40px);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .related-articles-grid {
+        display: flex !important;
+        grid-template-columns: none !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        scroll-behavior: smooth;
+        gap: 14px !important;
+        padding: 6px 20px 18px !important;
+        margin: 0;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+        cursor: grab;
+        user-select: none;
+    }
+
+    .related-articles-grid::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .related-articles-grid:active {
+        cursor: grabbing;
+    }
+
+    .related-article-item {
+        flex: 0 0 80% !important;
+        max-width: 300px !important;
+        min-width: 240px !important;
+        scroll-snap-align: center !important;
+        scroll-snap-stop: always !important;
+        display: flex !important;
+    }
+
+    .related-articles-grid .article-card {
+        aspect-ratio: 4/5;
+        border-radius: 16px;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .related-articles-grid .article-card__content {
+        padding: 22px 16px;
+    }
+
+    .related-articles-grid .article-category {
+        font-size: 0.65rem;
+        padding: 4px 12px;
+        margin-bottom: 10px;
+    }
+
+    .related-articles-grid .article-card__title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        line-height: 1.35;
+    }
+
+    .related-articles-grid .article-card__meta {
+        font-size: 0.68rem;
+        gap: 10px;
+    }
+
+    .related-slider-dots {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 14px;
+        padding: 4px 0;
+    }
+
+    .related-slider-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border, #cbd5e1);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .related-slider-dot.active {
+        width: 24px;
+        border-radius: 10px;
+        background: var(--primary, #007bff);
+        box-shadow: 0 2px 8px rgba(var(--primary-rgb, 0, 123, 255), 0.4);
+    }
 }
 
 /* ==========================================================================

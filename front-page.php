@@ -369,7 +369,7 @@ get_header(); ?>
                         ?>
                             <div class="article-slide">
                                 <article class="article-card has-bg-image">
-                                    <div class="article-card__bg" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'medium_large') ? esc_url(get_the_post_thumbnail_url(null, 'medium_large')) : esc_url(TOKOKU_URI . '/assets/images/placeholder.png'); ?>');"></div>
+                                    <div class="article-card__bg" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'medium_large') ? esc_url(get_the_post_thumbnail_url(null, 'medium_large')) : esc_url(TOKOKU_URI . '/assets/images/placeholder.svg'); ?>');"></div>
                                     <div class="article-card__overlay"></div>
                                     <a href="<?php the_permalink(); ?>" class="article-card__link-overlay"></a>
                                     

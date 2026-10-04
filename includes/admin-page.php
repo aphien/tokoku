@@ -1747,6 +1747,37 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.8.0 — Desain Majalah Artikel Terkait, Mobile Touch Slider &amp; Flat Admin Nav
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v2.8.0 menyamakan desain Artikel Terkait Lainnya di halaman artikel tunggal dengan tampilan majalah Artikel Terbaru di beranda, menyematkan fitur slider sentuh khusus tampilan ponsel (CSS Scroll-Snap dengan peek &amp; pagination dots interaktif), menonaktifkan gradasi ikon menu admin TokoKu dengan warna solid flat yang tegas, serta memperbaiki aset gambar placeholder.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📰 1. Desain Artikel Terkait Samakan dengan Artikel Terbaru</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Magazine Overlay Architecture</strong>: Kartu artikel menggunakan struktur identik dengan beranda — thumbnail latar beresolusi tajam, zoom hover halus (scale 1.08), gradient overlay kontras tinggi, pill kategori frosted glass, dan judul putih tebal.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Metadata Proporsional</strong>: Dilengkapi nama penulis dan tanggal terbit dengan ikon SVG kalender &amp; profil berukuran presisi.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Intelligent Category Query</strong>: Query artikel rekomendasi diperluas hingga 6 artikel dengan sistem pelengkap otomatis dari artikel terkini jika artikel dalam kategori yang sama kurang dari 6.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 2. Fitur Slider Artikel Khusus Tampilan Mobile</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>CSS Scroll-Snap Touch Carousel</strong>: Pada perangkat mobile (&le;768px), tata letak otomatis beralih dari grid menjadi carousel horizontal yang sangat halus dan ringan dengan akselerasi perangkat keras asli.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Peek Effect Intuitif</strong>: Menampilkan ~18% kartu berikutnya di sisi kanan layar agar pengunjung langsung mengetahui bahwa kartu dapat digeser (swipe).</li>
+                                    <li style="margin-bottom: 4px;"><strong>Interactive Pagination Dots</strong>: Indikator titik di bawah slider yang aktif dan bergerak dinamis mengikuti posisi scroll pengguna, serta dapat ditekan untuk langsung berpindah ke artikel yang diinginkan.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Mouse Drag Support</strong>: Memungkinkan pengembang dan pengelola toko menguji interaksi slider secara langsung menggunakan kursor mouse pada mode responsive browser.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🎨 3. Admin Menu Navigasi Flat &amp; Nonaktifkan Gradasi Ikon</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;">Menonaktifkan efek gradasi dan bayangan blur pada seluruh ikon navigasi pengaturan dasbor (<code>.tokoku-nav-icon</code> dan <code>.tokoku-icon</code>).</li>
+                                    <li style="margin-bottom: 4px;">Standardisasi warna solid flat murni untuk setiap kategori modul admin, menghadirkan estetika panel kontrol yang bersih, modern, dan profesional.</li>
+                                    <li style="margin-bottom: 4px;">Memperbaiki path placeholder gambar ke <code>placeholder.svg</code> yang valid dan pembaruan Service Worker PWA v2.8.0.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v2.7.0 — Dasbor Admin Modern, Shortcut Simpan Cepat &amp; Pembersihan Fitur Usang
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

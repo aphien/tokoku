@@ -23,7 +23,11 @@ get_header(); ?>
             <nav class="archive-breadcrumbs" aria-label="Breadcrumb">
                 <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Beranda</a>
                 <span class="sep">/</span>
-                <a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/blog/' ) ); ?>">Blog</a>
+                <?php 
+                $page_for_posts_id = (int) get_option( 'page_for_posts' );
+                $blog_url          = ( $page_for_posts_id > 0 ) ? get_permalink( $page_for_posts_id ) : home_url( '/blog/' );
+                ?>
+                <a href="<?php echo esc_url( $blog_url ); ?>">Blog</a>
                 <span class="sep">/</span>
                 <span class="current"><?php the_title(); ?></span>
             </nav>
@@ -177,49 +181,95 @@ get_header(); ?>
 
                 <!-- Related Posts -->
                 <?php
+                $related_post_ids = array();
                 if ( ! empty( $post_cats ) ) {
-                    $related_args = array(
-                        'category__in'   => array( $post_cats[0]->term_id ),
-                        'post__not_in'   => array( get_the_ID() ),
-                        'posts_per_page' => 3,
-                        'no_found_rows'  => true,
-                        'orderby'        => 'date',
-                        'order'          => 'DESC',
-                    );
-                    $related_query = new WP_Query( $related_args );
+                    $cat_ids = wp_list_pluck( $post_cats, 'term_id' );
+                    $cat_query = new WP_Query( array(
+                        'category__in'        => $cat_ids,
+                        'post__not_in'        => array( get_the_ID() ),
+                        'posts_per_page'      => 6,
+                        'fields'              => 'ids',
+                        'no_found_rows'       => true,
+                        'ignore_sticky_posts' => true,
+                    ) );
+                    if ( $cat_query->have_posts() ) {
+                        $related_post_ids = $cat_query->posts;
+                    }
+                }
 
-                    if ( $related_query->have_posts() ) : ?>
-                        <div class="related-posts-section">
-                            <h3 class="related-posts-heading">Artikel Terkait Lainnya</h3>
-                            <div class="blog-grid related-grid">
-                                <?php while ( $related_query->have_posts() ) : $related_query->the_post(); ?>
-                                    <article class="blog-card">
-                                        <div class="blog-card__image-wrap">
-                                            <a href="<?php the_permalink(); ?>" class="blog-card__image-link">
-                                                <?php if ( has_post_thumbnail() ) : ?>
-                                                    <?php the_post_thumbnail( 'medium_large', array( 'loading' => 'lazy' ) ); ?>
-                                                <?php else : ?>
-                                                    <div class="blog-card__placeholder">
-                                                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                                                    </div>
-                                                <?php endif; ?>
-                                            </a>
-                                        </div>
-                                        <div class="blog-card__body">
-                                            <div class="blog-card__meta">
-                                                <time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time>
+                // If fewer than 6 posts in current category, supplement with recent posts
+                if ( count( $related_post_ids ) < 6 ) {
+                    $needed = 6 - count( $related_post_ids );
+                    $fallback_query = new WP_Query( array(
+                        'post__not_in'        => array_merge( array( get_the_ID() ), $related_post_ids ),
+                        'posts_per_page'      => $needed,
+                        'fields'              => 'ids',
+                        'no_found_rows'       => true,
+                        'orderby'             => 'date',
+                        'order'               => 'DESC',
+                        'ignore_sticky_posts' => true,
+                    ) );
+                    if ( $fallback_query->have_posts() ) {
+                        $related_post_ids = array_merge( $related_post_ids, $fallback_query->posts );
+                    }
+                }
+
+                if ( ! empty( $related_post_ids ) ) :
+                    $related_query = new WP_Query( array(
+                        'post__in'            => $related_post_ids,
+                        'orderby'             => 'post__in',
+                        'posts_per_page'      => 6,
+                        'no_found_rows'       => true,
+                        'ignore_sticky_posts' => true,
+                    ) );
+
+                    if ( $related_query->have_posts() ) :
+                ?>
+                    <section class="related-posts-section" aria-label="<?php esc_attr_e( 'Artikel Terkait Lainnya', 'tokoku' ); ?>">
+                        <div class="section-header text-center">
+                            <h2 class="section-title"><?php _e( 'Artikel Terkait Lainnya', 'tokoku' ); ?></h2>
+                        </div>
+
+                        <div class="related-slider-wrapper">
+                            <div class="related-articles-grid" id="related-articles-slider">
+                                <?php 
+                                $card_idx = 0;
+                                while ( $related_query->have_posts() ) : $related_query->the_post(); 
+                                ?>
+                                    <div class="related-article-item" data-index="<?php echo esc_attr( $card_idx++ ); ?>">
+                                        <article class="article-card has-bg-image">
+                                            <div class="article-card__bg" style="background-image: url('<?php echo get_the_post_thumbnail_url(null, 'medium_large') ? esc_url(get_the_post_thumbnail_url(null, 'medium_large')) : esc_url(TOKOKU_URI . '/assets/images/placeholder.svg'); ?>');"></div>
+                                            <div class="article-card__overlay"></div>
+                                            <a href="<?php the_permalink(); ?>" class="article-card__link-overlay" aria-label="<?php the_title_attribute(); ?>"></a>
+                                            
+                                            <div class="article-card__content">
+                                                <?php 
+                                                $categories = get_the_category();
+                                                if ( ! empty( $categories ) ) {
+                                                    echo '<span class="article-category">' . esc_html( $categories[0]->name ) . '</span>';
+                                                }
+                                                ?>
+                                                <h3 class="article-card__title">
+                                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                                </h3>
+                                                <div class="article-card__meta">
+                                                    <span class="article-author">
+                                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px;" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> BY <?php echo esc_html(strtoupper(get_the_author())); ?>
+                                                    </span>
+                                                    <span class="article-date">
+                                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px;" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <?php echo esc_html(strtoupper(get_the_date('j F Y'))); ?>
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <h4 class="blog-card__title">
-                                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                            </h4>
-                                        </div>
-                                    </article>
+                                        </article>
+                                    </div>
                                 <?php endwhile; wp_reset_postdata(); ?>
                             </div>
+
+                            <div class="related-slider-dots" id="related-slider-dots" aria-hidden="true"></div>
                         </div>
-                    <?php endif;
-                }
-                ?>
+                    </section>
+                <?php endif; endif; ?>
 
                 <!-- Comments -->
                 <?php

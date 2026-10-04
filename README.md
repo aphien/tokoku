@@ -1,10 +1,39 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.7.0)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.8.0)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.7.0 — Dasbor Admin Modern, Shortcut Simpan Cepat & Pembersihan Fitur Usang
+## 🚀 Rilis Terbaru v2.8.0 — Desain Majalah Artikel Terkait, Mobile Touch Slider & Flat Admin Navigation
+
+Pembaruan **v2.8.0** menyelaraskan tampilan rekomendasi artikel pada halaman baca tunggal dengan estetika majalah modern, menghadirkan slider sentuh khusus perangkat ponsel dengan CSS Scroll-Snap dan indikator titik interaktif, menonaktifkan efek gradasi pada menu pengaturan admin untuk tampilan flat yang tegas, serta meningkatkan keamanan dan kebersihan aset:
+
+1. **Redesain Artikel Terkait Lainnya (*Magazine Overlay Architecture*)**:
+   - **Tampilan Identik dengan Beranda**: Mengadaptasi penuh desain kartu majalah `.article-card.has-bg-image` dari bagian *Artikel Terbaru* pada `front-page.php`.
+   - **Efek Visual Premium**: Gambar latar dengan zoom halus (`scale(1.08)`) saat disentuh/hover, dark gradient overlay bertransisi lembut untuk keterbacaan teks maksimal, dan pill kategori berefek kaca (*frosted glass* / `backdrop-filter: blur(8px)`).
+   - **Metadata Standar Majalah**: Menampilkan nama penulis (`BY {AUTHOR}`) dan tanggal publikasi lengkap dengan ikon SVG kalender dan profil berbobot stroke 2px yang presisi.
+   - **Query Artikel Cerdas**: Mendukung hingga 6 artikel rekomendasi dengan mekanisme *intelligent category fallback* — otomatis mengambil artikel terkini jika artikel dalam kategori yang sama kurang dari 6 sehingga ruang rekomendasi selalu terisi optimal.
+
+2. **Fitur Slider Khusus Layar Mobile (*Native Touch Scroll-Snap Carousel*)**:
+   - **Responsif Cerdas**: Pada desktop (`>768px`) artikel tersusun dalam 3 kolom grid yang rapi, sedangkan pada layar ponsel (`≤768px`) bertransformasi seketika menjadi slider horizontal sentuh.
+   - **Akselerasi Perangkat Keras Murni**: Ditenagai oleh CSS `scroll-snap-type: x mandatory` dan `-webkit-overflow-scrolling: touch` tanpa overhead library pihak ketiga yang berat.
+   - **Peek Effect Intuitif**: Menampilkan ~18% kartu berikutnya di sisi kanan layar untuk memberi petunjuk visual alami bahwa artikel dapat digeser (*swipe*).
+   - **Interactive Pagination Dots**: Dilengkapi titik indikator yang bergerak dinamis mengikuti posisi geser pengguna secara real-time via `requestAnimationFrame`, serta dapat diklik/ditekan untuk langsung melompat ke kartu yang dipilih.
+   - **Mouse Drag Simulation**: Mendukung interaksi seret mouse pada mode responsive browser untuk mempermudah pengecekan langsung oleh administrator.
+
+3. **Penyempurnaan Navigasi Admin TokoKu (*Clean Flat Color Palette*)**:
+   - **Nonaktifkan Gradasi Ikon**: Menghilangkan seluruh gradasi dan efek glow blur pada `.tokoku-nav-icon` dan `.tokoku-icon` (`background-image: none !important;`).
+   - **Palet Warna Solid Flat**: Masing-masing kategori menu pengaturan memiliki identitas warna solid murni yang tegas (Emerald, Blue, Amber, Rose, Purple, Teal, Indigo, Slate, WhatsApp Green).
+   - **Sidebar Bersih & Ergonomis**: Header kategori rapi, scrollbar kustom halus, dan indikator tab aktif solid border 3.5px.
+
+4. **Pembaruan Aset, Cache PWA & Standar Keamanan Tinggi**:
+   - **Perbaikan Asset Placeholder**: Mengarahkan tautan gambar cadangan artikel ke `placeholder.svg` yang valid dan ringan, mengatasi potensi gambar hilang (404).
+   - **Cache Service Worker v2.8.0**: Cache diperbarui ke `tokoku-pwa-cache-v2.8.0` untuk cache busting instan pada browser pengunjung.
+   - **Audit Keamanan Total**: Seluruh data dan atribut tautan keluar diamankan dengan sanitasi dan escaping ketat (`esc_url`, `esc_html`, `esc_attr`, `the_title_attribute`), 100% bebas kerentanan XSS dan SQL Injection.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.7.0 — Dasbor Admin Modern, Shortcut Simpan Cepat & Pembersihan Fitur Usang
 
 Pembaruan **v2.7.0** menghadirkan pembaruan visual menyeluruh pada antarmuka dasbor admin utama WordPress dengan estetika SaaS terkini, penambahan jalan pintas keyboard global untuk menyimpan pengaturan (`⌘S` / `Ctrl+S`), penyederhanaan halaman detail produk menjadi 2 tab navigasi terpusat, pengaktifan tooltip WhatsApp mengambang, serta pembersihan tuntas kode dan skema usang (*dead code clean-up*):
 
