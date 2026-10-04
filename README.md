@@ -1,10 +1,29 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.5.7)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.5.8)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.5.7 — Redesain Modern Navigasi Tab Produk (Desktop & Mobile)
+## 🚀 Rilis Terbaru v2.5.8 — Full Slider Autoplay, Atmospheric Testimonial Glow & Mobile Icon-Only Tabs
+
+Pembaruan **v2.5.8** menghadirkan penyempurnaan otomasi gerak slider, peningkatan estetika pencahayaan kartu ulasan, serta desain minimalis tab produk seluler:
+
+1. **Semua Slider Bergerak Otomatis (*Full Autoplay Engine*)**:
+   - **Testimonials Slider**: Memperbaiki fungsi pergantian slide otomatis (`nextTesti`), melengkapi kontrol interval timer (4.5 detik), serta fitur *smart pause on hover* saat kursor diarahkan ke area ulasan dan melanjutkan kembali secara otomatis saat kursor keluar.
+   - **Hero Banner Slider & Article Slider**: Memastikan slide banner utama dan artikel blog bergulir otomatis dengan interval stabil dan pause saat disentuh/hover.
+   - **Product Gallery Slider**: Transisi foto produk otomatis dengan *in-viewport guard*.
+
+2. **Penyempurnaan Efek Glow Testimoni (*Atmospheric Ambient Glow*)**:
+   - Mengganti aksen garis sebelumnya dengan **aura cahaya radial mengambang** (*ambient radial-gradient glow*) di bagian atas kartu ulasan (`.testimonial-card::before`).
+   - Dilengkapi garis pendar neon berkilau (*top shimmer neon line*) dengan bayangan radiasi halus (`box-shadow glow`) yang elegan di sekeliling kartu dan lencana quote modern, baik pada mode terang maupun mode gelap (*dark mode*).
+
+3. **Khusus Tampilan Mobile: Navigasi Tab Produk Tampilan Ikon Saja**:
+   - Pada layar smartphone (`≤ 768px`), teks judul tab disembunyikan dan hanya menampilkan **ikon saja** (`.tab-btn-icon`) dalam dermaga kapsul melingkar (*icon-only dock control*) yang sangat ringkas dan simetris di tengah layar.
+   - Tombol tab berbentuk lingkaran proporsional 48px yang sangat nyaman untuk sentuhan jempol (*thumb-friendly*), lengkap dengan atribut `title` dan `aria-label` untuk aksesibilitas maksimal.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.7 — Redesain Modern Navigasi Tab Produk (Desktop & Mobile)
 
 Pembaruan **v2.5.7** menghadirkan penyempurnaan desain dan pengalaman pengguna (*user experience*) pada navigasi tab informasi & spesifikasi produk (`.product-tabs-nav`):
 

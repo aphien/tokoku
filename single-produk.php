@@ -589,17 +589,17 @@ get_header(); ?>
                         </div>
 
                         <div class="product-tabs-nav" role="tablist" aria-label="<?php esc_attr_e( 'Navigasi Detail Produk', 'tokoku' ); ?>">
-                            <button type="button" class="product-tab-btn active" role="tab" aria-selected="true" aria-controls="prod-panel-desc" id="prod-tab-desc" data-target="prod-panel-desc">
+                            <button type="button" class="product-tab-btn active" role="tab" aria-selected="true" aria-controls="prod-panel-desc" id="prod-tab-desc" data-target="prod-panel-desc" title="<?php echo esc_attr( $desc_tab1_label ); ?>" aria-label="<?php echo esc_attr( $desc_tab1_label ); ?>">
                                 <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                                 <span><?php echo esc_html( $desc_tab1_label ); ?></span>
                             </button>
 
-                            <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-specs" id="prod-tab-specs" data-target="prod-panel-specs">
+                            <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-specs" id="prod-tab-specs" data-target="prod-panel-specs" title="<?php echo esc_attr( $desc_tab2_label ); ?>" aria-label="<?php echo esc_attr( $desc_tab2_label ); ?>">
                                 <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="8" y1="2" x2="8" y2="6"></line><line x1="16" y1="2" x2="16" y2="6"></line><line x1="7" y1="10" x2="17" y2="10"></line><line x1="7" y1="14" x2="13" y2="14"></line></svg>
                                 <span><?php echo esc_html( $desc_tab2_label ); ?></span>
                             </button>
 
-                            <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-guide" id="prod-tab-guide" data-target="prod-panel-guide">
+                            <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-guide" id="prod-tab-guide" data-target="prod-panel-guide" title="<?php echo esc_attr( $desc_tab3_label ); ?>" aria-label="<?php echo esc_attr( $desc_tab3_label ); ?>">
                                 <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
                                 <span><?php echo esc_html( $desc_tab3_label ); ?></span>
                             </button>

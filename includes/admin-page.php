@@ -1837,6 +1837,31 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.5.8 — Full Slider Autoplay, Atmospheric Testimonial Glow & Mobile Icon-Only Tabs
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan ini menghadirkan perbaikan menyeluruh pada engine autoplay slider (testimoni, artikel, dan banner), peningkatan estetika glow atmosferik pada kartu ulasan, serta desain minimalis tab detail produk seluler berformat ikon saja.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🎡 1. Semua Slider Bergerak Otomatis (Full Autoplay Engine)</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Testimonials Slider Autoplay</strong>: Perbaikan fungsi pergantian slide (<em>nextTesti</em>) dengan interval 4.5 detik dan jeda otomatis saat kursor diarahkan ke area kartu ulasan.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Article &amp; Hero Banner Slider</strong>: Slide banner utama dan artikel blog bergulir otomatis dengan stabilitas tinggi dan kontrol sentuh.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">✨ 2. Efek Glow Testimoni Atmosferik</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Ambient Radial Glow Aura</strong>: Pendaran cahaya melingkar halus di atas kartu ulasan dengan garis shimmer neon yang memikat di mode terang maupun mode gelap.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 3. Tab Produk Mobile Tampilan Ikon Saja</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Icon-Only Dock</strong>: Menyembunyikan teks label pada layar seluler (≤768px) dan menampilkan ikon saja dalam tombol lingkaran 48px yang rapi, simetris, dan ramah jempol.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
                                     🚀 Rilis v2.5.7 — Modern Product Tabs, Trendy Quote Testimonials & Typography Hierarchy
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

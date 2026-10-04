@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tokoku-pwa-cache-v2.5.7';
+const CACHE_NAME = 'tokoku-pwa-cache-v2.5.8';
 const PRECACHE_ASSETS = [
     '/',
     '/wp-content/themes/tokoku/style.css',

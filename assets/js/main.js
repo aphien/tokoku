@@ -588,8 +588,15 @@ document.addEventListener('DOMContentLoaded', function() {
             testiWrapper.style.transform = `translateX(-${index * 100}%)`;
             testiDots.forEach((d, i) => d.classList.toggle('active', i === index));
         }
+
+        function nextTesti() {
+            if (testiSlides.length <= 1) return;
+            currentTesti = (currentTesti + 1) % testiSlides.length;
+            goToTesti(currentTesti);
+        }
         
         function prevTesti() {
+            if (testiSlides.length <= 1) return;
             currentTesti = (currentTesti - 1 + testiSlides.length) % testiSlides.length;
             goToTesti(currentTesti);
         }
@@ -609,17 +616,36 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        let testiTimer = setInterval(nextTesti, 5000);
-        
+        let testiTimer = null;
+        function startTestiTimer() {
+            if (testiSlides.length <= 1) return;
+            clearInterval(testiTimer);
+            testiTimer = setInterval(nextTesti, 4500);
+        }
+
         function resetTestiTimer() {
             clearInterval(testiTimer);
-            testiTimer = setInterval(nextTesti, 5000);
+            startTestiTimer();
+        }
+
+        function pauseTestiTimer() {
+            clearInterval(testiTimer);
+        }
+
+        // Start autoplay for testimonials
+        startTestiTimer();
+
+        // Pause testimonials slider on hover
+        const testiContainer = document.querySelector('.testimonials-slider-container') || testiWrapper;
+        if (testiContainer) {
+            testiContainer.addEventListener('mouseenter', pauseTestiTimer);
+            testiContainer.addEventListener('mouseleave', startTestiTimer);
         }
 
         testiWrapper.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
             isDragging = true;
-            clearInterval(testiTimer);
+            pauseTestiTimer();
         }, { passive: true });
 
         testiWrapper.addEventListener('touchend', (e) => {
@@ -628,10 +654,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const diff = startX - endX;
             if (Math.abs(diff) > 50) {
                 if (diff > 0) nextTesti();
-                else {
-                    currentTesti = (currentTesti - 1 + testiSlides.length) % testiSlides.length;
-                    goToTesti(currentTesti);
-                }
+                else prevTesti();
             }
             isDragging = false;
             resetTestiTimer();
@@ -741,8 +764,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 isDragging = false;
                 resetInterval();
             }, { passive: true });
+
+            // Pause on hover for articles slider
+            articleSlider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            articleSlider.addEventListener('mouseleave', resetInterval);
             
-            slideInterval = setInterval(nextSlide, 5000);
+            // Start autoplay for articles slider
+            resetInterval();
         }
     }
 
