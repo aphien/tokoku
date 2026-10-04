@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.0.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.1.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -123,6 +123,18 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.1.0 — Manajemen Kontak Workshop, Slider Logo Klien Beranda, Ikon Medsos & Penguatan Keamanan
+*Rilis Fitur & Keamanan — 04 Oktober 2026*
+- **Fitur Dasbor Admin Kontak & Workshop**: Tab baru khusus pengelolaan Alamat Bengkel/Workshop, Google Maps URL, Telepon Hotline, Email Toko, Jam Kerja, dan hingga 5 Tim Petugas Customer Relation Officer (CRO) lengkap dengan peran spesialisasi.
+- **Navigasi Terstruktur Submenu Dasbor**: Sidebar WordPress kini dilengkapi menu bertingkat yang memudahkan admin langsung melompat ke tab pengaturan spesifik (Pengaturan Umum, Kontak, WhatsApp, Tampilan, Produk, SEO, dan Pembaruan).
+- **Harmonisasi Efek Slider Logo Klien**: Section mitra & klien pada Halaman Tentang kini menggunakan arsitektur, efek grayscale hover, filter dark mode, dan animasi marquee 20s infinite loop yang 100% identik dengan Beranda Utama.
+- **Tampilan Instan Halaman Kontak**: Menghilangkan seluruh delay scroll reveal (`jp-reveal` / `is-revealed`) di Halaman Kontak sehingga formulir interaktif WA Builder, kartu kontak hotline, alamat workshop, dan FAQ langsung tampil instan tanpa jeda.
+- **Ikon Brand Media Sosial Resmi**: Tombol badge sosial media (`jp-social-badges`) kini dilengkapi vektor SVG resmi (Instagram, TikTok, Facebook, YouTube, LinkedIn, X/Twitter) dengan transisi hover interaktif sesuai warna khas brand.
+- **Audit & Penguatan Keamanan Sistem**: Proteksi pengecekan ABSPATH menyeluruh di semua berkas PHP tema (termasuk `comments.php`), validasi token nonce ganda, sanitasi input ketat, dan capability check pengguna.
+- **Pembaruan Aset Cover Tema (`screenshot.png`)**: Desain baru bertema flat UI digital beresolusi tinggi 1200×896 px yang minimalis, modern, dan elegan.
+
+---
 
 ### 🚀 v3.0.0 — Harmonisasi Warna Tema, Ikon SVG Presisi & Responsif Mobile Optimal
 *Rilis Mayor — 04 Oktober 2026*

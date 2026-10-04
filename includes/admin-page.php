@@ -24,6 +24,15 @@ function tokoku_admin_menu() {
 
     $hook = add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, $icon_url, $position );
     
+    // Sub-menu Navigasi Cepat di Dasbor Admin WordPress
+    add_submenu_page( $menu_slug, __( 'Pengaturan Umum', 'tokoku' ), __( 'Pengaturan Umum', 'tokoku' ), $capability, 'tokoku-settings', $callback );
+    add_submenu_page( $menu_slug, __( 'Kontak & Workshop', 'tokoku' ), __( 'Kontak & Workshop', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-contact', $callback );
+    add_submenu_page( $menu_slug, __( 'WhatsApp & CS', 'tokoku' ), __( 'WhatsApp & CS', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-whatsapp', $callback );
+    add_submenu_page( $menu_slug, __( 'Warna & Tampilan', 'tokoku' ), __( 'Warna & Tampilan', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-appearance', $callback );
+    add_submenu_page( $menu_slug, __( 'Halaman Produk', 'tokoku' ), __( 'Halaman Produk', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-single-product', $callback );
+    add_submenu_page( $menu_slug, __( 'SEO & Metadata', 'tokoku' ), __( 'SEO & Metadata', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-seo', $callback );
+    add_submenu_page( $menu_slug, __( 'Pembaruan Tema', 'tokoku' ), __( 'Pembaruan Tema', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-update', $callback );
+
     // Enqueue scripts for our settings page
     add_action( 'admin_print_scripts-' . $hook, 'tokoku_admin_settings_assets' );
 }
@@ -166,9 +175,11 @@ function tokoku_save_admin_settings() {
         // Shop Config
         'tokoku_currency'         => 'sanitize_text_field',
         
-        // Footer & SEO
+        // Footer & Contact & SEO
         'tokoku_footer_copyright' => 'wp_kses_post',
         'tokoku_store_address'    => 'wp_kses_post',
+        'tokoku_store_maps_url'   => 'esc_url_raw',
+        'tokoku_store_phone'      => 'sanitize_text_field',
         'tokoku_store_email'      => 'sanitize_email',
         'tokoku_hubungi_kami_desc'=> 'sanitize_text_field',
         'tokoku_jam_op_1'         => 'sanitize_text_field',
@@ -251,10 +262,11 @@ function tokoku_save_admin_settings() {
         $settings_schema["tokoku_faq_a_{$i}"] = 'wp_kses_post';
     }
 
-    // Contacts Repeater
+    // Contacts Repeater (Customer Relation Officer / CRO)
     for ( $i = 1; $i <= 5; $i++ ) {
         $settings_schema["tokoku_contact_name_{$i}"] = 'sanitize_text_field';
         $settings_schema["tokoku_contact_wa_{$i}"]   = 'sanitize_text_field';
+        $settings_schema["tokoku_contact_role_{$i}"] = 'sanitize_text_field';
     }
 
     // 4. Handle Repeater Settings (Slides, Socials, Testimonials, Logos)
@@ -338,6 +350,8 @@ function tokoku_get_admin_icon( $icon_key ) {
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>';
         case 'whatsapp':
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>';
+        case 'contact':
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>';
         case 'appearance':
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1.1-.3-.4-.4-.8-.4-1.4 0-1.1.9-2 2-2h2.4c3.6 0 6.5-2.9 6.5-6.5C23 5.8 18 2 12 2z"/></svg>';
         case 'single-product':
@@ -540,6 +554,12 @@ function tokoku_settings_page_html() {
                                     'color' => 'whatsapp',
                                     'title' => __( 'WhatsApp & CS', 'tokoku' ),
                                     'desc'  => __( 'Nomor WA & Pesan Otomatis', 'tokoku' ),
+                                ),
+                                'tab-contact'    => array( 
+                                    'icon'  => 'contact',
+                                    'color' => 'teal',
+                                    'title' => __( 'Kontak & Workshop', 'tokoku' ),
+                                    'desc'  => __( 'Alamat, Maps, Email & CRO', 'tokoku' ),
                                 ),
                                 'tab-appearance' => array( 
                                     'icon'  => 'appearance',
@@ -864,6 +884,133 @@ function tokoku_settings_page_html() {
                         </div>
 
                         <?php tokoku_render_tab_save_button(); ?>
+                    </div>
+
+                    <!-- Tab: Kontak & Workshop -->
+                    <div id="tab-contact" class="tokoku-tab-panel">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+                            <div>
+                                <h2 style="margin: 0; font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php _e( 'Kontak, Workshop & Layanan Pelanggan', 'tokoku' ); ?></h2>
+                                <p class="description" style="margin-top: 6px; font-size: 0.95rem;"><?php _e( 'Kelola alamat fisik workshop, link navigasi Google Maps, nomor telepon kantor, jam kerja, serta tim Customer Relation Officer (CRO). Data ini otomatis terhubung ke Halaman Kontak dan Footer toko Anda.', 'tokoku' ); ?></p>
+                            </div>
+                            <div>
+                                <a href="<?php echo esc_url( home_url( '/kontak/' ) ); ?>" target="_blank" rel="noopener" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600;">
+                                    <span class="dashicons dashicons-external" style="margin-top: 2px;"></span>
+                                    <?php _e( 'Pratinjau Halaman Kontak', 'tokoku' ); ?>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 1. Alamat Fisik & Peta Workshop -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-location" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( 'Lokasi & Alamat Fisik Workshop / Kantor', 'tokoku' ); ?>
+                            </h3>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Alamat Lengkap Workshop & Kantor', 'tokoku' ); ?></label>
+                                <textarea name="tokoku_store_address" rows="3" placeholder="Contoh: Jl. Percetakan Negara No. 12, Johar Baru, Jakarta Pusat 10560"><?php echo esc_textarea( get_theme_mod( 'tokoku_store_address' ) ); ?></textarea>
+                                <p class="tokoku-tip"><?php _e( 'Tampilkan alamat fisik lengkap workshop untuk meningkatkan kredibilitas toko di mata pelanggan instansi, korporat, dan Google Local SEO.', 'tokoku' ); ?></p>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'URL Google Maps / Titik Lokasi Peta', 'tokoku' ); ?></label>
+                                <input type="url" name="tokoku_store_maps_url" value="<?php echo esc_url( get_theme_mod( 'tokoku_store_maps_url' ) ); ?>" placeholder="Contoh: https://maps.app.goo.gl/... atau https://maps.google.com/?q=...">
+                                <p class="tokoku-tip"><?php _e( 'Tempelkan link share Google Maps workshop Anda agar tombol "Buka di Google Maps" di website langsung membuka aplikasi navigasi pelanggan.', 'tokoku' ); ?></p>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Nomor Telepon Kantor / Hotline', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_store_phone" value="<?php echo esc_attr( get_theme_mod( 'tokoku_store_phone' ) ); ?>" placeholder="Contoh: (021) 1234567 atau 0812-3456-7890">
+                                    <p class="tokoku-tip"><?php _e( 'Telepon kantor resmi untuk kebutuhan verifikasi pesanan instansi dan administrasi.', 'tokoku' ); ?></p>
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Email Resmi Toko', 'tokoku' ); ?></label>
+                                    <input type="email" name="tokoku_store_email" value="<?php echo esc_attr( get_theme_mod( 'tokoku_store_email' ) ); ?>" placeholder="Contoh: halo@jualplakat.com">
+                                    <p class="tokoku-tip"><?php _e( 'Email untuk menerima berkas PO tender, invoice resmi, dan surat penawaran harga.', 'tokoku' ); ?></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Jam Operasional -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-clock" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( 'Jadwal & Jam Operasional Pelayanan', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Tuliskan jadwal kerja proses produksi dan jam aktif konsultasi pelanggan:', 'tokoku' ); ?></p>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Hari Kerja (Senin – Jumat)', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_jam_op_1" value="<?php echo esc_attr( get_theme_mod( 'tokoku_jam_op_1', 'Senin – Jumat: 08.00 – 17.00 WIB' ) ); ?>" placeholder="Senin – Jumat: 08.00 – 17.00 WIB">
+                            </div>
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Akhir Pekan (Sabtu)', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_jam_op_2" value="<?php echo esc_attr( get_theme_mod( 'tokoku_jam_op_2', 'Sabtu: 08.00 – 15.00 WIB' ) ); ?>" placeholder="Sabtu: 08.00 – 15.00 WIB">
+                            </div>
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Hari Libur / Tanggal Merah', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_jam_op_3" value="<?php echo esc_attr( get_theme_mod( 'tokoku_jam_op_3', 'Minggu & Libur Nasional: Tutup (Konsultasi via WA tetap diterima)' ) ); ?>" placeholder="Minggu & Libur Nasional: Tutup">
+                            </div>
+                        </div>
+
+                        <!-- 3. Tim Customer Relation Officer (CRO) -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-groups" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( 'Tim Customer Relation Officer (CRO) & Spesialisasi Layanan', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 20px;"><?php _e( 'Daftarkan hingga 5 petugas layanan pelanggan lengkap dengan nomor WhatsApp dan spesialisasi produk agar calon pembeli dapat diarahkan ke tim yang paling tepat:', 'tokoku' ); ?></p>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Teks Pengantar CRO', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_hubungi_kami_desc" value="<?php echo esc_attr( get_theme_mod( 'tokoku_hubungi_kami_desc', 'Customer Relation Officer (CRO) kami siap membantu Anda dengan ramah dan cepat.' ) ); ?>">
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 15px;">
+                                <?php for ( $i = 1; $i <= 5; $i++ ) : 
+                                    $default_names = array( 1 => 'Customer Care 1', 2 => 'Customer Care 2', 3 => 'Customer Care 3', 4 => 'Customer Care 4', 5 => 'Customer Care 5' );
+                                    $default_roles = array( 1 => 'Konsultasi Plakat Akrilik & Mockup Cepat', 2 => 'Pemesanan Instansi & Tender B2B', 3 => 'Medali, Trophy & Piala Kejuaraan', 4 => 'Souvenir & Merchandise Custom', 5 => 'Layanan Pelanggan Umum' );
+                                    $val_name = get_theme_mod( "tokoku_contact_name_{$i}", 1 === $i ? 'Customer Care 1' : '' );
+                                    $val_wa   = get_theme_mod( "tokoku_contact_wa_{$i}", 1 === $i ? get_theme_mod( 'tokoku_wa_number', '6281234567890' ) : '' );
+                                    $val_role = get_theme_mod( "tokoku_contact_role_{$i}", 1 === $i ? 'Konsultasi Desain & Plakat Akrilik' : '' );
+                                ?>
+                                    <div class="tokoku-settings-section" style="border-left: 3px solid #0d9488;">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                            <strong style="color: #0f172a; font-size: 0.95rem;">
+                                                <span class="dashicons dashicons-businessman" style="color: #0d9488; margin-right: 4px;"></span>
+                                                Petugas CRO #<?php echo $i; ?>
+                                            </strong>
+                                            <?php if ( ! empty( $val_wa ) ) : 
+                                                $wa_digits = preg_replace( '/\D+/', '', $val_wa );
+                                            ?>
+                                                <a href="https://wa.me/<?php echo esc_attr( $wa_digits ); ?>" target="_blank" rel="noopener" style="font-size: 12px; color: #16a34a; text-decoration: none; font-weight: 600;">
+                                                    <span class="dashicons dashicons-whatsapp" style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle;"></span> Uji Chat WA
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 12px;">
+                                            <div>
+                                                <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px;"><?php _e( 'Nama Petugas', 'tokoku' ); ?></label>
+                                                <input type="text" name="tokoku_contact_name_<?php echo $i; ?>" placeholder="<?php echo esc_attr( $default_names[$i] ); ?>" value="<?php echo esc_attr( $val_name ); ?>" style="width: 100%;">
+                                            </div>
+                                            <div>
+                                                <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px;"><?php _e( 'Nomor WhatsApp (628...)', 'tokoku' ); ?></label>
+                                                <input type="text" name="tokoku_contact_wa_<?php echo $i; ?>" placeholder="6281234567890" value="<?php echo esc_attr( $val_wa ); ?>" style="width: 100%;">
+                                            </div>
+                                            <div>
+                                                <label style="display: block; font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 4px;"><?php _e( 'Peran / Spesialisasi Produk', 'tokoku' ); ?></label>
+                                                <input type="text" name="tokoku_contact_role_<?php echo $i; ?>" placeholder="<?php echo esc_attr( $default_roles[$i] ); ?>" value="<?php echo esc_attr( $val_role ); ?>" style="width: 100%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+
+                        <?php tokoku_render_tab_save_button( __( 'Simpan Informasi Kontak & Workshop', 'tokoku' ) ); ?>
                     </div>
 
                     <!-- Tab: Single Product (Lead Time & Trust Badges) -->
@@ -1463,6 +1610,18 @@ function tokoku_settings_page_html() {
                     <!-- Tab: Footer -->
                     <div id="tab-footer" class="tokoku-tab-panel">
                         <h2><?php _e( 'Konten Footer', 'tokoku' ); ?></h2>
+
+                        <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="dashicons dashicons-location" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <span style="font-size: 13px; color: #134e4a;">
+                                    <?php _e( 'Alamat, Link Google Maps, Nomor Telepon, Jam Kerja & CRO kini memiliki pengaturan terpusat di tab <strong>Kontak & Workshop</strong>.', 'tokoku' ); ?>
+                                </span>
+                            </div>
+                            <a href="<?php echo esc_url( admin_url( 'admin.php?page=tokoku-settings&tab=tab-contact' ) ); ?>" class="button button-small" style="font-weight: 600; color: #0d9488; border-color: #99f6e4; background: #ffffff;">
+                                <?php _e( 'Buka Kontak & Workshop', 'tokoku' ); ?> &rarr;
+                            </a>
+                        </div>
                         <div class="tokoku-field">
                             <label><?php _e( 'Teks Copyright', 'tokoku' ); ?></label>
                             <input type="text" name="tokoku_footer_copyright" value="<?php echo esc_attr( get_theme_mod( 'tokoku_footer_copyright', '© {year} TokoKu. All rights reserved.' ) ); ?>">

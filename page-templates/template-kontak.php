@@ -77,7 +77,7 @@ $faq_items = array(
                 <span aria-current="page"><?php echo esc_html( get_the_title() ); ?></span>
             </nav>
 
-            <div class="jp-hero__inner jp-reveal">
+            <div class="jp-hero__inner">
                 <span class="jp-badge"><?php echo tokoku_page_icon( 'chat', 15 ); // phpcs:ignore ?> Layanan Pelanggan</span>
                 <h1 class="jp-hero__title">Mari Bicarakan <span class="jp-text-gradient">Penghargaan Terbaik Anda</span></h1>
                 <p class="jp-hero__lead">
@@ -96,7 +96,7 @@ $faq_items = array(
     <!-- Contact Cards Grid -->
     <section class="jp-section jp-section--tight">
         <div class="container">
-            <div class="jp-contact-cards jp-reveal">
+            <div class="jp-contact-cards">
                 <!-- Card 1: WhatsApp Utama -->
                 <div class="jp-contact-card jp-contact-card--featured">
                     <div class="jp-contact-card__icon-wrap jp-contact-card__icon-wrap--wa">
@@ -122,12 +122,24 @@ $faq_items = array(
                     <?php if ( $email ) : ?>
                         <div class="jp-contact-card__value">
                             <a href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><?php echo esc_html( antispambot( $email ) ); ?></a>
+                            <?php if ( ! empty( $contact['phone'] ) ) : ?>
+                                <div style="margin-top: 6px; font-size: 0.825rem; font-weight: 600; color: var(--text2, #64748b);">
+                                    Hotline: <a href="tel:<?php echo esc_attr( preg_replace( '/[^\d+]/', '', $contact['phone'] ) ); ?>" style="color: var(--text, #1f2937);"><?php echo esc_html( $contact['phone'] ); ?></a>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <a class="jp-btn jp-btn--ghost jp-btn--block" href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>">
                             <?php echo tokoku_page_icon( 'mail', 18 ); // phpcs:ignore ?> Kirim Email
                         </a>
                     <?php else : ?>
-                        <div class="jp-contact-card__value">Silakan hubungi WhatsApp</div>
+                        <div class="jp-contact-card__value">
+                            Silakan hubungi WhatsApp
+                            <?php if ( ! empty( $contact['phone'] ) ) : ?>
+                                <div style="margin-top: 6px; font-size: 0.825rem; font-weight: 600; color: var(--text2, #64748b);">
+                                    Hotline: <a href="tel:<?php echo esc_attr( preg_replace( '/[^\d+]/', '', $contact['phone'] ) ); ?>" style="color: var(--text, #1f2937);"><?php echo esc_html( $contact['phone'] ); ?></a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                         <a class="jp-btn jp-btn--ghost jp-btn--block" href="<?php echo esc_url( $wa_url ); ?>" target="_blank" rel="noopener noreferrer">
                             Tanya Email via WA
                         </a>
@@ -159,7 +171,7 @@ $faq_items = array(
             <div class="jp-split jp-split--contact">
 
                 <!-- Form Pembuat Pesan WhatsApp Instan -->
-                <div class="jp-contact-form-box jp-reveal">
+                <div class="jp-contact-form-box">
                     <div class="jp-contact-form-box__header">
                         <span class="jp-eyebrow">Formulir Interaktif</span>
                         <h2 class="jp-contact-form-box__title">Kirim Rincian Kebutuhan Anda</h2>
@@ -223,10 +235,12 @@ $faq_items = array(
                 </div>
 
                 <!-- Info Workshop & Jalur Agen -->
-                <div class="jp-contact-side jp-reveal">
+                <div class="jp-contact-side">
 
                     <!-- Info Alamat Workshop -->
-                    <?php if ( $address ) : ?>
+                    <?php if ( $address ) : 
+                        $maps_link = ! empty( $contact['maps_url'] ) ? $contact['maps_url'] : 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $address );
+                    ?>
                         <div class="jp-card jp-card--bordered">
                             <span class="jp-card__icon"><?php echo tokoku_page_icon( 'pin', 24 ); // phpcs:ignore ?></span>
                             <span class="jp-eyebrow">Lokasi & Workshop</span>
@@ -236,7 +250,7 @@ $faq_items = array(
                                 <button type="button" class="jp-btn jp-btn--xs jp-btn--ghost jp-copy-btn" data-copy="<?php echo esc_attr( $address ); ?>">
                                     <?php echo tokoku_page_icon( 'copy', 14 ); // phpcs:ignore ?> <span>Salin Alamat</span>
                                 </button>
-                                <a class="jp-btn jp-btn--xs jp-btn--primary" href="<?php echo esc_url( 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $address ) ); ?>" target="_blank" rel="noopener noreferrer">
+                                <a class="jp-btn jp-btn--xs jp-btn--primary" href="<?php echo esc_url( $maps_link ); ?>" target="_blank" rel="noopener noreferrer">
                                     Buka di Google Maps <?php echo tokoku_page_icon( 'arrow', 14 ); // phpcs:ignore ?>
                                 </a>
                             </div>
@@ -278,9 +292,13 @@ $faq_items = array(
                             <span class="jp-eyebrow">Terhubung di Media Sosial</span>
                             <h3 class="jp-card__title">Ikuti Portofolio & Karya Terbaru</h3>
                             <div class="jp-social-badges">
-                                <?php foreach ( $contact['socials'] as $network => $url ) : ?>
-                                    <a href="<?php echo esc_url( $url ); ?>" class="jp-social-badge" target="_blank" rel="noopener noreferrer">
-                                        <?php echo esc_html( ucfirst( $network ) ); ?> <?php echo tokoku_page_icon( 'arrow', 13 ); // phpcs:ignore ?>
+                                <?php foreach ( $contact['socials'] as $network => $url ) : 
+                                    $net_label = 'twitter' === $network ? 'X (Twitter)' : ucfirst( $network );
+                                ?>
+                                    <a href="<?php echo esc_url( $url ); ?>" class="jp-social-badge jp-social-badge--<?php echo esc_attr( $network ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( $net_label ); ?>">
+                                        <span class="jp-social-badge__icon"><?php echo tokoku_page_icon( $network, 18 ); // phpcs:ignore ?></span>
+                                        <span class="jp-social-badge__name"><?php echo esc_html( $net_label ); ?></span>
+                                        <span class="jp-social-badge__arrow"><?php echo tokoku_page_icon( 'arrow', 13 ); // phpcs:ignore ?></span>
                                     </a>
                                 <?php endforeach; ?>
                             </div>
@@ -295,13 +313,13 @@ $faq_items = array(
     <!-- FAQ Accordion -->
     <section class="jp-section">
         <div class="container jp-container-narrow">
-            <div class="jp-section__head jp-reveal">
+            <div class="jp-section__head">
                 <span class="jp-eyebrow">Pertanyaan Sering Diajukan</span>
                 <h2 class="jp-section__title">Hal yang Sering Ditanyakan Sebelum Memesan</h2>
                 <p class="jp-section__sub">Jawaban cepat untuk pertanyaan paling umum seputar pemesanan plakat di <?php echo esc_html( $brand ); ?>.</p>
             </div>
 
-            <div class="jp-faq-accordion jp-reveal">
+            <div class="jp-faq-accordion">
                 <?php foreach ( $faq_items as $idx => $faq ) : ?>
                     <details class="jp-faq-item" <?php echo 0 === $idx ? 'open' : ''; ?>>
                         <summary class="jp-faq-question">
@@ -325,7 +343,7 @@ $faq_items = array(
             ?>
             <section class="jp-section jp-section--soft">
                 <div class="container jp-container-narrow">
-                    <div class="jp-prose jp-reveal"><?php the_content(); ?></div>
+                    <div class="jp-prose"><?php the_content(); ?></div>
                 </div>
             </section>
             <?php
@@ -336,7 +354,7 @@ $faq_items = array(
     <!-- Bottom CTA -->
     <section class="jp-section jp-section--tight">
         <div class="container">
-            <div class="jp-cta jp-reveal">
+            <div class="jp-cta">
                 <div class="jp-cta__glow" aria-hidden="true"></div>
                 <div class="jp-cta__text">
                     <h2>Sudah Punya Tanggal Acara?</h2>

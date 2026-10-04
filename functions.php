@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.0.0' );
+define( 'TOKOKU_VERSION', '3.1.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -438,6 +438,10 @@ function tokoku_dashboard_widget_render() {
             <a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=produk' ) ); ?>" class="tokoku-dash-btn primary">
                 <span class="dashicons dashicons-plus-alt2"></span>
                 <span class="tokoku-btn-text"><?php _e( 'Tambah Produk', 'tokoku' ); ?></span>
+            </a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=tokoku-settings&tab=tab-contact' ) ); ?>" class="tokoku-dash-btn secondary">
+                <span class="dashicons dashicons-location-alt"></span>
+                <span class="tokoku-btn-text"><?php _e( 'Kontak & Workshop', 'tokoku' ); ?></span>
             </a>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=tokoku-settings' ) ); ?>" class="tokoku-dash-btn secondary">
                 <span class="dashicons dashicons-admin-generic"></span>

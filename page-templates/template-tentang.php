@@ -197,18 +197,68 @@ $clients = array( 'Instansi Pemerintah', 'BUMN & Korporasi', 'Sekolah & Universi
         </div>
     </section>
 
-    <!-- Clients -->
-    <section class="jp-section">
+    <!-- Client Logos Slider (Marquee) - Tampilan & Efek Sama Persis dengan Halaman Utama -->
+    <?php
+    $site_name    = esc_attr( get_bloginfo( 'name' ) );
+    $client_logos = array();
+    for ( $i = 1; $i <= 50; $i++ ) {
+        $logo = get_theme_mod( "tokoku_client_logo_{$i}" );
+        if ( $logo ) {
+            $client_logos[] = array(
+                'url' => $logo,
+                'alt' => sprintf( esc_attr__( 'Klien & Mitra %s - Logo %d', 'tokoku' ), $site_name, $i ),
+            );
+        }
+    }
+    ?>
+    <section class="logos-section jp-clients-section">
         <div class="container">
             <div class="jp-section__head jp-reveal">
                 <span class="jp-eyebrow">Dipercaya Beragam Kalangan</span>
-                <h2 class="jp-section__title">Melayani Setiap Momen Apresiasi</h2>
+                <h2 class="jp-section__title">Partner & Klien Apresiasi Kami</h2>
+                <p class="jp-section__sub">Dipercaya oleh instansi pemerintah, BUMN, perguruan tinggi ternama, korporasi swasta, hingga ribuan komunitas di seluruh Indonesia.</p>
             </div>
-            <ul class="jp-chips jp-reveal">
-                <?php foreach ( $clients as $client ) : ?>
-                    <li class="jp-chip"><?php echo tokoku_page_icon( 'check', 14 ); // phpcs:ignore ?> <?php echo esc_html( $client ); ?></li>
-                <?php endforeach; ?>
-            </ul>
+            
+            <div class="logo-carousel-wrapper">
+                <div class="logo-track">
+                    <?php
+                    if ( ! empty( $client_logos ) ) {
+                        // Render original list
+                        foreach ( $client_logos as $clogo ) {
+                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . esc_attr( $clogo['alt'] ) . '" width="160" height="60" loading="lazy" decoding="async"></div>';
+                        }
+                        // Duplicate for seamless infinite loop (efek sama persis dengan Beranda Utama)
+                        foreach ( $client_logos as $clogo ) {
+                            echo '<div class="logo-slide"><img src="' . esc_url( $clogo['url'] ) . '" alt="' . esc_attr( $clogo['alt'] ) . '" width="160" height="60" loading="lazy" decoding="async"></div>';
+                        }
+                    } else {
+                        // Sample partner logos jika belum diatur di admin panel, dengan efek dan styling sama persis
+                        $sample_partners = array(
+                            'Kementerian RI',
+                            'BUMN Indonesia',
+                            'Universitas Negeri',
+                            'Pemerintah Daerah',
+                            'Bank Nasional',
+                            'Pertamina / PLN',
+                            'Telkom Group',
+                            'Perusahaan Swasta & Komunitas',
+                        );
+                        $sample_marquee = array_merge( $sample_partners, $sample_partners );
+                        foreach ( $sample_marquee as $partner ) {
+                            echo '<div class="logo-slide logo-slide--text"><span class="logo-slide-name">' . esc_html( $partner ) . '</span></div>';
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <div style="margin-top: 36px;">
+                <ul class="jp-chips jp-reveal">
+                    <?php foreach ( $clients as $client ) : ?>
+                        <li class="jp-chip"><?php echo tokoku_page_icon( 'check', 14 ); // phpcs:ignore ?> <?php echo esc_html( $client ); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
     </section>
 

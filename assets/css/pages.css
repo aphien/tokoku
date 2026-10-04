@@ -13,8 +13,14 @@
 .jp-page {
     position: relative;
     overflow-x: hidden;
+    font-family: var(--font-heading, 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    font-size: var(--fs-body, 1rem);
+    line-height: var(--lh-base, 1.6);
     color: var(--text, #1f2937);
     background-color: var(--bg, #f8fafc);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* Base Page Icons (SVG) */
@@ -74,7 +80,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: var(--fs-xs, 0.825rem);
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-xs, 0.8125rem);
     color: var(--text2, #64748b);
     margin-bottom: 24px;
     flex-wrap: wrap;
@@ -95,7 +102,7 @@
     font-weight: 600;
 }
 
-/* Badges & Eyebrows */
+/* Badges & Eyebrows (Hierarchy Level: Overline / Sub-label) */
 .jp-badge {
     display: inline-flex;
     align-items: center;
@@ -104,9 +111,10 @@
     border-radius: 999px;
     background: rgba(var(--primary-rgb, 0, 123, 255), 0.1);
     color: var(--primary, #007bff);
+    font-family: var(--font-heading, 'Inter', sans-serif);
     font-size: var(--fs-xs, 0.8125rem);
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     margin-bottom: 18px;
     border: 1px solid rgba(var(--primary-rgb, 0, 123, 255), 0.2);
@@ -114,11 +122,12 @@
 
 .jp-eyebrow {
     display: inline-block;
+    font-family: var(--font-heading, 'Inter', sans-serif);
     font-size: var(--fs-xs, 0.8125rem);
     font-weight: 800;
     color: var(--primary, #007bff);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.06em;
     margin-bottom: 10px;
 }
 
@@ -166,19 +175,25 @@
 }
 
 .jp-hero__title {
-    font-size: clamp(2.1rem, 4vw + 1rem, 3.4rem);
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h1, clamp(2rem, 1.35rem + 2.6vw, 3.25rem));
+    font-weight: 800;
     line-height: var(--lh-tight, 1.15);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.025em;
     color: var(--text, #1f2937);
     margin-bottom: 20px;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 .jp-hero__lead {
-    font-size: clamp(1.05rem, 1.2vw, 1.25rem);
-    line-height: 1.7;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+    line-height: var(--lh-base, 1.65);
+    font-weight: 400;
     color: var(--text2, #4b5563);
     margin-bottom: 30px;
+    max-width: 720px;
 }
 
 .jp-hero__actions {
@@ -444,18 +459,23 @@
 
 .jp-stats__value {
     display: block;
-    font-size: clamp(2rem, 3vw, 2.7rem);
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: clamp(2rem, 3.2vw, 2.75rem);
     font-weight: 900;
     color: var(--primary, #007bff);
-    line-height: 1.1;
+    line-height: 1.05;
     margin-bottom: 8px;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
 }
 
 .jp-stats__label {
-    font-size: var(--fs-xs, 0.85rem);
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-xs, 0.8125rem);
     color: var(--text2, #64748b);
     font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 /* Split Story */
@@ -498,7 +518,8 @@
 
 .jp-quote-card__author {
     display: block;
-    font-size: 0.85rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-xs, 0.85rem);
     font-weight: 700;
     color: var(--primary, #007bff);
     text-transform: uppercase;
@@ -511,19 +532,23 @@
 }
 
 .jp-section__title {
-    font-size: clamp(1.7rem, 2.5vw, 2.4rem);
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h2, clamp(1.6rem, 1.15rem + 1.8vw, 2.35rem));
+    font-weight: 800;
+    line-height: var(--lh-tight, 1.2);
     letter-spacing: -0.02em;
     color: var(--text, #1f2937);
     margin-bottom: 14px;
 }
 
 .jp-section__sub {
-    font-size: 1.05rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-body, 1rem);
+    font-weight: 400;
+    line-height: var(--lh-base, 1.6);
     color: var(--text2, #64748b);
     max-width: 680px;
     margin: 0 auto;
-    line-height: 1.6;
 }
 
 /* Cards Grid (Values) */
@@ -568,16 +593,18 @@
 }
 
 .jp-card__title {
-    font-size: 1.15rem;
-    font-weight: 800;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h4, clamp(1.1rem, 0.95rem + 0.6vw, 1.35rem));
+    font-weight: 700;
+    line-height: var(--lh-snug, 1.25);
     color: var(--text, #1f2937);
     margin-bottom: 10px;
 }
 
 .jp-card__text {
-    font-size: 0.925rem;
+    font-size: var(--fs-sm, 0.925rem);
     color: var(--text2, #64748b);
-    line-height: 1.65;
+    line-height: var(--lh-base, 1.65);
     margin: 0;
 }
 
@@ -610,10 +637,12 @@
     position: absolute;
     top: 20px;
     right: 22px;
+    font-family: var(--font-heading, 'Inter', sans-serif);
     font-size: 1.8rem;
     font-weight: 900;
     color: var(--border, #e2e8f0);
     line-height: 1;
+    font-variant-numeric: tabular-nums;
 }
 
 .jp-step__icon {
@@ -629,16 +658,18 @@
 }
 
 .jp-step__title {
-    font-size: 1.05rem;
-    font-weight: 800;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h4, clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem));
+    font-weight: 700;
+    line-height: var(--lh-snug, 1.25);
     color: var(--text, #1f2937);
     margin-bottom: 8px;
 }
 
 .jp-step__text {
-    font-size: 0.885rem;
+    font-size: var(--fs-sm, 0.885rem);
     color: var(--text2, #64748b);
-    line-height: 1.6;
+    line-height: var(--lh-base, 1.6);
     margin: 0;
 }
 
@@ -663,9 +694,10 @@
 }
 
 .jp-vm__title {
-    font-size: 1.35rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h3, clamp(1.2rem, 1rem + 0.8vw, 1.45rem));
     font-weight: 800;
-    line-height: 1.5;
+    line-height: var(--lh-snug, 1.3);
     color: var(--text, #1f2937);
 }
 
@@ -689,6 +721,175 @@
     color: #10b981;
     flex-shrink: 0;
     margin-top: 3px;
+}
+
+/* ==========================================================================
+   CLIENT LOGOS SLIDER (MARQUEE) - IDENTIK DENGAN BERANDA UTAMA
+   ========================================================================== */
+.logos-section.jp-clients-section {
+    padding: 50px 0 60px;
+    background: var(--bg2, #f8fafc);
+}
+
+.logos-section.jp-clients-section .jp-section__head {
+    margin-bottom: 32px;
+}
+
+.logo-slide--text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 202px;
+    height: 56px;
+    padding: 0 18px;
+    background: var(--card-bg, #ffffff);
+    border: 1px dashed var(--border, #cbd5e1);
+    border-radius: 10px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    transition: var(--ease, 0.2s ease);
+}
+
+.logo-slide-name {
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: 0.825rem;
+    font-weight: 700;
+    color: var(--text, #334155);
+    opacity: 0.55;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: var(--ease, 0.2s ease);
+}
+
+.logo-slide--text:hover {
+    border-color: var(--primary, #007bff);
+    background: rgba(var(--primary-rgb, 0, 123, 255), 0.05);
+}
+
+.logo-slide--text:hover .logo-slide-name {
+    opacity: 1;
+    color: var(--primary, #007bff);
+}
+
+:root.theme-dark .logo-slide--text,
+body.theme-dark .logo-slide--text {
+    background: #111827;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+:root.theme-dark .logo-slide-name,
+body.theme-dark .logo-slide-name {
+    color: #cbd5e1;
+}
+
+.jp-clients-section {
+    overflow: hidden;
+}
+
+.jp-logos-marquee {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    overflow: hidden;
+    padding: 24px 0;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.jp-logos-track {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    width: max-content;
+    animation: jpMarquee 28s linear infinite;
+}
+
+.jp-logos-marquee:hover .jp-logos-track {
+    animation-play-state: paused;
+}
+
+.jp-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 195px;
+    height: 84px;
+    padding: 14px 22px;
+    background: var(--card-bg, #ffffff);
+    border: 1.5px solid var(--border, #e2e8f0);
+    border-radius: 18px;
+    box-shadow: var(--shadow-sm, 0 4px 16px rgba(0, 0, 0, 0.04));
+    flex-shrink: 0;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-sizing: border-box;
+}
+
+.jp-logo-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary, #007bff);
+    box-shadow: 0 10px 24px rgba(var(--primary-rgb, 0, 123, 255), 0.15);
+}
+
+.jp-logo-item img {
+    max-width: 100%;
+    max-height: 52px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.6);
+    transition: all 0.3s ease;
+}
+
+.jp-logo-item:hover img {
+    filter: grayscale(0%) opacity(1) !important;
+    transform: scale(1.04);
+}
+
+.jp-logo-item--badge {
+    padding: 12px 22px;
+    background: linear-gradient(135deg, var(--card-bg, #ffffff) 0%, var(--bg2, #f1f5f9) 100%);
+}
+
+.jp-logo-item__badge-text {
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text2, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+:root.theme-dark .jp-logo-item,
+body.theme-dark .jp-logo-item {
+    background: #111827;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+:root.theme-dark .jp-logo-item img,
+body.theme-dark .jp-logo-item img {
+    filter: grayscale(100%) invert(0.85) opacity(0.7);
+}
+
+:root.theme-dark .jp-logo-item:hover img,
+body.theme-dark .jp-logo-item:hover img {
+    filter: grayscale(0%) invert(0) opacity(1) !important;
+}
+
+:root.theme-dark .jp-logo-item__badge-text,
+body.theme-dark .jp-logo-item__badge-text {
+    color: #94a3b8;
+}
+
+@keyframes jpMarquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 /* Chips (Client Segments) */
@@ -754,19 +955,22 @@
 }
 
 .jp-cta__text h2 {
-    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h3, clamp(1.4rem, 1.1rem + 1vw, 2.1rem));
+    font-weight: 800;
     color: #ffffff;
     margin-bottom: 10px;
     letter-spacing: -0.02em;
+    line-height: var(--lh-tight, 1.2);
 }
 
 .jp-cta__text p {
-    font-size: 1.05rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-body, 1.05rem);
     color: #cbd5e1;
     margin: 0;
     max-width: 580px;
-    line-height: 1.6;
+    line-height: var(--lh-base, 1.6);
 }
 
 .jp-cta__actions {
@@ -848,20 +1052,23 @@
 }
 
 .jp-contact-card__title {
-    font-size: 1.25rem;
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h4, 1.25rem);
+    font-weight: 800;
+    line-height: var(--lh-snug, 1.25);
     color: var(--text, #1f2937);
     margin-bottom: 8px;
 }
 
 .jp-contact-card__desc {
-    font-size: 0.9rem;
+    font-size: var(--fs-sm, 0.9rem);
     color: var(--text2, #64748b);
-    line-height: 1.6;
+    line-height: var(--lh-base, 1.6);
     margin-bottom: 18px;
 }
 
 .jp-contact-card__value {
+    font-family: var(--font-heading, 'Inter', sans-serif);
     font-size: 1.15rem;
     font-weight: 800;
     color: var(--text, #1f2937);
@@ -926,17 +1133,20 @@
 }
 
 .jp-contact-form-box__title {
-    font-size: 1.6rem;
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h3, clamp(1.35rem, 1.1rem + 1vw, 1.65rem));
+    font-weight: 800;
     color: var(--text, #1f2937);
     margin-bottom: 10px;
     letter-spacing: -0.02em;
+    line-height: var(--lh-tight, 1.2);
 }
 
 .jp-contact-form-box__sub {
-    font-size: 0.95rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-sm, 0.95rem);
     color: var(--text2, #64748b);
-    line-height: 1.6;
+    line-height: var(--lh-base, 1.6);
     margin: 0;
 }
 
@@ -959,7 +1169,8 @@
 }
 
 .jp-label {
-    font-size: 0.85rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-xs, 0.85rem);
     font-weight: 700;
     color: var(--text, #1f2937);
 }
@@ -1057,14 +1268,17 @@
 }
 
 .jp-agent-item__name {
-    font-size: 0.9rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-sm, 0.925rem);
     font-weight: 800;
     color: var(--text, #1f2937);
 }
 
 .jp-agent-item__role {
-    font-size: 0.75rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-xs, 0.775rem);
     color: var(--text2, #64748b);
+    line-height: 1.35;
 }
 
 .jp-agent-item__btn {
@@ -1090,28 +1304,140 @@
 .jp-social-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 14px;
+    gap: 10px;
+    margin-top: 16px;
 }
 
 .jp-social-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
+    gap: 8px;
+    padding: 8px 16px;
     border-radius: 999px;
     background: var(--bg, #f8fafc);
-    border: 1px solid var(--border, #e2e8f0);
+    border: 1.5px solid var(--border, #e2e8f0);
     color: var(--text, #1f2937);
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.85rem;
+    font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s ease;
+    line-height: 1;
+    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.jp-social-badge__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text2, #64748b);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.jp-social-badge__icon svg {
+    display: block;
+}
+
+.jp-social-badge__name {
+    display: inline-block;
+}
+
+.jp-social-badge__arrow {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.55;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .jp-social-badge:hover {
-    border-color: var(--primary, #007bff);
-    color: var(--primary, #007bff);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.jp-social-badge:hover .jp-social-badge__arrow {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+/* Brand colors on hover */
+.jp-social-badge--instagram:hover {
+    border-color: #e1306c;
+    color: #e1306c;
+}
+.jp-social-badge--instagram:hover .jp-social-badge__icon {
+    color: #e1306c;
+    transform: scale(1.12);
+}
+
+.jp-social-badge--facebook:hover {
+    border-color: #1877f2;
+    color: #1877f2;
+}
+.jp-social-badge--facebook:hover .jp-social-badge__icon {
+    color: #1877f2;
+    transform: scale(1.12);
+}
+
+.jp-social-badge--tiktok:hover {
+    border-color: #000000;
+    color: #000000;
+}
+.jp-social-badge--tiktok:hover .jp-social-badge__icon {
+    color: #000000;
+    transform: scale(1.12);
+}
+
+.jp-social-badge--youtube:hover {
+    border-color: #ff0000;
+    color: #ff0000;
+}
+.jp-social-badge--youtube:hover .jp-social-badge__icon {
+    color: #ff0000;
+    transform: scale(1.12);
+}
+
+.jp-social-badge--linkedin:hover {
+    border-color: #0a66c2;
+    color: #0a66c2;
+}
+.jp-social-badge--linkedin:hover .jp-social-badge__icon {
+    color: #0a66c2;
+    transform: scale(1.12);
+}
+
+.jp-social-badge--twitter:hover,
+.jp-social-badge--x:hover {
+    border-color: #111827;
+    color: #111827;
+}
+.jp-social-badge--twitter:hover .jp-social-badge__icon,
+.jp-social-badge--x:hover .jp-social-badge__icon {
+    color: #111827;
+    transform: scale(1.12);
+}
+
+:root.theme-dark .jp-social-badge,
+body.theme-dark .jp-social-badge {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+:root.theme-dark .jp-social-badge--tiktok:hover,
+body.theme-dark .jp-social-badge--tiktok:hover {
+    border-color: #00f2fe;
+    color: #00f2fe;
+}
+:root.theme-dark .jp-social-badge--tiktok:hover .jp-social-badge__icon,
+body.theme-dark .jp-social-badge--tiktok:hover .jp-social-badge__icon {
+    color: #00f2fe;
+}
+:root.theme-dark .jp-social-badge--twitter:hover,
+body.theme-dark .jp-social-badge--twitter:hover {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+:root.theme-dark .jp-social-badge--twitter:hover .jp-social-badge__icon,
+body.theme-dark .jp-social-badge--twitter:hover .jp-social-badge__icon {
+    color: #ffffff;
 }
 
 /* FAQ Accordion */
@@ -1140,8 +1466,10 @@
     justify-content: space-between;
     gap: 16px;
     padding: 18px 22px;
-    font-size: 1rem;
-    font-weight: 800;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-body, 1rem);
+    font-weight: 700;
+    line-height: var(--lh-snug, 1.3);
     color: var(--text, #1f2937);
     cursor: pointer;
     list-style: none;
@@ -1172,8 +1500,8 @@
 
 .jp-faq-answer {
     padding: 0 22px 20px;
-    font-size: 0.935rem;
-    line-height: 1.7;
+    font-size: var(--fs-sm, 0.935rem);
+    line-height: var(--lh-relaxed, 1.7);
     color: var(--text2, #4b5563);
 }
 
@@ -1342,14 +1670,17 @@
 }
 
 .jp-summary__title {
-    font-size: 1.2rem;
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h4, 1.25rem);
+    font-weight: 800;
+    line-height: var(--lh-snug, 1.25);
     color: var(--text, #1f2937);
     margin: 0 0 2px;
 }
 
 .jp-summary__sub {
-    font-size: 0.85rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-xs, 0.85rem);
     color: var(--text2, #64748b);
     margin: 0;
 }
@@ -1367,8 +1698,8 @@
     display: flex;
     gap: 10px;
     align-items: flex-start;
-    font-size: 0.925rem;
-    line-height: 1.6;
+    font-size: var(--fs-sm, 0.925rem);
+    line-height: var(--lh-base, 1.6);
     color: var(--text, #1f2937);
 }
 
@@ -1394,8 +1725,10 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    font-size: 1.35rem;
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h3, clamp(1.2rem, 1rem + 0.8vw, 1.45rem));
+    font-weight: 800;
+    line-height: var(--lh-snug, 1.25);
     color: var(--text, #1f2937);
     margin-bottom: 18px;
     letter-spacing: -0.01em;
@@ -1410,16 +1743,17 @@
     border-radius: 10px;
     background: rgba(var(--primary-rgb, 0, 123, 255), 0.1);
     color: var(--primary, #007bff);
+    font-family: var(--font-heading, 'Inter', sans-serif);
     font-size: 0.85rem;
     font-weight: 900;
     flex-shrink: 0;
     font-variant-numeric: tabular-nums;
 }
 
-/* Prose Typography */
+/* Prose Typography (Legal Long-form & Narrative) */
 .jp-prose {
-    font-size: 0.985rem;
-    line-height: 1.8;
+    font-size: var(--fs-body, 1rem);
+    line-height: var(--lh-relaxed, 1.75);
     color: var(--text2, #475569);
 }
 
@@ -1473,17 +1807,21 @@
 }
 
 .jp-help-card__text h2 {
-    font-size: 1.25rem;
-    font-weight: 900;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-h4, 1.25rem);
+    font-weight: 800;
+    line-height: var(--lh-snug, 1.25);
     color: var(--text, #1f2937);
     margin-bottom: 6px;
 }
 
 .jp-help-card__text p {
-    font-size: 0.925rem;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: var(--fs-sm, 0.925rem);
     color: var(--text2, #64748b);
     margin: 0;
     max-width: 520px;
+    line-height: var(--lh-base, 1.6);
 }
 
 .jp-help-card__actions {
@@ -1507,6 +1845,14 @@
 .jp-reveal.is-revealed {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Halaman Kontak: Tampil instan tanpa delay animasi scroll reveal */
+.jp-contact .jp-reveal,
+.jp-contact .is-revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
 }
 
 /* ==========================================================================
@@ -1649,6 +1995,31 @@ body.theme-dark .jp-faq-arrow {
         padding: 40px 0 50px;
     }
 
+    .jp-hero__title {
+        font-size: clamp(1.75rem, 6vw, 2.25rem);
+        line-height: 1.2;
+    }
+
+    .jp-hero__lead {
+        font-size: 0.985rem;
+        line-height: 1.6;
+    }
+
+    .jp-section__title {
+        font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+        line-height: 1.25;
+    }
+
+    .jp-section__sub {
+        font-size: 0.925rem;
+        line-height: 1.55;
+    }
+
+    .jp-card__title,
+    .jp-step__title {
+        font-size: 1.1rem;
+    }
+
     .jp-stats {
         grid-template-columns: repeat(2, 1fr);
         gap: 14px;
@@ -1656,6 +2027,14 @@ body.theme-dark .jp-faq-arrow {
 
     .jp-stats__item {
         padding: 20px 14px;
+    }
+
+    .jp-stats__value {
+        font-size: 1.85rem;
+    }
+
+    .jp-stats__label {
+        font-size: 0.75rem;
     }
 
     .jp-split,
@@ -1667,6 +2046,10 @@ body.theme-dark .jp-faq-arrow {
     .jp-vm {
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+
+    .jp-vm__title {
+        font-size: 1.2rem;
     }
 
     .jp-cards {
@@ -1688,6 +2071,59 @@ body.theme-dark .jp-faq-arrow {
         padding: 28px 20px;
     }
 
+    .jp-contact-form-box__title {
+        font-size: 1.35rem;
+        line-height: 1.25;
+    }
+
+    .jp-legal__heading {
+        font-size: 1.2rem;
+        line-height: 1.3;
+    }
+
+    .jp-faq-question {
+        font-size: 0.95rem;
+        padding: 16px 18px;
+    }
+
+    .jp-faq-answer {
+        font-size: 0.9rem;
+        padding: 0 18px 18px;
+        line-height: 1.6;
+    }
+
+    .jp-logos-marquee {
+        padding: 16px 0;
+        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    }
+
+    .jp-logos-track {
+        gap: 20px;
+        animation-duration: 20s;
+    }
+
+    .jp-logo-item {
+        width: 155px;
+        height: 72px;
+        padding: 10px 16px;
+        border-radius: 14px;
+    }
+
+    .jp-logo-item img {
+        max-height: 42px;
+    }
+
+    .logo-slide--text {
+        width: 140px;
+        height: 48px;
+        padding: 0 12px;
+    }
+
+    .logo-slide-name {
+        font-size: 0.75rem;
+    }
+
     .jp-plaque {
         transform: none !important;
         margin: 0 auto;
@@ -1704,6 +2140,10 @@ body.theme-dark .jp-faq-arrow {
         flex-direction: column;
         text-align: center;
         align-items: center;
+    }
+
+    .jp-cta__text h2 {
+        font-size: 1.45rem;
     }
 
     .jp-cta__actions {
@@ -1735,6 +2175,30 @@ body.theme-dark .jp-faq-arrow {
         padding: 32px 0 42px;
     }
 
+    .jp-hero__title {
+        font-size: clamp(1.55rem, 5.5vw, 1.85rem);
+        line-height: 1.22;
+    }
+
+    .jp-hero__lead {
+        font-size: 0.925rem;
+        line-height: 1.55;
+    }
+
+    .jp-section__title {
+        font-size: 1.35rem;
+        line-height: 1.25;
+    }
+
+    .jp-section__sub {
+        font-size: 0.875rem;
+    }
+
+    .jp-badge {
+        font-size: 0.75rem;
+        padding: 5px 12px;
+    }
+
     .jp-hero__actions {
         flex-direction: column;
         width: 100%;
@@ -1755,20 +2219,28 @@ body.theme-dark .jp-faq-arrow {
         padding: 16px 10px;
     }
 
-    .jp-stats__num {
-        font-size: 1.55rem;
+    .jp-stats__value {
+        font-size: 1.6rem;
     }
 
     .jp-stats__label {
-        font-size: 0.72rem;
+        font-size: 0.7rem;
     }
 
     .jp-contact-card {
         padding: 24px 18px;
     }
 
+    .jp-contact-card__title {
+        font-size: 1.15rem;
+    }
+
     .jp-contact-form-box {
         padding: 24px 16px;
+    }
+
+    .jp-contact-form-box__title {
+        font-size: 1.25rem;
     }
 
     .jp-card--bordered {
@@ -1794,10 +2266,45 @@ body.theme-dark .jp-faq-arrow {
     }
 
     .jp-cta__text h2 {
-        font-size: 1.45rem;
+        font-size: 1.3rem;
+    }
+
+    .jp-legal__heading {
+        font-size: 1.125rem;
     }
 
     .jp-legal__section {
-        padding: 24px 18px;
+        padding: 20px 14px;
+    }
+
+    .jp-btn {
+        font-size: 0.9rem;
+        padding: 12px 20px;
+    }
+
+    .jp-faq-question {
+        font-size: 0.9rem;
+        padding: 14px 16px;
+    }
+
+    .jp-faq-answer {
+        font-size: 0.85rem;
+        padding: 0 16px 16px;
+    }
+
+    .jp-logos-track {
+        gap: 14px;
+        animation-duration: 16s;
+    }
+
+    .jp-logo-item {
+        width: 135px;
+        height: 64px;
+        padding: 8px 14px;
+        border-radius: 12px;
+    }
+
+    .jp-logo-item img {
+        max-height: 36px;
     }
 }
