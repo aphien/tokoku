@@ -1747,6 +1747,37 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.9.0 — Template Halaman Tentang, Kontak, Syarat &amp; Ketentuan, dan Kebijakan Privasi
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v2.9.0 menghadirkan 4 template halaman statis kustom berstandar korporat modern untuk JualPlakat.com: profil Tentang Kami dengan visual plakat 3D interaktif &amp; metrik dinamis, halaman Kontak Kami dengan generator formulir pesan WhatsApp instan, serta dokumen Syarat &amp; Ketentuan dan Kebijakan Privasi sesuai UU PDP No. 27/2022 lengkap dengan indikator progres baca dan Table of Contents (TOC) otomatis.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🏢 1. Template Profil Tentang Kami (Tentang JualPlakat)</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Visual Plakat Akrilik 3D</strong>: Elemen visual plakat akrilik modern bergaya glassmorphism dengan efek kilauan cahaya (ambient shine) dan ribbon penghargaan.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Statistik Dinamis Real-Time</strong>: Menghitung jumlah produk dan kategori katalog secara otomatis dari database toko.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Narasi Nilai &amp; Alur Kerja 4 Langkah</strong>: Penjelasan filosofi presisi, komitmen waktu, transparansi harga, serta panduan proses pemesanan dari konsultasi hingga pengiriman aman.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📞 2. Template Kontak Kami &amp; Generator WhatsApp Instan</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Interactive WhatsApp Builder</strong>: Formulir interaktif cerdas yang merangkum nama, instansi, jenis produk, jumlah pesanan, deadline, dan catatan menjadi format pesan rapi langsung ke WhatsApp Customer Care.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Workshop &amp; CRO Contact Cards</strong>: Alamat fisik dengan tombol Salin Cepat satu sentuhan dan integrasi Google Maps, serta kartu kontak CRO resmi.</li>
+                                    <li style="margin-bottom: 4px;"><strong>FAQ Accordion Interaktif</strong>: Jawaban pertanyaan umum seputar waktu produksi, file desain, minimal order, dan keamanan ekspedisi.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚖️ 3. Template Legalitas (Syarat &amp; Ketentuan + Kebijakan Privasi UU PDP)</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Sticky Table of Contents (TOC) &amp; Scrollspy</strong>: Navigasi cepat bernomor urut dengan penanda bagian aktif otomatis saat pengguna menggulir halaman.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Reading Progress Bar</strong>: Bilah penanda persentase keterbacaan dokumen di bagian atas layar.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Klausul Hukum Komprehensif</strong>: 15 pasal Syarat &amp; Ketentuan transaksi custom plakat dan 12 pasal Kebijakan Privasi sesuai UU PDP No. 27/2022.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Pemuatan Aset Terisolasi</strong>: File <code>pages.css</code> dan <code>pages.js</code> hanya dimuat pada halaman yang menggunakan template ini guna menjaga kecepatan 100% pada beranda dan katalog.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v2.8.0 — Desain Majalah Artikel Terkait, Mobile Touch Slider &amp; Flat Admin Nav
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

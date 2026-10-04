@@ -1,10 +1,41 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.8.0)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.9.0)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.8.0 — Desain Majalah Artikel Terkait, Mobile Touch Slider & Flat Admin Navigation
+## 🚀 Rilis Terbaru v2.9.0 — Template Halaman Tentang Kami, Kontak, Syarat & Ketentuan, dan Kebijakan Privasi
+
+Pembaruan **v2.9.0** menghadirkan 4 template halaman statis kustom berstandar korporat modern untuk JualPlakat.com dengan susunan kata profesional, copywriting persuasif ramah pelanggan, tata letak responsif bertaraf enterprise, integrasi WhatsApp cerdas, serta kepatuhan hukum transaksi digital dan perlindungan data pribadi:
+
+1. **Template Profil Tentang Kami (`page-templates/template-tentang.php`)**:
+   - **Visual Plakat Akrilik 3D Interaktif**: Elemen grafis plakat modern bergaya glassmorphism dengan efek refleksi kilauan cahaya (*ambient shine*) dan pita medali (*award ribbon*) yang memukau.
+   - **Metrik Katalog Dinamis**: Menghitung jumlah produk aktif dan kategori material secara otomatis dari database toko untuk memperkuat reputasi dan kredibilitas toko.
+   - **Nilai Unggulan & Filosofi**: 6 pilar komitmen (Presisi Detail, Material Pilihan, Desain Personal Bebas Biaya, Ketepatan Waktu Acara, Komunikasi Responsif, dan Harga Transparan).
+   - **Alur Kerja Transparan 4 Langkah**: Panduan interaktif proses pemesanan mulai dari *Konsultasi*, *Pratinjau Mockup & Revisi*, *Produksi Mesin & Sentuhan Tangan*, hingga *Pengemasan Berlapis & Pengiriman Seluruh Indonesia*.
+   - **Segmen Klien & Profil Usaha**: Menampilkan jangkauan instansi pemerintah, BUMN, universitas, sekolah, perbankan, dan event olahraga yang dilayani.
+
+2. **Template Kontak Kami & Generator WhatsApp (`page-templates/template-kontak.php`)**:
+   - **Interactive WhatsApp Message Builder**: Formulir cerdas yang secara otomatis merangkum data nama pemesan, instansi, jenis produk (akrilik, kayu, resin, piala, dsb.), estimasi jumlah pcs, tanggal acara/kebutuhan, dan catatan desain menjadi pesan rapi terstruktur yang langsung terbuka di WhatsApp Customer Care.
+   - **Kartu Kontak & Hotline CRO**: Kartu WhatsApp hotline dengan respons prioritas, email resmi untuk dokumen penawaran/PO instansi, jam kerja layanan, serta daftar Customer Relation Officer (CRO) berpendekatan personal.
+   - **Workshop & Navigasi Lokasi**: Alamat fisik bengkel/kantor lengkap dengan tombol *Salin Alamat* satu sentuhan dan tautan langsung ke Google Maps.
+   - **FAQ Accordion Interaktif**: Jawaban instan untuk pertanyaan yang paling sering diajukan mengenai durasi produksi, ketiadaan minimal order (MOQ), format file logo, dan pengiriman ekspedisi ke luar kota.
+
+3. **Template Legalitas Komprehensif (`page-templates/template-terms.php` & `page-templates/template-privacy.php`)**:
+   - **Arsitektur Layout Legal Reusable (`template-parts/legal-page.php`)**: Kerangka tata letak dokumen hukum yang bersih, mudah dinavigasi, dan nyaman dibaca.
+   - **Sticky Table of Contents (TOC) & Scrollspy**: Daftar isi bernomor urut di bilah sisi yang sticky saat digulir, lengkap dengan deteksi posisi baca aktif (*scrollspy*) dan penanda interaktif.
+   - **Reading Progress Bar**: Garis progres baca gradien di bagian atas browser yang bergerak seiring pengguna menggulir dokumen.
+   - **15 Pasal Syarat & Ketentuan**: Mengatur secara rinci proses konsultasi, pembayaran DP & pelunasan, persetujuan desain (ACC mockup), toleransi cetak grafir, garansi kerusakan pengiriman, hingga force majeure.
+   - **12 Pasal Kebijakan Privasi Sesuai UU PDP No. 27/2022**: Menguraikan dasar pemrosesan data pribadi, hak-hak pemilik data (akses, perbaikan, penghapusan), retensi data, pengalihan data ke platform komunikasi (WhatsApp), dan prosedur permohonan privasi.
+
+4. **Kinerja Terisolasi, Otomatisasi & Keamanan Maksimal**:
+   - **Scoped Asset Enqueue**: Berkas `assets/css/pages.css` dan `assets/js/pages.js` hanya dimuat secara eksklusif pada halaman yang menggunakan template statis ini, menjaga skor performa 100% pada beranda dan halaman produk utama.
+   - **Otomatisasi Instalasi Halaman**: Fungsi `tokoku_maybe_create_static_pages()` secara cerdas mendaftarkan dan menerbitkan keempat halaman di WordPress serta menghubungkan halaman privasi ke opsi sistem tanpa menimpa data yang telah ada sebelumnya.
+   - **Audit Keamanan Total**: Seluruh parameter dan keluaran menggunakan sanitasi ketat (`esc_html`, `esc_url`, `esc_attr`, `antispambot`, `wp_kses_post`), aman dari potensi injeksi skrip.
+
+---
+
+## 🚀 Rilis v2.8.0 — Desain Majalah Artikel Terkait, Mobile Touch Slider & Flat Admin Navigation
 
 Pembaruan **v2.8.0** menyelaraskan tampilan rekomendasi artikel pada halaman baca tunggal dengan estetika majalah modern, menghadirkan slider sentuh khusus perangkat ponsel dengan CSS Scroll-Snap dan indikator titik interaktif, menonaktifkan efek gradasi pada menu pengaturan admin untuk tampilan flat yang tegas, serta meningkatkan keamanan dan kebersihan aset:
 

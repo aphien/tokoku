@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.8.0' );
+define( 'TOKOKU_VERSION', '2.9.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -339,6 +339,7 @@ require_once TOKOKU_DIR . '/includes/admin-page.php';
 require_once TOKOKU_DIR . '/includes/ajax-search.php';
 require_once TOKOKU_DIR . '/includes/seo.php';
 require_once TOKOKU_DIR . '/includes/taxonomy-meta.php';
+require_once TOKOKU_DIR . '/includes/page-templates.php';
 
 /**
  * Menambahkan teks hak cipta/kredit di bagian bawah halaman Admin WordPress.
