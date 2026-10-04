@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.5.9' );
+define( 'TOKOKU_VERSION', '2.6.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -732,7 +732,7 @@ function tokoku_sanitize_svg( $svg ) {
 /**
  * Render Ikon Lead Time Bar Halaman Produk
  */
-function tokoku_get_lead_time_icon_html( $size = 18 ) {
+function tokoku_get_lead_time_icon_html( $size = 20 ) {
     $custom_img = get_theme_mod( 'tokoku_lead_time_icon_img' );
     if ( ! empty( $custom_img ) ) {
         return '<img src="' . esc_url( $custom_img ) . '" alt="" width="' . esc_attr( $size ) . '" height="' . esc_attr( $size ) . '" style="object-fit:contain; display:block;">';

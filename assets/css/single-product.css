@@ -27,10 +27,10 @@
     background: rgba(var(--primary-rgb, 0, 123, 255), 0.06);
 }
 .trust-icon {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 11px;
     background: rgba(var(--primary-rgb, 0, 123, 255), 0.1);
     color: var(--primary);
     display: flex;
@@ -41,19 +41,28 @@
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     animation: trustIconFloat 4s infinite ease-in-out;
 }
+.trust-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    display: block;
+    flex-shrink: 0;
+    transition: stroke 0.3s ease, transform 0.3s ease;
+}
 .trust-badge-item:hover .trust-icon {
-    transform: scale(1.14) rotate(5deg);
+    transform: scale(1.1) rotate(4deg);
     background: var(--primary);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb, 0, 123, 255), 0.35);
+    box-shadow: 0 4px 14px rgba(var(--primary-rgb, 0, 123, 255), 0.35);
 }
 .trust-badge-item:hover .trust-icon svg {
     stroke: #ffffff;
 }
 .trust-icon img,
 .trust-icon .trust-badge-custom-img {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     object-fit: contain;
     border-radius: 4px;
     display: block;
@@ -131,9 +140,10 @@
     pointer-events: none;
 }
 .lead-time-icon-wrap {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 11px;
     background: var(--primary);
     color: #ffffff;
     display: flex;
@@ -141,12 +151,21 @@
     justify-content: center;
     flex-shrink: 0;
     margin: 0;
+    box-shadow: 0 3px 10px rgba(var(--primary-rgb), 0.3);
     animation: leadTimeIconPulse 3.5s infinite ease-in-out;
+}
+.lead-time-icon-wrap svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    display: block;
+    flex-shrink: 0;
 }
 .lead-time-icon-wrap img,
 .lead-time-icon-wrap .lead-time-custom-img {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     object-fit: contain;
     display: block;
 }
@@ -345,7 +364,10 @@
 }
 
 .sticky-wa-icon {
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
+    display: block;
     animation: waIconBounce 2.8s infinite ease-in-out;
 }
 
@@ -733,6 +755,11 @@ body.single-produk .bottom-nav {
     margin: 0;
     letter-spacing: 0.3px;
     text-transform: uppercase;
+}
+.stok-notice .notice-title svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 .stok-notice p {
     color: var(--text2);
@@ -1250,33 +1277,68 @@ body.single-produk .bottom-nav {
     background: var(--card-bg, #ffffff);
     border: 1px solid var(--border);
     border-radius: 18px;
-    padding: 22px 24px;
+    padding: 18px 22px;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    transition: all 0.25s ease;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .specs-grid-item:hover {
     border-color: rgba(var(--primary-rgb), 0.4);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.08);
     transform: translateY(-2px);
 }
 
-.specs-item-label {
-    display: inline-flex;
+.specs-icon-badge {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 13px;
+    background: rgba(var(--primary-rgb), 0.08);
+    color: var(--primary);
+    display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    font-size: var(--fs-sm);
-    line-height: var(--lh-tight);
-    color: var(--text2);
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.25s ease,
+                color 0.25s ease,
+                box-shadow 0.25s ease;
 }
 
-.specs-item-label svg {
-    stroke: var(--primary);
+.specs-grid-item:hover .specs-icon-badge {
+    background: var(--primary);
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.32);
+}
+
+.specs-icon-badge svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 2;
+    display: block;
     flex-shrink: 0;
+}
+
+.specs-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.specs-item-label {
+    display: block;
+    font-weight: 600;
+    font-size: var(--fs-xs);
+    line-height: var(--lh-tight);
+    color: var(--text3, #888888);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .specs-item-val {
@@ -1285,6 +1347,7 @@ body.single-produk .bottom-nav {
     line-height: var(--lh-snug);
     color: var(--text);
     text-align: left;
+    word-break: break-word;
 }
 
 .specs-item-sku {
@@ -1727,11 +1790,16 @@ body.single-produk .bottom-nav {
         background: rgba(var(--primary-rgb, 0, 123, 255), 0.04);
     }
     .trust-icon {
-        width: 30px;
-        height: 30px;
-        min-width: 30px;
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border-radius: 9px;
         margin: 0 !important;
         flex-shrink: 0;
+    }
+    .trust-icon svg {
+        width: 18px;
+        height: 18px;
     }
     .trust-content {
         text-align: left !important;
@@ -1926,11 +1994,26 @@ body.single-produk .bottom-nav {
     .specs-grid-item {
         padding: 14px 16px;
         border-radius: 14px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+    }
+    .specs-icon-badge {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        border-radius: 11px;
+    }
+    .specs-icon-badge svg {
+        width: 20px;
+        height: 20px;
+    }
+    .specs-item-label {
+        font-size: 0.725rem;
     }
     .specs-item-val {
+        font-size: 0.925rem;
         text-align: left;
     }
     .product-steps-flow {
@@ -1949,7 +2032,14 @@ body.single-produk .bottom-nav {
         gap: 16px;
     }
     .guarantee-icon-wrap {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
         margin: 0 auto;
+    }
+    .guarantee-icon-wrap svg {
+        width: 28px;
+        height: 28px;
     }
     .product-consultation-banner {
         flex-direction: column;
@@ -2026,9 +2116,9 @@ body.single-produk .bottom-nav {
 
 .stock-count { font-size: var(--fs-sm); color: var(--text2); font-weight: normal; margin-left: 4px; }
 
-.product-note-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; display: flex; gap: 12px; margin-bottom: 30px; color: #92400e; }
-.product-note-box svg { flex-shrink: 0; color: #f59e0b; }
-.product-note-box .note-content { font-size: var(--fs-sm); line-height: var(--lh-snug); }
+.product-note-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 12px; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 26px; color: #92400e; }
+.product-note-box svg, .product-note-icon { width: 22px; height: 22px; min-width: 22px; flex-shrink: 0; color: #f59e0b; margin-top: 2px; }
+.product-note-box .note-content { font-size: var(--fs-sm); line-height: var(--lh-snug); flex: 1; }
 :is(.theme-dark, html.theme-dark, body.theme-dark) .product-note-box { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); border-left: 4px solid #f59e0b; color: #fde68a; }
 
 .product-tag-badge { background: var(--bg2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-size: var(--fs-xs); font-weight: 600; color: var(--text2); text-decoration: none; transition: var(--ease); }

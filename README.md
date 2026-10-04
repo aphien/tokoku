@@ -1,10 +1,34 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.5.9)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.6.0)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.5.9 — Smooth Testimonials, Centered Product Tabs & Streamlined Specs Grid
+## 🚀 Rilis Terbaru v2.6.0 — Standarisasi Ukuran Ikon & Tampilan Profesional Elegan
+
+Pembaruan **v2.6.0** menghadirkan standarisasi menyeluruh pada proporsi, ukuran, rasio kontainer, dan ketajaman tampilan seluruh ikon tema di semua perangkat:
+
+1. **Lencana Ikon Spesifikasi Produk Modern (*Specs Icon Badge Card*)**:
+   - Memperbarui 3 kartu spesifikasi produk esensial (*Kemasan / Packaging*, *Format File Desain*, *Minimum Pemesanan*) dengan kontainer lencana rounded squircle (`.specs-icon-badge`) 44x44px (38x38px di mobile).
+   - Menggunakan ikon SVG 22px yang tajam dengan latar halus bertema lembut, lengkap dengan efek interaktif mikro saat kursor diarahkan (*hover lift & color accent shift*).
+   - Menata tipografi informasi spesifikasi dengan label kapital rapi (`var(--fs-xs)`) dan nilai spesifikasi tebal (`var(--fs-base)`) yang nyaman dibaca.
+
+2. **Migrasi Penuh Dashicons ke Clean Vector SVGs**:
+   - Menghilangkan sisa penggunaan WordPress Dashicons font di frontend (`dashicons-info` pada kotak catatan dan `dashicons-clock` pada status pre-order).
+   - Menggantikannya dengan vektor SVG murni 20px dan 22px bergaris tegas (*stroke-width: 2.2 - 2.5px*), memastikan tampilan selalu tajam tanpa ketergantungan file font eksternal.
+
+3. **Proporsi Simetris Navigasi Bawah Seluler (*Mobile Bottom Nav Symmetry*)**:
+   - Mengubah pembungkus ikon navigasi bawah (`.bottom-nav .nav-icon-wrap`) dari dimensi asimetris 38x32px menjadi bujur sangkar rounded simetris 36x36px (`border-radius: 11px`).
+   - Menstandarkan ukuran ikon SVG 22px seragam pada semua menu (Home, Kategori, WhatsApp, Menu), memberikan tampilan dermaga bawah (*bottom dock*) yang rapi ala aplikasi iOS / Android native.
+
+4. **Keseimbangan Ukuran Ikon Trust Badge, Lead Time & CTA Buttons**:
+   - Menyesuaikan kontainer `.trust-icon` dan `.lead-time-icon-wrap` menjadi 38x38px proporsional dengan ikon SVG 20px dan radius 11px, memberikan ruang bernapas visual (*breathing room*) yang ideal.
+   - Mengoptimalkan ikon WhatsApp pada tombol aksi utama (`.btn-whatsapp-order`) dan kartu katalog (`product-card.php`) ke ukuran 20–22px dengan penyelarasan tengah vertikal yang presisi.
+   - Menyeimbangkan tombol navigasi slider testimoni dan artikel (`.testi-slider-arrow`, `.article-slider-btn`) dengan ikon panah 20px berbobot stroke 2.4px yang jelas dan tegas.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.9 — Smooth Testimonials, Centered Product Tabs & Streamlined Specs Grid
 
 Pembaruan **v2.5.9** menghadirkan penyempurnaan estetika kartu ulasan yang tenang dan smooth, pengembalian teks serta posisi centering presisi navigasi tab produk, penyederhanaan grid spesifikasi produk, dan audit keamanan kode:
 

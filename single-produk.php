@@ -188,7 +188,7 @@ get_header(); ?>
                     ?>
                     <div class="product-lead-time-bar">
                         <div class="lead-time-icon-wrap">
-                            <?php echo tokoku_get_lead_time_icon_html( 18 ); ?>
+                            <?php echo tokoku_get_lead_time_icon_html( 20 ); ?>
                         </div>
                         <div class="lead-time-info">
                             <?php if ( ! empty( $lt_label ) ) : ?><span class="lead-time-label"><?php echo esc_html( $lt_label ); ?></span><?php endif; ?>
@@ -373,7 +373,7 @@ get_header(); ?>
 
                     <?php if ( $catatan ) : ?>
                     <div class="product-note-box">
-                        <span class="dashicons dashicons-info" style="color: #ffb300;"></span>
+                        <svg class="product-note-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         <div class="note-content">
                             <strong>Catatan:</strong> 
                             <div class="note-text-content" style="margin-top: 5px;">
@@ -412,7 +412,7 @@ get_header(); ?>
                         <?php elseif ( $stok['class'] == 'stok-preorder' ) : ?>
                         <div class="stok-notice stok-notice--preorder">
                             <div class="notice-title">
-                                <span class="dashicons dashicons-clock" style="font-size: 22px; width: 22px; height: 22px;"></span>
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                                 <?php echo esc_html( $notice_preorder_title ); ?>
                             </div>
                             <p><?php echo nl2br( esc_html( $notice_preorder_desc ) ); ?></p>
@@ -434,7 +434,7 @@ get_header(); ?>
                                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                                 data-product-url="<?php the_permalink(); ?>"
                                 data-product-price="<?php echo esc_attr( $price_val ); ?>">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle; display: inline-block;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>
                             Pesan via WhatsApp
                         </button>
 
@@ -675,27 +675,33 @@ get_header(); ?>
                         <div class="product-tab-panel" id="prod-panel-specs" role="tabpanel" aria-labelledby="prod-tab-specs">
                             <div class="product-specs-grid">
                                 <div class="specs-grid-item">
-                                    <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-                                        <?php esc_html_e( 'Kemasan / Packaging', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val"><?php echo esc_html( $specs_packaging ); ?></span>
+                                    <div class="specs-icon-badge">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+                                    </div>
+                                    <div class="specs-item-info">
+                                        <span class="specs-item-label"><?php esc_html_e( 'Kemasan / Packaging', 'tokoku' ); ?></span>
+                                        <span class="specs-item-val"><?php echo esc_html( $specs_packaging ); ?></span>
+                                    </div>
                                 </div>
 
                                 <div class="specs-grid-item">
-                                    <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-                                        <?php esc_html_e( 'Format File Desain', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val"><?php echo esc_html( $specs_file_format ); ?></span>
+                                    <div class="specs-icon-badge">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                                    </div>
+                                    <div class="specs-item-info">
+                                        <span class="specs-item-label"><?php esc_html_e( 'Format File Desain', 'tokoku' ); ?></span>
+                                        <span class="specs-item-val"><?php echo esc_html( $specs_file_format ); ?></span>
+                                    </div>
                                 </div>
 
                                 <div class="specs-grid-item">
-                                    <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                                        <?php esc_html_e( 'Minimum Pemesanan', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val"><?php echo esc_html( $specs_min_order ); ?></span>
+                                    <div class="specs-icon-badge">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                                    </div>
+                                    <div class="specs-item-info">
+                                        <span class="specs-item-label"><?php esc_html_e( 'Minimum Pemesanan', 'tokoku' ); ?></span>
+                                        <span class="specs-item-val"><?php echo esc_html( $specs_min_order ); ?></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
