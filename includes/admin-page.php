@@ -164,7 +164,6 @@ function tokoku_save_admin_settings() {
         'tokoku_price_color'      => 'sanitize_hex_color',
         
         // Shop Config
-        'tokoku_show_price'       => 'sanitize_text_field',
         'tokoku_currency'         => 'sanitize_text_field',
         
         // Footer & SEO
@@ -192,9 +191,6 @@ function tokoku_save_admin_settings() {
         'tokoku_faq_title'        => 'sanitize_text_field',
         'tokoku_faq_subtitle'     => 'sanitize_text_field',
 
-        // Menu Order
-        'tokoku_admin_menu_order' => 'sanitize_text_field',
-
         // Single Product (Gallery Slider, Lead Time Bar, Trust Badges, Stock Notice)
         'tokoku_product_slider_autoplay' => 'sanitize_text_field',
         'tokoku_product_slider_delay'    => 'absint',
@@ -219,25 +215,12 @@ function tokoku_save_admin_settings() {
         'tokoku_notice_preorder_title'   => 'sanitize_text_field',
         'tokoku_notice_preorder_desc'    => 'sanitize_textarea_field',
 
-        // Informasi & Detail Produk (Hub Deskripsi, Spesifikasi & Panduan)
+        // Informasi & Detail Produk (Hub Deskripsi & Panduan)
         'tokoku_enable_desc_hub'         => 'sanitize_text_field',
         'tokoku_desc_badge_text'         => 'sanitize_text_field',
         'tokoku_desc_section_title'      => 'sanitize_text_field',
         'tokoku_desc_tab1_label'         => 'sanitize_text_field',
-        'tokoku_desc_tab2_label'         => 'sanitize_text_field',
         'tokoku_desc_tab3_label'         => 'sanitize_text_field',
-
-        'tokoku_desc_enable_highlights'  => 'sanitize_text_field',
-        'tokoku_desc_val1_title'         => 'sanitize_text_field',
-        'tokoku_desc_val1_desc'          => 'sanitize_text_field',
-        'tokoku_desc_val2_title'         => 'sanitize_text_field',
-        'tokoku_desc_val2_desc'          => 'sanitize_text_field',
-        'tokoku_desc_val3_title'         => 'sanitize_text_field',
-        'tokoku_desc_val3_desc'          => 'sanitize_text_field',
-
-        'tokoku_specs_packaging'         => 'sanitize_text_field',
-        'tokoku_specs_file_format'       => 'sanitize_text_field',
-        'tokoku_specs_min_order'         => 'sanitize_text_field',
 
         'tokoku_desc_step1_title'        => 'sanitize_text_field',
         'tokoku_desc_step1_desc'         => 'sanitize_textarea_field',
@@ -517,16 +500,24 @@ function tokoku_settings_page_html() {
             <div class="tokoku-admin-header">
                 <div class="tokoku-admin-logo">
                     <span class="dashicons dashicons-store"></span>
-                    <h1>Tokoku by M.alfiandi Ismet</h1>
+                    <div class="tokoku-admin-heading-group">
+                        <h1>Tokoku <span class="tokoku-brand-sub">by M.alfiandi Ismet</span></h1>
+                        <span class="tokoku-admin-subhead"><?php _e( 'Panel Kontrol & Kustomisasi Tema Toko Online', 'tokoku' ); ?></span>
+                    </div>
                 </div>
                 <div class="tokoku-admin-header-actions">
-                    <button type="submit" class="button button-primary tokoku-submit-update-btn tokoku-top-save-btn" id="tokoku-top-save">
+                    <div class="tokoku-admin-version-pill" title="Versi Tema Aktif">
+                        <span class="tokoku-status-dot"></span>
+                        <span class="tokoku-version-text">v<?php echo TOKOKU_VERSION; ?></span>
+                        <span class="tokoku-version-badge-tag"><?php _e( 'Optimal', 'tokoku' ); ?></span>
+                    </div>
+                    <button type="submit" class="button button-primary tokoku-submit-update-btn tokoku-top-save-btn" id="tokoku-top-save" title="<?php esc_attr_e( 'Simpan perubahan (Shortcut: Ctrl/Cmd + S)', 'tokoku' ); ?>">
                         <span class="tokoku-btn-icon">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"/></svg>
                         </span>
-                        <span class="tokoku-btn-text"><?php _e( 'Perbarui Pengaturan', 'tokoku' ); ?></span>
+                        <span class="tokoku-btn-text"><?php _e( 'Simpan Pengaturan', 'tokoku' ); ?></span>
+                        <span class="tokoku-kbd-hint">⌘S</span>
                     </button>
-                    <div class="tokoku-admin-version">v<?php echo TOKOKU_VERSION; ?></div>
                 </div>
             </div>
 
@@ -672,7 +663,6 @@ function tokoku_settings_page_html() {
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <input type="hidden" name="tokoku_admin_menu_order" id="tokoku_admin_menu_order" value="tab-general,tab-whatsapp,tab-appearance,tab-single-product,tab-slider,tab-testimonials,tab-faq,tab-seo,tab-typography,tab-footer,tab-social,tab-update,tab-import-export">
 
                 <div class="tokoku-settings-content">
                     <!-- Tab: General -->
@@ -1178,13 +1168,13 @@ function tokoku_settings_page_html() {
                                     </select>
                                 </div>
                             </div>
-                            <p class="tokoku-tip" style="margin-bottom: 22px;"><?php _e( 'Kustomisasi seluruh konten teks, judul, label tab navigasi, 3 kartu keunggulan nilai, spesifikasi kemasan, panduan 4 langkah pemesanan, dan kotak garansi yang tampil di halaman produk.', 'tokoku' ); ?></p>
+                            <p class="tokoku-tip" style="margin-bottom: 22px;"><?php _e( 'Kustomisasi seluruh konten teks, judul, label 2 tab navigasi (Deskripsi & Panduan Pesan), alur 4 langkah pemesanan, dan kotak komitmen garansi yang tampil di halaman produk.', 'tokoku' ); ?></p>
 
                             <!-- Sub 1: Header & Tab Labels -->
                             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
                                 <h4 style="margin: 0 0 16px 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
                                     <span class="dashicons dashicons-tag" style="color: #6366f1;"></span>
-                                    <?php _e( '1. Judul Bagian & Label Tab Navigasi', 'tokoku' ); ?>
+                                    <?php _e( '1. Judul Bagian & Label Tab Navigasi (2 Tab Aktif)', 'tokoku' ); ?>
                                 </h4>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                                     <div class="tokoku-field" style="margin-bottom: 0;">
@@ -1193,106 +1183,26 @@ function tokoku_settings_page_html() {
                                     </div>
                                     <div class="tokoku-field" style="margin-bottom: 0;">
                                         <label><?php _e( 'Judul Utama Bagian', 'tokoku' ); ?></label>
-                                        <input type="text" name="tokoku_desc_section_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_section_title', 'Spesifikasi & Panduan Pemesanan' ) ); ?>">
+                                        <input type="text" name="tokoku_desc_section_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_section_title', 'Deskripsi & Panduan Pemesanan' ) ); ?>">
                                     </div>
                                 </div>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
                                     <div class="tokoku-field" style="margin-bottom: 0;">
-                                        <label><?php _e( 'Label Tab 1', 'tokoku' ); ?></label>
+                                        <label><?php _e( 'Label Tab 1 (Deskripsi)', 'tokoku' ); ?></label>
                                         <input type="text" name="tokoku_desc_tab1_label" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_tab1_label', 'Deskripsi & Fitur' ) ); ?>">
                                     </div>
                                     <div class="tokoku-field" style="margin-bottom: 0;">
-                                        <label><?php _e( 'Label Tab 2', 'tokoku' ); ?></label>
-                                        <input type="text" name="tokoku_desc_tab2_label" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_tab2_label', 'Spesifikasi Detail' ) ); ?>">
-                                    </div>
-                                    <div class="tokoku-field" style="margin-bottom: 0;">
-                                        <label><?php _e( 'Label Tab 3', 'tokoku' ); ?></label>
+                                        <label><?php _e( 'Label Tab 2 (Cara Pesan & Garansi)', 'tokoku' ); ?></label>
                                         <input type="text" name="tokoku_desc_tab3_label" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_tab3_label', 'Cara Pesan & Garansi' ) ); ?>">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Sub 2: 3 Value Proposition Highlights -->
-                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-                                    <h4 style="margin: 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
-                                        <span class="dashicons dashicons-awards" style="color: #f59e0b;"></span>
-                                        <?php _e( '2. Tiga Kartu Keunggulan Nilai (Di Tab Deskripsi)', 'tokoku' ); ?>
-                                    </h4>
-                                    <div>
-                                        <select name="tokoku_desc_enable_highlights" style="font-size: 13px;">
-                                            <option value="yes" <?php selected( get_theme_mod( 'tokoku_desc_enable_highlights', 'yes' ), 'yes' ); ?>><?php _e( 'Tampilkan', 'tokoku' ); ?></option>
-                                            <option value="no" <?php selected( get_theme_mod( 'tokoku_desc_enable_highlights', 'yes' ), 'no' ); ?>><?php _e( 'Sembunyikan', 'tokoku' ); ?></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-                                    <!-- Highlight 1 -->
-                                    <div style="background: #fffdf5; border: 1px solid #fef3c7; border-radius: 10px; padding: 14px;">
-                                        <strong style="color: #b45309; font-size: 13px; display: block; margin-bottom: 10px;">⭐ <?php _e( 'Kartu Keunggulan 1', 'tokoku' ); ?></strong>
-                                        <div class="tokoku-field" style="margin-bottom: 10px;">
-                                            <label style="font-size: 12px;"><?php _e( 'Judul Singkat', 'tokoku' ); ?></label>
-                                            <input type="text" name="tokoku_desc_val1_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_val1_title', 'Material Kualitas Unggulan' ) ); ?>">
-                                        </div>
-                                        <div class="tokoku-field" style="margin-bottom: 0;">
-                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
-                                            <textarea name="tokoku_desc_val1_desc" rows="2" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_val1_desc', 'Akrilik bening kristal, kayu pilihan, & logam anti-korosi presisi tinggi.' ) ); ?></textarea>
-                                        </div>
-                                    </div>
-                                    <!-- Highlight 2 -->
-                                    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 14px;">
-                                        <strong style="color: #0369a1; font-size: 13px; display: block; margin-bottom: 10px;">✏️ <?php _e( 'Kartu Keunggulan 2', 'tokoku' ); ?></strong>
-                                        <div class="tokoku-field" style="margin-bottom: 10px;">
-                                            <label style="font-size: 12px;"><?php _e( 'Judul Singkat', 'tokoku' ); ?></label>
-                                            <input type="text" name="tokoku_desc_val2_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_val2_title', 'Free Desain & Mockup' ) ); ?>">
-                                        </div>
-                                        <div class="tokoku-field" style="margin-bottom: 0;">
-                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
-                                            <textarea name="tokoku_desc_val2_desc" rows="2" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_val2_desc', 'Bantu setting tata letak logo & teks sampai sesuai sebelum cetak.' ) ); ?></textarea>
-                                        </div>
-                                    </div>
-                                    <!-- Highlight 3 -->
-                                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px;">
-                                        <strong style="color: #15803d; font-size: 13px; display: block; margin-bottom: 10px;">⚡ <?php _e( 'Kartu Keunggulan 3', 'tokoku' ); ?></strong>
-                                        <div class="tokoku-field" style="margin-bottom: 10px;">
-                                            <label style="font-size: 12px;"><?php _e( 'Judul Singkat', 'tokoku' ); ?></label>
-                                            <input type="text" name="tokoku_desc_val3_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_desc_val3_title', 'Pengerjaan Cepat & Rapi' ) ); ?>">
-                                        </div>
-                                        <div class="tokoku-field" style="margin-bottom: 0;">
-                                            <label style="font-size: 12px;"><?php _e( 'Keterangan', 'tokoku' ); ?></label>
-                                            <textarea name="tokoku_desc_val3_desc" rows="2" style="font-size: 12px;"><?php echo esc_textarea( get_theme_mod( 'tokoku_desc_val3_desc', 'Dikerjakan langsung oleh pengrajin ahli dengan mesin laser canggih.' ) ); ?></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Sub 3: Spesifikasi Default Info -->
-                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                                <h4 style="margin: 0 0 16px 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
-                                    <span class="dashicons dashicons-clipboard" style="color: #0284c7;"></span>
-                                    <?php _e( '3. Spesifikasi Tambahan (Di Tab Spesifikasi)', 'tokoku' ); ?>
-                                </h4>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-                                    <div class="tokoku-field" style="margin-bottom: 0;">
-                                        <label><?php _e( 'Kemasan / Packaging', 'tokoku' ); ?></label>
-                                        <input type="text" name="tokoku_specs_packaging" value="<?php echo esc_attr( get_theme_mod( 'tokoku_specs_packaging', 'Box Beludru / Hardbox Eksklusif + Bubble Wrap Berlapis' ) ); ?>">
-                                    </div>
-                                    <div class="tokoku-field" style="margin-bottom: 0;">
-                                        <label><?php _e( 'Format File Desain', 'tokoku' ); ?></label>
-                                        <input type="text" name="tokoku_specs_file_format" value="<?php echo esc_attr( get_theme_mod( 'tokoku_specs_file_format', 'CDR, AI, PDF, EPS, PNG, atau JPG Resolusi Tinggi' ) ); ?>">
-                                    </div>
-                                    <div class="tokoku-field" style="margin-bottom: 0;">
-                                        <label><?php _e( 'Minimum Pemesanan', 'tokoku' ); ?></label>
-                                        <input type="text" name="tokoku_specs_min_order" value="<?php echo esc_attr( get_theme_mod( 'tokoku_specs_min_order', 'Mulai 1 Pcs (Satuan & Partai Besar Siap)' ) ); ?>">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Sub 4: 4 Easy Steps -->
+                            <!-- Sub 2: 4 Easy Steps -->
                             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
                                 <h4 style="margin: 0 0 16px 0; color: #1e293b; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
                                     <span class="dashicons dashicons-randomize" style="color: #8b5cf6;"></span>
-                                    <?php _e( '4. Panduan 4 Langkah Cara Pesan (Di Tab Cara Pesan & Garansi)', 'tokoku' ); ?>
+                                    <?php _e( '2. Panduan 4 Langkah Cara Pesan (Di Tab Cara Pesan & Garansi)', 'tokoku' ); ?>
                                 </h4>
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
                                     <!-- Step 1 -->
@@ -1346,12 +1256,12 @@ function tokoku_settings_page_html() {
                                 </div>
                             </div>
 
-                            <!-- Sub 5: 100% Guarantee Box -->
+                            <!-- Sub 3: 100% Guarantee Box -->
                             <div style="background: #ffffff; border: 1.5px solid #22c55e; border-radius: 12px; padding: 20px;">
                                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                                     <h4 style="margin: 0; color: #15803d; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
                                         <span class="dashicons dashicons-shield-alt" style="color: #22c55e;"></span>
-                                        <?php _e( '5. Kotak Jaminan Garansi 100%', 'tokoku' ); ?>
+                                        <?php _e( '3. Kotak Jaminan Garansi 100%', 'tokoku' ); ?>
                                     </h4>
                                     <div>
                                         <select name="tokoku_desc_enable_guarantee" style="font-size: 13px; font-weight: 700;">
@@ -1836,6 +1746,44 @@ function tokoku_settings_page_html() {
                             </div>
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.7.0 — Dasbor Admin Modern, Shortcut Simpan Cepat &amp; Pembersihan Fitur Usang
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v2.7.0 menghadirkan perombakan tampilan dasbor admin utama WordPress dengan antarmuka SaaS modern, penambahan pintasan keyboard simpan cepat (⌘S/Ctrl+S), perampingan halaman produk menjadi 2 tab navigasi terpusat, pengaktifan tooltip WhatsApp mengambang, dan pembersihan menyeluruh fitur yang tidak lagi berfungsi.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📊 1. Dasbor Utama WordPress &amp; Header Admin Modern</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Interactive SaaS Stat Cards</strong>: Widget dasbor TokoKu dilengkapi 4 kartu statistik berwarna gradien untuk Produk Aktif, Jalur WhatsApp, Kategori Produk, dan Artikel Blog dengan tautan langsung.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Quick Actions</strong>: Tombol akses cepat ke Tambah Produk, Pengaturan Tokoku, Pembaruan Tema, dan Kunjungi Website.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Header Glassmorphic Baru</strong>: Header panel admin dengan status pill (v2.7.0 • Optimal) dan hint pintasan keyboard.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚡ 2. Shortcut Keyboard Simpan Cepat (⌘S / Ctrl+S)</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;">Menyimpan seluruh pengaturan TokoKu secara instan di mana saja cukup dengan menekan <code>Cmd + S</code> (Mac) atau <code>Ctrl + S</code> (Windows/Linux) dengan animasi tombol feedback langsung.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🧹 3. Pembersihan Fitur Usang &amp; Halaman Produk 2 Tab</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Eliminasi Dead Code</strong>: Menghapus skema dan formulir kartu keunggulan/highlights serta input spesifikasi yang sudah tidak dipakai di antarmuka publik.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Pembersihan Drag-and-Drop Usang</strong>: Menghapus skema tersembunyi menu reorder dan script jQuery sortable yang tidak berfungsi.</li>
+                                    <li style="margin-bottom: 4px;"><strong>2 Tab Terpusat</strong>: Halaman produk tunggal fokus pada Tab Deskripsi dan Tab Cara Pesan &amp; Garansi dengan perataan tengah presisi.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Floating WhatsApp Tooltip</strong>: Pengaturan teks tombol WhatsApp mengambang di admin kini aktif dan tampil anggun sebagai tooltip desktop.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v2.6.0 — Standarisasi Ukuran Ikon &amp; Tampilan Profesional Elegan
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v2.6.0 menghadirkan standarisasi menyeluruh pada proporsi, ukuran, rasio kontainer, dan ketajaman tampilan seluruh ikon tema di semua perangkat.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v2.5.9 — Smooth Testimonials, Centered Product Tabs & Streamlined Specs Grid
                                 </h4>

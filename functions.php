@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '2.6.0' );
+define( 'TOKOKU_VERSION', '2.7.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -368,10 +368,11 @@ function tokoku_admin_global_assets( $hook ) {
 add_action( 'admin_enqueue_scripts', 'tokoku_admin_global_assets' );
 
 function tokoku_dashboard_widget_render() {
-    $count_produk   = wp_count_posts( 'produk' ) ? wp_count_posts( 'produk' )->publish : 0;
-    $count_kategori = wp_count_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty' => false ) );
-    $count_posts    = wp_count_posts( 'post' ) ? wp_count_posts( 'post' )->publish : 0;
+    $count_produk   = wp_count_posts( 'produk' ) ? (int) wp_count_posts( 'produk' )->publish : 0;
+    $count_kategori = (int) wp_count_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty' => false ) );
+    $count_posts    = wp_count_posts( 'post' ) ? (int) wp_count_posts( 'post' )->publish : 0;
     $wa_number      = get_theme_mod( 'tokoku_wa_number', '6281234567890' );
+    $wa_link        = 'https://wa.me/' . preg_replace( '/[^0-9]/', '', $wa_number );
     ?>
     <div class="tokoku-dash-widget">
         <div class="tokoku-dash-header">
@@ -379,57 +380,75 @@ function tokoku_dashboard_widget_render() {
                 <span class="tokoku-dash-header-icon">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg>
                 </span>
-                <span>Ringkasan Katalog & Toko Online</span>
+                <div class="tokoku-dash-title-text">
+                    <strong><?php _e( 'Ringkasan Katalog & Toko Online', 'tokoku' ); ?></strong>
+                    <span class="tokoku-dash-subhead"><?php _e( 'Status sistem & performa katalog toko Anda', 'tokoku' ); ?></span>
+                </div>
             </div>
-            <span class="tokoku-admin-version">v<?php echo TOKOKU_VERSION; ?></span>
+            <div class="tokoku-dash-version-pill">
+                <span class="tokoku-status-dot"></span>
+                <span>v<?php echo TOKOKU_VERSION; ?></span>
+            </div>
         </div>
+
         <div class="tokoku-dash-stats">
-            <div class="tokoku-dash-stat-card">
+            <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=produk' ) ); ?>" class="tokoku-dash-stat-card stat-blue">
                 <div class="tokoku-dash-stat-icon blue">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_produk ); ?></span>
-                    <span class="tokoku-dash-stat-label">Total Produk Aktif</span>
+                    <span class="tokoku-dash-stat-label"><?php _e( 'Produk Aktif', 'tokoku' ); ?></span>
                 </div>
-            </div>
-            <div class="tokoku-dash-stat-card">
+            </a>
+
+            <a href="<?php echo esc_url( $wa_link ); ?>" target="_blank" rel="noopener" class="tokoku-dash-stat-card stat-green">
                 <div class="tokoku-dash-stat-icon green">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.11-.23-.17-.48-.29z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $wa_number ); ?></span>
-                    <span class="tokoku-dash-stat-label">WhatsApp Pemesanan</span>
+                    <span class="tokoku-dash-stat-label"><?php _e( 'Jalur WhatsApp', 'tokoku' ); ?></span>
                 </div>
-            </div>
-            <div class="tokoku-dash-stat-card">
+            </a>
+
+            <a href="<?php echo esc_url( admin_url( 'edit-tags.php?taxonomy=kategori_produk&post_type=produk' ) ); ?>" class="tokoku-dash-stat-card stat-amber">
                 <div class="tokoku-dash-stat-icon amber">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_kategori ); ?></span>
-                    <span class="tokoku-dash-stat-label">Kategori Produk</span>
+                    <span class="tokoku-dash-stat-label"><?php _e( 'Kategori Produk', 'tokoku' ); ?></span>
                 </div>
-            </div>
-            <div class="tokoku-dash-stat-card">
+            </a>
+
+            <a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>" class="tokoku-dash-stat-card stat-purple">
                 <div class="tokoku-dash-stat-icon purple">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                 </div>
                 <div class="tokoku-dash-stat-info">
                     <span class="tokoku-dash-stat-num"><?php echo esc_html( $count_posts ); ?></span>
-                    <span class="tokoku-dash-stat-label">Artikel Blog</span>
+                    <span class="tokoku-dash-stat-label"><?php _e( 'Artikel Blog', 'tokoku' ); ?></span>
                 </div>
-            </div>
+            </a>
         </div>
+
         <div class="tokoku-dash-actions">
             <a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=produk' ) ); ?>" class="tokoku-dash-btn primary">
-                <span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Produk Baru', 'tokoku' ); ?></span>
+                <span class="dashicons dashicons-plus-alt2"></span>
+                <span class="tokoku-btn-text"><?php _e( 'Tambah Produk', 'tokoku' ); ?></span>
             </a>
             <a href="<?php echo esc_url( admin_url( 'admin.php?page=tokoku-settings' ) ); ?>" class="tokoku-dash-btn secondary">
-                <span class="dashicons dashicons-admin-generic"></span><span class="tokoku-btn-text"><?php _e( 'Pengaturan Tokoku', 'tokoku' ); ?></span>
+                <span class="dashicons dashicons-admin-generic"></span>
+                <span class="tokoku-btn-text"><?php _e( 'Pengaturan Tokoku', 'tokoku' ); ?></span>
             </a>
-            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" class="tokoku-dash-btn secondary">
-                <span class="dashicons dashicons-external"></span><span class="tokoku-btn-text"><?php _e( 'Kunjungi Website', 'tokoku' ); ?></span>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=tokoku-settings&tab=tab-update' ) ); ?>" class="tokoku-dash-btn secondary">
+                <span class="dashicons dashicons-update"></span>
+                <span class="tokoku-btn-text"><?php _e( 'Pembaruan Tema', 'tokoku' ); ?></span>
+            </a>
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" rel="noopener" class="tokoku-dash-btn secondary">
+                <span class="dashicons dashicons-external"></span>
+                <span class="tokoku-btn-text"><?php _e( 'Kunjungi Website', 'tokoku' ); ?></span>
             </a>
         </div>
     </div>

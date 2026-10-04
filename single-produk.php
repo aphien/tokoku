@@ -535,22 +535,9 @@ get_header(); ?>
             // Informasi & Detail Produk Settings
             $enable_desc_hub        = get_theme_mod( 'tokoku_enable_desc_hub', 'yes' ) !== 'no';
             $desc_badge_text        = get_theme_mod( 'tokoku_desc_badge_text', __( 'Informasi & Detail Produk', 'tokoku' ) );
-            $desc_section_title     = get_theme_mod( 'tokoku_desc_section_title', __( 'Spesifikasi & Panduan Pemesanan', 'tokoku' ) );
+            $desc_section_title     = get_theme_mod( 'tokoku_desc_section_title', __( 'Deskripsi & Panduan Pemesanan', 'tokoku' ) );
             $desc_tab1_label        = get_theme_mod( 'tokoku_desc_tab1_label', __( 'Deskripsi & Fitur', 'tokoku' ) );
-            $desc_tab2_label        = get_theme_mod( 'tokoku_desc_tab2_label', __( 'Spesifikasi Detail', 'tokoku' ) );
             $desc_tab3_label        = get_theme_mod( 'tokoku_desc_tab3_label', __( 'Cara Pesan & Garansi', 'tokoku' ) );
-
-            $enable_highlights      = get_theme_mod( 'tokoku_desc_enable_highlights', 'yes' ) !== 'no';
-            $val1_title             = get_theme_mod( 'tokoku_desc_val1_title', __( 'Material Kualitas Unggulan', 'tokoku' ) );
-            $val1_desc              = get_theme_mod( 'tokoku_desc_val1_desc', __( 'Akrilik bening kristal, kayu pilihan, & logam anti-korosi presisi tinggi.', 'tokoku' ) );
-            $val2_title             = get_theme_mod( 'tokoku_desc_val2_title', __( 'Free Desain & Mockup', 'tokoku' ) );
-            $val2_desc              = get_theme_mod( 'tokoku_desc_val2_desc', __( 'Bantu setting tata letak logo & teks sampai sesuai sebelum cetak.', 'tokoku' ) );
-            $val3_title             = get_theme_mod( 'tokoku_desc_val3_title', __( 'Pengerjaan Cepat & Rapi', 'tokoku' ) );
-            $val3_desc              = get_theme_mod( 'tokoku_desc_val3_desc', __( 'Dikerjakan langsung oleh pengrajin ahli dengan mesin laser canggih.', 'tokoku' ) );
-
-            $specs_packaging        = get_theme_mod( 'tokoku_specs_packaging', __( 'Box Beludru / Hardbox Eksklusif + Bubble Wrap Berlapis', 'tokoku' ) );
-            $specs_file_format      = get_theme_mod( 'tokoku_specs_file_format', __( 'CDR, AI, PDF, EPS, PNG, atau JPG Resolusi Tinggi', 'tokoku' ) );
-            $specs_min_order        = get_theme_mod( 'tokoku_specs_min_order', __( 'Mulai 1 Pcs (Satuan & Partai Besar Siap)', 'tokoku' ) );
 
             $step1_title            = get_theme_mod( 'tokoku_desc_step1_title', __( 'Konsultasi & Konsep', 'tokoku' ) );
             $step1_desc             = get_theme_mod( 'tokoku_desc_step1_desc', __( 'Kirimkan logo, naskah/tulisan penghargaan, dan bentuk yang diinginkan via WhatsApp.', 'tokoku' ) );
@@ -594,11 +581,6 @@ get_header(); ?>
                                 <span><?php echo esc_html( $desc_tab1_label ); ?></span>
                             </button>
 
-                            <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-specs" id="prod-tab-specs" data-target="prod-panel-specs" title="<?php echo esc_attr( $desc_tab2_label ); ?>" aria-label="<?php echo esc_attr( $desc_tab2_label ); ?>">
-                                <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="8" y1="2" x2="8" y2="6"></line><line x1="16" y1="2" x2="16" y2="6"></line><line x1="7" y1="10" x2="17" y2="10"></line><line x1="7" y1="14" x2="13" y2="14"></line></svg>
-                                <span><?php echo esc_html( $desc_tab2_label ); ?></span>
-                            </button>
-
                             <button type="button" class="product-tab-btn" role="tab" aria-selected="false" aria-controls="prod-panel-guide" id="prod-tab-guide" data-target="prod-panel-guide" title="<?php echo esc_attr( $desc_tab3_label ); ?>" aria-label="<?php echo esc_attr( $desc_tab3_label ); ?>">
                                 <svg class="tab-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
                                 <span><?php echo esc_html( $desc_tab3_label ); ?></span>
@@ -611,41 +593,6 @@ get_header(); ?>
                         
                         <!-- PANEL 1: DESKRIPSI & FITUR -->
                         <div class="product-tab-panel active" id="prod-panel-desc" role="tabpanel" aria-labelledby="prod-tab-desc">
-                            <?php if ( $enable_highlights ) : ?>
-                            <!-- Quick Value Proposition Highlights -->
-                            <div class="product-value-highlights">
-                                <div class="value-highlight-card">
-                                    <div class="value-icon-box value-icon-gold">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                                    </div>
-                                    <div class="value-content">
-                                        <h4><?php echo esc_html( $val1_title ); ?></h4>
-                                        <p><?php echo esc_html( $val1_desc ); ?></p>
-                                    </div>
-                                </div>
-
-                                <div class="value-highlight-card">
-                                    <div class="value-icon-box value-icon-blue">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-                                    </div>
-                                    <div class="value-content">
-                                        <h4><?php echo esc_html( $val2_title ); ?></h4>
-                                        <p><?php echo esc_html( $val2_desc ); ?></p>
-                                    </div>
-                                </div>
-
-                                <div class="value-highlight-card">
-                                    <div class="value-icon-box value-icon-green">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                    </div>
-                                    <div class="value-content">
-                                        <h4><?php echo esc_html( $val3_title ); ?></h4>
-                                        <p><?php echo esc_html( $val3_desc ); ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php endif; ?>
-
                             <!-- Main Rich Description -->
                             <div class="product-description-content tokoku-prose">
                                 <?php the_content(); ?>
@@ -671,42 +618,7 @@ get_header(); ?>
                             <?php endif; ?>
                         </div>
 
-                        <!-- PANEL 2: SPESIFIKASI DETAIL -->
-                        <div class="product-tab-panel" id="prod-panel-specs" role="tabpanel" aria-labelledby="prod-tab-specs">
-                            <div class="product-specs-grid">
-                                <div class="specs-grid-item">
-                                    <div class="specs-icon-badge">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-                                    </div>
-                                    <div class="specs-item-info">
-                                        <span class="specs-item-label"><?php esc_html_e( 'Kemasan / Packaging', 'tokoku' ); ?></span>
-                                        <span class="specs-item-val"><?php echo esc_html( $specs_packaging ); ?></span>
-                                    </div>
-                                </div>
-
-                                <div class="specs-grid-item">
-                                    <div class="specs-icon-badge">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-                                    </div>
-                                    <div class="specs-item-info">
-                                        <span class="specs-item-label"><?php esc_html_e( 'Format File Desain', 'tokoku' ); ?></span>
-                                        <span class="specs-item-val"><?php echo esc_html( $specs_file_format ); ?></span>
-                                    </div>
-                                </div>
-
-                                <div class="specs-grid-item">
-                                    <div class="specs-icon-badge">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                                    </div>
-                                    <div class="specs-item-info">
-                                        <span class="specs-item-label"><?php esc_html_e( 'Minimum Pemesanan', 'tokoku' ); ?></span>
-                                        <span class="specs-item-val"><?php echo esc_html( $specs_min_order ); ?></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- PANEL 3: CARA PESAN & GARANSI -->
+                        <!-- PANEL 2: CARA PESAN & GARANSI -->
                         <div class="product-tab-panel" id="prod-panel-guide" role="tabpanel" aria-labelledby="prod-tab-guide">
                             
                             <!-- 4 Easy Steps -->

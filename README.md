@@ -1,10 +1,43 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.6.0)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.7.0)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.6.0 — Standarisasi Ukuran Ikon & Tampilan Profesional Elegan
+## 🚀 Rilis Terbaru v2.7.0 — Dasbor Admin Modern, Shortcut Simpan Cepat & Pembersihan Fitur Usang
+
+Pembaruan **v2.7.0** menghadirkan pembaruan visual menyeluruh pada antarmuka dasbor admin utama WordPress dengan estetika SaaS terkini, penambahan jalan pintas keyboard global untuk menyimpan pengaturan (`⌘S` / `Ctrl+S`), penyederhanaan halaman detail produk menjadi 2 tab navigasi terpusat, pengaktifan tooltip WhatsApp mengambang, serta pembersihan tuntas kode dan skema usang (*dead code clean-up*):
+
+1. **Modernisasi Dasbor Utama WordPress (*SaaS-Style Dashboard Widget*)**:
+   - **Kartu Statistik Interaktif (*Clickable Stat Cards*)**: Widget dasbor TokoKu di halaman utama WP Admin dirombak dengan kartu statistik bergradien warna modern:
+     - 📦 **Produk Aktif** (*Stat Blue*): Akses 1-klik langsung ke manajemen katalog produk (`edit.php?post_type=produk`).
+     - 💬 **Jalur WhatsApp** (*Stat Green*): Tautan instan ke nomor WhatsApp operasional pemesanan.
+     - 🏷️ **Kategori Produk** (*Stat Amber*): Navigasi cepat ke manajemen taksonomi kategori (`edit-tags.php`).
+     - 📝 **Artikel Blog** (*Stat Purple*): Akses langsung ke postingan artikel toko.
+   - **Aksi Cepat (*Quick Actions*)**: Tombol akses instan untuk *Tambah Produk*, *Pengaturan Tokoku*, *Pembaruan Tema*, dan *Kunjungi Website* dengan animasi hover elevasi mikro yang halus (`translateY(-2px)`).
+   - **Pill Status & Versi**: Indikator status tema aktif dengan titik sinyal hijau dinamis (`v2.7.0 • Optimal`).
+
+2. **Panel Pengaturan Tema TokoKu yang Diperbarui (*Revamped Theme Options Panel*)**:
+   - **Header Glassmorphic Eksklusif**: Menampilkan identitas branding *Tokoku by M.alfiandi Ismet*, sub-keterangan fungsi panel, status lencana aktif, dan petunjuk visual shortcut keyboard.
+   - **Pintasan Simpan Cepat Global (`⌘S` / `Ctrl+S`)**: Admin dapat menyimpan perubahan pengaturan dari tab mana pun secara instan hanya dengan menekan `Cmd + S` (macOS) atau `Ctrl + S` (Windows/Linux) tanpa perlu menggulir halaman ke tombol simpan, lengkap dengan animasi feedback tombol seketika.
+   - **Sinkronisasi Changelog Resmi**: Tab Pembaruan Tema kini mencatat riwayat log rilis v2.7.0 secara terstruktur.
+
+3. **Pembersihan Fitur Tidak Berfungsi (*Dead Code & Obsolete Schemas*)**:
+   - **Pembersihan Form Tab Produk Tunggal**: Menghapus seluruh skema database dan kolom input formulir yang sudah tidak lagi dipakai di antarmuka publik (3 kartu sorotan nilai / micro-highlights, input spesifikasi ekstra, dan label tab spesifikasi).
+   - **Penyederhanaan Halaman Produk**: Halaman detail produk difokuskan pada 2 tab navigasi terpusat: **Tab 1: Deskripsi & Fitur** dan **Tab 2: Cara Pesan & Garansi**, menghilangkan tab ketiga yang tidak lagi relevan.
+   - **Penghapusan Fitur Sortable Menu Usang**: Menghapus skema tersembunyi `tokoku_admin_menu_order` dan listener jQuery UI sortable `.tokoku-sortable-nav` yang mengendap tanpa efek.
+
+4. **Pengaktifan Fitur Floating WhatsApp Tooltip**:
+   - Menghubungkan pengaturan `tokoku_wa_float_text` di admin dengan template footer.
+   - Tombol mengambang WhatsApp desktop kini dilengkapi lencana tooltip gelap glassmorphism (`.wa-float__tooltip`) yang muncul anggun saat disentuh/hover.
+
+5. **Pembaruan PWA Cache & Standar Keamanan Tinggi**:
+   - Cache Service Worker diperbarui ke `tokoku-pwa-cache-v2.7.0` untuk memastikan pengunjung langsung mendapatkan aset CSS & JS terbaru tanpa tertahan cache lawas.
+   - 100% kepatuhan sanitasi input (`sanitize_text_field`, `esc_url_raw`), output escaping (`esc_html`, `esc_attr`, `esc_url`), dan verifikasi nonces token serta proteksi kapabilitas `manage_options`.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.6.0 — Standarisasi Ukuran Ikon & Tampilan Profesional Elegan
 
 Pembaruan **v2.6.0** menghadirkan standarisasi menyeluruh pada proporsi, ukuran, rasio kontainer, dan ketajaman tampilan seluruh ikon tema di semua perangkat:
 

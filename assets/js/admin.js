@@ -36,9 +36,6 @@ jQuery(document).ready(function($) {
 
     // Tab click handler
     $('.tokoku-nav-item').on('click', function(e) {
-        if ($(e.target).hasClass('tokoku-drag-handle')) {
-            return; // Let sortable handle it
-        }
         var tabId = $(this).data('tab');
         activateTab(tabId);
 
@@ -70,17 +67,14 @@ jQuery(document).ready(function($) {
         }, 3500);
     }
 
-    // Drag & Drop Menu Reordering
-    $('.tokoku-sortable-nav').sortable({
-        handle: '.tokoku-drag-handle',
-        placeholder: 'ui-sortable-placeholder',
-        axis: 'y',
-        update: function(event, ui) {
-            var order = [];
-            $('.tokoku-nav-item').each(function() {
-                order.push($(this).data('tab'));
-            });
-            $('#tokoku_admin_menu_order').val(order.join(','));
+    // 4. Quick Save Keyboard Shortcut (Cmd/Ctrl + S)
+    $(document).on('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
+            var $form = $('.tokoku-settings-form');
+            if ($form.length > 0) {
+                e.preventDefault();
+                $form.first().submit();
+            }
         }
     });
 

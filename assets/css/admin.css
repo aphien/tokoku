@@ -64,6 +64,12 @@
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
+.tokoku-admin-heading-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
 .tokoku-admin-logo h1 {
     margin: 0;
     font-size: var(--fs-lg);
@@ -71,6 +77,26 @@
     font-weight: 900;
     letter-spacing: -0.4px;
     color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tokoku-brand-sub {
+    font-size: var(--fs-2xs);
+    font-weight: 600;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 0;
+}
+
+.tokoku-admin-subhead {
+    font-size: var(--fs-xs);
+    color: #64748b;
+    font-weight: 500;
 }
 
 .tokoku-admin-header-actions {
@@ -79,28 +105,50 @@
     gap: 16px;
 }
 
+.tokoku-admin-version-pill,
 .tokoku-admin-version {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: #eff6ff;
-    color: #007bff;
+    gap: 8px;
+    background: #f8fafc;
+    color: #334155;
     padding: 6px 14px;
     border-radius: 50px;
     font-weight: 700;
     font-size: var(--fs-xs);
     line-height: var(--lh-tight);
-    border: 1px solid #bfdbfe;
+    border: 1px solid #e2e8f0;
 }
 
-.tokoku-admin-version::before {
-    content: '';
+.tokoku-status-dot {
     display: inline-block;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: #22c55e;
     box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.tokoku-version-badge-tag {
+    font-size: 10px;
+    background: #dcfce7;
+    color: #15803d;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.tokoku-kbd-hint {
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.22);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.5px;
 }
 
 .tokoku-submit-update-btn,
@@ -876,20 +924,22 @@
 
 /* 9. TokoKu WP Main Dashboard Widget */
 #tokoku_dashboard_widget .inside {
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .tokoku-dash-widget {
-    padding: 20px;
-    font-family: inherit;
+    padding: 16px 18px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: #0f172a;
 }
 
 .tokoku-dash-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 18px;
     padding-bottom: 14px;
     border-bottom: 1px solid #f1f5f9;
 }
@@ -897,124 +947,20 @@
 .tokoku-dash-title {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: var(--fs-base);
-    line-height: var(--lh-tight);
-    font-weight: 800;
-    color: #0f172a;
-}
-
-.tokoku-dash-title .dashicons {
-    color: #007bff;
-    font-size: var(--fs-lg);
-}
-
-.tokoku-dash-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-bottom: 20px;
-}
-
-.tokoku-dash-stat-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.tokoku-dash-stat-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-size: var(--fs-md);
-    flex-shrink: 0;
-}
-
-.tokoku-dash-stat-icon.blue   { background: #007bff; }
-.tokoku-dash-stat-icon.green  { background: #25d366; }
-.tokoku-dash-stat-icon.amber  { background: #f59e0b; }
-.tokoku-dash-stat-icon.purple { background: #8b5cf6; }
-
-.tokoku-dash-stat-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.tokoku-dash-stat-num {
-    font-size: var(--fs-md);
-    line-height: var(--lh-tight);
-    font-weight: 900;
-    color: #0f172a;
-}
-
-.tokoku-dash-stat-label {
-    font-size: var(--fs-2xs);
-    line-height: var(--lh-tight);
-    color: #64748b;
-    font-weight: 600;
-}
-
-.tokoku-dash-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.tokoku-dash-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 7px !important;
-    padding: 8px 16px !important;
-    border-radius: 8px !important;
-    font-size: var(--fs-xs) !important;
-    line-height: var(--lh-snug) !important;
-    font-weight: 700 !important;
-    text-decoration: none !important;
-    transition: all 0.2s ease !important;
-    line-height: 1.2 !important;
-}
-
-.tokoku-dash-btn .dashicons {
-    font-size: 16px !important;
-    width: 16px !important;
-    height: 16px !important;
-}
-
-.tokoku-dash-btn.primary {
-    background: #007bff;
-    color: #ffffff;
-}
-
-.tokoku-dash-btn.primary:hover {
-    background: #0056b3;
-    color: #ffffff;
-}
-
-.tokoku-dash-btn.secondary {
-    background: #f1f5f9;
-    color: #334155;
-    border: 1px solid #e2e8f0;
-}
-
-.tokoku-dash-btn.secondary:hover {
-    background: #e2e8f0;
-    color: #0f172a;
 }
 
 .tokoku-dash-header-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #007bff;
+    flex-shrink: 0;
+    border: 1px solid #dbeafe;
 }
 
 .tokoku-dash-header-icon svg {
@@ -1023,10 +969,179 @@
     fill: currentColor;
 }
 
+.tokoku-dash-title-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tokoku-dash-title-text strong {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.25;
+}
+
+.tokoku-dash-subhead {
+    font-size: 0.78rem;
+    color: #64748b;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.tokoku-dash-version-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid #e2e8f0;
+    flex-shrink: 0;
+}
+
+.tokoku-dash-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+@media (min-width: 782px) {
+    .tokoku-dash-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.tokoku-dash-stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none !important;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.tokoku-dash-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    border-color: #cbd5e1;
+}
+
+.tokoku-dash-stat-card.stat-blue:hover  { border-color: #93c5fd; background: #f8faff; }
+.tokoku-dash-stat-card.stat-green:hover { border-color: #86efac; background: #f6fdf8; }
+.tokoku-dash-stat-card.stat-amber:hover { border-color: #fde68a; background: #fffdf5; }
+.tokoku-dash-stat-card.stat-purple:hover{ border-color: #d8b4fe; background: #faf5ff; }
+
+.tokoku-dash-stat-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
 .tokoku-dash-stat-icon svg {
-    width: 18px;
-    height: 18px;
+    width: 19px;
+    height: 19px;
     fill: currentColor;
+}
+
+.tokoku-dash-stat-icon.blue   { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+.tokoku-dash-stat-icon.green  { background: linear-gradient(135deg, #16a34a, #15803d); }
+.tokoku-dash-stat-icon.amber  { background: linear-gradient(135deg, #d97706, #b45309); }
+.tokoku-dash-stat-icon.purple { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+
+.tokoku-dash-stat-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.tokoku-dash-stat-num {
+    font-size: 1.1rem;
+    line-height: 1.2;
+    font-weight: 800;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tokoku-dash-stat-label {
+    font-size: 0.72rem;
+    line-height: 1.2;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 3px;
+}
+
+.tokoku-dash-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+}
+
+.tokoku-dash-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 7px 14px !important;
+    border-radius: 8px !important;
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.tokoku-dash-btn .dashicons {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    line-height: 1 !important;
+}
+
+.tokoku-dash-btn.primary {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border: 1px solid #1d4ed8 !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+}
+
+.tokoku-dash-btn.primary:hover {
+    background: #1d4ed8 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+.tokoku-dash-btn.secondary {
+    background: #f8fafc !important;
+    color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.tokoku-dash-btn.secondary:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+    transform: translateY(-1px);
 }
 
 /* 10. Tab Footer Action Bar & Floating Toast */
