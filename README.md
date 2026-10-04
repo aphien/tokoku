@@ -1,10 +1,32 @@
-# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.5.8)
+# 🏆 JualPlakat — Premium WhatsApp Plakat Store Theme (v2.5.9)
 
 **JualPlakat** adalah tema WordPress premium yang dirancang khusus untuk toko plakat online — melayani penjualan plakat akrilik, plakat kayu, plakat resin, piala, trophy, dan souvenir penghargaan custom. Sistem pemesanan langsung melalui WhatsApp, tanpa kerumitan WooCommerce, ringan, cepat, dan sangat intuitif di perangkat mobile maupun desktop.
 
 ---
 
-## 🚀 Rilis Terbaru v2.5.8 — Full Slider Autoplay, Atmospheric Testimonial Glow & Mobile Icon-Only Tabs
+## 🚀 Rilis Terbaru v2.5.9 — Smooth Testimonials, Centered Product Tabs & Streamlined Specs Grid
+
+Pembaruan **v2.5.9** menghadirkan penyempurnaan estetika kartu ulasan yang tenang dan smooth, pengembalian teks serta posisi centering presisi navigasi tab produk, penyederhanaan grid spesifikasi produk, dan audit keamanan kode:
+
+1. **Tampilan Testimoni Smooth & Bebas Efek Glow**:
+   - Menghilangkan seluruh efek cahaya neon dan aura radial mengambang (`.testimonial-card::before` & `::after`) serta *colored glow shadows* di sekitar kartu ulasan.
+   - Menghapus bayangan pendar pada ikon quote badge, border avatar klien, ikon bintang ulasan (`filter: drop-shadow`), dan titik navigasi slider (`.testi-dot.active`).
+   - Menggantikan bayangan kartu dengan gradasi bayangan netral tipis yang sangat halus (*ultra smooth shadow*), menciptakan nuansa ulasan yang tenang, elegan, dan profesional.
+
+2. **Menampilkan Kembali Tulisan & Centering Navigasi Tab Produk**:
+   - Menampilkan kembali teks label judul tab (`Deskripsi & Fitur`, `Spesifikasi Detail`, `Cara Pesan & Garansi`) baik di desktop maupun tampilan ponsel/mobile.
+   - Memposisikan kontainer tab navigasi (`.product-tabs-nav-wrapper` & `.product-tabs-nav`) tepat di tengah layar (*center-aligned*) dengan desain *segmented rounded pill* yang rapi dan proporsional.
+
+3. **Penyederhanaan Tab Spesifikasi Produk (*Streamlined 3-Column Specs Grid*)**:
+   - Menghilangkan 5 item dari tab spesifikasi detail: Kode Produk / SKU, Kategori, Ketersediaan / Stok, Estimasi Pengerjaan, dan Berat Produk.
+   - Menata 3 spesifikasi esensial yang tersisa (**Kemasan / Packaging**, **Format File Desain**, dan **Minimum Pemesanan**) ke dalam layout kartu 3 kolom yang seimbang dan simetris.
+
+4. **Audit Keamanan Kode (*Security Hardening*)**:
+   - Verifikasi ketat seluruh output HTML (`esc_html`, `esc_attr`, `esc_url`), sanitasi input data (`sanitize_text_field`, `absint`), dan proteksi formulir dengan nonce WordPress token guna menjamin keamanan maksimal tanpa celah kerentanan.
+
+---
+
+## 🚀 Rilis Sebelumnya v2.5.8 — Full Slider Autoplay, Atmospheric Testimonial Glow & Mobile Icon-Only Tabs
 
 Pembaruan **v2.5.8** menghadirkan penyempurnaan otomasi gerak slider, peningkatan estetika pencahayaan kartu ulasan, serta desain minimalis tab produk seluler:
 

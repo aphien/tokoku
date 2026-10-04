@@ -676,52 +676,6 @@ get_header(); ?>
                             <div class="product-specs-grid">
                                 <div class="specs-grid-item">
                                     <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
-                                        <?php esc_html_e( 'Kode Produk / SKU', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val specs-item-sku"><?php echo esc_html( $sku ? $sku : 'PLK-' . get_the_ID() ); ?></span>
-                                </div>
-
-                                <div class="specs-grid-item">
-                                    <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                                        <?php esc_html_e( 'Kategori', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val">
-                                        <?php if ( ! empty( $terms ) ) : ?>
-                                             <a href="<?php echo esc_url( get_term_link( $terms[0] ) ); ?>" class="specs-cat-link"><?php echo esc_html( $terms[0]->name ); ?></a>
-                                        <?php else : ?>
-                                            -
-                                        <?php endif; ?>
-                                    </span>
-                                </div>
-
-                                <div class="specs-grid-item">
-                                    <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                                        <?php esc_html_e( 'Ketersediaan / Stok', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val"><?php echo esc_html( $stok['label'] ); ?><?php if ( $jumlah_stok ) echo ' (' . esc_html( $jumlah_stok ) . ')'; ?></span>
-                                </div>
-
-                                <div class="specs-grid-item">
-                                    <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                        <?php esc_html_e( 'Estimasi Pengerjaan', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val"><?php echo esc_html( get_theme_mod( 'tokoku_lead_time_val', '2 – 3 Hari Kerja' ) ); ?></span>
-                                </div>
-
-                                <div class="specs-grid-item">
-                                    <span class="specs-item-label">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
-                                        <?php esc_html_e( 'Berat Produk', 'tokoku' ); ?>
-                                    </span>
-                                    <span class="specs-item-val"><?php echo esc_html( $berat ? $berat : 'Menyesuaikan dimensi / ketebalan' ); ?></span>
-                                </div>
-
-                                <div class="specs-grid-item">
-                                    <span class="specs-item-label">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
                                         <?php esc_html_e( 'Kemasan / Packaging', 'tokoku' ); ?>
                                     </span>

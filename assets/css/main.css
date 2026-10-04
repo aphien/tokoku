@@ -2665,47 +2665,14 @@ input.search-input:active,
     }
 }
 
-/* Testimonials */
-.testimonials-section {
-    padding: 100px 0;
-    background: linear-gradient(to bottom, var(--bg), var(--bg2));
-    position: relative;
-    overflow: hidden;
-}
-
-.testimonials-section::before {
-    content: '';
-    position: absolute;
-    top: -10%;
-    left: -10%;
-    width: 40%;
-    height: 40%;
-    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.05) 0%, transparent 70%);
-    z-index: 0;
-}
-
 /* ========================================================
-   TESTIMONIALS SLIDER SECTION (Captivating & Elegant)
+   TESTIMONIALS SLIDER SECTION (Clean, Smooth & Elegant)
    ======================================================== */
 .testimonials-section {
     padding: 85px 0 95px;
     background: var(--bg);
     position: relative;
     overflow: hidden;
-}
-
-/* Ambient Radial Glow */
-.testimonials-section::before {
-    content: '';
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 680px;
-    height: 380px;
-    background: radial-gradient(ellipse at center, rgba(var(--primary-rgb), 0.08) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
 }
 
 .testimonials-section .section-header {
@@ -2738,24 +2705,22 @@ input.search-input:active,
     height: 48px;
     border-radius: 50%;
     background: var(--card-bg, #ffffff);
-    border: 1px solid rgba(var(--primary-rgb), 0.16);
+    border: 1px solid var(--border);
     color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 :is(.theme-dark, html.theme-dark, body.theme-dark) .testi-slider-arrow {
     background: var(--bg2);
     border-color: rgba(255, 255, 255, 0.12);
     color: var(--text);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .testi-slider-prev {
@@ -2770,12 +2735,12 @@ input.search-input:active,
     background: var(--primary);
     color: #ffffff;
     border-color: var(--primary);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 10px 28px rgba(var(--primary-rgb), 0.4);
+    transform: translateY(-50%) scale(1.06);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 
 .testi-slider-arrow:active {
-    transform: translateY(-50%) scale(0.95);
+    transform: translateY(-50%) scale(0.96);
 }
 
 .testimonials-slider {
@@ -2804,98 +2769,49 @@ input.search-input:active,
 .testimonial-card {
     background: var(--card-bg, #ffffff);
     padding: 48px 52px 42px;
-    border-radius: 28px;
-    border: 1px solid rgba(var(--primary-rgb), 0.16);
-    box-shadow: 0 14px 40px -12px rgba(0, 0, 0, 0.05), 0 0 35px -5px rgba(var(--primary-rgb), 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.35s ease;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease;
     position: relative;
-    overflow: hidden;
 }
 
 :is(.theme-dark, html.theme-dark, body.theme-dark) .testimonial-card {
     background: var(--bg2);
-    border-color: rgba(var(--primary-rgb), 0.3);
-    box-shadow: 0 14px 40px -10px rgba(0, 0, 0, 0.5), 0 0 35px -5px rgba(var(--primary-rgb), 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.35);
 }
 
 .testimonial-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08), 0 0 45px -2px rgba(var(--primary-rgb), 0.32), inset 0 1px 0 rgba(255, 255, 255, 1);
-    border-color: rgba(var(--primary-rgb), 0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+    border-color: var(--border-focus, #cbd5e1);
 }
 
 :is(.theme-dark, html.theme-dark, body.theme-dark) .testimonial-card:hover {
-    border-color: rgba(var(--primary-rgb), 0.55);
-    box-shadow: 0 20px 55px -10px rgba(0, 0, 0, 0.65), 0 0 55px -2px rgba(var(--primary-rgb), 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 12px 35px -4px rgba(0, 0, 0, 0.55);
 }
 
-/* Atmospheric Top Ambient Glow (Aura Cahaya Halus) */
-.testimonial-card::before {
-    content: '';
-    position: absolute;
-    top: -45px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 320px;
-    height: 130px;
-    background: radial-gradient(ellipse at 50% 0%, rgba(var(--primary-rgb), 0.25) 0%, rgba(var(--primary-rgb), 0.08) 50%, transparent 75%);
-    filter: blur(22px);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.testimonial-card:hover::before {
-    width: 440px;
-    height: 160px;
-    background: radial-gradient(ellipse at 50% 0%, rgba(var(--primary-rgb), 0.38) 0%, rgba(var(--primary-rgb), 0.14) 55%, transparent 80%);
-    filter: blur(26px);
-}
-
-/* Top Shimmer Neon Line */
-.testimonial-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 15%;
-    right: 15%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.9), transparent);
-    border-radius: 2px;
-    box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.5), 0 0 24px rgba(var(--primary-rgb), 0.25);
-    pointer-events: none;
-    transition: all 0.35s ease;
-}
-
-.testimonial-card:hover::after {
-    left: 8%;
-    right: 8%;
-    background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    box-shadow: 0 0 16px rgba(var(--primary-rgb), 0.75), 0 0 32px rgba(var(--primary-rgb), 0.4);
-}
-
-/* Modern Floating Quote Icon Badge (Ala Quote Kekinian) */
+/* Modern Floating Quote Icon Badge (Smooth & Clean) */
 .testi-quote-badge {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.14), rgba(var(--primary-rgb), 0.04));
+    background: rgba(var(--primary-rgb), 0.06);
     color: var(--primary);
-    border: 1px solid rgba(var(--primary-rgb), 0.25);
-    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.18), 0 0 16px rgba(var(--primary-rgb), 0.12);
+    border: 1px solid rgba(var(--primary-rgb), 0.12);
+    box-shadow: none;
     margin: 0 auto 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease;
 }
 
 .testimonial-card:hover .testi-quote-badge {
-    transform: scale(1.12) rotate(-6deg);
-    box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.32), 0 0 24px rgba(var(--primary-rgb), 0.25);
+    transform: scale(1.05);
+    background: rgba(var(--primary-rgb), 0.1);
 }
 
 /* Testimonial BlockQuote (Font Merriweather, Tebal & Diperbesar 20%) */
@@ -2911,7 +2827,6 @@ input.search-input:active,
     text-align: center;
     letter-spacing: -0.015em;
     position: relative;
-    z-index: 1;
 }
 
 /* Bagian Bawah: Foto + Badge Centang, Sebelahnya Nama, Dibawahnya Bintang / Ulasan */
@@ -2925,10 +2840,9 @@ input.search-input:active,
     max-width: 480px;
     margin: 0 auto;
     position: relative;
-    z-index: 1;
 }
 
-/* Foto Avatar + Badge Centang */
+/* Foto Avatar + Badge Centang (Clean & Smooth) */
 .testi-avatar-wrap {
     position: relative;
     width: 56px;
@@ -2941,15 +2855,14 @@ input.search-input:active,
     height: 56px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--card-bg, #ffffff);
-    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.35), 0 8px 18px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--border);
 }
 
 .testi-avatar-initial {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark, #0284c7));
+    background: var(--primary);
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -2958,8 +2871,7 @@ input.search-input:active,
     font-weight: 800;
     font-size: 1.35rem;
     line-height: 1;
-    border: 3px solid var(--card-bg, #ffffff);
-    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.35), 0 8px 18px rgba(var(--primary-rgb), 0.25);
+    border: 2px solid var(--border);
 }
 
 .testi-avatar-badge {
@@ -2975,7 +2887,6 @@ input.search-input:active,
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
 }
 
 :is(.theme-dark, html.theme-dark, body.theme-dark) .testi-avatar-badge {
@@ -3017,7 +2928,6 @@ input.search-input:active,
 
 .testi-stars svg {
     flex-shrink: 0;
-    filter: drop-shadow(0 1px 2px rgba(245, 158, 11, 0.25));
 }
 
 .testi-rating-score {
@@ -3041,29 +2951,33 @@ input.search-input:active,
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin-top: 34px;
 }
 
 .testi-dot {
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: rgba(var(--primary-rgb), 0.2);
+    background: var(--border, #cbd5e1);
     cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .testi-dot {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .testi-dot:hover {
-    background: rgba(var(--primary-rgb), 0.45);
+    background: var(--text3, #94a3b8);
     transform: scale(1.2);
 }
 
 .testi-dot.active {
-    width: 32px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-dark, #0284c7));
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(var(--primary-rgb), 0.35);
+    width: 28px;
+    background: var(--primary);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive */
