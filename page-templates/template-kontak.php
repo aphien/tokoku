@@ -306,7 +306,7 @@ $faq_items = array(
                     <details class="jp-faq-item" <?php echo 0 === $idx ? 'open' : ''; ?>>
                         <summary class="jp-faq-question">
                             <span><?php echo esc_html( $faq['q'] ); ?></span>
-                            <span class="jp-faq-arrow" aria-hidden="true"><?php echo tokoku_page_icon( 'arrow', 16 ); // phpcs:ignore ?></span>
+                            <span class="jp-faq-arrow" aria-hidden="true"><?php echo tokoku_page_icon( 'chevron', 16 ); // phpcs:ignore ?></span>
                         </summary>
                         <div class="jp-faq-answer">
                             <p><?php echo esc_html( $faq['a'] ); ?></p>

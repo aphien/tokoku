@@ -17,6 +17,19 @@
     background-color: var(--bg, #f8fafc);
 }
 
+/* Base Page Icons (SVG) */
+.jp-icon {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.jp-icon--wa {
+    fill: currentColor;
+    stroke: none;
+}
+
 .jp-container-narrow {
     max-width: 860px !important;
     margin-left: auto;
@@ -52,7 +65,7 @@
     display: block;
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--primary, #007bff), #00c6ff);
+    background: var(--gradient, linear-gradient(90deg, var(--primary, #007bff), var(--secondary, var(--primary-dark, #0056b3))));
     transition: width 0.1s ease-out;
 }
 
@@ -110,7 +123,7 @@
 }
 
 .jp-text-gradient {
-    background: linear-gradient(135deg, var(--primary, #007bff) 0%, #00c6ff 100%);
+    background: var(--gradient, linear-gradient(135deg, var(--primary, #007bff) 0%, var(--secondary, var(--primary-dark, #0056b3)) 100%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline;
@@ -964,7 +977,7 @@
     border: 1.5px solid var(--border, #e2e8f0);
     background: var(--bg, #f8fafc);
     color: var(--text, #1f2937);
-    font-size: 0.925rem;
+    font-size: 1rem;
     font-family: inherit;
     transition: all 0.2s ease;
     box-sizing: border-box;
@@ -1675,6 +1688,17 @@ body.theme-dark .jp-faq-arrow {
         padding: 28px 20px;
     }
 
+    .jp-plaque {
+        transform: none !important;
+        margin: 0 auto;
+        max-width: 320px;
+        width: 100%;
+    }
+
+    .jp-plaque:hover {
+        transform: translateY(-4px) !important;
+    }
+
     .jp-cta {
         padding: 36px 24px;
         flex-direction: column;
@@ -1703,5 +1727,77 @@ body.theme-dark .jp-faq-arrow {
 
     .jp-help-card__actions .jp-btn {
         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .jp-hero {
+        padding: 32px 0 42px;
+    }
+
+    .jp-hero__actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .jp-hero__actions .jp-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .jp-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .jp-stats__item {
+        padding: 16px 10px;
+    }
+
+    .jp-stats__num {
+        font-size: 1.55rem;
+    }
+
+    .jp-stats__label {
+        font-size: 0.72rem;
+    }
+
+    .jp-contact-card {
+        padding: 24px 18px;
+    }
+
+    .jp-contact-form-box {
+        padding: 24px 16px;
+    }
+
+    .jp-card--bordered {
+        padding: 22px 16px;
+    }
+
+    .jp-card__actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .jp-card__actions .jp-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .jp-toc__box {
+        padding: 12px 14px;
+    }
+
+    .jp-cta {
+        padding: 28px 18px;
+    }
+
+    .jp-cta__text h2 {
+        font-size: 1.45rem;
+    }
+
+    .jp-legal__section {
+        padding: 24px 18px;
     }
 }

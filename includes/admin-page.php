@@ -1747,6 +1747,35 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.0.0 — Harmonisasi Warna Tema, Ikon SVG Presisi &amp; Responsif Mobile Optimal
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan besar v3.0.0 menyelaraskan seluruh elemen visual halaman statis dengan variabel warna kustom tema (Customizer &amp; Admin), meningkatkan presisi ikon SVG (termasuk ikon solid resmi WhatsApp dan chevron accordion), menyempurnakan ergonomi tampilan mobile tanpa auto-zoom pada formulir (16px), serta membersihkan riwayat rilis lama di bawah v2.6.0.
+                                </p>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🎨 1. Harmonisasi Warna Tema Dinamis</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Adaptasi Warna Penuh</strong>: Gradien teks, reading progress bar, border aktif, tombol CTA, dan efek glow hero kini 100% mengikuti variabel warna tema (<code>--primary</code>, <code>--secondary</code>, <code>--gradient</code>).</li>
+                                    <li style="margin-bottom: 4px;"><strong>Zero Color Conflict</strong>: Menghilangkan seluruh warna hex statis yang berpotensi bentrok saat tema diganti warna dasarnya di menu kustomisasi.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">✨ 2. Sistem Ikon SVG Presisi &amp; Ikon WhatsApp Otentik</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Ikon WhatsApp Solid Resmi</strong>: Seluruh tombol WhatsApp pada halaman Tentang, Kontak, dan Syarat/Ketentuan kini menampilkan logo WhatsApp solid resmi dengan fill tajam.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Chevron Dinamis untuk FAQ Accordion</strong>: Ikon panah FAQ digantikan dengan chevron anggun yang berotasi 90 derajat secara mulus saat accordion dibuka.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Base SVG Alignment</strong>: Standarisasi aturan <code>.jp-icon</code> dengan alignment tengah vertikal dan flex-shrink nol untuk mencegah distorsi ikon.</li>
+                                </ul>
+
+                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 3. Optimasi Responsif Mobile &amp; Safari Viewport Protection</h5>
+                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
+                                    <li style="margin-bottom: 4px;"><strong>Anti Auto-Zoom iOS Safari</strong>: Ukuran font formulir disetel ke 16px (1rem) agar peramban Safari di iPhone tidak memperbesar layar otomatis saat mengetik.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Plakat 3D Mobile Reset</strong>: Transformasi 3D dinonaktifkan otomatis di layar ponsel untuk mencegah overflow horizontal dan rendering buram.</li>
+                                    <li style="margin-bottom: 4px;"><strong>Media Query 480px Spesifik</strong>: Tombol hero dan kartu aksi diubah menjadi full-width dengan target sentuh min 44px yang sangat nyaman dijangkau ibu jari.</li>
+                                </ul>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v2.9.0 — Template Halaman Tentang, Kontak, Syarat &amp; Ketentuan, dan Kebijakan Privasi
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">
@@ -1843,167 +1872,6 @@ function tokoku_settings_page_html() {
                                 <p style="margin: 0 0 14px 0; color: #475569;">
                                     Pembaruan v2.6.0 menghadirkan standarisasi menyeluruh pada proporsi, ukuran, rasio kontainer, dan ketajaman tampilan seluruh ikon tema di semua perangkat.
                                 </p>
-
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
-
-                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
-                                    🚀 Rilis v2.5.9 — Smooth Testimonials, Centered Product Tabs & Streamlined Specs Grid
-                                </h4>
-                                <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan v2.5.9 menghadirkan tampilan ulasan testimoni yang lebih tenang dan smooth tanpa efek glow neon yang mengganggu, mengembalikan tulisan navigasi tab produk dengan posisi centering presisi, menyederhanakan spesifikasi produk menjadi 3 kolom seimbang, serta penguatan keamanan kode menyeluruh.
-                                </p>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🌟 1. Testimoni Smooth &amp; Bebas Glow</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Zero Glow Aura</strong>: Menghilangkan seluruh efek cahaya radial neon, shimmer line, dan colored shadows pada kartu testimoni, quote badge, bintang rating, dan pagination dots.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Ultra Smooth Shadow</strong>: Bayangan kartu ulasan beralih ke gradasi netral tipis yang sangat halus dan mewah.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🏷️ 2. Tulisan &amp; Centering Navigasi Tab Produk</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Teks Tab Kembali Ditampilkan</strong>: Menampilkan kembali tulisan label tab produk di desktop dan layar seluler dengan kontainer pill rounded yang rapi.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Centering Presisi</strong>: Memastikan posisi tab navigasi berada tepat di tengah (center-aligned) pada semua resolusi layar.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📦 3. Spesifikasi Produk Ramping (3-Column Grid)</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Fokus Informasi Esensial</strong>: Menghilangkan Kode Produk/SKU, Kategori, Stok, Estimasi Pengerjaan, dan Berat Produk dari tab spesifikasi.</li>
-                                    <li style="margin-bottom: 4px;"><strong>3 Kolom Simetris</strong>: Menampilkan Kemasan / Packaging, Format File Desain, dan Minimum Pemesanan secara seimbang.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🛡️ 4. Penguatan Keamanan Kode</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Zero Vulnerability</strong>: Pemeriksaan sanitasi variabel, output escaping ketat (esc_html, esc_attr), dan proteksi CSRF nonce di seluruh komponen tema.</li>
-                                </ul>
-
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
-
-                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
-                                    🚀 Rilis v2.5.8 — Full Slider Autoplay, Atmospheric Testimonial Glow &amp; Mobile Icon-Only Tabs
-                                </h4>
-                                <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan ini menghadirkan navigasi tab produk modern (segmented glass pill & mobile auto-centering), tampilan ulasan testimoni bergaya quote kekinian (Merriweather bold italic +20%), standarisasi tipografi Inter & Merriweather, serta panel editable detail produk dan penonaktifan auto-scroll ke atas.
-                                </p>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📑 1. Redesain Modern Navigasi Tab Produk</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Segmented Glass Pill Desktop</strong>: Wadah tab bergaya kapsul kaca halus (<em>backdrop-filter: blur(10px)</em>), tombol 'Inter' tebal beranimasi mikro, dan aktif gradien bersinar.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Mobile Touch-Friendly & Auto-Centering</strong>: Scroll horizontal dengan scroll-snap touch target min 44px, otomatis bergulir ke tengah saat tab ditekan, dan adaptif simetris di tablet.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Animasi Panel Halus</strong>: Pergantian panel konten menggunakan animasi keyframe fade-in dan slide-up.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">💬 2. Desain Testimoni Ala Quote Kekinian</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>BlockQuote Merriweather (+20%)</strong>: Kutipan ulasan utama berbobot tebal 700 italic menggunakan font 'Merriweather' ukuran lebih besar dan elegan.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Floating Quote Badge</strong>: Lencana lingkaran kutipan modern di atas teks dengan animasi hover mikro.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Hierarki Profil Bersih</strong>: Foto avatar dengan centang hijau verifikasi, disusul nama pelanggan dan bintang rating pembeli (tanpa testi-verified-pill yang mengganggu).</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚙️ 3. Panel Admin & Pengaturan Produk</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Modul Detail Produk Editable</strong>: Mengatur teks badge, judul section, label tab, dan highlight keunggulan langsung dari admin panel.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Nonaktifkan Auto-Scroll ke Atas</strong>: Mencegah halaman otomatis melompat ke atas saat dibuka di layar desktop maupun mobile.</li>
-                                </ul>
-
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
-
-                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
-                                    🚀 Rilis v2.4.9 — Golden Ratio Typography, Mobile UX Harmony & Core Web Vitals
-                                </h4>
-                                <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan ini menghadirkan standarisasi sistem tipografi harmoni (Augmented Fourth ×1.414 &amp; Golden Ratio) di seluruh tema, penyatuan antarmuka Sticky Order Bar dan Bottom Navigation mobile, gesture swipe drawer, penambahan schema SEO Google Rich Snippets, serta optimasi Core Web Vitals dan perbaikan stabilitas kode.
-                                </p>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📐 1. Sistem Tipografi Harmoni (Golden Ratio Scale)</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Skala Font Terstandarisasi</strong>: Mengganti 330+ ukuran font dan line-height acak dengan 8 token modular CSS (Augmented Fourth ×1.414) dan 4 token line-height rasio emas (φ = 1.618).</li>
-                                    <li style="margin-bottom: 4px;"><strong>Hierarki Visual Presisi</strong>: Memastikan kontras ukuran heading (H1–H6), judul produk, harga, badge, formulir, dan navigasi tampak seimbang dan nyaman dibaca di desktop maupun mobile.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 2. Harmonisasi Navigasi Mobile &amp; Sticky Order Bar</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Sticky Order Bar &amp; Bottom Nav Terpadu</strong>: Desain glassmorphism frosted glass yang selaras, penyesuaian padding dinamis dengan class <code>has-sticky-order-bar</code> sehingga elemen tidak tumpang tindih.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Gesture Swipe to Close Drawer</strong>: Drawer navigasi samping kini dapat ditutup dengan sapuan jari (*swipe right*) yang natural.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Penyederhanaan Menu Footer</strong>: Efek hover bersih dan interaktif, tombol WhatsApp redundan dirapikan, serta navigasi kategori desktop otomatis rata tengah (*centered*).</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚡ 3. SEO Rich Snippets &amp; Optimasi Core Web Vitals</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Schema.org LocalBusiness &amp; FAQPage</strong>: Otomatis menyuntikkan schema JSON-LD terstruktur untuk Google Rich Results (informasi toko, kontak, jam operasional, dan FAQ).</li>
-                                    <li style="margin-bottom: 4px;"><strong>WebP Upload &amp; Async Decoding</strong>: Dukungan resmi upload WebP di media library, kompresi gambar optimal 85%, dan otomatisasi atribut <code>decoding="async"</code>.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Pinch-to-Zoom Modular</strong>: Script zoom foto mobile dipindahkan ke modul JS utama dengan <code>requestAnimationFrame</code>.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Perbaikan Bug PHP &amp; WhatsApp</strong>: Mengatasi warning pembagian nol pada persentase diskon serta sinkronisasi pilihan variasi produk ke teks pesanan WhatsApp.</li>
-                                </ul>
-
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
-
-                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
-                                    🚀 Rilis v2.4.8 — Dynamic Product Slider Autoplay & Customizable Stock Notice
-                                </h4>
-                                <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan ini mengubah galeri produk menjadi slider interaktif dengan fitur pergantian slide otomatis (autoplay), gesture swipe layar sentuh, navigasi frosted glass, serta penambahan menu admin untuk mengedit judul dan keterangan teks notice status stok.
-                                </p>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🖼️ 1. Galeri & Slider Foto Produk Interaktif</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Slide Otomatis (Autoplay)</strong>: Berganti gambar secara otomatis dan mulus dengan smart pause saat kursor diarahkan, saat layar disentuh/diswipe, saat modal zoom terbuka, atau saat tab browser tidak aktif.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Kontrol Admin</strong>: Opsi menyalakan/mematikan slide otomatis serta memilih durasi (3s, 4s, 5s, 6s, 8s) di WP Admin Halaman Produk.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Navigasi Modern & Touch Swipe</strong>: Tombol panah frosted glass, counter slide (1 / N), thumbnail bar dengan scroll otomatis, dan gestur swipe sentuh di mobile.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📝 2. Kustomisasi Teks Notice Status Stok</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Pengaturan Teks di Admin</strong>: Judul dan keterangan teks untuk status Tersedia, Habis, dan Pre Order kini dapat dikustomisasi secara bebas dengan dukungan multi-baris.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Master Toggle</strong>: Opsi menampilkan atau menyembunyikan strip notice status stok secara global.</li>
-                                </ul>
-
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
-
-                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
-                                    🚀 Rilis v2.4.7 — Animated Stock Badges, Special Badges & Clean Mobile Single Product
-                                </h4>
-                                <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan ini menambahkan badge ketersediaan stok beranimasi di tabel spesifikasi produk, merapikan letak label khusus di katalog desktop, serta menyederhanakan tampilan mobile pada halaman produk tunggal.
-                                </p>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🟢 1. Badge Stok Beranimasi di Detail Produk</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Indikator Animasi Pulse Dot</strong>: Status ketersediaan stok di tabel spesifikasi kini dilengkapi badge warna interaktif (Hijau untuk Tersedia, Oranye untuk Pre-Order, Merah untuk Habis) dengan animasi titik berdenyut (<em>pulse dot</em>).</li>
-                                    <li style="margin-bottom: 4px;"><strong>Notice Stok Minimalis Desktop</strong>: Tampilan notice status stok di bawah catatan produk dirancang ulang menjadi strip minimalis yang elegan dan rapi.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🏷️ 2. Restrukturisasi Label Khusus (Special Badge)</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Pemisahan Posisi Badge</strong>: Label khusus kartu produk diposisikan di sudut kanan atas dengan efek kilau gradien halus, terpisah dari badge diskon dan status di sudut kiri atas.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Galeri Produk Lebih Bersih</strong>: Menghilangkan badge label khusus yang menumpuk di atas foto halaman single produk agar fokus ke visual produk plakat.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">📱 3. Optimasi Antarmuka Mobile Rapi & Ringkas</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Bebas Distraksi</strong>: Menyembunyikan notice stok, trust badge duplikat, dan badge kartu katalog di mobile sehingga menghemat ruang vertikal layar.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Marketplace Rata Tengah</strong>: Teks judul dan tombol tautan marketplace kini otomatis rata tengah di layar perangkat seluler.</li>
-                                </ul>
-
-                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
-
-                                <h4 style="margin: 0 0 8px 0; color: #475569; font-size: 1.05rem; font-weight: 700;">
-                                    🚀 Rilis v2.4.6 — Product Card Layout Refinement & Clean Mobile UX
-                                </h4>
-                                <p style="margin: 0 0 14px 0; color: #475569;">
-                                    Pembaruan ini menyempurnakan struktur tata letak kartu produk pada katalog, merapikan hierarki visual informasi, dan mengoptimalkan navigasi sentuh pemesanan WhatsApp di perangkat mobile.
-                                </p>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">🎨 1. Penyempurnaan Tata Letak Kartu Produk</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Struktur Kartu Bersih</strong>: Pemisahan proporsional antara gambar produk dan blok detail informasi (kategori, judul 2-baris, dan harga).</li>
-                                    <li style="margin-bottom: 4px;"><strong>Efek Interaktif Halus</strong>: Zoom gambar halus (<code>transform: scale(1.1)</code>) saat hover tanpa mengurangi ketajaman foto plakat.</li>
-                                    <li style="margin-bottom: 4px;"><strong>Tombol Pesan WhatsApp Slender</strong>: Tombol WhatsApp responsif dengan ikon SVG tajam dan padding proporsional.</li>
-                                </ul>
-
-                                <h5 style="margin: 14px 0 6px 0; color: #0f172a; font-size: 0.98rem; font-weight: 700;">⚡ 2. Fondasi Performa Tinggi (v2.4.5)</h5>
-                                <ul style="margin: 0 0 12px 20px; list-style-type: disc;">
-                                    <li style="margin-bottom: 4px;"><strong>Skor Kecepatan Maksimal</strong>: Google Fonts asynchronous, eliminasi Dashicons di frontend, LCP image preload, dan zero layout shift (CLS = 0).</li>
-                                </ul>
                             </div>
                         </div>
 
