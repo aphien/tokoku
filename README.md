@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.2.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.2.1-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -123,6 +123,15 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.2.1 — Navigasi Presisi Pencarian ke Katalog Produk & Pembaruan Otomatis Tema
+*Rilis Pemeliharaan & Navigasi — 10 Oktober 2026*
+- **Arahkan Tombol Pencarian ke Katalog Produk**: Tombol footer *"LIHAT SEMUA PRODUK"* pada pencarian AJAX (desktop dropdown & modal mobile) kini mengarahkan pengunjung langsung ke arsip resmi Katalog Produk (`/produk/`), menggantikan perilaku sebelumnya yang memuat ulang query pencarian (`?s=...&post_type=produk`).
+- **Lokalisasi Skrip Dinamis (`wp_localize_script`)**: Menambahkan data `catalogUrl` pada objek Javascript `tokokuSearch` yang diambil langsung dari WordPress via `get_post_type_archive_link('produk')` dengan fallback handal `home_url('/produk/')`.
+- **Tombol CTA Fallback Hasil Kosong**: Menampilkan pesan yang ramah disertai tombol interaktif *"LIHAT SEMUA PRODUK"* saat pencarian tidak menemukan produk yang cocok, menjaga retensi pengunjung toko.
+- **Sinkronisasi Pembaruan Otomatis Tema**: Penyelarasan format catatan rilis dan kompatibilitas sistem Theme Auto-Updater pada Dasbor Pengaturan TokoKu (WP Admin) untuk pembaruan 1-klik langsung dari GitHub Releases.
+
+---
 
 ### 🚀 v3.2.0 — Integrasi Resmi Font Awesome 6, Sinkronisasi Seluruh Logo Brand & Performa Core Web Vitals 100%
 *Rilis Fitur & Standarisasi Aset — 10 Oktober 2026*

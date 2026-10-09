@@ -1910,6 +1910,15 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.2.1 — Navigasi Presisi Pencarian ke Katalog Produk &amp; Pembaruan Otomatis Tema
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.2.1 memperbaiki navigasi tombol pencarian &ldquo;Lihat Semua Produk&rdquo; agar mengarahkan pengguna langsung ke arsip resmi Katalog Produk (<code>/produk/</code>) baik pada dropdown desktop maupun modal pencarian mobile. Dilengkapi injeksi dinamis <code>catalogUrl</code> via <code>wp_localize_script()</code>, tombol CTA interaktif saat produk tidak ditemukan, serta kompatibilitas penuh sistem Pembaruan Otomatis Tema langsung dari GitHub.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.2.0 — Integrasi Resmi Font Awesome 6, Sinkronisasi Seluruh Logo Brand &amp; Performa Core Web Vitals 100%
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">
