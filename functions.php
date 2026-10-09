@@ -88,11 +88,17 @@ function tokoku_scripts() {
     $wa_number  = get_theme_mod( 'tokoku_wa_number', '6281234567890' );
     $wa_message = get_theme_mod( 'tokoku_wa_message', "✧━━━━━━[ DETAIL PESANAN PLAKAT ]━━━━━━✧\n\nTerima kasih telah mempercayakan momen spesial Anda bersama kami. Berikut adalah rincian pesanan Anda:\n\n👤 Nama Pemesan : {nama}\n📦 Produk       : {produk}\n🏷️ SKU          : {sku}\n🔗 Link Produk  : {link}\n\n💰 Harga Satuan : {harga}\n🔢 Jumlah       : {jumlah}\n\n📝 Catatan / Detail Grafir:\n{catatan}\n\n✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━✧\nMohon periksa kembali detail di atas. Jika semua data sudah benar, silakan balas \"CONFIRM\" agar pesanan dapat segera kami proses. Terima kasih! ✨" );
 
+    $catalog_url = get_post_type_archive_link( 'produk' );
+    if ( ! $catalog_url ) {
+        $catalog_url = home_url( '/produk/' );
+    }
+
     wp_localize_script( 'tokoku-search-js', 'tokokuSearch', array(
-        'ajaxUrl'  => admin_url( 'admin-ajax.php', 'relative' ),
-        'nonce'    => wp_create_nonce( 'tokoku_search_nonce' ),
-        'homeUrl'  => home_url( '/' ),
-        'themeUrl' => get_template_directory_uri(),
+        'ajaxUrl'    => admin_url( 'admin-ajax.php', 'relative' ),
+        'nonce'      => wp_create_nonce( 'tokoku_search_nonce' ),
+        'homeUrl'    => home_url( '/' ),
+        'catalogUrl' => esc_url( $catalog_url ),
+        'themeUrl'   => get_template_directory_uri(),
     ) );
 
     wp_localize_script( 'tokoku-whatsapp-js', 'tokokuWA', array(

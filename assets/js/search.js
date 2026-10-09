@@ -229,16 +229,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        const catalogUrl = (typeof tokokuSearch !== 'undefined' && tokokuSearch.catalogUrl)
+            ? tokokuSearch.catalogUrl
+            : `${(typeof tokokuSearch !== 'undefined' && tokokuSearch.homeUrl) ? tokokuSearch.homeUrl : '/'}produk/`;
+
         if (total > 0) {
-            const trimmedKeyword = keyword ? keyword.trim() : '';
-            const viewAllUrl = trimmedKeyword.length > 0
-                ? `${tokokuSearch.homeUrl}?s=${encodeURIComponent(trimmedKeyword)}&post_type=produk`
-                : `${tokokuSearch.homeUrl}produk/`;
-            html += `<div class="search-results-footer"><a href="${viewAllUrl}">LIHAT SEMUA PRODUK... (${total})</a></div>`;
+            html += `<div class="search-results-footer"><a href="${catalogUrl}">LIHAT SEMUA PRODUK... (${total})</a></div>`;
         }
 
         if (html === '') {
-            html = '<div style="padding:40px 20px;text-align:center;color:var(--text2);font-size:0.9rem;">Produk tidak ditemukan</div>';
+            html = `
+                <div style="padding:40px 20px;text-align:center;color:var(--text2);font-size:0.9rem;">
+                    <div style="margin-bottom:12px;">Produk tidak ditemukan</div>
+                    <div class="search-results-footer" style="background:transparent;border:none;padding:0;">
+                        <a href="${catalogUrl}" style="background:var(--primary);color:#fff;padding:8px 16px;border-radius:6px;font-weight:600;text-decoration:none;display:inline-block;">LIHAT SEMUA PRODUK</a>
+                    </div>
+                </div>
+            `;
         }
 
         container.innerHTML = html;
