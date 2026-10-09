@@ -11,10 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="modal-header">
             <h3 class="modal-title">Konfirmasi Pesanan</h3>
             <button type="button" class="close-modal" aria-label="Tutup">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <?php echo tokoku_icon( 'xmark', 18 ); ?>
             </button>
         </div>
         
@@ -43,6 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             
             <div class="form-footer">
                 <button type="submit" class="btn btn-wa-submit btn-block">
+                    <?php echo tokoku_icon( 'whatsapp', 18, '', 'style="margin-right:8px;"' ); ?>
                     Kirim ke WhatsApp
                 </button>
             </div>

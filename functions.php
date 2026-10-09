@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.1.0' );
+define( 'TOKOKU_VERSION', '3.2.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -72,7 +72,8 @@ function tokoku_scripts() {
     
     $google_fonts_url = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', $font_query ) . '&display=swap';
     wp_enqueue_style( 'tokoku-google-fonts', $google_fonts_url, array(), null );
-    wp_enqueue_style( 'tokoku-main-style', TOKOKU_URI . '/assets/css/main.css', array( 'tokoku-google-fonts' ), TOKOKU_VERSION );
+    wp_enqueue_style( 'tokoku-font-awesome', TOKOKU_URI . '/assets/vendor/fontawesome/css/all.min.css', array(), '6.5.2' );
+    wp_enqueue_style( 'tokoku-main-style', TOKOKU_URI . '/assets/css/main.css', array( 'tokoku-google-fonts', 'tokoku-font-awesome' ), TOKOKU_VERSION );
     wp_enqueue_style( 'tokoku-style', get_stylesheet_uri(), array( 'tokoku-main-style' ), TOKOKU_VERSION );
 
     wp_enqueue_script( 'tokoku-main-js', TOKOKU_URI . '/assets/js/main.js', array(), TOKOKU_VERSION, true );
@@ -332,6 +333,7 @@ function tokoku_widgets_init() {
 add_action( 'widgets_init', 'tokoku_widgets_init' );
 
 // Include required files
+require_once TOKOKU_DIR . '/includes/icons.php';
 require_once TOKOKU_DIR . '/includes/custom-post-type.php';
 require_once TOKOKU_DIR . '/includes/meta-boxes.php';
 require_once TOKOKU_DIR . '/includes/customizer.php';

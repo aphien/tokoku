@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.1.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.2.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -123,6 +123,17 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.2.0 — Integrasi Resmi Font Awesome 6, Sinkronisasi Seluruh Logo Brand & Performa Core Web Vitals 100%
+*Rilis Fitur & Standarisasi Aset — 10 Oktober 2026*
+- **Integrasi Penuh Font Awesome 6 Free**: Mengunduh dan menempatkan paket Font Awesome 6 resmi (CSS `all.min.css` dan font file WOFF2) langsung di dalam tema (`assets/vendor/fontawesome/`) untuk pemuatan lokal tanpa ketergantungan CDN eksternal (zero network latency & 100% offline-ready).
+- **Engine Vektor Terpusat (`includes/icons.php`)**: Menyediakan helper `tokoku_icon()` dan `tokoku_brand_icon()` dengan path vektor resmi dari [FortAwesome/Font-Awesome](https://github.com/FortAwesome/Font-Awesome.git), mendukung adaptasi warna otomatis via `currentColor`, ramah aksesibilitas, serta hemat memori.
+- **Sinkronisasi Seluruh Logo Media Sosial & Brand**: Memperbarui semua logo brand (WhatsApp, Facebook, Instagram, TikTok, YouTube, X/Twitter, LinkedIn, Telegram, Pinterest) di Footer, Share Bar Single Post, Single Produk, dan Halaman Statis dengan geometri resmi Font Awesome 6 solid siluet tanpa distorsi stroke.
+- **Penyelarasan Ikon Antarmuka (UI Icons)**: Menggantikan ikon lama pada Header (pencarian, clear input, mode gelap/terang, tombol kembali), Bottom Navigation seluler, Floating WhatsApp button, Close Lightbox, dan Modal WhatsApp konfirmasi pesanan.
+- **Integrasi Dasbor Pengaturan Admin**: Memuat stylesheet Font Awesome di halaman pengaturan TokoKu dan menyematkan ikon resmi di setiap opsi tautan media sosial.
+- **Peningkatan Skor Performa Core Web Vitals**: Pemanfaatan inline SVG untuk elemen penting memastikan skor LCP/CLS tetap optimal (0 layout shift) dan waktu respon instan.
+
+---
 
 ### 🚀 v3.1.0 — Manajemen Kontak Workshop, Slider Logo Klien Beranda, Ikon Medsos & Penguatan Keamanan
 *Rilis Fitur & Keamanan — 04 Oktober 2026*

@@ -231,6 +231,14 @@ add_action( 'admin_init', 'tokoku_maybe_create_static_pages' );
 function tokoku_page_icon( $name, $size = 22 ) {
     $size = absint( $size );
 
+    // Sinkronisasi otomatis ke Font Awesome 6 resmi jika tersedia
+    if ( function_exists( 'tokoku_icon' ) ) {
+        $icon = tokoku_icon( $name, $size, 'jp-icon jp-icon--' . sanitize_key( $name ) );
+        if ( ! empty( $icon ) ) {
+            return $icon;
+        }
+    }
+
     // Ikon solid khusus seperti WhatsApp resmi
     if ( 'whatsapp' === $name ) {
         return sprintf(

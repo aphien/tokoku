@@ -50,7 +50,8 @@ function tokoku_admin_settings_assets() {
     wp_enqueue_script( 'jquery-ui-sortable' );
 
     // External CSS & JS
-    wp_enqueue_style( 'tokoku-admin-css', TOKOKU_URI . '/assets/css/admin.css', array(), TOKOKU_VERSION );
+    wp_enqueue_style( 'tokoku-font-awesome', TOKOKU_URI . '/assets/vendor/fontawesome/css/all.min.css', array(), '6.7.2' );
+    wp_enqueue_style( 'tokoku-admin-css', TOKOKU_URI . '/assets/css/admin.css', array( 'tokoku-font-awesome' ), TOKOKU_VERSION );
     wp_enqueue_script( 'tokoku-admin-js', TOKOKU_URI . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ), TOKOKU_VERSION, true );
 
     // Localize data for AJAX
@@ -1598,7 +1599,10 @@ function tokoku_settings_page_html() {
                         $socials = array( 'instagram', 'facebook', 'tiktok', 'youtube', 'twitter' );
                         foreach ( $socials as $social ) : ?>
                             <div class="tokoku-field">
-                                <label><?php echo ucfirst( $social ); ?></label>
+                                <label style="display:inline-flex; align-items:center; gap:8px;">
+                                    <?php echo function_exists( 'tokoku_icon' ) ? tokoku_icon( $social, 16 ) : ''; ?>
+                                    <span><?php echo ( 'twitter' === $social ) ? 'X (Twitter)' : ucfirst( $social ); ?></span>
+                                </label>
                                 <input type="url" name="tokoku_social_<?php echo $social; ?>" value="<?php echo esc_url( get_theme_mod( "tokoku_social_{$social}" ) ); ?>" placeholder="https://...">
                             </div>
                         <?php endforeach; ?>
@@ -1905,6 +1909,15 @@ function tokoku_settings_page_html() {
                             </div>
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.2.0 — Integrasi Resmi Font Awesome 6, Sinkronisasi Seluruh Logo Brand &amp; Performa Core Web Vitals 100%
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.2.0 mengintegrasikan repositori resmi Font Awesome 6 (CSS &amp; Webfonts lokal tanpa CDN latency) serta modul helper terpusat <code>tokoku_icon()</code>. Seluruh logo media sosial (WhatsApp, Facebook, Instagram, TikTok, YouTube, X/Twitter, LinkedIn, Telegram, Pinterest) dan ikon antarmuka (Header, Footer, Single Produk, Bottom Nav, Lightbox) kini 100% tersinkronisasi dengan vektor resmi siluet yang tajam, presisi, dan responsif.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.0.0 — Harmonisasi Warna Tema, Ikon SVG Presisi &amp; Responsif Mobile Optimal
                                 </h4>
