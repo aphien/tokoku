@@ -490,40 +490,98 @@ get_header(); ?>
                     </div>
                     <?php endif; ?>
 
-                    <div class="product-share">
-                        <span class="share-label">
+                    <?php 
+                    $share_permalink = get_permalink();
+                    $share_title_raw = get_the_title();
+                    $current_url     = rawurlencode( $share_permalink ); 
+                    $raw_url         = esc_url( $share_permalink );
+                    $current_title   = rawurlencode( $share_title_raw );
+
+                    // Image for Pinterest & Share Modal Preview
+                    $share_image = '';
+                    if ( ! empty( $all_gallery[0]['large'] ) ) {
+                        $share_image = $all_gallery[0]['large'];
+                    } else {
+                        $feat_img_id = get_post_thumbnail_id();
+                        if ( $feat_img_id ) {
+                            $share_image = wp_get_attachment_image_url( $feat_img_id, 'full' );
+                        }
+                    }
+                    $share_image_enc = rawurlencode( $share_image );
+
+                    // Category & Description Formatting (Tanpa Tampilan Harga pada Fitur Bagikan)
+                    $prod_terms  = get_the_terms( get_the_ID(), 'kategori_produk' );
+                    $share_badge = ( ! empty( $prod_terms ) && ! is_wp_error( $prod_terms ) ) ? $prod_terms[0]->name : '';
+                    $share_desc  = wp_trim_words( wp_strip_all_tags( get_the_excerpt() ?: get_the_content() ), 16 );
+
+                    // WhatsApp share message (Judul & Tautan - Tanpa Harga)
+                    $wa_message_lines = array();
+                    $wa_message_lines[] = '*' . $share_title_raw . '*';
+                    $wa_message_lines[] = 'Lihat detail & pesan di TokoKu:';
+                    $wa_message_lines[] = $share_permalink;
+                    $wa_share_text = rawurlencode( implode( "\n", $wa_message_lines ) );
+
+                    $email_subject = rawurlencode( 'Rekomendasi Produk: ' . $share_title_raw );
+                    $email_body    = rawurlencode( "Halo,\n\nSaya ingin membagikan produk ini:\n" . $share_title_raw . "\n\nLihat selengkapnya di TokoKu:\n" . $share_permalink );
+                    ?>
+
+                    <div class="product-share" 
+                         data-share-title="<?php echo esc_attr( $share_title_raw ); ?>"
+                         data-share-url="<?php echo $raw_url; ?>"
+                         data-share-image="<?php echo esc_url( $share_image ); ?>"
+                         data-share-badge="<?php echo esc_attr( $share_badge ); ?>"
+                         data-share-desc="<?php echo esc_attr( $share_desc ); ?>">
+                        
+                        <button type="button" class="share-label share-label-interactive share-modal-trigger-btn" aria-label="Buka Opsi Berbagi" title="Buka Pratinjau & Opsi Berbagi Lengkap">
                             <?php echo tokoku_icon( 'share-nodes', 18 ); ?>
-                            Bagikan ke:
-                        </span>
+                            <span>Bagikan ke:</span>
+                        </button>
+                        
                         <div class="share-icons">
-                            <?php 
-                            $current_url   = urlencode( get_permalink() ); 
-                            $raw_url       = esc_url( get_permalink() );
-                            $current_title = urlencode( get_the_title() ); 
-                            ?>
+                            <!-- Tombol Modal Pratinjau & Berbagi -->
+                            <button type="button" class="share-icon modal-trigger-icon share-modal-trigger-btn" data-url="<?php echo $raw_url; ?>" data-title="<?php echo esc_attr( $share_title_raw ); ?>" data-text="<?php echo esc_attr( 'Lihat ' . $share_title_raw ); ?>" aria-label="Buka Opsi Berbagi Lengkap" title="Buka Opsi Berbagi Lengkap">
+                                <?php echo tokoku_icon( 'share-nodes', 18 ); ?>
+                            </button>
+
                             <!-- WhatsApp -->
-                            <a href="https://api.whatsapp.com/send?text=<?php echo $current_title . '%20' . $current_url; ?>" target="_blank" rel="noopener" class="share-icon wa" aria-label="Bagikan ke WhatsApp" title="WhatsApp">
+                            <a href="https://api.whatsapp.com/send?text=<?php echo $wa_share_text; ?>" target="_blank" rel="noopener noreferrer" class="share-icon wa" aria-label="Bagikan ke WhatsApp" title="WhatsApp">
                                 <?php echo tokoku_icon( 'whatsapp', 20 ); ?>
                             </a>
+
                             <!-- Facebook -->
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $current_url; ?>" target="_blank" rel="noopener" class="share-icon fb" aria-label="Bagikan ke Facebook" title="Facebook">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $current_url; ?>" target="_blank" rel="noopener noreferrer" class="share-icon fb" aria-label="Bagikan ke Facebook" title="Facebook">
                                 <?php echo tokoku_icon( 'facebook', 20 ); ?>
                             </a>
+
                             <!-- 𝕏 (Twitter) -->
-                            <a href="https://twitter.com/intent/tweet?url=<?php echo $current_url; ?>&text=<?php echo $current_title; ?>" target="_blank" rel="noopener" class="share-icon tw" aria-label="Bagikan ke X" title="X (Twitter)">
+                            <a href="https://twitter.com/intent/tweet?url=<?php echo $current_url; ?>&text=<?php echo $current_title; ?>" target="_blank" rel="noopener noreferrer" class="share-icon tw" aria-label="Bagikan ke X" title="X (Twitter)">
                                 <?php echo tokoku_icon( 'x-twitter', 18 ); ?>
                             </a>
+
                             <!-- Telegram -->
-                            <a href="https://t.me/share/url?url=<?php echo $current_url; ?>&text=<?php echo $current_title; ?>" target="_blank" rel="noopener" class="share-icon tg" aria-label="Bagikan ke Telegram" title="Telegram">
+                            <a href="https://t.me/share/url?url=<?php echo $current_url; ?>&text=<?php echo $current_title; ?>" target="_blank" rel="noopener noreferrer" class="share-icon tg" aria-label="Bagikan ke Telegram" title="Telegram">
                                 <?php echo tokoku_icon( 'telegram', 20 ); ?>
                             </a>
-                            <!-- Pinterest -->
-                            <a href="https://pinterest.com/pin/create/button/?url=<?php echo $current_url; ?>&description=<?php echo $current_title; ?>" target="_blank" rel="noopener" class="share-icon pin" aria-label="Bagikan ke Pinterest" title="Pinterest">
+
+                            <!-- Pinterest (Dilengkapi parameter media gambar) -->
+                            <a href="https://pinterest.com/pin/create/button/?url=<?php echo $current_url; ?>&description=<?php echo $current_title; ?><?php if ( ! empty( $share_image_enc ) ) : ?>&media=<?php echo $share_image_enc; ?><?php endif; ?>" target="_blank" rel="noopener noreferrer" class="share-icon pin" aria-label="Bagikan ke Pinterest" title="Pinterest">
                                 <?php echo tokoku_icon( 'pinterest', 20 ); ?>
                             </a>
+
+                            <!-- LinkedIn -->
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $current_url; ?>" target="_blank" rel="noopener noreferrer" class="share-icon in" aria-label="Bagikan ke LinkedIn" title="LinkedIn">
+                                <?php echo tokoku_icon( 'linkedin', 18 ); ?>
+                            </a>
+
+                            <!-- Email -->
+                            <a href="mailto:?subject=<?php echo $email_subject; ?>&body=<?php echo $email_body; ?>" class="share-icon mail" aria-label="Bagikan lewat Email" title="Email">
+                                <?php echo tokoku_icon( 'envelope', 18 ); ?>
+                            </a>
+
                             <!-- Salin Tautan (Copy Link) -->
                             <button type="button" class="share-icon link-share copy-link-btn" data-url="<?php echo $raw_url; ?>" aria-label="Salin Tautan" title="Salin Tautan">
-                                <?php echo tokoku_icon( 'link', 18 ); ?>
+                                <span class="copy-icon-wrap default-icon"><?php echo tokoku_icon( 'link', 18 ); ?></span>
+                                <span class="copy-icon-wrap success-icon" style="display:none;"><?php echo tokoku_icon( 'check', 18 ); ?></span>
                             </button>
                         </div>
                     </div>

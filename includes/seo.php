@@ -108,6 +108,9 @@ function tokoku_seo_meta_tags() {
     $description = '';
     $keywords    = $default_keywords;
     $image       = $default_image;
+    $img_width   = 0;
+    $img_height  = 0;
+    $img_type    = '';
     $url         = tokoku_get_canonical_url();
     $type        = 'website';
 
@@ -121,13 +124,46 @@ function tokoku_seo_meta_tags() {
         $description = ! empty( $excerpt ) ? $excerpt : $default_desc;
 
         if ( has_post_thumbnail() ) {
-            $image = get_the_post_thumbnail_url( null, 'full' );
+            $thumb_id = get_post_thumbnail_id();
+            $img_src  = wp_get_attachment_image_src( $thumb_id, 'full' );
+            if ( $img_src ) {
+                $image      = $img_src[0];
+                $img_width  = (int) $img_src[1];
+                $img_height = (int) $img_src[2];
+                $img_type   = get_post_mime_type( $thumb_id );
+            }
         }
         
         if ( is_singular( 'produk' ) ) {
             $type = 'product';
+            if ( empty( $image ) ) {
+                $gallery_ids = get_post_meta( get_the_ID(), '_produk_gallery', true );
+                if ( $gallery_ids ) {
+                    $raw_ids = is_array( $gallery_ids ) ? $gallery_ids : explode( ',', $gallery_ids );
+                    foreach ( $raw_ids as $gid ) {
+                        $gid = (int) trim( $gid );
+                        if ( $gid ) {
+                            $g_src = wp_get_attachment_image_src( $gid, 'full' );
+                            if ( $g_src ) {
+                                $image      = $g_src[0];
+                                $img_width  = (int) $g_src[1];
+                                $img_height = (int) $g_src[2];
+                                $img_type   = get_post_mime_type( $gid );
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         } else {
             $type = 'article';
+            // Fallback: Ambil gambar pertama dari konten artikel jika belum ada thumbnail
+            if ( empty( $image ) ) {
+                $post_content = $post->post_content ?? '';
+                if ( preg_match( '/<img[^>]+src=["\']([^"\']+)["\']/i', $post_content, $img_match ) ) {
+                    $image = $img_match[1];
+                }
+            }
         }
     } elseif ( is_post_type_archive( 'produk' ) || is_tax( 'kategori_produk' ) || is_tax( 'tag_produk' ) ) {
         if ( is_tax() ) {
@@ -194,8 +230,19 @@ function tokoku_seo_meta_tags() {
     }
     if ( $image ) {
         echo '<meta property="og:image" content="' . esc_url( $image ) . '">' . "\n";
+        echo '<meta property="og:image:secure_url" content="' . esc_url( $image ) . '">' . "\n";
+        echo '<meta property="og:image:alt" content="' . esc_attr( $title ) . '">' . "\n";
+        if ( ! empty( $img_width ) && ! empty( $img_height ) ) {
+            echo '<meta property="og:image:width" content="' . esc_attr( $img_width ) . '">' . "\n";
+            echo '<meta property="og:image:height" content="' . esc_attr( $img_height ) . '">' . "\n";
+        }
+        if ( ! empty( $img_type ) ) {
+            echo '<meta property="og:image:type" content="' . esc_attr( $img_type ) . '">' . "\n";
+        }
         echo '<meta name="twitter:image" content="' . esc_url( $image ) . '">' . "\n";
         echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    } else {
+        echo '<meta name="twitter:card" content="summary">' . "\n";
     }
     if ( $url ) {
         echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
@@ -203,6 +250,34 @@ function tokoku_seo_meta_tags() {
     echo '<meta property="og:type" content="' . esc_attr( $type ) . '">' . "\n";
     echo '<meta property="og:site_name" content="' . esc_attr( get_bloginfo( 'name' ) ) . '">' . "\n";
     echo '<meta property="og:locale" content="' . esc_attr( get_locale() ) . '">' . "\n";
+
+    // Twitter Handle
+    $tw_handle = get_theme_mod( 'tokoku_social_twitter', '' );
+    if ( $tw_handle ) {
+        $tw_clean = ltrim( preg_replace( '/^https?:\/\/(?:www\.)?(?:twitter|x)\.com\//i', '', trim( $tw_handle ) ), '@' );
+        if ( $tw_clean ) {
+            echo '<meta name="twitter:site" content="@' . esc_attr( $tw_clean ) . '">' . "\n";
+        }
+    }
+
+    // Article Specific Open Graph
+    if ( is_singular( 'post' ) ) {
+        echo '<meta property="article:published_time" content="' . esc_attr( get_the_date( 'c' ) ) . '">' . "\n";
+        echo '<meta property="article:modified_time" content="' . esc_attr( get_the_modified_date( 'c' ) ) . '">' . "\n";
+        echo '<meta property="article:author" content="' . esc_attr( get_the_author() ) . '">' . "\n";
+        $p_cats = get_the_category();
+        if ( ! empty( $p_cats ) ) {
+            echo '<meta property="article:section" content="' . esc_attr( $p_cats[0]->name ) . '">' . "\n";
+        }
+    }
+
+    if ( is_singular( 'produk' ) ) {
+        $p_price = get_post_meta( get_the_ID(), '_produk_harga', true );
+        if ( ! empty( $p_price ) && is_numeric( $p_price ) ) {
+            echo '<meta property="product:price:amount" content="' . esc_attr( $p_price ) . '">' . "\n";
+            echo '<meta property="product:price:currency" content="IDR">' . "\n";
+        }
+    }
 }
 add_action( 'wp_head', 'tokoku_seo_meta_tags', 2 );
 

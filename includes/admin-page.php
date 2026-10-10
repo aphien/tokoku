@@ -1910,6 +1910,15 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.3.0 — Universal Share Modal, Sinkronisasi Share Bar Produk &amp; Blog, serta Optimalisasi Open Graph Meta Tags
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.3.0 menghadirkan Universal Social Share Modal dengan kartu pratinjau dinamis, generator QR Code untuk pemindaian instan kamera HP, dan tombol Direct Image Sharing/Download. Memperbarui Share Bar pada Single Produk &amp; Blog dengan tombol modal responsif, 8 saluran media sosial lengkap, serta tombol salin link visual. Optimalisasi Open Graph &amp; Twitter Cards kini menyertakan dimensi gambar (width &amp; height) dan metadata artikel untuk pratinjau tautan sempurna di WhatsApp, Facebook, X, Telegram, dan LinkedIn tanpa tampilan harga.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.2.1 — Navigasi Presisi Pencarian ke Katalog Produk &amp; Pembaruan Otomatis Tema
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

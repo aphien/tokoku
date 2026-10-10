@@ -824,13 +824,29 @@ body.single-produk .bottom-nav {
     margin-bottom: 24px; 
     border: 1px solid var(--border); 
 }
-.share-label { 
+.share-label,
+button.share-label,
+.share-label-interactive { 
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-size: var(--fs-sm); 
     color: var(--text); 
     font-weight: 700; 
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s ease;
+}
+.share-label:hover,
+button.share-label:hover,
+.share-label-interactive:hover {
+    color: var(--primary);
+    transform: translateY(-1px);
 }
 .share-label svg { color: var(--primary); }
 .share-icons { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -848,6 +864,8 @@ body.single-produk .bottom-nav {
     outline: none !important;
     cursor: pointer;
     text-decoration: none;
+    padding: 0;
+    line-height: 1;
 }
 .share-icon:hover { 
     transform: translateY(-3px) scale(1.08); 
@@ -865,8 +883,27 @@ body.single-produk .bottom-nav {
 .share-icon.tg:hover { box-shadow: 0 6px 18px rgba(34, 158, 217, 0.45); }
 .share-icon.pin { background-color: #e60023; }
 .share-icon.pin:hover { box-shadow: 0 6px 18px rgba(230, 0, 35, 0.45); }
+.share-icon.in { background-color: #0a66c2; }
+.share-icon.in:hover { box-shadow: 0 6px 18px rgba(10, 102, 194, 0.45); }
+.share-icon.mail { background-color: #ea4335; }
+.share-icon.mail:hover { box-shadow: 0 6px 18px rgba(234, 67, 53, 0.45); }
+.share-icon.modal-trigger-icon,
+.share-icon.native-share-btn { 
+    background-color: var(--primary); 
+    display: inline-flex; 
+}
+.share-icon.modal-trigger-icon:hover,
+.share-icon.native-share-btn:hover { 
+    box-shadow: 0 6px 18px rgba(var(--primary-rgb), 0.45); 
+}
 .share-icon.link-share { background-color: #475569; }
 .share-icon.link-share:hover { background-color: var(--primary); box-shadow: 0 6px 18px rgba(var(--primary-rgb), 0.45); }
+.share-icon.link-share.copied {
+    background-color: #22c55e !important;
+    box-shadow: 0 6px 18px rgba(34, 197, 94, 0.45) !important;
+    transform: scale(1.08);
+}
+.copy-icon-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
 
 /* ========================================================
    MODERN INTERACTIVE PRODUCT DETAILS & DESCRIPTION HUB

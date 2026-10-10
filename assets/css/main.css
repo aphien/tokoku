@@ -6252,10 +6252,17 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     z-index: 99999;
 }
 
-.tokoku-toast.show {
+.tokoku-toast.show,
+.tokoku-toast.active {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 768px) {
+    .tokoku-toast {
+        bottom: calc(75px + env(safe-area-inset-bottom, 0px));
+    }
 }
 
 .tokoku-toast__icon {
@@ -6885,8 +6892,36 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .share-icon.pin { background-color: #e60023; }
 .share-icon.pin:hover { box-shadow: 0 8px 22px rgba(230, 0, 35, 0.45); }
 
+.share-icon.in { background-color: #0a66c2; }
+.share-icon.in:hover { box-shadow: 0 8px 22px rgba(10, 102, 194, 0.45); }
+
+.share-icon.mail { background-color: #ea4335; }
+.share-icon.mail:hover { box-shadow: 0 8px 22px rgba(234, 67, 53, 0.45); }
+
+.share-icon.modal-trigger-icon,
+.share-icon.native-share-btn {
+    background-color: var(--primary);
+    display: inline-flex;
+}
+.share-icon.modal-trigger-icon:hover,
+.share-icon.native-share-btn:hover {
+    box-shadow: 0 8px 22px rgba(var(--primary-rgb), 0.45);
+}
+
 .share-icon.link-share { background-color: #475569; }
 .share-icon.link-share:hover { background-color: var(--primary); box-shadow: 0 8px 22px rgba(var(--primary-rgb), 0.45); }
+.share-icon.link-share.copied {
+    background-color: #22c55e !important;
+    box-shadow: 0 8px 22px rgba(34, 197, 94, 0.45) !important;
+    transform: scale(1.08);
+}
+
+.copy-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
 
 /* Post Social Share Bar in Blog */
 .single-post-share {
@@ -6919,6 +6954,20 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: flex;
     align-items: center;
     gap: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    user-select: none;
+}
+
+.share-label-group:hover .share-badge-icon {
+    background: var(--primary);
+    color: #ffffff;
+    transform: scale(1.06);
+    box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.35);
+}
+
+.share-label-group:hover .share-heading {
+    color: var(--primary);
 }
 
 .share-badge-icon {
@@ -6931,6 +6980,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    transition: all 0.25s ease;
 }
 
 .share-text-wrap {
@@ -8730,4 +8780,420 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         display: none !important;
     }
 }
+
+/* ==========================================================================
+   UNIVERSAL SOCIAL SHARE MODAL (#tokoku-share-modal)
+   ========================================================================== */
+.tokoku-share-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.tokoku-share-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.share-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.share-modal-dialog {
+    position: relative;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--card-bg, #ffffff);
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border);
+    padding: 24px;
+    transform: scale(0.92) translateY(15px);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1;
+}
+
+.tokoku-share-modal.active .share-modal-dialog {
+    transform: scale(1) translateY(0);
+}
+
+.share-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.share-modal-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.share-modal-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(var(--primary-rgb), 0.12);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-modal-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+}
+
+.share-modal-close {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg2);
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.share-modal-close:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* 📸 Preview Card di Dalam Modal */
+.share-preview-card {
+    display: flex;
+    gap: 16px;
+    padding: 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.share-preview-img-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+}
+
+.share-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.share-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.share-preview-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(var(--primary-rgb), 0.15);
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.share-preview-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 4px 0;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.share-preview-desc {
+    font-size: 0.78rem;
+    color: var(--text2);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.35;
+}
+
+.share-preview-image-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.btn-share-img-direct,
+.btn-download-img-direct {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text) !important;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-share-img-direct:hover,
+.btn-download-img-direct:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff !important;
+}
+
+/* 🔗 Input Link Bar */
+.share-link-group {
+    margin-bottom: 20px;
+}
+
+.share-link-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text2);
+    margin-bottom: 8px;
+}
+
+.share-link-input-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 5px;
+    gap: 8px;
+    transition: border-color 0.2s;
+}
+
+.share-link-input-wrap:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
+}
+
+.share-modal-url-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.84rem;
+    color: var(--text);
+    padding: 8px 12px;
+    min-width: 0;
+}
+
+.btn-copy-modal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 10px;
+    border: none;
+    background: var(--primary);
+    color: #ffffff !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.btn-copy-modal:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-copy-modal.copied {
+    background: #22c55e !important;
+}
+
+/* 📱 Grid Sosial Media Channels */
+.share-channels-wrapper {
+    margin-bottom: 20px;
+}
+
+.share-channels-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text2);
+    margin-bottom: 12px;
+}
+
+.share-channels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+@media (max-width: 480px) {
+    .share-channels-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+}
+
+.channel-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 6px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
+}
+
+.channel-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--primary-rgb), 0.3);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.channel-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+
+.channel-card:hover .channel-icon-circle {
+    transform: scale(1.08);
+}
+
+.channel-icon-circle.wa { background-color: #25d366; }
+.channel-icon-circle.fb { background-color: #1877f2; }
+.channel-icon-circle.tw { background-color: #0f1419; }
+.channel-icon-circle.tg { background-color: #229ed9; }
+.channel-icon-circle.pin { background-color: #e60023; }
+.channel-icon-circle.in { background-color: #0a66c2; }
+.channel-icon-circle.mail { background-color: #ea4335; }
+.channel-icon-circle.native { background-color: var(--primary); }
+
+.channel-name {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+}
+
+/* 📷 QR Code Box */
+.share-qrcode-section {
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+}
+
+.btn-toggle-qrcode {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    color: var(--text2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-toggle-qrcode:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.05);
+}
+
+.share-qrcode-box {
+    margin-top: 14px;
+    text-align: center;
+}
+
+.share-qrcode-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 240px;
+}
+
+.share-qrcode-card img {
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.share-qrcode-hint {
+    font-size: 0.72rem;
+    color: var(--text2);
+    margin: 10px 0 0 0;
+    line-height: 1.35;
+}
+
+/* Tombol Trigger Share Modal di Single Produk */
+.share-label-interactive {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.share-label-interactive:hover {
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
 

@@ -148,6 +148,7 @@
     </div>
 
     <?php get_template_part('template-parts/whatsapp-modal'); ?>
+    <?php get_template_part('template-parts/share-modal'); ?>
 
     <!-- Mobile Bottom Navigation -->
     <nav class="bottom-nav" aria-label="Navigasi Bawah">

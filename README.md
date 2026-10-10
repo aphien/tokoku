@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.2.1-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.3.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -114,6 +114,7 @@ tokoku/
 ├── template-parts/
 │   ├── legal-page.php            # Partial layout dokumen legal (TOC + Progress)
 │   ├── product-card.php          # Kartu katalog produk responsive
+│   ├── share-modal.php           # Universal Social Share Modal (Live Preview, QR, Media)
 │   └── whatsapp-modal.php        # Modal pemesanan WhatsApp
 ├── functions.php                 # Definisi konstanta tema & inisialisasi modul
 ├── style.css                     # Informasi metadata & header versi tema
@@ -123,6 +124,16 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.3.0 — Universal Share Modal, Sinkronisasi Share Bar Produk & Blog, serta Optimalisasi Open Graph Meta Tags
+*Rilis Fitur & Optimalisasi Media Sosial — 11 Oktober 2026*
+- **Universal Social Share Modal (`template-parts/share-modal.php`)**: Menghadirkan modal pop-up berbagi interaktif dengan kartu pratinjau langsung (*live card preview*), pengunduhan dan pembagian gambar langsung (*Direct Image Share API*), tautan salin instan dengan notifikasi toast, serta generator QR Code dinamis untuk pemindaian langsung melalui kamera smartphone.
+- **Penyelarasan Tampilan Share Bar Produk & Blog**: Memperbarui bilah tombol bagikan di `single-produk.php` dan `single.php` dengan tombol trigger modal (`modal-trigger-icon`), 8 jalur media sosial terpopuler (WhatsApp, Facebook, X/Twitter, Telegram, Pinterest, LinkedIn, Email), serta tombol salin tautan dengan indikator status tersalin visual.
+- **Optimalisasi Penuh Open Graph & Twitter Cards (`includes/seo.php`)**: Memastikan pratinjau tautan (*link preview cards*) di WhatsApp, Facebook, Twitter/X, Telegram, dan LinkedIn selalu muncul sempurna dengan injeksi dimensi gambar (`og:image:width`, `og:image:height`, `og:image:type`), pengambilan otomatis gambar konten blog jika thumbnail kosong, metadata artikel (`article:published_time`, `article:author`, `article:section`), dan Twitter Site attribution.
+- **Penyaringan Tampilan Harga pada Fitur Bagikan**: Membersihkan badge pratinjau, pesan bagikan WhatsApp, dan template email dari penyebutan harga agar fokus menampilkan judul dan kategori produk secara elegan.
+- **Peningkatan Ergonomi & Kompatibilitas Mobile**: Menjamin tombol pembuka modal selalu terlihat di desktop maupun seluler tanpa terhambat oleh keterbatasan browser native Web Share API.
+
+---
 
 ### 🚀 v3.2.1 — Navigasi Presisi Pencarian ke Katalog Produk & Pembaruan Otomatis Tema
 *Rilis Pemeliharaan & Navigasi — 10 Oktober 2026*

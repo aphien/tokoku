@@ -885,21 +885,78 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateThemeColor();
 
-    // 🔗 Modern Copy Link with Toast
+    // 🔗 Modern Universal Social Share, Web Share API & Copy Link with Toast
     let toastTimer = null;
     function showToast(message) {
-        const toast = document.getElementById('tokoku-toast');
-        if (!toast) return;
-        const textEl = document.getElementById('tokoku-toast-text');
+        let toast = document.getElementById('tokoku-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'tokoku-toast';
+            toast.className = 'tokoku-toast';
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.innerHTML = '<svg class="fa-icon fa-icon--check toast-check-icon" width="20" height="20" viewBox="0 0 448 512" fill="currentColor" style="color: #22c55e;"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg><span id="tokoku-toast-text">Tautan berhasil disalin!</span>';
+            document.body.appendChild(toast);
+        }
+        const textEl = document.getElementById('tokoku-toast-text') || toast.querySelector('span');
         if (textEl && message) textEl.textContent = message;
         
-        toast.classList.add('active');
+        toast.classList.add('show', 'active');
         if (toastTimer) clearTimeout(toastTimer);
         toastTimer = setTimeout(() => {
-            toast.classList.remove('active');
-        }, 2500);
+            toast.classList.remove('show', 'active');
+        }, 2600);
     }
 
+    function handleCopyLinkSuccess(copyBtn) {
+        showToast('Tautan berhasil disalin!');
+        if (!copyBtn) return;
+        copyBtn.classList.add('copied');
+        const defaultIcon = copyBtn.querySelector('.default-icon');
+        const successIcon = copyBtn.querySelector('.success-icon');
+        if (defaultIcon && successIcon) {
+            defaultIcon.style.display = 'none';
+            successIcon.style.display = 'inline-flex';
+        }
+        const oldTitle = copyBtn.getAttribute('title') || 'Salin Tautan';
+        copyBtn.setAttribute('title', 'Tersalin!');
+        copyBtn.setAttribute('aria-label', 'Tersalin!');
+
+        setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            if (defaultIcon && successIcon) {
+                defaultIcon.style.display = 'inline-flex';
+                successIcon.style.display = 'none';
+            }
+            copyBtn.setAttribute('title', oldTitle);
+            copyBtn.setAttribute('aria-label', oldTitle);
+        }, 2000);
+    }
+
+    function fallbackCopyText(text, copyBtn) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        textArea.style.top = '0';
+        textArea.setAttribute('readonly', '');
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                handleCopyLinkSuccess(copyBtn);
+            } else {
+                showToast('Gagal menyalin tautan');
+            }
+        } catch (err) {
+            showToast('Gagal menyalin tautan');
+        }
+        document.body.removeChild(textArea);
+    }
+
+    // 📋 Handler Klik Salin Tautan
     document.addEventListener('click', (e) => {
         const copyBtn = e.target.closest('.copy-link-btn');
         if (!copyBtn) return;
@@ -908,32 +965,371 @@ document.addEventListener('DOMContentLoaded', function() {
         const urlToCopy = copyBtn.getAttribute('data-url') || window.location.href;
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(urlToCopy).then(() => {
-                showToast('Tautan berhasil disalin!');
+                handleCopyLinkSuccess(copyBtn);
             }).catch(() => {
-                fallbackCopyText(urlToCopy);
+                fallbackCopyText(urlToCopy, copyBtn);
             });
         } else {
-            fallbackCopyText(urlToCopy);
+            fallbackCopyText(urlToCopy, copyBtn);
         }
     });
 
-    function fallbackCopyText(text) {
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-9999px';
-        textArea.style.top = '0';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            showToast('Tautan berhasil disalin!');
-        } catch (err) {
-            showToast('Gagal menyalin tautan');
+    // 📲 Web Share API (Smartphone & Browser Modern)
+    function initNativeShare() {
+        const nativeShareBtns = document.querySelectorAll('.native-share-btn:not(.share-modal-trigger-btn)');
+        if (nativeShareBtns.length > 0) {
+            if (navigator.share) {
+                nativeShareBtns.forEach(btn => {
+                    btn.style.display = 'inline-flex';
+                });
+            } else {
+                nativeShareBtns.forEach(btn => {
+                    btn.style.display = 'none';
+                });
+            }
         }
-        document.body.removeChild(textArea);
     }
+    initNativeShare();
+
+    document.addEventListener('click', (e) => {
+        const nativeBtn = e.target.closest('.native-share-btn');
+        if (!nativeBtn || nativeBtn.classList.contains('share-modal-trigger-btn')) return;
+        e.preventDefault();
+
+        const shareData = {
+            title: nativeBtn.getAttribute('data-title') || document.title,
+            text: nativeBtn.getAttribute('data-text') || '',
+            url: nativeBtn.getAttribute('data-url') || window.location.href
+        };
+
+        if (navigator.share) {
+            navigator.share(shareData).catch((err) => {
+                if (err.name !== 'AbortError') {
+                    console.log('Share error:', err);
+                }
+            });
+        } else {
+            const urlToCopy = shareData.url;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(urlToCopy).then(() => {
+                    handleCopyLinkSuccess(nativeBtn);
+                }).catch(() => {
+                    fallbackCopyText(urlToCopy, nativeBtn);
+                });
+            } else {
+                fallbackCopyText(urlToCopy, nativeBtn);
+            }
+        }
+    });
+
+    // 🪟 Popup Window Desktop untuk Berbagi ke Media Sosial (FB, X, Telegram, Pinterest, LinkedIn)
+    document.addEventListener('click', (e) => {
+        const shareLink = e.target.closest('.share-icons a.share-icon, .share-channels-grid a.channel-card');
+        if (!shareLink) return;
+
+        const href = shareLink.getAttribute('href');
+        if (!href || href.startsWith('mailto:') || href.startsWith('javascript:') || href === '#') return;
+
+        const popupClasses = ['fb', 'tw', 'tg', 'pin', 'in', 'channel-fb', 'channel-tw', 'channel-tg', 'channel-pin', 'channel-in'];
+        const isPopupLink = popupClasses.some(cls => shareLink.classList.contains(cls));
+
+        if (isPopupLink && window.innerWidth >= 768) {
+            e.preventDefault();
+            const width = 620;
+            const height = 560;
+            const left = Math.max(0, Math.round((window.innerWidth - width) / 2 + window.screenX));
+            const top = Math.max(0, Math.round((window.innerHeight - height) / 2 + window.screenY));
+            const popupWindow = window.open(
+                href,
+                'tokoku_share',
+                `width=${width},height=${height},left=${left},top=${top},toolbar=0,menubar=0,location=0,status=0,scrollbars=yes,resizable=yes`
+            );
+            if (popupWindow) {
+                popupWindow.focus();
+            } else {
+                window.open(href, '_blank', 'noopener,noreferrer');
+            }
+        }
+    });
+
+    // =========================================================================
+    // 🪟 Interactive Universal Share Modal Controller (#tokoku-share-modal)
+    // =========================================================================
+    const shareModal = document.getElementById('tokoku-share-modal');
+    const shareModalBackdrop = document.getElementById('share-modal-backdrop');
+    const shareModalCloseBtn = document.getElementById('share-modal-close');
+    const shareModalUrlInput = document.getElementById('share-modal-url-input');
+    const shareModalCopyBtn = document.getElementById('share-modal-copy-btn');
+    const btnToggleQrCode = document.getElementById('btn-toggle-qrcode');
+    const shareQrCodeBox = document.getElementById('share-qrcode-box');
+    const shareQrCodeImg = document.getElementById('share-qrcode-img');
+
+    function openShareModal(shareData) {
+        if (!shareModal) return;
+
+        const title = shareData.title || document.title;
+        const url   = shareData.url || window.location.href;
+        const image = shareData.image || '';
+        let badge   = shareData.badge || '';
+        const desc  = shareData.desc || '';
+
+        // Hilangkan tampilan harga jika mengandung format mata uang atau nilai harga
+        if (badge && (/(?:rp|idr|\$|€|¥)/i.test(badge) || /^\s*[\d.,]+\s*$/.test(badge))) {
+            badge = '';
+        }
+
+        // 1. Tampilkan Gambar, Teks Judul & Badge di Preview Card
+        const titleEl = document.getElementById('share-preview-title');
+        const imgEl   = document.getElementById('share-preview-img');
+        const imgWrap = document.getElementById('share-preview-img-wrap');
+        const badgeEl = document.getElementById('share-preview-badge');
+        const descEl  = document.getElementById('share-preview-desc');
+
+        if (titleEl) titleEl.textContent = title;
+        if (imgEl && imgWrap) {
+            if (image) {
+                imgEl.src = image;
+                imgEl.alt = title;
+                imgWrap.style.display = 'block';
+            } else {
+                imgWrap.style.display = 'none';
+            }
+        }
+        if (badgeEl) {
+            if (badge) {
+                badgeEl.textContent = badge;
+                badgeEl.style.display = 'inline-block';
+            } else {
+                badgeEl.style.display = 'none';
+            }
+        }
+        if (descEl) {
+            if (desc) {
+                descEl.textContent = desc;
+                descEl.style.display = '-webkit-box';
+            } else {
+                descEl.style.display = 'none';
+            }
+        }
+
+        // 2. Tampilkan Tautan Lengkap di Kotak Input
+        if (shareModalUrlInput) {
+            shareModalUrlInput.value = url;
+        }
+
+        // 3. Reset Status Tombol Salin
+        if (shareModalCopyBtn) {
+            shareModalCopyBtn.classList.remove('copied');
+            const defText = shareModalCopyBtn.querySelector('.copy-modal-default');
+            const succText = shareModalCopyBtn.querySelector('.copy-modal-success');
+            if (defText) defText.style.display = 'inline-flex';
+            if (succText) succText.style.display = 'none';
+        }
+
+        // 4. Generate QR Code Instan
+        if (shareQrCodeImg) {
+            shareQrCodeImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' + encodeURIComponent(url);
+        }
+        if (shareQrCodeBox) {
+            shareQrCodeBox.style.display = 'none';
+        }
+        if (btnToggleQrCode) {
+            btnToggleQrCode.setAttribute('aria-expanded', 'false');
+            const toggleText = document.getElementById('btn-toggle-qrcode-text');
+            if (toggleText) toggleText.textContent = 'Tampilkan QR Code untuk Scan di HP';
+        }
+
+        // 5. Update Channel Tautan Berbagi
+        const encUrl   = encodeURIComponent(url);
+        const encTitle = encodeURIComponent(title);
+        const encImg   = encodeURIComponent(image);
+
+        // Pesan WhatsApp Berformat (Judul dan Tautan - Tanpa Harga)
+        let waMsg = '*' + title + '*';
+        waMsg += '\n\nLihat selengkapnya di TokoKu:\n' + url;
+        const encWaMsg = encodeURIComponent(waMsg);
+
+        const waLink   = document.getElementById('share-modal-wa');
+        const fbLink   = document.getElementById('share-modal-fb');
+        const twLink   = document.getElementById('share-modal-tw');
+        const tgLink   = document.getElementById('share-modal-tg');
+        const pinLink  = document.getElementById('share-modal-pin');
+        const inLink   = document.getElementById('share-modal-in');
+        const mailLink = document.getElementById('share-modal-mail');
+
+        if (waLink) waLink.href = 'https://api.whatsapp.com/send?text=' + encWaMsg;
+        if (fbLink) fbLink.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encUrl;
+        if (twLink) twLink.href = 'https://twitter.com/intent/tweet?url=' + encUrl + '&text=' + encTitle;
+        if (tgLink) tgLink.href = 'https://t.me/share/url?url=' + encUrl + '&text=' + encTitle;
+        if (pinLink) pinLink.href = 'https://pinterest.com/pin/create/button/?url=' + encUrl + (image ? '&media=' + encImg : '') + '&description=' + encTitle;
+        if (inLink) inLink.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encUrl;
+        if (mailLink) mailLink.href = 'mailto:?subject=' + encTitle + '&body=' + encodeURIComponent('Halo,\n\nSaya ingin membagikan tautan ini: ' + title + '\n\nBuka di:\n' + url);
+
+        shareModal.setAttribute('data-current-title', title);
+        shareModal.setAttribute('data-current-url', url);
+        shareModal.setAttribute('data-current-image', image);
+        shareModal.setAttribute('data-current-desc', desc);
+
+        // Update Direct Image Actions
+        const dlBtn = document.getElementById('btn-download-img-direct');
+        const imgActionsWrap = document.getElementById('share-preview-image-actions');
+        if (dlBtn && imgActionsWrap) {
+            if (image) {
+                dlBtn.href = image;
+                dlBtn.setAttribute('download', (title.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'produk') + '.jpg');
+                imgActionsWrap.style.display = 'flex';
+            } else {
+                imgActionsWrap.style.display = 'none';
+            }
+        }
+
+        // 6. Buka Modal dengan Animasi
+        shareModal.style.display = 'flex';
+        requestAnimationFrame(() => {
+            shareModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    function closeShareModal() {
+        if (!shareModal) return;
+        shareModal.classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            if (!shareModal.classList.contains('active')) {
+                shareModal.style.display = 'none';
+            }
+        }, 300);
+    }
+
+    if (shareModalCloseBtn) {
+        shareModalCloseBtn.addEventListener('click', closeShareModal);
+    }
+    if (shareModalBackdrop) {
+        shareModalBackdrop.addEventListener('click', closeShareModal);
+    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && shareModal && shareModal.classList.contains('active')) {
+            closeShareModal();
+        }
+    });
+
+    if (shareModalCopyBtn && shareModalUrlInput) {
+        shareModalCopyBtn.addEventListener('click', () => {
+            const url = shareModalUrlInput.value || window.location.href;
+            const defText = shareModalCopyBtn.querySelector('.copy-modal-default');
+            const succText = shareModalCopyBtn.querySelector('.copy-modal-success');
+
+            const onCopySuccess = () => {
+                showToast('Tautan berhasil disalin!');
+                shareModalCopyBtn.classList.add('copied');
+                if (defText) defText.style.display = 'none';
+                if (succText) succText.style.display = 'inline-flex';
+                setTimeout(() => {
+                    shareModalCopyBtn.classList.remove('copied');
+                    if (defText) defText.style.display = 'inline-flex';
+                    if (succText) succText.style.display = 'none';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(onCopySuccess).catch(() => {
+                    fallbackCopyText(url, shareModalCopyBtn);
+                });
+            } else {
+                fallbackCopyText(url, shareModalCopyBtn);
+            }
+        });
+    }
+
+    if (btnToggleQrCode && shareQrCodeBox) {
+        btnToggleQrCode.addEventListener('click', () => {
+            const isHidden = shareQrCodeBox.style.display === 'none';
+            shareQrCodeBox.style.display = isHidden ? 'block' : 'none';
+            btnToggleQrCode.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+            const toggleText = document.getElementById('btn-toggle-qrcode-text');
+            if (toggleText) {
+                toggleText.textContent = isHidden ? 'Sembunyikan QR Code' : 'Tampilkan QR Code untuk Scan di HP';
+            }
+        });
+    }
+
+    // Bagikan file gambar produk langsung (via Web Share API file share)
+    const btnShareImgDirect = document.getElementById('btn-share-img-direct');
+    if (btnShareImgDirect) {
+        btnShareImgDirect.addEventListener('click', async () => {
+            const currentImg = shareModal.getAttribute('data-current-image');
+            const currentTitle = shareModal.getAttribute('data-current-title') || document.title;
+            const currentUrl = shareModal.getAttribute('data-current-url') || window.location.href;
+
+            if (!currentImg) {
+                showToast('Gambar produk tidak tersedia');
+                return;
+            }
+
+            if (navigator.canShare && window.isSecureContext) {
+                try {
+                    const res = await fetch(currentImg);
+                    const blob = await res.blob();
+                    const file = new File([blob], 'produk.jpg', { type: blob.type || 'image/jpeg' });
+
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            files: [file],
+                            title: currentTitle,
+                            text: currentTitle + ' - ' + currentUrl
+                        });
+                        return;
+                    }
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        console.log('Direct image share fallback:', err);
+                    } else {
+                        return;
+                    }
+                }
+            }
+
+            // Fallback: buka gambar di tab baru
+            window.open(currentImg, '_blank');
+            showToast('Membuka foto produk...');
+        });
+    }
+
+    const shareModalNativeBtn = document.getElementById('share-modal-native');
+    if (shareModalNativeBtn) {
+        shareModalNativeBtn.addEventListener('click', () => {
+            const title = shareModal.getAttribute('data-current-title') || document.title;
+            const url   = shareModal.getAttribute('data-current-url') || window.location.href;
+            const text  = shareModal.getAttribute('data-current-desc') || '';
+
+            if (navigator.share) {
+                navigator.share({ title, text, url }).catch(err => {
+                    if (err.name !== 'AbortError') console.log('Share error:', err);
+                });
+            } else if (shareModalCopyBtn) {
+                shareModalCopyBtn.click();
+            }
+        });
+    }
+
+    // Trigger Klik untuk Membuka Share Modal dari Elemen Halaman
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.share-modal-trigger-btn');
+        if (!trigger) return;
+        e.preventDefault();
+
+        const container = trigger.closest('[data-share-title]') || document.querySelector('[data-share-title]');
+        const shareData = {
+            title: container ? container.getAttribute('data-share-title') : document.title,
+            url: container ? container.getAttribute('data-share-url') : window.location.href,
+            image: container ? container.getAttribute('data-share-image') : '',
+            badge: container ? container.getAttribute('data-share-badge') : '',
+            desc: container ? container.getAttribute('data-share-desc') : ''
+        };
+
+        openShareModal(shareData);
+    });
 
     // 📱 Sticky Mobile Order Bar for Single Product
     const stickyBar = document.getElementById('product-sticky-bar');
