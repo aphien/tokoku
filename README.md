@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.3.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.3.1-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -124,6 +124,15 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.3.1 — Mobile Bottom Sheet Drawer Modal Berbagi, Quick-Action Share Bar Mobile & Proporsi Harmonis Slider Testimoni
+*Rilis Penyempurnaan Mobile UX & Harmonisasi Desain — 16 Oktober 2026*
+- **Mobile Bottom Sheet Drawer Modal Berbagi (`#tokoku-share-modal`)**: Transformasi modal popup berbagi di perangkat bergerak (`≤768px`) menjadi laci bawah (*bottom sheet*) modern yang meluncur dari bagian bawah layar dengan sudut melengkung halus (`26px 26px 0 0`), latar belakang gelap (*backdrop overlay*), *Drag Handle Bar* (`.share-sheet-handle`), dan dukungan gestur sentuh *Swipe Down to Dismiss*.
+- **Quick-Action Share Bar Mobile yang Rapi & Ergonomis**: Menyederhanakan tampilan bilah berbagi pada layar mobile (`single-produk.php` & `single.php`) menjadi 2 tombol aksi ramah ibu jari (Salin Tautan dengan status tersalin visual & tombol pembuka Bottom Sheet). Menyembunyikan deretan ikon sosial langsung di bilah mobile agar tidak meluap (*overflow*) dan tetap bersih.
+- **Harmonisasi Proporsi Slider Testimoni Beranda (`front-page.php`)**: Menyesuaikan skala tata letak kartu kutipan testimoni (*quote card*) beranda dengan reduksi proporsional 20% yang lebih pas, termasuk tombol panah navigasi, ikon floating quote, foto avatar terverifikasi, dan rating bintang.
+- **Sinkronisasi Sistem Pembaruan Otomatis Tema**: Penyelarasan versi `3.3.1` pada seluruh metadata tema (`style.css`, `functions.php`, `admin-page.php`, `README.md`) serta integrasi penuh dengan endpoint GitHub Releases untuk pembaruan 1-klik di WP Admin.
+
+---
 
 ### 🚀 v3.3.0 — Universal Share Modal, Sinkronisasi Share Bar Produk & Blog, serta Optimalisasi Open Graph Meta Tags
 *Rilis Fitur & Optimalisasi Media Sosial — 11 Oktober 2026*

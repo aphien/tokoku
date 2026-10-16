@@ -265,10 +265,10 @@ get_header(); ?>
             <div class="testimonials-slider-container">
                 <!-- Navigation Arrows -->
                 <button type="button" class="testi-slider-arrow testi-slider-prev" id="testi-prev-btn" aria-label="<?php esc_attr_e( 'Testimoni Sebelumnya', 'tokoku' ); ?>">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
                 <button type="button" class="testi-slider-arrow testi-slider-next" id="testi-next-btn" aria-label="<?php esc_attr_e( 'Testimoni Berikutnya', 'tokoku' ); ?>">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
 
                 <div class="testimonials-slider" id="testimonials-slider">
@@ -289,10 +289,10 @@ get_header(); ?>
                                     <div class="testimonial-card">
                                         <!-- Modern Floating Quote Icon Badge (Ala Quote Kekinian) -->
                                         <div class="testi-quote-badge" aria-hidden="true">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                                            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
                                         </div>
 
-                                        <!-- Testimonial Quote (Merriweather, Tebal & Diperbesar 20%) -->
+                                        <!-- Testimonial Quote (Merriweather, Tebal & Proporsional -20%) -->
                                         <blockquote class="testi-quote">
                                             “<?php echo esc_html( $text ); ?>”
                                         </blockquote>
@@ -301,14 +301,14 @@ get_header(); ?>
                                         <div class="testi-bottom">
                                             <div class="testi-avatar-wrap">
                                                 <?php if ( $img ) : ?>
-                                                    <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ); ?>" class="testi-avatar-img" width="56" height="56" loading="lazy" decoding="async">
+                                                    <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ); ?>" class="testi-avatar-img" width="45" height="45" loading="lazy" decoding="async">
                                                 <?php else : ?>
                                                     <div class="testi-avatar-initial">
                                                         <?php echo esc_html( mb_substr( $name ? $name : 'U', 0, 1 ) ); ?>
                                                     </div>
                                                 <?php endif; ?>
                                                 <span class="testi-avatar-badge" title="<?php esc_attr_e( 'Pelanggan Terverifikasi', 'tokoku' ); ?>">
-                                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                                                 </span>
                                             </div>
 
@@ -320,7 +320,7 @@ get_header(); ?>
                                                         <?php for ( $r = 1; $r <= 5; $r++ ) : 
                                                             $fill_color = $r <= $rating ? '#f59e0b' : '#e2e8f0';
                                                         ?>
-                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="<?php echo esc_attr( $fill_color ); ?>" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="<?php echo esc_attr( $fill_color ); ?>" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                                                         <?php endfor; ?>
                                                     </div>
                                                     <span class="testi-rating-score"><?php echo number_format( $rating, 1 ); ?></span>

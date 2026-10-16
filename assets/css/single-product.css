@@ -904,6 +904,7 @@ button.share-label:hover,
     transform: scale(1.08);
 }
 .copy-icon-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+.share-icon .share-btn-text { display: none; }
 
 /* ========================================================
    MODERN INTERACTIVE PRODUCT DETAILS & DESCRIPTION HUB
@@ -1877,10 +1878,6 @@ button.share-label:hover,
     }
     .product-share {
         order: 11 !important;
-        padding: 12px 14px;
-        border-radius: 14px;
-        gap: 10px;
-        margin-bottom: 20px;
     }
     .product-description-wrapper {
         padding: 40px 0 60px;

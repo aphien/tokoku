@@ -18,6 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="share-modal-backdrop" id="share-modal-backdrop"></div>
     
     <div class="share-modal-dialog">
+        <!-- Drag Handle Bar for Mobile Bottom Sheet -->
+        <div class="share-sheet-handle" aria-hidden="true"></div>
+
         <!-- Header Modal -->
         <div class="share-modal-header">
             <div class="share-modal-title-wrap">

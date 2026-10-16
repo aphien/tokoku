@@ -1910,6 +1910,15 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.3.1 — Mobile Bottom Sheet Drawer Modal Berbagi, Quick-Action Share Bar Mobile &amp; Proporsi Harmonis Testimoni
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.3.1 mentransformasi tampilan modal berbagi pada layar ponsel menjadi Bottom Sheet Drawer modern yang meluncur mulus dari bawah layar, lengkap dengan handle bar dan gestur sentuh geser ke bawah (swipe-to-dismiss). Bilah bagikan (Share Bar) pada halaman produk dan blog versi mobile disederhanakan menjadi 2 tombol aksi ergonomis: tombol Salin Tautan interaktif dengan indikator teks, serta tombol opsi lengkap (Lainnya). Menyelaraskan skala kartu kutipan testimoni beranda agar lebih ringkas, proporsional (-20%), dan seimbang di seluruh perangkat.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.3.0 — Universal Share Modal, Sinkronisasi Share Bar Produk &amp; Blog, serta Optimalisasi Open Graph Meta Tags
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

@@ -909,14 +909,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleCopyLinkSuccess(copyBtn) {
+        if (!copyBtn || copyBtn.classList.contains('copied')) return;
         showToast('Tautan berhasil disalin!');
-        if (!copyBtn) return;
         copyBtn.classList.add('copied');
         const defaultIcon = copyBtn.querySelector('.default-icon');
         const successIcon = copyBtn.querySelector('.success-icon');
+        const copyTextEl = copyBtn.querySelector('.copy-btn-text');
+        const oldText = copyTextEl ? copyTextEl.textContent : '';
+
         if (defaultIcon && successIcon) {
             defaultIcon.style.display = 'none';
             successIcon.style.display = 'inline-flex';
+        }
+        if (copyTextEl) {
+            copyTextEl.textContent = 'Tersalin!';
         }
         const oldTitle = copyBtn.getAttribute('title') || 'Salin Tautan';
         copyBtn.setAttribute('title', 'Tersalin!');
@@ -927,6 +933,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (defaultIcon && successIcon) {
                 defaultIcon.style.display = 'inline-flex';
                 successIcon.style.display = 'none';
+            }
+            if (copyTextEl) {
+                copyTextEl.textContent = oldText || 'Salin';
             }
             copyBtn.setAttribute('title', oldTitle);
             copyBtn.setAttribute('aria-label', oldTitle);
@@ -1063,6 +1072,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnToggleQrCode = document.getElementById('btn-toggle-qrcode');
     const shareQrCodeBox = document.getElementById('share-qrcode-box');
     const shareQrCodeImg = document.getElementById('share-qrcode-img');
+    const modalDialog = shareModal ? shareModal.querySelector('.share-modal-dialog') : null;
 
     function openShareModal(shareData) {
         if (!shareModal) return;
@@ -1184,6 +1194,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // 6. Buka Modal dengan Animasi
+        if (modalDialog) {
+            modalDialog.style.transform = '';
+            modalDialog.style.transition = '';
+        }
         shareModal.style.display = 'flex';
         requestAnimationFrame(() => {
             shareModal.classList.add('active');
@@ -1195,6 +1209,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!shareModal) return;
         shareModal.classList.remove('active');
         document.body.style.overflow = '';
+        if (modalDialog) {
+            modalDialog.style.transform = '';
+            modalDialog.style.transition = '';
+        }
         setTimeout(() => {
             if (!shareModal.classList.contains('active')) {
                 shareModal.style.display = 'none';
@@ -1214,8 +1232,48 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // 📱 Mobile Bottom Sheet Swipe Down to Dismiss
+    let sheetTouchStartY = 0;
+    let sheetTouchCurrentY = 0;
+
+    if (modalDialog) {
+        modalDialog.addEventListener('touchstart', (e) => {
+            const isHandle = e.target.closest && e.target.closest('.share-sheet-handle');
+            if (window.innerWidth <= 768 && (isHandle || modalDialog.scrollTop <= 2)) {
+                sheetTouchStartY = e.touches[0].clientY;
+                sheetTouchCurrentY = sheetTouchStartY;
+            } else {
+                sheetTouchStartY = 0;
+                sheetTouchCurrentY = 0;
+            }
+        }, { passive: true });
+
+        modalDialog.addEventListener('touchmove', (e) => {
+            if (!sheetTouchStartY) return;
+            sheetTouchCurrentY = e.touches[0].clientY;
+            const diff = sheetTouchCurrentY - sheetTouchStartY;
+            if (diff > 0 && (modalDialog.scrollTop <= 2 || (e.target.closest && e.target.closest('.share-sheet-handle')))) {
+                modalDialog.style.transform = `translateY(${diff}px)`;
+                modalDialog.style.transition = 'none';
+            }
+        }, { passive: true });
+
+        modalDialog.addEventListener('touchend', () => {
+            if (!sheetTouchStartY) return;
+            const diff = sheetTouchCurrentY - sheetTouchStartY;
+            modalDialog.style.transition = '';
+            modalDialog.style.transform = '';
+            if (diff > 80) {
+                closeShareModal();
+            }
+            sheetTouchStartY = 0;
+            sheetTouchCurrentY = 0;
+        }, { passive: true });
+    }
+
     if (shareModalCopyBtn && shareModalUrlInput) {
         shareModalCopyBtn.addEventListener('click', () => {
+            if (shareModalCopyBtn.classList.contains('copied')) return;
             const url = shareModalUrlInput.value || window.location.href;
             const defText = shareModalCopyBtn.querySelector('.copy-modal-default');
             const succText = shareModalCopyBtn.querySelector('.copy-modal-success');
