@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.4.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.5.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -124,6 +124,18 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.5.0 — Panel Pengaturan Dinamis Template Halaman (Tentang Kami & Kontak Kami), Eliminasi Bentrok Data Form, Navigasi Submenu 14-Tab & Sinkronisasi Editor Otomatis
+*Rilis Fitur Mayor & Refactoring Dasbor Admin — 26 Oktober 2026*
+- **Panel Pengaturan Dinamis Template Tentang Kami (`#tab-page-about`)**: 8 seksi kustomisasi terpusat meliputi Hero & Badge, Kartu Plakat Kanan, Bar Statistik Prestasi (4 counter dinamis), Kutipan Filosofi Brand, Cerita Brand Lengkap (dengan fallback cerita 3 paragraf), 6 Pilar Nilai & Komitmen Layanan (dengan pemilih ikon SVG tajam), 4 Alur Kerja Produksi, Pernyataan Visi & Poin-Poin Misi, Segmen Klien Apresiasi, serta Banner Ajakan Bertindak (CTA).
+- **Panel Pengaturan Dinamis Template Kontak & Workshop (`#tab-contact`)**: 8 seksi pengelolaan lengkap meliputi Hero & Keunggulan Layanan, 3 Kartu Saluran Cepat (WhatsApp Hotline, Email Resmi, Jam Kerja), Formulir Pesan WhatsApp Interaktif (pemilihan jenis plakat, jumlah, deadline, dan catatan khusus), Alamat Fisik Bengkel/Workshop & Integrasi Tautan Google Maps, Telepon Kantor, Email Toko, Jam Kerja Workshop (3 baris), Tim Customer Relation Officer (hingga 5 CRO dengan nama, nomor WA, dan peran), FAQ Cepat Khusus Kontak (5 accordion), serta Banner CTA Bawah.
+- **Pembersihan & Eliminasi Bentrok Form (`Form Collision Fix`)**: Menghapus duplikasi form input kontak pada tab Footer Website yang sebelumnya menimpa data tersimpan dari tab Kontak secara tidak sengaja. Menggantikannya dengan panel pratinjau status aktif terpadu dan tombol pintas navigasi langsung ke tab Kontak.
+- **Navigasi 14-Submenu Terstruktur & Penyorotan Aktif WordPress (`tokoku_admin_submenu_filter`)**: Mendaftarkan seluruh 14 tab pengaturan ke submenu sidebar WordPress secara terstruktur dalam urutan logis, menambahkan filter `submenu_file` agar item submenu WordPress otomatis tersorot aktif sesuai parameter `?tab=...` yang sedang dibuka, serta merender atribut class `active` secara dinamis dari sisi server (PHP) untuk menghilangkan kedipan tab (*tab flicker*).
+- **Sinkronisasi Editor Visual (`tinyMCE.triggerSave()`)**: Mengintegrasikan pemanggilan `tinyMCE.triggerSave()` otomatis saat form disubmit, menjamin teks dari editor visual (pesan WhatsApp dan FAQ) selalu tersinkronisasi utuh ke textarea dan tersimpan dengan andal.
+- **Sistem Fallback String Resilien**: Menambahkan helper `tokoku_get_theme_mod_fallback()` pada fungsi data halaman (`tokoku_get_about_page_data()` dan `tokoku_get_contact_page_data()`), memastikan tampilan halaman statis di frontend tetap anggun dan tidak rusak meskipun admin mengosongkan suatu kolom input.
+- **Pembaruan Metadata Tema & Identitas Branding**: Menyelaraskan informasi tema pada `style.css` dan konstanta `TOKOKU_VERSION` ke `3.5.0` untuk integrasi penuh dengan endpoint GitHub Releases.
+
+---
 
 ### 🚀 v3.4.0 — Tampilan 60 Produk Katalog, Efek Gradiasi Dinamis Tombol View All, Kalibrasi Proporsional Kartu Produk & Proporsi Tipografi Fluid
 *Rilis Fitur & Harmonisasi Tipografi — 26 Oktober 2026*

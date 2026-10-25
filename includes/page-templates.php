@@ -58,6 +58,9 @@ function tokoku_page_contact() {
     if ( 0 === strpos( $wa, '0' ) ) {
         $wa = '62' . substr( $wa, 1 );
     }
+    if ( empty( $wa ) ) {
+        $wa = '6281234567890';
+    }
 
     // Format tampilan: +62 812-3456-7890
     $display = $wa;
@@ -108,13 +111,18 @@ function tokoku_page_contact() {
         );
     }
 
+    $email   = sanitize_email( (string) get_theme_mod( 'tokoku_store_email', '' ) );
+    $phone   = sanitize_text_field( (string) get_theme_mod( 'tokoku_store_phone', '' ) );
+    $maps    = esc_url_raw( (string) get_theme_mod( 'tokoku_store_maps_url', '' ) );
+    $address = trim( wp_strip_all_tags( (string) get_theme_mod( 'tokoku_store_address', '' ) ) );
+
     return array(
         'wa'         => $wa,
         'wa_display' => $display,
-        'email'      => sanitize_email( (string) get_theme_mod( 'tokoku_store_email', '' ) ),
-        'phone'      => sanitize_text_field( (string) get_theme_mod( 'tokoku_store_phone', '' ) ),
-        'maps_url'   => esc_url_raw( (string) get_theme_mod( 'tokoku_store_maps_url', '' ) ),
-        'address'    => trim( wp_strip_all_tags( (string) get_theme_mod( 'tokoku_store_address', '' ) ) ),
+        'email'      => ! empty( $email ) ? $email : 'halo@jualplakat.com',
+        'phone'      => ! empty( $phone ) ? $phone : '+62 812-3456-7890',
+        'maps_url'   => $maps,
+        'address'    => ! empty( $address ) ? $address : 'Jl. Percetakan Negara No. 12, Johar Baru, Jakarta Pusat 10560',
         'hours'      => $hours,
         'agents'     => $agents,
         'socials'    => $socials,
@@ -328,3 +336,228 @@ function tokoku_page_icon( $name, $size = 22 ) {
         $paths[ $name ]
     );
 }
+
+/**
+ * Helper fallback untuk mengambil pengaturan theme mod.
+ * Jika opsi bernilai string kosong ("") atau belum disetel, mengembalikan nilai bawaan ($default).
+ *
+ * @param string $key     Nama setting theme mod.
+ * @param mixed  $default Nilai default jika kosong.
+ * @return mixed
+ */
+function tokoku_get_theme_mod_fallback( $key, $default = '' ) {
+    $val = get_theme_mod( $key, $default );
+    if ( is_string( $val ) && '' === trim( $val ) ) {
+        return $default;
+    }
+    return $val;
+}
+
+/**
+ * Data konten dinamis untuk Template Halaman Tentang Kami.
+ *
+ * @return array
+ */
+function tokoku_get_about_page_data() {
+    $brand       = tokoku_page_brand();
+    $catalog_url = get_post_type_archive_link( 'produk' ) ? get_post_type_archive_link( 'produk' ) : home_url( '/' );
+
+    $product_count = 0;
+    if ( post_type_exists( 'produk' ) ) {
+        $counts        = wp_count_posts( 'produk' );
+        $product_count = isset( $counts->publish ) ? (int) $counts->publish : 0;
+    }
+    $category_count = taxonomy_exists( 'kategori_produk' ) ? (int) wp_count_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty' => true ) ) : 0;
+
+    // Statistik Prestasi (4 item)
+    $stats = array(
+        array(
+            'value' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat1_val', $product_count > 0 ? $product_count . '+' : '100%' ),
+            'label' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat1_lbl', $product_count > 0 ? __( 'Pilihan Desain Produk', 'tokoku' ) : __( 'Desain Custom', 'tokoku' ) ),
+        ),
+        array(
+            'value' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat2_val', $category_count > 0 ? (string) $category_count : '5+' ),
+            'label' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat2_lbl', __( 'Kategori Material', 'tokoku' ) ),
+        ),
+        array(
+            'value' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat3_val', __( 'Gratis', 'tokoku' ) ),
+            'label' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat3_lbl', __( 'Konsultasi & Mockup', 'tokoku' ) ),
+        ),
+        array(
+            'value' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat4_val', '34' ),
+            'label' => tokoku_get_theme_mod_fallback( 'tokoku_about_stat4_lbl', __( 'Provinsi Terjangkau', 'tokoku' ) ),
+        ),
+    );
+
+    // Nilai & Komitmen (6 item)
+    $default_values = array(
+        1 => array( 'icon' => 'target', 'title' => __( 'Presisi di Setiap Detail', 'tokoku' ), 'text' => __( 'Setiap huruf, garis grafir, dan sudut potongan kami periksa berlapis. Karena sebuah penghargaan layak tampil sempurna.', 'tokoku' ) ),
+        2 => array( 'icon' => 'gem',    'title' => __( 'Material Pilihan', 'tokoku' ),         'text' => __( 'Akrilik bening berkualitas, kayu solid, resin jernih, hingga logam premium — dipilih agar tahan lama dan tetap memukau.', 'tokoku' ) ),
+        3 => array( 'icon' => 'pen',    'title' => __( 'Desain yang Personal', 'tokoku' ),     'text' => __( 'Tidak ada template asal jadi. Tim desain kami merancang setiap plakat agar mencerminkan identitas dan cerita Anda.', 'tokoku' ) ),
+        4 => array( 'icon' => 'zap',    'title' => __( 'Tepat Waktu', 'tokoku' ),              'text' => __( 'Kami memahami bahwa acara tidak bisa ditunda. Jadwal produksi disusun realistis dan dikomunikasikan sejak awal.', 'tokoku' ) ),
+        5 => array( 'icon' => 'chat',   'title' => __( 'Komunikasi Responsif', 'tokoku' ),     'text' => __( 'Konsultasi langsung melalui WhatsApp dengan tim yang ramah, sigap, dan siap memberi rekomendasi terbaik.', 'tokoku' ) ),
+        6 => array( 'icon' => 'tag',    'title' => __( 'Harga Transparan', 'tokoku' ),         'text' => __( 'Rincian biaya disampaikan jelas di awal — tanpa biaya tersembunyi, tanpa kejutan di akhir.', 'tokoku' ) ),
+    );
+
+    $values = array();
+    for ( $i = 1; $i <= 6; $i++ ) {
+        $icon  = tokoku_get_theme_mod_fallback( "tokoku_about_val_icon_{$i}", $default_values[$i]['icon'] );
+        $title = tokoku_get_theme_mod_fallback( "tokoku_about_val_title_{$i}", $default_values[$i]['title'] );
+        $text  = tokoku_get_theme_mod_fallback( "tokoku_about_val_text_{$i}", $default_values[$i]['text'] );
+        if ( '' !== trim( $title ) ) {
+            $values[] = array( 'icon' => $icon, 'title' => $title, 'text' => $text );
+        }
+    }
+
+    // Langkah Kerja (4 item)
+    $default_steps = array(
+        1 => array( 'icon' => 'chat',   'title' => __( 'Konsultasi', 'tokoku' ),        'text' => __( 'Ceritakan kebutuhan Anda: jenis plakat, jumlah, teks, logo, dan tanggal acara.', 'tokoku' ) ),
+        2 => array( 'icon' => 'layers', 'title' => __( 'Desain & Mockup', 'tokoku' ),   'text' => __( 'Kami kirimkan pratinjau desain gratis dan siap direvisi hingga Anda benar-benar puas.', 'tokoku' ) ),
+        3 => array( 'icon' => 'award',  'title' => __( 'Produksi Presisi', 'tokoku' ),  'text' => __( 'Setelah ACC, plakat diproduksi dengan mesin modern dan sentuhan akhir tangan terampil.', 'tokoku' ) ),
+        4 => array( 'icon' => 'truck',  'title' => __( 'Kirim dengan Aman', 'tokoku' ), 'text' => __( 'Dikemas berlapis dan dikirim ke seluruh Indonesia dengan nomor resi yang bisa dilacak.', 'tokoku' ) ),
+    );
+
+    $steps = array();
+    for ( $i = 1; $i <= 4; $i++ ) {
+        $icon  = tokoku_get_theme_mod_fallback( "tokoku_about_step_icon_{$i}", $default_steps[$i]['icon'] );
+        $title = tokoku_get_theme_mod_fallback( "tokoku_about_step_title_{$i}", $default_steps[$i]['title'] );
+        $text  = tokoku_get_theme_mod_fallback( "tokoku_about_step_text_{$i}", $default_steps[$i]['text'] );
+        if ( '' !== trim( $title ) ) {
+            $steps[] = array( 'icon' => $icon, 'title' => $title, 'text' => $text );
+        }
+    }
+
+    // Poin Misi
+    $misi_raw = get_theme_mod( 'tokoku_about_misi_points', '' );
+    if ( '' !== trim( $misi_raw ) ) {
+        $misi_lines = array_filter( array_map( 'trim', explode( "\n", str_replace( "\r", '', $misi_raw ) ) ) );
+    } else {
+        $misi_lines = array(
+            __( 'Menghadirkan produk penghargaan berkualitas tinggi dengan harga yang adil dan transparan.', 'tokoku' ),
+            __( 'Memberikan pengalaman pemesanan yang mudah, cepat, dan menyenangkan dari mana saja.', 'tokoku' ),
+            __( 'Terus berinovasi dalam desain, material, dan teknik produksi.', 'tokoku' ),
+            __( 'Membangun hubungan jangka panjang yang dilandasi kepercayaan dengan setiap pelanggan.', 'tokoku' ),
+        );
+    }
+
+    // Chips Kategori Klien
+    $clients_raw = get_theme_mod( 'tokoku_about_clients_chips', '' );
+    if ( '' !== trim( $clients_raw ) ) {
+        $clients = array_filter( array_map( 'trim', explode( ',', $clients_raw ) ) );
+    } else {
+        $clients = array( 'Instansi Pemerintah', 'BUMN & Korporasi', 'Sekolah & Universitas', 'Organisasi & Komunitas', 'Event Olahraga', 'Rumah Sakit & Klinik', 'Perbankan', 'Kado Personal' );
+    }
+
+    return array(
+        'hero_badge'     => tokoku_get_theme_mod_fallback( 'tokoku_about_hero_badge', sprintf( __( 'Tentang %s', 'tokoku' ), $brand ) ),
+        'hero_title'     => tokoku_get_theme_mod_fallback( 'tokoku_about_hero_title', __( 'Mengabadikan Setiap Pencapaian dalam <span class="jp-text-gradient">Karya yang Bermakna</span>', 'tokoku' ) ),
+        'hero_desc'      => tokoku_get_theme_mod_fallback( 'tokoku_about_hero_desc', sprintf( __( '%s adalah mitra terpercaya untuk pembuatan plakat, piala, dan souvenir penghargaan custom. Kami percaya setiap prestasi, dedikasi, dan momen berharga layak dikenang dalam wujud yang indah, berkelas, dan tahan lama.', 'tokoku' ), $brand ) ),
+        'hero_btn1_text' => tokoku_get_theme_mod_fallback( 'tokoku_about_hero_btn1_text', __( 'Jelajahi Katalog', 'tokoku' ) ),
+        'hero_btn1_url'  => tokoku_get_theme_mod_fallback( 'tokoku_about_hero_btn1_url', $catalog_url ),
+        'hero_btn2_text' => tokoku_get_theme_mod_fallback( 'tokoku_about_hero_btn2_text', __( 'Konsultasi Gratis', 'tokoku' ) ),
+        'plaque_eyebrow' => tokoku_get_theme_mod_fallback( 'tokoku_about_plaque_eyebrow', __( 'Penghargaan', 'tokoku' ) ),
+        'plaque_title'   => tokoku_get_theme_mod_fallback( 'tokoku_about_plaque_title', __( 'Apresiasi Terbaik', 'tokoku' ) ),
+        'plaque_text'    => tokoku_get_theme_mod_fallback( 'tokoku_about_plaque_text', __( 'Diberikan atas dedikasi, kerja keras, dan prestasi yang menginspirasi.', 'tokoku' ) ),
+        'stats'          => $stats,
+        'quote_text'     => tokoku_get_theme_mod_fallback( 'tokoku_about_quote_text', __( 'Sebuah plakat bukan sekadar benda. Ia adalah pengingat bahwa kerja keras seseorang pernah dilihat, dihargai, dan dirayakan.', 'tokoku' ) ),
+        'quote_author'   => tokoku_get_theme_mod_fallback( 'tokoku_about_quote_author', '— Filosofi ' . $brand ),
+        'story_eyebrow'  => tokoku_get_theme_mod_fallback( 'tokoku_about_story_eyebrow', __( 'Cerita Kami', 'tokoku' ) ),
+        'story_title'    => tokoku_get_theme_mod_fallback( 'tokoku_about_story_title', __( 'Berawal dari Keyakinan Sederhana: Setiap Apresiasi Layak Istimewa', 'tokoku' ) ),
+        'story_content'  => get_theme_mod( 'tokoku_about_story_content', '' ),
+        'values_eyebrow' => tokoku_get_theme_mod_fallback( 'tokoku_about_values_eyebrow', __( 'Mengapa Memilih Kami', 'tokoku' ) ),
+        'values_title'   => tokoku_get_theme_mod_fallback( 'tokoku_about_values_title', __( 'Komitmen yang Kami Pegang di Setiap Pesanan', 'tokoku' ) ),
+        'values_sub'     => tokoku_get_theme_mod_fallback( 'tokoku_about_values_sub', sprintf( __( 'Enam prinsip yang menjadikan setiap plakat dari %s layak dipercaya untuk momen paling penting Anda.', 'tokoku' ), $brand ) ),
+        'values'         => $values,
+        'steps_eyebrow'  => tokoku_get_theme_mod_fallback( 'tokoku_about_steps_eyebrow', __( 'Cara Kami Bekerja', 'tokoku' ) ),
+        'steps_title'    => tokoku_get_theme_mod_fallback( 'tokoku_about_steps_title', __( 'Dari Ide Menjadi Karya dalam 4 Langkah Mudah', 'tokoku' ) ),
+        'steps'          => $steps,
+        'visi_eyebrow'   => tokoku_get_theme_mod_fallback( 'tokoku_about_visi_eyebrow', __( 'Visi', 'tokoku' ) ),
+        'visi_text'      => tokoku_get_theme_mod_fallback( 'tokoku_about_visi_text', __( 'Menjadi destinasi utama pembuatan plakat dan penghargaan custom di Indonesia yang dikenal karena kualitas, kreativitas, dan pelayanan sepenuh hati.', 'tokoku' ) ),
+        'misi_eyebrow'   => tokoku_get_theme_mod_fallback( 'tokoku_about_misi_eyebrow', __( 'Misi', 'tokoku' ) ),
+        'misi_points'    => $misi_lines,
+        'clients_eyebrow'=> tokoku_get_theme_mod_fallback( 'tokoku_about_clients_eyebrow', __( 'Dipercaya Beragam Kalangan', 'tokoku' ) ),
+        'clients_title'  => tokoku_get_theme_mod_fallback( 'tokoku_about_clients_title', __( 'Partner & Klien Apresiasi Kami', 'tokoku' ) ),
+        'clients_sub'    => tokoku_get_theme_mod_fallback( 'tokoku_about_clients_sub', __( 'Dipercaya oleh instansi pemerintah, BUMN, perguruan tinggi ternama, korporasi swasta, hingga ribuan komunitas di seluruh Indonesia.', 'tokoku' ) ),
+        'clients'        => $clients,
+        'cta_title'      => tokoku_get_theme_mod_fallback( 'tokoku_about_cta_title', __( 'Siap Mewujudkan Plakat Penghargaan Anda?', 'tokoku' ) ),
+        'cta_sub'        => tokoku_get_theme_mod_fallback( 'tokoku_about_cta_sub', __( 'Konsultasikan kebutuhan Anda sekarang. Gratis desain dan mockup — Anda hanya membayar ketika sudah yakin.', 'tokoku' ) ),
+        'cta_btn1_text'  => tokoku_get_theme_mod_fallback( 'tokoku_about_cta_btn1_text', __( 'Chat WhatsApp', 'tokoku' ) ),
+        'cta_btn2_text'  => tokoku_get_theme_mod_fallback( 'tokoku_about_cta_btn2_text', __( 'Hubungi Kami', 'tokoku' ) ),
+    );
+}
+
+/**
+ * Data konten dinamis untuk Template Halaman Kontak.
+ *
+ * @return array
+ */
+function tokoku_get_contact_page_data() {
+    $brand = tokoku_page_brand();
+
+    $default_faqs = array(
+        1 => array(
+            'q' => __( 'Berapa lama proses pembuatan plakat custom?', 'tokoku' ),
+            'a' => __( 'Rata-rata pengerjaan berkisar antara 1 hingga 3 hari kerja setelah mockup desain disetujui (ACC) dan pembayaran terkonfirmasi. Untuk kebutuhan mendesak (urgent/ekspres), silakan konsultasikan dengan tim kami agar dapat dijadwalkan secara prioritas.', 'tokoku' ),
+        ),
+        2 => array(
+            'q' => __( 'Apakah bisa membuat plakat dengan desain sendiri atau tanpa desain?', 'tokoku' ),
+            'a' => __( 'Tentu saja! Jika Anda sudah memiliki file desain (AI, CorelDraw, PDF, atau PNG beresolusi tinggi), Anda dapat langsung mengirimkannya. Jika belum memiliki desain, tim desainer kreatif kami siap membuatkan mockup gratis sesuai konsep, logo, dan tulisan yang Anda inginkan.', 'tokoku' ),
+        ),
+        3 => array(
+            'q' => __( 'Apakah ada jumlah minimal pemesanan (MOQ)?', 'tokoku' ),
+            'a' => __( 'Kami melayani pemesanan mulai dari 1 buah (satuan) untuk kado personal atau penghargaan khusus, hingga ribuan buah untuk kebutuhan wisuda, turnamen olahraga, dan corporate event besar dengan harga grosir kompetitif.', 'tokoku' ),
+        ),
+        4 => array(
+            'q' => __( 'Bagaimana pengemasan dan keamanan pengiriman ke luar kota?', 'tokoku' ),
+            'a' => __( 'Setiap produk kami lindungi dengan lapisan bubble wrap tebal, busa pelindung khusus, dan kardus kokoh atau packing kayu ekstra. Kami bermitra dengan ekspedisi tepercaya (JNE, J&T, SiCepat, Cargo, dsb.) lengkap dengan nomor resi pelacakan dan opsi asuransi pengiriman.', 'tokoku' ),
+        ),
+        5 => array(
+            'q' => __( 'Bagaimana cara mendapatkan surat penawaran harga resmi (invoice/quotation)?', 'tokoku' ),
+            'a' => __( 'Cukup kirimkan detail pesanan (jenis produk, estimasi jumlah, spesifikasi, dan nama instansi) melalui formulir kontak di bawah atau via WhatsApp. Tim administrasi kami akan menerbitkan invoice / surat penawaran resmi bertanda tangan.', 'tokoku' ),
+        ),
+    );
+
+    $faqs = array();
+    for ( $i = 1; $i <= 5; $i++ ) {
+        $q = tokoku_get_theme_mod_fallback( "tokoku_contact_faq_q_{$i}", $default_faqs[$i]['q'] );
+        $a = tokoku_get_theme_mod_fallback( "tokoku_contact_faq_a_{$i}", $default_faqs[$i]['a'] );
+        if ( '' !== trim( $q ) && '' !== trim( $a ) ) {
+            $faqs[] = array( 'q' => $q, 'a' => $a );
+        }
+    }
+
+    return array(
+        'hero_badge'      => tokoku_get_theme_mod_fallback( 'tokoku_contact_hero_badge', __( 'Layanan Pelanggan', 'tokoku' ) ),
+        'hero_title'      => tokoku_get_theme_mod_fallback( 'tokoku_contact_hero_title', __( 'Mari Bicarakan <span class="jp-text-gradient">Penghargaan Terbaik Anda</span>', 'tokoku' ) ),
+        'hero_desc'       => tokoku_get_theme_mod_fallback( 'tokoku_contact_hero_desc', sprintf( __( 'Punya pertanyaan, butuh konsultasi desain gratis, atau ingin meminta penawaran harga untuk instansi? Tim Customer Care %s siap mendengarkan dan mendampingi Anda dengan ramah, cepat, dan profesional.', 'tokoku' ), '<strong>' . esc_html( $brand ) . '</strong>' ) ),
+        'chip_1'          => tokoku_get_theme_mod_fallback( 'tokoku_contact_chip_1', __( 'Respons Cepat WhatsApp', 'tokoku' ) ),
+        'chip_2'          => tokoku_get_theme_mod_fallback( 'tokoku_contact_chip_2', __( 'Konsultasi & Mockup Gratis', 'tokoku' ) ),
+        'chip_3'          => tokoku_get_theme_mod_fallback( 'tokoku_contact_chip_3', __( 'Pengiriman Seluruh Indonesia', 'tokoku' ) ),
+        'card1_badge'     => tokoku_get_theme_mod_fallback( 'tokoku_contact_card1_badge', __( 'Respons Paling Cepat', 'tokoku' ) ),
+        'card1_title'     => tokoku_get_theme_mod_fallback( 'tokoku_contact_card1_title', __( 'WhatsApp Hotline', 'tokoku' ) ),
+        'card1_desc'      => tokoku_get_theme_mod_fallback( 'tokoku_contact_card1_desc', __( 'Konsultasi langsung, kirim file logo, dan terima mockup desain visual dalam hitungan menit.', 'tokoku' ) ),
+        'card1_btn'       => tokoku_get_theme_mod_fallback( 'tokoku_contact_card1_btn', __( 'Chat WhatsApp Sekarang', 'tokoku' ) ),
+        'card2_badge'     => tokoku_get_theme_mod_fallback( 'tokoku_contact_card2_badge', __( 'Instansi & Tender', 'tokoku' ) ),
+        'card2_title'     => tokoku_get_theme_mod_fallback( 'tokoku_contact_card2_title', __( 'Email Resmi', 'tokoku' ) ),
+        'card2_desc'      => tokoku_get_theme_mod_fallback( 'tokoku_contact_card2_desc', __( 'Kirim berkas penawaran, dokumen tender, PO perusahaan, atau lampiran file desain berukuran besar.', 'tokoku' ) ),
+        'card2_btn'       => tokoku_get_theme_mod_fallback( 'tokoku_contact_card2_btn', __( 'Kirim Email', 'tokoku' ) ),
+        'card3_badge'     => tokoku_get_theme_mod_fallback( 'tokoku_contact_card3_badge', __( 'Pelayanan Prima', 'tokoku' ) ),
+        'card3_title'     => tokoku_get_theme_mod_fallback( 'tokoku_contact_card3_title', __( 'Jam Operasional', 'tokoku' ) ),
+        'card3_desc'      => tokoku_get_theme_mod_fallback( 'tokoku_contact_card3_desc', __( 'Tim kami aktif melayani konsultasi dan proses produksi pada jam kerja berikut:', 'tokoku' ) ),
+        'card3_note'      => tokoku_get_theme_mod_fallback( 'tokoku_contact_card3_note', __( 'Pesan di luar jam kerja tetap dapat dikirim dan akan dibalas pada kesempatan pertama.', 'tokoku' ) ),
+        'form_eyebrow'    => tokoku_get_theme_mod_fallback( 'tokoku_contact_form_eyebrow', __( 'Formulir Interaktif', 'tokoku' ) ),
+        'form_title'      => tokoku_get_theme_mod_fallback( 'tokoku_contact_form_title', __( 'Kirim Rincian Kebutuhan Anda', 'tokoku' ) ),
+        'form_sub'        => tokoku_get_theme_mod_fallback( 'tokoku_contact_form_sub', __( 'Isi formulir ringkas di bawah. Sistem kami akan merangkumnya secara otomatis menjadi format pesan rapi yang langsung terkirim ke WhatsApp Customer Service kami.', 'tokoku' ) ),
+        'form_btn'        => tokoku_get_theme_mod_fallback( 'tokoku_contact_form_btn', __( 'Kirim ke WhatsApp Customer Service', 'tokoku' ) ),
+        'form_disclaimer' => tokoku_get_theme_mod_fallback( 'tokoku_contact_form_disclaimer', __( 'Informasi Anda aman dan hanya digunakan untuk keperluan konsultasi serta proses pesanan plakat.', 'tokoku' ) ),
+        'faq_eyebrow'     => tokoku_get_theme_mod_fallback( 'tokoku_contact_faq_eyebrow', __( 'Pertanyaan Sering Diajukan', 'tokoku' ) ),
+        'faq_title'       => tokoku_get_theme_mod_fallback( 'tokoku_contact_faq_title', __( 'Hal yang Sering Ditanyakan Sebelum Memesan', 'tokoku' ) ),
+        'faq_sub'         => tokoku_get_theme_mod_fallback( 'tokoku_contact_faq_sub', sprintf( __( 'Jawaban cepat untuk pertanyaan paling umum seputar pemesanan plakat di %s.', 'tokoku' ), $brand ) ),
+        'faqs'            => $faqs,
+        'cta_title'       => tokoku_get_theme_mod_fallback( 'tokoku_contact_cta_title', __( 'Sudah Punya Tanggal Acara?', 'tokoku' ) ),
+        'cta_sub'         => tokoku_get_theme_mod_fallback( 'tokoku_contact_cta_sub', __( 'Jangan tunda hingga hari mendekati acara. Hubungi kami sekarang untuk memastikan antrean produksi Anda siap tepat pada waktunya.', 'tokoku' ) ),
+        'cta_btn1_text'   => tokoku_get_theme_mod_fallback( 'tokoku_contact_cta_btn1_text', __( 'Hubungi via WhatsApp', 'tokoku' ) ),
+        'cta_btn2_text'   => tokoku_get_theme_mod_fallback( 'tokoku_contact_cta_btn2_text', __( 'Pelajari Profil Kami', 'tokoku' ) ),
+    );
+}
+

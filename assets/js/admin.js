@@ -47,10 +47,30 @@ jQuery(document).ready(function($) {
         }
     });
 
-    // 2. Settings Save Button Feedback
+    // Tab quick switch helper (for links/buttons inside tabs)
+    $(document).on('click', '.tokoku-switch-tab-btn', function(e) {
+        e.preventDefault();
+        var targetTab = $(this).data('target-tab');
+        if (targetTab) {
+            activateTab(targetTab);
+            if (history.replaceState) {
+                var url = new URL(window.location);
+                url.searchParams.set('tab', targetTab);
+                window.history.replaceState({}, '', url);
+            }
+            $('html, body').animate({ scrollTop: $('.tokoku-admin-wrap').offset().top - 40 }, 200);
+        }
+    });
+
+    // 2. Settings Save Button Feedback & TinyMCE sync
     $('.tokoku-settings-form').on('submit', function() {
+        // 🔄 Sync all TinyMCE editors to textareas before form POST
+        if (typeof tinyMCE !== 'undefined') {
+            tinyMCE.triggerSave();
+        }
+
         var btns = $(this).find('.tokoku-submit-update-btn');
-        btns.prop('disabled', true).addClass('is-loading');
+        btns.addClass('is-loading');
         btns.find('.tokoku-btn-text').text('Menyimpan Perubahan...');
     });
 

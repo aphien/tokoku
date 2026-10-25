@@ -24,19 +24,44 @@ function tokoku_admin_menu() {
 
     $hook = add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, $icon_url, $position );
     
-    // Sub-menu Navigasi Cepat di Dasbor Admin WordPress
+    // Sub-menu Navigasi Cepat di Dasbor Admin WordPress (14 Panel Terstruktur)
     add_submenu_page( $menu_slug, __( 'Pengaturan Umum', 'tokoku' ), __( 'Pengaturan Umum', 'tokoku' ), $capability, 'tokoku-settings', $callback );
-    add_submenu_page( $menu_slug, __( 'Kontak & Workshop', 'tokoku' ), __( 'Kontak & Workshop', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-contact', $callback );
     add_submenu_page( $menu_slug, __( 'WhatsApp & CS', 'tokoku' ), __( 'WhatsApp & CS', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-whatsapp', $callback );
     add_submenu_page( $menu_slug, __( 'Warna & Tampilan', 'tokoku' ), __( 'Warna & Tampilan', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-appearance', $callback );
+    add_submenu_page( $menu_slug, __( 'Template Tentang Kami', 'tokoku' ), __( 'Tentang Kami', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-page-about', $callback );
+    add_submenu_page( $menu_slug, __( 'Template Kontak & Workshop', 'tokoku' ), __( 'Kontak Kami', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-contact', $callback );
     add_submenu_page( $menu_slug, __( 'Halaman Produk', 'tokoku' ), __( 'Halaman Produk', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-single-product', $callback );
+    add_submenu_page( $menu_slug, __( 'Banner Slider', 'tokoku' ), __( 'Banner Slider', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-slider', $callback );
+    add_submenu_page( $menu_slug, __( 'Ulasan & Klien', 'tokoku' ), __( 'Ulasan & Klien', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-testimonials', $callback );
+    add_submenu_page( $menu_slug, __( 'Tanya Jawab (FAQ)', 'tokoku' ), __( 'Tanya Jawab (FAQ)', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-faq', $callback );
     add_submenu_page( $menu_slug, __( 'SEO & Metadata', 'tokoku' ), __( 'SEO & Metadata', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-seo', $callback );
+    add_submenu_page( $menu_slug, __( 'Footer Website', 'tokoku' ), __( 'Footer Website', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-footer', $callback );
+    add_submenu_page( $menu_slug, __( 'Media Sosial', 'tokoku' ), __( 'Media Sosial', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-social', $callback );
     add_submenu_page( $menu_slug, __( 'Pembaruan Tema', 'tokoku' ), __( 'Pembaruan Tema', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-update', $callback );
+    add_submenu_page( $menu_slug, __( 'Cadangan & Impor', 'tokoku' ), __( 'Cadangan & Impor', 'tokoku' ), $capability, 'tokoku-settings&tab=tab-import-export', $callback );
 
     // Enqueue scripts for our settings page
     add_action( 'admin_print_scripts-' . $hook, 'tokoku_admin_settings_assets' );
 }
 add_action( 'admin_menu', 'tokoku_admin_menu' );
+
+/**
+ * Menyorot (highlight) submenu admin WordPress yang aktif sesuai parameter ?tab=...
+ *
+ * @param string $submenu_file Slug submenu saat ini.
+ * @return string
+ */
+function tokoku_admin_submenu_filter( $submenu_file ) {
+    global $plugin_page;
+    if ( 'tokoku-settings' === $plugin_page && ! empty( $_GET['tab'] ) ) {
+        $tab = sanitize_key( $_GET['tab'] );
+        if ( 'tab-general' !== $tab ) {
+            return 'tokoku-settings&tab=' . $tab;
+        }
+    }
+    return $submenu_file;
+}
+add_filter( 'submenu_file', 'tokoku_admin_submenu_filter' );
 
 /**
  * Memuat Aset (CSS/JS) untuk Halaman Pengaturan
@@ -244,6 +269,92 @@ function tokoku_save_admin_settings() {
         'tokoku_desc_enable_guarantee'   => 'sanitize_text_field',
         'tokoku_desc_guarantee_title'    => 'sanitize_text_field',
         'tokoku_desc_guarantee_desc'     => 'sanitize_textarea_field',
+
+        // Template: Tentang Kami (About Us)
+        'tokoku_about_hero_badge'        => 'sanitize_text_field',
+        'tokoku_about_hero_title'        => 'wp_kses_post',
+        'tokoku_about_hero_desc'         => 'sanitize_textarea_field',
+        'tokoku_about_hero_btn1_text'    => 'sanitize_text_field',
+        'tokoku_about_hero_btn1_url'     => 'esc_url_raw',
+        'tokoku_about_hero_btn2_text'    => 'sanitize_text_field',
+        'tokoku_about_plaque_eyebrow'    => 'sanitize_text_field',
+        'tokoku_about_plaque_title'      => 'sanitize_text_field',
+        'tokoku_about_plaque_text'       => 'sanitize_textarea_field',
+
+        'tokoku_about_stat1_val'         => 'sanitize_text_field',
+        'tokoku_about_stat1_lbl'         => 'sanitize_text_field',
+        'tokoku_about_stat2_val'         => 'sanitize_text_field',
+        'tokoku_about_stat2_lbl'         => 'sanitize_text_field',
+        'tokoku_about_stat3_val'         => 'sanitize_text_field',
+        'tokoku_about_stat3_lbl'         => 'sanitize_text_field',
+        'tokoku_about_stat4_val'         => 'sanitize_text_field',
+        'tokoku_about_stat4_lbl'         => 'sanitize_text_field',
+
+        'tokoku_about_quote_text'        => 'sanitize_textarea_field',
+        'tokoku_about_quote_author'      => 'sanitize_text_field',
+        'tokoku_about_story_eyebrow'     => 'sanitize_text_field',
+        'tokoku_about_story_title'       => 'wp_kses_post',
+        'tokoku_about_story_content'     => 'wp_kses_post',
+
+        'tokoku_about_values_eyebrow'    => 'sanitize_text_field',
+        'tokoku_about_values_title'      => 'sanitize_text_field',
+        'tokoku_about_values_sub'        => 'sanitize_textarea_field',
+
+        'tokoku_about_steps_eyebrow'     => 'sanitize_text_field',
+        'tokoku_about_steps_title'       => 'sanitize_text_field',
+
+        'tokoku_about_visi_eyebrow'      => 'sanitize_text_field',
+        'tokoku_about_visi_text'         => 'sanitize_textarea_field',
+        'tokoku_about_misi_eyebrow'      => 'sanitize_text_field',
+        'tokoku_about_misi_points'       => 'sanitize_textarea_field',
+
+        'tokoku_about_clients_eyebrow'   => 'sanitize_text_field',
+        'tokoku_about_clients_title'     => 'sanitize_text_field',
+        'tokoku_about_clients_sub'       => 'sanitize_textarea_field',
+        'tokoku_about_clients_chips'     => 'sanitize_textarea_field',
+
+        'tokoku_about_cta_title'         => 'sanitize_text_field',
+        'tokoku_about_cta_sub'           => 'sanitize_textarea_field',
+        'tokoku_about_cta_btn1_text'     => 'sanitize_text_field',
+        'tokoku_about_cta_btn2_text'     => 'sanitize_text_field',
+
+        // Template: Kontak Kami (Contact Page)
+        'tokoku_contact_hero_badge'      => 'sanitize_text_field',
+        'tokoku_contact_hero_title'      => 'wp_kses_post',
+        'tokoku_contact_hero_desc'       => 'sanitize_textarea_field',
+        'tokoku_contact_chip_1'          => 'sanitize_text_field',
+        'tokoku_contact_chip_2'          => 'sanitize_text_field',
+        'tokoku_contact_chip_3'          => 'sanitize_text_field',
+
+        'tokoku_contact_card1_badge'     => 'sanitize_text_field',
+        'tokoku_contact_card1_title'     => 'sanitize_text_field',
+        'tokoku_contact_card1_desc'      => 'sanitize_textarea_field',
+        'tokoku_contact_card1_btn'       => 'sanitize_text_field',
+
+        'tokoku_contact_card2_badge'     => 'sanitize_text_field',
+        'tokoku_contact_card2_title'     => 'sanitize_text_field',
+        'tokoku_contact_card2_desc'      => 'sanitize_textarea_field',
+        'tokoku_contact_card2_btn'       => 'sanitize_text_field',
+
+        'tokoku_contact_card3_badge'     => 'sanitize_text_field',
+        'tokoku_contact_card3_title'     => 'sanitize_text_field',
+        'tokoku_contact_card3_desc'      => 'sanitize_textarea_field',
+        'tokoku_contact_card3_note'      => 'sanitize_textarea_field',
+
+        'tokoku_contact_form_eyebrow'    => 'sanitize_text_field',
+        'tokoku_contact_form_title'      => 'sanitize_text_field',
+        'tokoku_contact_form_sub'        => 'sanitize_textarea_field',
+        'tokoku_contact_form_btn'        => 'sanitize_text_field',
+        'tokoku_contact_form_disclaimer' => 'sanitize_textarea_field',
+
+        'tokoku_contact_faq_eyebrow'     => 'sanitize_text_field',
+        'tokoku_contact_faq_title'       => 'sanitize_text_field',
+        'tokoku_contact_faq_sub'         => 'sanitize_textarea_field',
+
+        'tokoku_contact_cta_title'       => 'sanitize_text_field',
+        'tokoku_contact_cta_sub'         => 'sanitize_textarea_field',
+        'tokoku_contact_cta_btn1_text'   => 'sanitize_text_field',
+        'tokoku_contact_cta_btn2_text'   => 'sanitize_text_field',
     );
 
     // Trust Badges Repeater
@@ -255,7 +366,7 @@ function tokoku_save_admin_settings() {
         $settings_schema["tokoku_trust_badge_icon_svg_{$i}"] = 'tokoku_sanitize_svg';
     }
 
-    // FAQ Repeater
+    // FAQ Repeater (Toko Utama)
     for ( $i = 1; $i <= 10; $i++ ) {
         $settings_schema["tokoku_faq_q_{$i}"] = 'sanitize_text_field';
         $settings_schema["tokoku_faq_a_{$i}"] = 'wp_kses_post';
@@ -266,6 +377,24 @@ function tokoku_save_admin_settings() {
         $settings_schema["tokoku_contact_name_{$i}"] = 'sanitize_text_field';
         $settings_schema["tokoku_contact_wa_{$i}"]   = 'sanitize_text_field';
         $settings_schema["tokoku_contact_role_{$i}"] = 'sanitize_text_field';
+    }
+
+    // Template Tentang Kami: Values Repeater (1-6) & Steps Repeater (1-4)
+    for ( $i = 1; $i <= 6; $i++ ) {
+        $settings_schema["tokoku_about_val_icon_{$i}"]  = 'sanitize_text_field';
+        $settings_schema["tokoku_about_val_title_{$i}"] = 'sanitize_text_field';
+        $settings_schema["tokoku_about_val_text_{$i}"]  = 'sanitize_textarea_field';
+    }
+    for ( $i = 1; $i <= 4; $i++ ) {
+        $settings_schema["tokoku_about_step_icon_{$i}"]  = 'sanitize_text_field';
+        $settings_schema["tokoku_about_step_title_{$i}"] = 'sanitize_text_field';
+        $settings_schema["tokoku_about_step_text_{$i}"]  = 'sanitize_textarea_field';
+    }
+
+    // Template Kontak: FAQ Repeater (1-5)
+    for ( $i = 1; $i <= 5; $i++ ) {
+        $settings_schema["tokoku_contact_faq_q_{$i}"] = 'sanitize_text_field';
+        $settings_schema["tokoku_contact_faq_a_{$i}"] = 'sanitize_textarea_field';
     }
 
     // 4. Handle Repeater Settings (Slides, Socials, Testimonials, Logos)
@@ -347,6 +476,8 @@ function tokoku_get_admin_icon( $icon_key ) {
     switch ( $icon_key ) {
         case 'general':
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>';
+        case 'about':
+            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13.2 17 22l-5-3-5 3 1.5-8.8"></path></svg>';
         case 'whatsapp':
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.27-2.42 5.82a8.196 8.196 0 0 1-5.83 2.42c-1.48 0-2.93-.39-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24zm4.58 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09 0 1.24.9 2.43 1.03 2.6.12.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/></svg>';
         case 'contact':
@@ -566,17 +697,28 @@ function tokoku_settings_page_html() {
                                     'title' => __( 'WhatsApp & CS', 'tokoku' ),
                                     'desc'  => __( 'Nomor WA & Pesan Otomatis', 'tokoku' ),
                                 ),
-                                'tab-contact'    => array( 
-                                    'icon'  => 'contact',
-                                    'color' => 'teal',
-                                    'title' => __( 'Kontak & Workshop', 'tokoku' ),
-                                    'desc'  => __( 'Alamat, Maps, Email & CRO', 'tokoku' ),
-                                ),
                                 'tab-appearance' => array( 
                                     'icon'  => 'appearance',
                                     'color' => 'purple',
                                     'title' => __( 'Warna & Tampilan', 'tokoku' ),
                                     'desc'  => __( 'Warna Brand & Mode Gelap', 'tokoku' ),
+                                ),
+                            ),
+                        ),
+                        'halaman' => array(
+                            'title' => __( 'TEMPLATE HALAMAN', 'tokoku' ),
+                            'tabs'  => array(
+                                'tab-page-about' => array( 
+                                    'icon'  => 'about',
+                                    'color' => 'indigo',
+                                    'title' => __( 'Tentang Kami', 'tokoku' ),
+                                    'desc'  => __( 'Profil, Cerita, Visi & Nilai', 'tokoku' ),
+                                ),
+                                'tab-contact'    => array( 
+                                    'icon'  => 'contact',
+                                    'color' => 'teal',
+                                    'title' => __( 'Kontak Kami', 'tokoku' ),
+                                    'desc'  => __( 'Hero, Form WA, FAQ & Workshop', 'tokoku' ),
                                 ),
                             ),
                         ),
@@ -697,7 +839,7 @@ function tokoku_settings_page_html() {
                     </button>
 
                     <!-- Tab: General -->
-                    <div id="tab-general" class="tokoku-tab-panel active">
+                    <div id="tab-general" class="tokoku-tab-panel <?php echo ( 'tab-general' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Branding & Identitas', 'tokoku' ); ?></h2>
                         
                         <div class="tokoku-field">
@@ -758,7 +900,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: WhatsApp -->
-                    <div id="tab-whatsapp" class="tokoku-tab-panel">
+                    <div id="tab-whatsapp" class="tokoku-tab-panel <?php echo ( 'tab-whatsapp' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Pengaturan WhatsApp', 'tokoku' ); ?></h2>
                         <div class="tokoku-field">
                             <label><?php _e( 'Nomor WhatsApp', 'tokoku' ); ?></label>
@@ -798,7 +940,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: Appearance -->
-                    <div id="tab-appearance" class="tokoku-tab-panel">
+                    <div id="tab-appearance" class="tokoku-tab-panel <?php echo ( 'tab-appearance' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Tampilan & Warna', 'tokoku' ); ?></h2>
                         <div class="tokoku-field">
                             <label><?php _e( 'Fitur Dark Mode', 'tokoku' ); ?></label>
@@ -897,26 +1039,585 @@ function tokoku_settings_page_html() {
                         <?php tokoku_render_tab_save_button(); ?>
                     </div>
 
-                    <!-- Tab: Kontak & Workshop -->
-                    <div id="tab-contact" class="tokoku-tab-panel">
+                    <!-- Tab: Template Tentang Kami -->
+                    <div id="tab-page-about" class="tokoku-tab-panel <?php echo ( 'tab-page-about' === $active_tab_param ) ? 'active' : ''; ?>">
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
                             <div>
-                                <h2 style="margin: 0; font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php _e( 'Kontak, Workshop & Layanan Pelanggan', 'tokoku' ); ?></h2>
-                                <p class="description" style="margin-top: 6px; font-size: 0.95rem;"><?php _e( 'Kelola alamat fisik workshop, link navigasi Google Maps, nomor telepon kantor, jam kerja, serta tim Customer Relation Officer (CRO). Data ini otomatis terhubung ke Halaman Kontak dan Footer toko Anda.', 'tokoku' ); ?></p>
+                                <h2 style="margin: 0; font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php _e( 'Template Halaman: Tentang Kami', 'tokoku' ); ?></h2>
+                                <p class="description" style="margin-top: 6px; font-size: 0.95rem;"><?php _e( 'Kelola seluruh isi dan tampilan konten halaman Tentang Kami (Hero, statistik prestasi, cerita kami, 6 komitmen & nilai layanan, 4 langkah alur kerja, visi misi, partner klien, serta banner ajakan bertindak / CTA).', 'tokoku' ); ?></p>
                             </div>
                             <div>
-                                <a href="<?php echo esc_url( home_url( '/kontak/' ) ); ?>" target="_blank" rel="noopener" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600;">
+                                <a href="<?php echo esc_url( function_exists( 'tokoku_static_page_url' ) ? tokoku_static_page_url( 'page-templates/template-tentang.php' ) : home_url( '/tentang-kami/' ) ); ?>" target="_blank" rel="noopener" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600;">
+                                    <span class="dashicons dashicons-external" style="margin-top: 2px;"></span>
+                                    <?php _e( 'Pratinjau Halaman Tentang Kami', 'tokoku' ); ?>
+                                </a>
+                            </div>
+                        </div>
+
+                        <?php
+                        $about_brand       = function_exists( 'tokoku_page_brand' ) ? tokoku_page_brand() : 'JualPlakat.com';
+                        $about_catalog_url = get_post_type_archive_link( 'produk' ) ? get_post_type_archive_link( 'produk' ) : home_url( '/' );
+                        $icon_choices = array(
+                            'target'   => __( 'Target / Presisi', 'tokoku' ),
+                            'gem'      => __( 'Permata / Material Pilihan', 'tokoku' ),
+                            'pen'      => __( 'Pena / Desain Personal', 'tokoku' ),
+                            'zap'      => __( 'Petir / Cepat & Tepat Waktu', 'tokoku' ),
+                            'chat'     => __( 'Chat / Komunikasi Responsif', 'tokoku' ),
+                            'tag'      => __( 'Label / Harga Transparan', 'tokoku' ),
+                            'award'    => __( 'Piala / Kualitas Penghargaan', 'tokoku' ),
+                            'layers'   => __( 'Layers / Mockup & Desain', 'tokoku' ),
+                            'truck'    => __( 'Truk / Pengiriman Aman', 'tokoku' ),
+                            'shield'   => __( 'Perisai / Keamanan & Garansi', 'tokoku' ),
+                            'heart'    => __( 'Hati / Sepenuh Hati', 'tokoku' ),
+                            'eye'      => __( 'Mata / Visi & Ketelitian', 'tokoku' ),
+                            'clock'    => __( 'Jam / Tepat Waktu', 'tokoku' ),
+                            'users'    => __( 'Tim / Pelayanan', 'tokoku' ),
+                            'check'    => __( 'Centang / Terpercaya', 'tokoku' ),
+                        );
+                        ?>
+
+                        <!-- 1. Hero & Identitas Halaman -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-cover-image" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '1. Bagian Hero & Identitas Halaman', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Sesuaikan judul utama, teks pengantar, tombol ajakan bertindak, serta kartu mockup plakat yang tampil di bagian paling atas halaman Tentang Kami.', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Badge Kecil Hero', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_hero_badge" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_hero_badge', sprintf( 'Tentang %s', $about_brand ) ) ); ?>" placeholder="Contoh: Tentang JualPlakat.com">
+                                    <p class="tokoku-tip"><?php _e( 'Teks label kecil berikon piala di atas judul utama.', 'tokoku' ); ?></p>
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Utama Hero', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_hero_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_hero_title', 'Mengabadikan Setiap Pencapaian dalam <span class="jp-text-gradient">Karya yang Bermakna</span>' ) ); ?>">
+                                    <p class="tokoku-tip"><?php _e( 'Tip: Gunakan tag &lt;span class="jp-text-gradient"&gt;Teks&lt;/span&gt; untuk efek warna gradien modern.', 'tokoku' ); ?></p>
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Deskripsi / Paragraf Pengantar Hero', 'tokoku' ); ?></label>
+                                <textarea name="tokoku_about_hero_desc" rows="3"><?php echo esc_textarea( get_theme_mod( 'tokoku_about_hero_desc', sprintf( '%s adalah mitra terpercaya untuk pembuatan plakat, piala, dan souvenir penghargaan custom. Kami percaya setiap prestasi, dedikasi, dan momen berharga layak dikenang dalam wujud yang indah, berkelas, dan tahan lama.', $about_brand ) ) ); ?></textarea>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 16px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol 1 (Katalog)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_hero_btn1_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_hero_btn1_text', 'Jelajahi Katalog' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'URL Tombol 1 (Katalog)', 'tokoku' ); ?></label>
+                                    <input type="url" name="tokoku_about_hero_btn1_url" value="<?php echo esc_url( get_theme_mod( 'tokoku_about_hero_btn1_url', $about_catalog_url ) ); ?>" placeholder="<?php echo esc_url( $about_catalog_url ); ?>">
+                                    <p class="tokoku-tip"><?php _e( 'Kosongkan untuk otomatis mengarah ke arsip katalog produk.', 'tokoku' ); ?></p>
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol 2 (Konsultasi WA)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_hero_btn2_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_hero_btn2_text', 'Konsultasi Gratis' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <!-- Mockup Plakat Kanan -->
+                            <div class="tokoku-settings-section" style="margin-top: 15px; border-left: 3px solid #4f46e5;">
+                                <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 12px;">
+                                    <span class="dashicons dashicons-awards" style="color: #4f46e5; margin-right: 4px;"></span>
+                                    <?php _e( 'Kartu Ilustrasi Plakat Penghargaan (Kanan Hero)', 'tokoku' ); ?>
+                                </strong>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                    <div class="tokoku-field">
+                                        <label><?php _e( 'Teks Pita / Eyebrow', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_about_plaque_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_plaque_eyebrow', 'Penghargaan' ) ); ?>" placeholder="Penghargaan">
+                                    </div>
+                                    <div class="tokoku-field">
+                                        <label><?php _e( 'Judul Apresiasi Plakat', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_about_plaque_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_plaque_title', 'Apresiasi Terbaik' ) ); ?>" placeholder="Apresiasi Terbaik">
+                                    </div>
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Kutipan Plakat', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_plaque_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_plaque_text', 'Diberikan atas dedikasi, kerja keras, dan prestasi yang menginspirasi.' ) ); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Bar Statistik Prestasi -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-chart-bar" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '2. Bar Statistik Prestasi & Bukti Kinerja', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Tampilkan 4 angka pencapaian penting untuk membangun rasa percaya calon pembeli:', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+                                <?php
+                                $default_stats_config = array(
+                                    1 => array( 'val' => '100+', 'lbl' => 'Pilihan Desain Produk' ),
+                                    2 => array( 'val' => '5+',   'lbl' => 'Kategori Material' ),
+                                    3 => array( 'val' => 'Gratis', 'lbl' => 'Konsultasi & Mockup' ),
+                                    4 => array( 'val' => '34',   'lbl' => 'Provinsi Terjangkau' ),
+                                );
+                                for ( $i = 1; $i <= 4; $i++ ) :
+                                    $s_val = get_theme_mod( "tokoku_about_stat{$i}_val", $default_stats_config[$i]['val'] );
+                                    $s_lbl = get_theme_mod( "tokoku_about_stat{$i}_lbl", $default_stats_config[$i]['lbl'] );
+                                ?>
+                                    <div class="tokoku-settings-section" style="border-left: 3px solid #6366f1;">
+                                        <strong style="color: #0f172a; font-size: 0.9rem; margin-bottom: 8px; display: block;">Statistik #<?php echo $i; ?></strong>
+                                        <div class="tokoku-field" style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px;"><?php _e( 'Angka / Nilai', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_about_stat<?php echo $i; ?>_val" value="<?php echo esc_attr( $s_val ); ?>" placeholder="<?php echo esc_attr( $default_stats_config[$i]['val'] ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 11px;"><?php _e( 'Label Keterangan', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_about_stat<?php echo $i; ?>_lbl" value="<?php echo esc_attr( $s_lbl ); ?>" placeholder="<?php echo esc_attr( $default_stats_config[$i]['lbl'] ); ?>">
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+
+                        <!-- 3. Cerita Kami & Filosofi Toko -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-format-quote" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '3. Cerita Kami & Filosofi Brand', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Bagikan kisah awal mula berdiri, latar belakang, dan filosofi dasar toko plakat Anda:', 'tokoku' ); ?></p>
+
+                            <div class="tokoku-settings-section" style="border-left: 3px solid #818cf8; margin-bottom: 20px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 12px;">
+                                    <?php _e( 'Kartu Kutipan Filosofi (Sisi Kiri)', 'tokoku' ); ?>
+                                </strong>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Kutipan', 'tokoku' ); ?></label>
+                                    <textarea name="tokoku_about_quote_text" rows="2"><?php echo esc_textarea( get_theme_mod( 'tokoku_about_quote_text', 'Sebuah plakat bukan sekadar benda. Ia adalah pengingat bahwa kerja keras seseorang pernah dilihat, dihargai, dan dirayakan.' ) ); ?></textarea>
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Nama Penulis Kutipan / Label', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_quote_author" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_quote_author', '— Filosofi ' . $about_brand ) ); ?>">
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Subjudul / Eyebrow Cerita', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_story_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_story_eyebrow', 'Cerita Kami' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Bagian Cerita', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_story_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_story_title', 'Berawal dari Keyakinan Sederhana: Setiap Apresiasi Layak Istimewa' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Isi Paragraf Cerita Lengkap', 'tokoku' ); ?></label>
+                                <textarea name="tokoku_about_story_content" rows="6" placeholder="Tuliskan cerita brand toko Anda..."><?php echo esc_textarea( get_theme_mod( 'tokoku_about_story_content', '' ) ); ?></textarea>
+                                <p class="tokoku-tip"><?php _e( 'Jika dikosongkan, tema akan otomatis menggunakan teks narasi default 3 paragraf.', 'tokoku' ); ?></p>
+                            </div>
+                        </div>
+
+                        <!-- 4. Nilai & Komitmen Layanan (Mengapa Memilih Kami) -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-heart" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '4. Komitmen & Nilai Layanan (Mengapa Memilih Kami)', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Kelola 6 prinsip keunggulan yang membuat layanan plakat Anda menonjol:', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Subjudul / Eyebrow', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_values_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_values_eyebrow', 'Mengapa Memilih Kami' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Bagian', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_values_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_values_title', 'Komitmen yang Kami Pegang di Setiap Pesanan' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Deskripsi Singkat di Bawah Judul', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_about_values_sub" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_values_sub', sprintf( 'Enam prinsip yang menjadikan setiap plakat dari %s layak dipercaya untuk momen paling penting Anda.', $about_brand ) ) ); ?>">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 15px;">
+                                <?php
+                                $def_values = array(
+                                    1 => array( 'icon' => 'target', 'title' => 'Presisi di Setiap Detail', 'text' => 'Setiap huruf, garis grafir, dan sudut potongan kami periksa berlapis. Karena sebuah penghargaan layak tampil sempurna.' ),
+                                    2 => array( 'icon' => 'gem',    'title' => 'Material Pilihan',         'text' => 'Akrilik bening berkualitas, kayu solid, resin jernih, hingga logam premium — dipilih agar tahan lama dan tetap memukau.' ),
+                                    3 => array( 'icon' => 'pen',    'title' => 'Desain yang Personal',     'text' => 'Tidak ada template asal jadi. Tim desain kami merancang setiap plakat agar mencerminkan identitas dan cerita Anda.' ),
+                                    4 => array( 'icon' => 'zap',    'title' => 'Tepat Waktu',              'text' => 'Kami memahami bahwa acara tidak bisa ditunda. Jadwal produksi disusun realistis dan dikomunikasikan sejak awal.' ),
+                                    5 => array( 'icon' => 'chat',   'title' => 'Komunikasi Responsif',     'text' => 'Konsultasi langsung melalui WhatsApp dengan tim yang ramah, sigap, dan siap memberi rekomendasi terbaik.' ),
+                                    6 => array( 'icon' => 'tag',    'title' => 'Harga Transparan',         'text' => 'Rincian biaya disampaikan jelas di awal — tanpa biaya tersembunyi, tanpa kejutan di akhir.' ),
+                                );
+                                for ( $i = 1; $i <= 6; $i++ ) :
+                                    $v_icon  = get_theme_mod( "tokoku_about_val_icon_{$i}", $def_values[$i]['icon'] );
+                                    $v_title = get_theme_mod( "tokoku_about_val_title_{$i}", $def_values[$i]['title'] );
+                                    $v_text  = get_theme_mod( "tokoku_about_val_text_{$i}", $def_values[$i]['text'] );
+                                ?>
+                                    <div class="tokoku-settings-section" style="border-left: 3px solid #6366f1;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                            <strong style="color: #0f172a; font-size: 0.9rem;">Nilai Keunggulan #<?php echo $i; ?></strong>
+                                            <select name="tokoku_about_val_icon_<?php echo $i; ?>" style="font-size: 12px; font-weight: 600;">
+                                                <?php foreach ( $icon_choices as $ikey => $ilabel ) : ?>
+                                                    <option value="<?php echo esc_attr( $ikey ); ?>" <?php selected( $v_icon, $ikey ); ?>><?php echo esc_html( $ilabel ); ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px;"><?php _e( 'Judul Nilai', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_about_val_title_<?php echo $i; ?>" value="<?php echo esc_attr( $v_title ); ?>" placeholder="<?php echo esc_attr( $def_values[$i]['title'] ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 11px;"><?php _e( 'Penjelasan Singkat', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_about_val_text_<?php echo $i; ?>" rows="2" placeholder="<?php echo esc_attr( $def_values[$i]['text'] ); ?>"><?php echo esc_textarea( $v_text ); ?></textarea>
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+
+                        <!-- 5. Alur Kerja (Cara Kami Bekerja) -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-randomize" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '5. Alur & Proses Kerja (Cara Kami Bekerja)', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Kelola 4 tahapan alur pemesanan hingga barang tiba di tujuan:', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Subjudul / Eyebrow', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_steps_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_steps_eyebrow', 'Cara Kami Bekerja' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Bagian Alur Kerja', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_steps_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_steps_title', 'Dari Ide Menjadi Karya dalam 4 Langkah Mudah' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <?php
+                                $def_steps = array(
+                                    1 => array( 'icon' => 'chat',   'title' => 'Konsultasi',        'text' => 'Ceritakan kebutuhan Anda: jenis plakat, jumlah, teks, logo, dan tanggal acara.' ),
+                                    2 => array( 'icon' => 'layers', 'title' => 'Desain & Mockup',   'text' => 'Kami kirimkan pratinjau desain gratis dan siap direvisi hingga Anda benar-benar puas.' ),
+                                    3 => array( 'icon' => 'award',  'title' => 'Produksi Presisi',  'text' => 'Setelah ACC, plakat diproduksi dengan mesin modern dan sentuhan akhir tangan terampil.' ),
+                                    4 => array( 'icon' => 'truck',  'title' => 'Kirim dengan Aman', 'text' => 'Dikemas berlapis dan dikirim ke seluruh Indonesia dengan nomor resi yang bisa dilacak.' ),
+                                );
+                                for ( $i = 1; $i <= 4; $i++ ) :
+                                    $st_icon  = get_theme_mod( "tokoku_about_step_icon_{$i}", $def_steps[$i]['icon'] );
+                                    $st_title = get_theme_mod( "tokoku_about_step_title_{$i}", $def_steps[$i]['title'] );
+                                    $st_text  = get_theme_mod( "tokoku_about_step_text_{$i}", $def_steps[$i]['text'] );
+                                ?>
+                                    <div class="tokoku-settings-section" style="border-left: 3px solid #6366f1;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                            <strong style="color: #0f172a; font-size: 0.9rem;">Langkah #<?php echo $i; ?></strong>
+                                            <select name="tokoku_about_step_icon_<?php echo $i; ?>" style="font-size: 12px; font-weight: 600;">
+                                                <?php foreach ( $icon_choices as $ikey => $ilabel ) : ?>
+                                                    <option value="<?php echo esc_attr( $ikey ); ?>" <?php selected( $st_icon, $ikey ); ?>><?php echo esc_html( $ilabel ); ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px;"><?php _e( 'Judul Langkah', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_about_step_title_<?php echo $i; ?>" value="<?php echo esc_attr( $st_title ); ?>" placeholder="<?php echo esc_attr( $def_steps[$i]['title'] ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 11px;"><?php _e( 'Penjelasan Langkah', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_about_step_text_<?php echo $i; ?>" rows="2" placeholder="<?php echo esc_attr( $def_steps[$i]['text'] ); ?>"><?php echo esc_textarea( $st_text ); ?></textarea>
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+
+                        <!-- 6. Visi & Misi Toko -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-visibility" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '6. Visi & Misi Perusahaan', 'tokoku' ); ?>
+                            </h3>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="tokoku-settings-section" style="border-left: 3px solid #4f46e5;">
+                                    <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 12px;"><?php _e( 'Visi', 'tokoku' ); ?></strong>
+                                    <div class="tokoku-field" style="margin-bottom: 8px;">
+                                        <label><?php _e( 'Subjudul / Eyebrow Visi', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_about_visi_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_visi_eyebrow', 'Visi' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Pernyataan Visi', 'tokoku' ); ?></label>
+                                        <textarea name="tokoku_about_visi_text" rows="4"><?php echo esc_textarea( get_theme_mod( 'tokoku_about_visi_text', 'Menjadi destinasi utama pembuatan plakat dan penghargaan custom di Indonesia yang dikenal karena kualitas, kreativitas, dan pelayanan sepenuh hati.' ) ); ?></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="tokoku-settings-section" style="border-left: 3px solid #4f46e5;">
+                                    <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 12px;"><?php _e( 'Misi', 'tokoku' ); ?></strong>
+                                    <div class="tokoku-field" style="margin-bottom: 8px;">
+                                        <label><?php _e( 'Subjudul / Eyebrow Misi', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_about_misi_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_misi_eyebrow', 'Misi' ) ); ?>">
+                                    </div>
+                                    <div class="tokoku-field" style="margin-bottom: 0;">
+                                        <label><?php _e( 'Poin-poin Misi (1 baris per poin)', 'tokoku' ); ?></label>
+                                        <textarea name="tokoku_about_misi_points" rows="4" placeholder="Satu poin per baris..."><?php 
+                                            $def_misi_text = "Menghadirkan produk penghargaan berkualitas tinggi dengan harga yang adil dan transparan.\nMemberikan pengalaman pemesanan yang mudah, cepat, dan menyenangkan dari mana saja.\nTerus berinovasi dalam desain, material, dan teknik produksi.\nMembangun hubungan jangka panjang yang dilandasi kepercayaan dengan setiap pelanggan.";
+                                            echo esc_textarea( get_theme_mod( 'tokoku_about_misi_points', $def_misi_text ) ); 
+                                        ?></textarea>
+                                        <p class="tokoku-tip"><?php _e( 'Setiap baris baru otomatis dijadikan poin checklist dengan ikon centang.', 'tokoku' ); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7. Mitra & Kategori Klien -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-businessman" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '7. Mitra, Klien & Kategori Pelanggan', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Logo mitra klien otomatis menggunakan daftar logo dari tab "Ulasan & Klien". Di sini Anda dapat mengatur judul bagian dan daftar kategori pelanggan (chips):', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 16px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Subjudul / Eyebrow', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_clients_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_clients_eyebrow', 'Dipercaya Beragam Kalangan' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Bagian Mitra', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_clients_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_clients_title', 'Partner & Klien Apresiasi Kami' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Deskripsi Singkat', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_about_clients_sub" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_clients_sub', 'Dipercaya oleh instansi pemerintah, BUMN, perguruan tinggi ternama, korporasi swasta, hingga ribuan komunitas di seluruh Indonesia.' ) ); ?>">
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Daftar Kategori Pelanggan (Chips, pisahkan dengan koma)', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_about_clients_chips" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_clients_chips', 'Instansi Pemerintah, BUMN & Korporasi, Sekolah & Universitas, Organisasi & Komunitas, Event Olahraga, Rumah Sakit & Klinik, Perbankan, Kado Personal' ) ); ?>">
+                                <p class="tokoku-tip"><?php _e( 'Contoh: Instansi Pemerintah, BUMN & Korporasi, Sekolah & Universitas, Organisasi & Komunitas', 'tokoku' ); ?></p>
+                            </div>
+                        </div>
+
+                        <!-- 8. Ajakan Bertindak (Bottom CTA) -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-megaphone" style="color: #4f46e5; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '8. Banner Ajakan Bertindak (Bottom CTA)', 'tokoku' ); ?>
+                            </h3>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Judul Banner CTA', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_about_cta_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_cta_title', 'Siap Mewujudkan Plakat Penghargaan Anda?' ) ); ?>">
+                            </div>
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Subjudul / Keterangan Banner CTA', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_about_cta_sub" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_cta_sub', 'Konsultasikan kebutuhan Anda sekarang. Gratis desain dan mockup — Anda hanya membayar ketika sudah yakin.' ) ); ?>">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol 1 (WhatsApp)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_cta_btn1_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_cta_btn1_text', 'Chat WhatsApp' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol 2 (Hubungi Kami)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_about_cta_btn2_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_cta_btn2_text', 'Hubungi Kami' ) ); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php tokoku_render_tab_save_button( __( 'Simpan Perubahan Template Tentang Kami', 'tokoku' ) ); ?>
+                    </div>
+
+                    <!-- Tab: Template Kontak & Workshop -->
+                    <div id="tab-contact" class="tokoku-tab-panel <?php echo ( 'tab-contact' === $active_tab_param ) ? 'active' : ''; ?>">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+                            <div>
+                                <h2 style="margin: 0; font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php _e( 'Template Halaman: Kontak Kami & Workshop', 'tokoku' ); ?></h2>
+                                <p class="description" style="margin-top: 6px; font-size: 0.95rem;"><?php _e( 'Kelola seluruh isi dan susunan konten halaman Kontak: Hero & keunggulan, 3 kartu kontak (WhatsApp, Email, Jam Kerja), formulir WhatsApp interaktif, alamat fisik workshop & Google Maps, tim Customer Service (CRO), serta FAQ khusus dan ajakan bertindak (CTA).', 'tokoku' ); ?></p>
+                            </div>
+                            <div>
+                                <a href="<?php echo esc_url( function_exists( 'tokoku_static_page_url' ) ? tokoku_static_page_url( 'page-templates/template-kontak.php' ) : home_url( '/kontak/' ) ); ?>" target="_blank" rel="noopener" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600;">
                                     <span class="dashicons dashicons-external" style="margin-top: 2px;"></span>
                                     <?php _e( 'Pratinjau Halaman Kontak', 'tokoku' ); ?>
                                 </a>
                             </div>
                         </div>
 
-                        <!-- 1. Alamat Fisik & Peta Workshop -->
+                        <?php
+                        $contact_brand = function_exists( 'tokoku_page_brand' ) ? tokoku_page_brand() : 'JualPlakat.com';
+                        ?>
+
+                        <!-- 1. Hero & Keunggulan Halaman Kontak -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-cover-image" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '1. Bagian Hero & Keunggulan Kontak', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Sesuaikan judul utama, teks pengantar, serta 3 poin keunggulan respon cepat di bagian atas halaman Kontak.', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Badge Kecil Hero', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_hero_badge" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_hero_badge', 'Layanan Pelanggan' ) ); ?>" placeholder="Layanan Pelanggan">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Utama Hero Kontak', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_hero_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_hero_title', 'Mari Bicarakan <span class="jp-text-gradient">Penghargaan Terbaik Anda</span>' ) ); ?>">
+                                    <p class="tokoku-tip"><?php _e( 'Tip: Gunakan tag &lt;span class="jp-text-gradient"&gt;Teks&lt;/span&gt; untuk efek warna gradien modern.', 'tokoku' ); ?></p>
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Deskripsi / Paragraf Pengantar Hero', 'tokoku' ); ?></label>
+                                <textarea name="tokoku_contact_hero_desc" rows="3"><?php echo esc_textarea( get_theme_mod( 'tokoku_contact_hero_desc', sprintf( 'Punya pertanyaan, butuh konsultasi desain gratis, atau ingin meminta penawaran harga untuk instansi? Tim Customer Care %s siap mendengarkan dan mendampingi Anda dengan ramah, cepat, dan profesional.', $contact_brand ) ) ); ?></textarea>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Keunggulan 1 (Petir)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_chip_1" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_chip_1', 'Respons Cepat WhatsApp' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Keunggulan 2 (Perisai)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_chip_2" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_chip_2', 'Konsultasi & Mockup Gratis' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Keunggulan 3 (Truk)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_chip_3" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_chip_3', 'Pengiriman Seluruh Indonesia' ) ); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Tiga Kartu Kontak Utama -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-id" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '2. Tiga Kartu Kontak Utama (WhatsApp, Email & Jam Operasional)', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Sesuaikan badge, judul, penjelasan dan teks tombol pada 3 kartu kontak yang tampil menonjol di halaman Kontak:', 'tokoku' ); ?></p>
+
+                            <!-- Card 1: WhatsApp -->
+                            <div class="tokoku-settings-section" style="border-left: 3px solid #16a34a; margin-bottom: 16px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 10px;">
+                                    <span class="dashicons dashicons-whatsapp" style="color: #16a34a; margin-right: 4px;"></span>
+                                    <?php _e( 'Kartu 1: WhatsApp Hotline (Unggulan)', 'tokoku' ); ?>
+                                </strong>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Badge Kartu', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card1_badge" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card1_badge', 'Respons Paling Cepat' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Judul Kartu', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card1_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card1_title', 'WhatsApp Hotline' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Teks Tombol Aksi', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card1_btn" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card1_btn', 'Chat WhatsApp Sekarang' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom: 0;">
+                                    <label style="font-size: 11px;"><?php _e( 'Penjelasan Kartu', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_card1_desc" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card1_desc', 'Konsultasi langsung, kirim file logo, dan terima mockup desain visual dalam hitungan menit.' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Email Resmi -->
+                            <div class="tokoku-settings-section" style="border-left: 3px solid #0284c7; margin-bottom: 16px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 10px;">
+                                    <span class="dashicons dashicons-email" style="color: #0284c7; margin-right: 4px;"></span>
+                                    <?php _e( 'Kartu 2: Email Resmi & Hotline Telepon', 'tokoku' ); ?>
+                                </strong>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Badge Kartu', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card2_badge" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card2_badge', 'Instansi & Tender' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Judul Kartu', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card2_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card2_title', 'Email Resmi' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Teks Tombol Aksi', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card2_btn" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card2_btn', 'Kirim Email' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom: 0;">
+                                    <label style="font-size: 11px;"><?php _e( 'Penjelasan Kartu', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_card2_desc" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card2_desc', 'Kirim berkas penawaran, dokumen tender, PO perusahaan, atau lampiran file desain berukuran besar.' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Jam Operasional -->
+                            <div class="tokoku-settings-section" style="border-left: 3px solid #d97706;">
+                                <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 10px;">
+                                    <span class="dashicons dashicons-clock" style="color: #d97706; margin-right: 4px;"></span>
+                                    <?php _e( 'Kartu 3: Jam Kerja & Pelayanan', 'tokoku' ); ?>
+                                </strong>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Badge Kartu', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card3_badge" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card3_badge', 'Pelayanan Prima' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;"><?php _e( 'Judul Kartu', 'tokoku' ); ?></label>
+                                        <input type="text" name="tokoku_contact_card3_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card3_title', 'Jam Operasional' ) ); ?>" style="width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom: 8px;">
+                                    <label style="font-size: 11px;"><?php _e( 'Penjelasan Pengantar Jam Kerja', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_card3_desc" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card3_desc', 'Tim kami aktif melayani konsultasi dan proses produksi pada jam kerja berikut:' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom: 0;">
+                                    <label style="font-size: 11px;"><?php _e( 'Catatan Tambahan di Bawah Jadwal', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_card3_note" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_card3_note', 'Pesan di luar jam kerja tetap dapat dikirim dan akan dibalas pada kesempatan pertama.' ) ); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Formulir Interaktif WhatsApp -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-forms" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '3. Formulir Interaktif Pembuat Pesan WhatsApp', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Sesuaikan judul, instruksi, dan teks tombol pada form pesan otomatis yang terhubung ke WhatsApp CS:', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Subjudul / Eyebrow Form', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_form_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_form_eyebrow', 'Formulir Interaktif' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Form Pemesanan', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_form_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_form_title', 'Kirim Rincian Kebutuhan Anda' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Deskripsi Pengantar Form', 'tokoku' ); ?></label>
+                                <textarea name="tokoku_contact_form_sub" rows="2"><?php echo esc_textarea( get_theme_mod( 'tokoku_contact_form_sub', 'Isi formulir ringkas di bawah. Sistem kami akan merangkumnya secara otomatis menjadi format pesan rapi yang langsung terkirim ke WhatsApp Customer Service kami.' ) ); ?></textarea>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol Kirim ke WhatsApp', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_form_btn" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_form_btn', 'Kirim ke WhatsApp Customer Service' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Disclaimer Keamanan Data', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_form_disclaimer" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_form_disclaimer', 'Informasi Anda aman dan hanya digunakan untuk keperluan konsultasi serta proses pesanan plakat.' ) ); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Alamat Fisik & Peta Workshop -->
                         <div class="tokoku-settings-group">
                             <h3 style="display: flex; align-items: center; gap: 8px;">
                                 <span class="dashicons dashicons-location" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
-                                <?php _e( 'Lokasi & Alamat Fisik Workshop / Kantor', 'tokoku' ); ?>
+                                <?php _e( '4. Lokasi & Alamat Fisik Workshop / Kantor', 'tokoku' ); ?>
                             </h3>
 
                             <div class="tokoku-field">
@@ -945,11 +1646,11 @@ function tokoku_settings_page_html() {
                             </div>
                         </div>
 
-                        <!-- 2. Jam Operasional -->
+                        <!-- 5. Jam Operasional -->
                         <div class="tokoku-settings-group">
                             <h3 style="display: flex; align-items: center; gap: 8px;">
                                 <span class="dashicons dashicons-clock" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
-                                <?php _e( 'Jadwal & Jam Operasional Pelayanan', 'tokoku' ); ?>
+                                <?php _e( '5. Jadwal & Jam Operasional Pelayanan', 'tokoku' ); ?>
                             </h3>
                             <p class="description" style="margin-bottom: 16px;"><?php _e( 'Tuliskan jadwal kerja proses produksi dan jam aktif konsultasi pelanggan:', 'tokoku' ); ?></p>
 
@@ -967,11 +1668,11 @@ function tokoku_settings_page_html() {
                             </div>
                         </div>
 
-                        <!-- 3. Tim Customer Relation Officer (CRO) -->
+                        <!-- 6. Tim Customer Relation Officer (CRO) -->
                         <div class="tokoku-settings-group">
                             <h3 style="display: flex; align-items: center; gap: 8px;">
                                 <span class="dashicons dashicons-groups" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
-                                <?php _e( 'Tim Customer Relation Officer (CRO) & Spesialisasi Layanan', 'tokoku' ); ?>
+                                <?php _e( '6. Tim Customer Relation Officer (CRO) & Spesialisasi Layanan', 'tokoku' ); ?>
                             </h3>
                             <p class="description" style="margin-bottom: 20px;"><?php _e( 'Daftarkan hingga 5 petugas layanan pelanggan lengkap dengan nomor WhatsApp dan spesialisasi produk agar calon pembeli dapat diarahkan ke tim yang paling tepat:', 'tokoku' ); ?></p>
 
@@ -998,7 +1699,7 @@ function tokoku_settings_page_html() {
                                                 $wa_digits = preg_replace( '/\D+/', '', $val_wa );
                                             ?>
                                                 <a href="https://wa.me/<?php echo esc_attr( $wa_digits ); ?>" target="_blank" rel="noopener" style="font-size: 12px; color: #16a34a; text-decoration: none; font-weight: 600;">
-                                                    <span class="dashicons dashicons-whatsapp" style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle;"></span> Uji Chat WA
+                                                    <span class="dashicons dashicons-whatsapp" style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle;"></span> <?php _e( 'Uji Chat WA', 'tokoku' ); ?>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
@@ -1021,11 +1722,107 @@ function tokoku_settings_page_html() {
                             </div>
                         </div>
 
-                        <?php tokoku_render_tab_save_button( __( 'Simpan Informasi Kontak & Workshop', 'tokoku' ) ); ?>
+                        <!-- 7. FAQ Khusus Halaman Kontak -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-editor-help" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '7. Tanya Jawab (FAQ) Khusus Halaman Kontak', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;"><?php _e( 'Kelola 5 pertanyaan umum yang sering ditanyakan calon pembeli sebelum memesan plakat:', 'tokoku' ); ?></p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 16px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Subjudul / Eyebrow FAQ', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_faq_eyebrow" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_faq_eyebrow', 'Pertanyaan Sering Diajukan' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Bagian FAQ', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_faq_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_faq_title', 'Hal yang Sering Ditanyakan Sebelum Memesan' ) ); ?>">
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field" style="margin-bottom: 20px;">
+                                <label><?php _e( 'Deskripsi Singkat di Bawah Judul', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_contact_faq_sub" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_faq_sub', sprintf( 'Jawaban cepat untuk pertanyaan paling umum seputar pemesanan plakat di %s.', $contact_brand ) ) ); ?>">
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <?php
+                                $def_cfaqs = array(
+                                    1 => array(
+                                        'q' => 'Berapa lama proses pembuatan plakat custom?',
+                                        'a' => 'Rata-rata pengerjaan berkisar antara 1 hingga 3 hari kerja setelah mockup desain disetujui (ACC) dan pembayaran terkonfirmasi. Untuk kebutuhan mendesak (urgent/ekspres), silakan konsultasikan dengan tim kami agar dapat dijadwalkan secara prioritas.',
+                                    ),
+                                    2 => array(
+                                        'q' => 'Apakah bisa membuat plakat dengan desain sendiri atau tanpa desain?',
+                                        'a' => 'Tentu saja! Jika Anda sudah memiliki file desain (AI, CorelDraw, PDF, atau PNG beresolusi tinggi), Anda dapat langsung mengirimkannya. Jika belum memiliki desain, tim desainer kreatif kami siap membuatkan mockup gratis sesuai konsep, logo, dan tulisan yang Anda inginkan.',
+                                    ),
+                                    3 => array(
+                                        'q' => 'Apakah ada jumlah minimal pemesanan (MOQ)?',
+                                        'a' => 'Kami melayani pemesanan mulai dari 1 buah (satuan) untuk kado personal atau penghargaan khusus, hingga ribuan buah untuk kebutuhan wisuda, turnamen olahraga, dan corporate event besar dengan harga grosir kompetitif.',
+                                    ),
+                                    4 => array(
+                                        'q' => 'Bagaimana pengemasan dan keamanan pengiriman ke luar kota?',
+                                        'a' => 'Setiap produk kami lindungi dengan lapisan bubble wrap tebal, busa pelindung khusus, dan kardus kokoh atau packing kayu ekstra. Kami bermitra dengan ekspedisi tepercaya (JNE, J&T, SiCepat, Cargo, dsb.) lengkap dengan nomor resi pelacakan dan opsi asuransi pengiriman.',
+                                    ),
+                                    5 => array(
+                                        'q' => 'Bagaimana cara mendapatkan surat penawaran harga resmi (invoice/quotation)?',
+                                        'a' => 'Cukup kirimkan detail pesanan (jenis produk, estimasi jumlah, spesifikasi, dan nama instansi) melalui formulir kontak di bawah atau via WhatsApp. Tim administrasi kami akan menerbitkan invoice / surat penawaran resmi bertanda tangan.',
+                                    ),
+                                );
+                                for ( $i = 1; $i <= 5; $i++ ) :
+                                    $faq_q = get_theme_mod( "tokoku_contact_faq_q_{$i}", $def_cfaqs[$i]['q'] );
+                                    $faq_a = get_theme_mod( "tokoku_contact_faq_a_{$i}", $def_cfaqs[$i]['a'] );
+                                ?>
+                                    <div class="tokoku-settings-section" style="border-left: 3px solid #0d9488;">
+                                        <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 8px;">
+                                            FAQ #<?php echo $i; ?>
+                                        </strong>
+                                        <div class="tokoku-field" style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px;"><?php _e( 'Pertanyaan', 'tokoku' ); ?></label>
+                                            <input type="text" name="tokoku_contact_faq_q_<?php echo $i; ?>" value="<?php echo esc_attr( $faq_q ); ?>" placeholder="<?php echo esc_attr( $def_cfaqs[$i]['q'] ); ?>">
+                                        </div>
+                                        <div class="tokoku-field" style="margin-bottom: 0;">
+                                            <label style="font-size: 11px;"><?php _e( 'Jawaban', 'tokoku' ); ?></label>
+                                            <textarea name="tokoku_contact_faq_a_<?php echo $i; ?>" rows="3" placeholder="<?php echo esc_attr( $def_cfaqs[$i]['a'] ); ?>"><?php echo esc_textarea( $faq_a ); ?></textarea>
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+
+                        <!-- 8. Ajakan Bertindak (Bottom CTA) -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span class="dashicons dashicons-megaphone" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
+                                <?php _e( '8. Banner Ajakan Bertindak (Bottom CTA)', 'tokoku' ); ?>
+                            </h3>
+
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Judul Banner CTA', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_contact_cta_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_cta_title', 'Sudah Punya Tanggal Acara?' ) ); ?>">
+                            </div>
+                            <div class="tokoku-field">
+                                <label><?php _e( 'Subjudul / Keterangan Banner CTA', 'tokoku' ); ?></label>
+                                <input type="text" name="tokoku_contact_cta_sub" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_cta_sub', 'Jangan tunda hingga hari mendekati acara. Hubungi kami sekarang untuk memastikan antrean produksi Anda siap tepat pada waktunya.' ) ); ?>">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol 1 (WhatsApp)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_cta_btn1_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_cta_btn1_text', 'Hubungi via WhatsApp' ) ); ?>">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol 2 (Profil Kami)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_contact_cta_btn2_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_contact_cta_btn2_text', 'Pelajari Profil Kami' ) ); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php tokoku_render_tab_save_button( __( 'Simpan Perubahan Template Kontak & Workshop', 'tokoku' ) ); ?>
                     </div>
 
                     <!-- Tab: Single Product (Lead Time & Trust Badges) -->
-                    <div id="tab-single-product" class="tokoku-tab-panel">
+                    <div id="tab-single-product" class="tokoku-tab-panel <?php echo ( 'tab-single-product' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Halaman Produk & Keunggulan', 'tokoku' ); ?></h2>
                         <p class="description" style="margin-bottom:25px;"><?php _e( 'Kelola tampilan Slider Galeri Foto, Estimasi Pengerjaan (Lead Time Bar), dan Badge Keunggulan Toko (Trust Badges) yang muncul di halaman produk.', 'tokoku' ); ?></p>
 
@@ -1443,7 +2240,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: Testimonials & Logos -->
-                    <div id="tab-testimonials" class="tokoku-tab-panel">
+                    <div id="tab-testimonials" class="tokoku-tab-panel <?php echo ( 'tab-testimonials' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Testimoni & Logo Klien', 'tokoku' ); ?></h2>
                         
                         <!-- Testimonials Vertical Tabs -->
@@ -1549,7 +2346,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: Slider -->
-                    <div id="tab-slider" class="tokoku-tab-panel">
+                    <div id="tab-slider" class="tokoku-tab-panel <?php echo ( 'tab-slider' === $active_tab_param ) ? 'active' : ''; ?>">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <h2 style="margin:0;"><?php _e( 'Banner Slider', 'tokoku' ); ?></h2>
                             <button type="button" class="tokoku-btn-add tokoku-add-slider"><span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Banner', 'tokoku' ); ?></span></button>
@@ -1602,7 +2399,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: Social -->
-                    <div id="tab-social" class="tokoku-tab-panel">
+                    <div id="tab-social" class="tokoku-tab-panel <?php echo ( 'tab-social' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Social Media Links', 'tokoku' ); ?></h2>
                         <p class="description" style="margin-bottom:20px;"><?php _e( 'Ikon sosial media akan muncul secara otomatis di bagian footer.', 'tokoku' ); ?></p>
                         <?php 
@@ -1622,56 +2419,61 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: Footer -->
-                    <div id="tab-footer" class="tokoku-tab-panel">
+                    <div id="tab-footer" class="tokoku-tab-panel <?php echo ( 'tab-footer' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Konten Footer', 'tokoku' ); ?></h2>
 
-                        <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span class="dashicons dashicons-location" style="color: #0d9488; font-size: 22px; width: 22px; height: 22px;"></span>
-                                <span style="font-size: 13px; color: #134e4a;">
-                                    <?php _e( 'Alamat, Link Google Maps, Nomor Telepon, Jam Kerja & CRO kini memiliki pengaturan terpusat di tab <strong>Kontak & Workshop</strong>.', 'tokoku' ); ?>
-                                </span>
-                            </div>
-                            <a href="<?php echo esc_url( admin_url( 'admin.php?page=tokoku-settings&tab=tab-contact' ) ); ?>" class="button button-small" style="font-weight: 600; color: #0d9488; border-color: #99f6e4; background: #ffffff;">
-                                <?php _e( 'Buka Kontak & Workshop', 'tokoku' ); ?> &rarr;
-                            </a>
-                        </div>
                         <div class="tokoku-field">
                             <label><?php _e( 'Teks Copyright', 'tokoku' ); ?></label>
-                            <input type="text" name="tokoku_footer_copyright" value="<?php echo esc_attr( get_theme_mod( 'tokoku_footer_copyright', '© {year} TokoKu. All rights reserved.' ) ); ?>">
-                        </div>
-                        <div class="tokoku-field">
-                            <label><?php _e( 'Alamat Toko', 'tokoku' ); ?></label>
-                            <textarea name="tokoku_store_address"><?php echo esc_textarea( get_theme_mod( 'tokoku_store_address' ) ); ?></textarea>
-                            <p class="tokoku-tip"><?php _e( 'Kegunaan: Memberikan rasa aman bagi pelanggan dengan mengetahui lokasi fisik operasional toko Anda.', 'tokoku' ); ?></p>
-                        </div>
-                        <div class="tokoku-field">
-                            <label><?php _e( 'Email Toko', 'tokoku' ); ?></label>
-                            <input type="email" name="tokoku_store_email" value="<?php echo esc_attr( get_theme_mod( 'tokoku_store_email' ) ); ?>">
+                            <input type="text" name="tokoku_footer_copyright" value="<?php echo esc_attr( get_theme_mod( 'tokoku_footer_copyright', '© {year} TokoKu. All rights reserved.' ) ); ?>" placeholder="Contoh: © {year} TokoKu. All rights reserved.">
+                            <p class="tokoku-tip"><?php _e( 'Gunakan {year} untuk otomatis menampilkan tahun saat ini di bagian bawah situs.', 'tokoku' ); ?></p>
                         </div>
 
-                        <div class="tokoku-settings-group" style="margin-top: 30px; padding: 20px; background: #f0f0f1; border-radius: 8px;">
-                            <h3><?php _e( 'Hubungi Kami & Jam Operasional', 'tokoku' ); ?></h3>
-                            <div class="tokoku-field">
-                                <label><?php _e( 'Teks Deskripsi', 'tokoku' ); ?></label>
-                                <input type="text" name="tokoku_hubungi_kami_desc" value="<?php echo esc_attr( get_theme_mod( 'tokoku_hubungi_kami_desc', 'Customer Relation Officer (CRO) kami siap membantu Anda.' ) ); ?>">
-                            </div>
-                            
-                            <div class="tokoku-field">
-                                <label><?php _e( 'Kontak WhatsApp', 'tokoku' ); ?></label>
-                                <?php for ($i=1; $i<=5; $i++) : ?>
-                                    <div style="display:flex; gap:10px; margin-bottom:10px;">
-                                        <input type="text" name="tokoku_contact_name_<?php echo $i; ?>" placeholder="Nama <?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod("tokoku_contact_name_{$i}") ); ?>" style="flex:1;">
-                                        <input type="text" name="tokoku_contact_wa_<?php echo $i; ?>" placeholder="No. WA (628...)" value="<?php echo esc_attr( get_theme_mod("tokoku_contact_wa_{$i}") ); ?>" style="flex:1;">
-                                    </div>
-                                <?php endfor; ?>
+                        <!-- Panel Sinkronisasi Informasi Kontak Footer -->
+                        <div class="tokoku-settings-section" style="margin-top: 25px; border-left: 3px solid #0d9488; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px; margin-bottom: 16px;">
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                                        <span class="dashicons dashicons-location-alt" style="color: #0d9488;"></span>
+                                        <?php _e( 'Informasi Kontak & Jam Kerja Footer', 'tokoku' ); ?>
+                                    </h3>
+                                    <p class="description" style="margin: 4px 0 0; font-size: 13px;">
+                                        <?php _e( 'Alamat workshop, email toko, jam kerja, dan daftar WhatsApp CRO yang tampil di footer dikelola terpusat pada menu <strong>Template Kontak & Workshop</strong> agar data toko selalu konsisten dan sinkron.', 'tokoku' ); ?>
+                                    </p>
+                                </div>
+                                <button type="button" class="button button-secondary tokoku-switch-tab-btn" data-target-tab="tab-contact" style="font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                                    <span class="dashicons dashicons-edit"></span>
+                                    <?php _e( 'Kelola di Template Kontak & Workshop', 'tokoku' ); ?>
+                                </button>
                             </div>
 
-                            <div class="tokoku-field">
-                                <label><?php _e( 'Jam Operasional', 'tokoku' ); ?></label>
-                                <input type="text" name="tokoku_jam_op_1" placeholder="Senin - Jumat: 08.30 - 16.30" value="<?php echo esc_attr( get_theme_mod('tokoku_jam_op_1', 'Senin - Jumat: 08.30 - 16.30') ); ?>" style="margin-bottom:10px; width:100%;">
-                                <input type="text" name="tokoku_jam_op_2" placeholder="Sabtu: 08.30 - 16.00" value="<?php echo esc_attr( get_theme_mod('tokoku_jam_op_2', 'Sabtu: 08.30 - 16.00') ); ?>" style="margin-bottom:10px; width:100%;">
-                                <input type="text" name="tokoku_jam_op_3" placeholder="Minggu / Tanggal Merah: Libur" value="<?php echo esc_attr( get_theme_mod('tokoku_jam_op_3', 'Minggu / Tanggal Merah: Libur') ); ?>" style="width:100%;">
+                            <!-- Pratinjau Nilai Aktif Saat Ini -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; background: #ffffff; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <div>
+                                    <strong style="display: block; font-size: 11px; text-transform: uppercase; color: #64748b; margin-bottom: 4px;"><?php _e( 'Alamat Toko / Workshop', 'tokoku' ); ?></strong>
+                                    <span style="font-size: 13px; color: #1e293b; line-height: 1.5; display: block;">
+                                        <?php 
+                                        $footer_addr = get_theme_mod( 'tokoku_store_address', '' );
+                                        echo ! empty( $footer_addr ) ? nl2br( esc_html( $footer_addr ) ) : '<em style="color:#94a3b8;">' . __( '(Belum diatur — klik tombol di atas untuk mengisi)', 'tokoku' ) . '</em>';
+                                        ?>
+                                    </span>
+                                </div>
+                                <div>
+                                    <strong style="display: block; font-size: 11px; text-transform: uppercase; color: #64748b; margin-bottom: 4px;"><?php _e( 'Email & Telepon', 'tokoku' ); ?></strong>
+                                    <span style="font-size: 13px; color: #1e293b; display: block; margin-bottom: 3px;">
+                                        <strong>Email:</strong> <?php echo esc_html( get_theme_mod( 'tokoku_store_email', '-' ) ); ?>
+                                    </span>
+                                    <span style="font-size: 13px; color: #1e293b; display: block;">
+                                        <strong>Telp:</strong> <?php echo esc_html( get_theme_mod( 'tokoku_store_phone', '-' ) ); ?>
+                                    </span>
+                                </div>
+                                <div>
+                                    <strong style="display: block; font-size: 11px; text-transform: uppercase; color: #64748b; margin-bottom: 4px;"><?php _e( 'Jam Operasional', 'tokoku' ); ?></strong>
+                                    <span style="font-size: 12px; color: #334155; display: block; line-height: 1.4;">
+                                        1. <?php echo esc_html( get_theme_mod( 'tokoku_jam_op_1', 'Senin - Jumat: 08.30 - 16.30' ) ); ?><br>
+                                        2. <?php echo esc_html( get_theme_mod( 'tokoku_jam_op_2', 'Sabtu: 08.30 - 16.00' ) ); ?><br>
+                                        3. <?php echo esc_html( get_theme_mod( 'tokoku_jam_op_3', 'Minggu / Tanggal Merah: Libur' ) ); ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -1679,7 +2481,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: SEO -->
-                    <div id="tab-seo" class="tokoku-tab-panel">
+                    <div id="tab-seo" class="tokoku-tab-panel <?php echo ( 'tab-seo' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'SEO & Metadata', 'tokoku' ); ?></h2>
                         <div class="tokoku-field">
                             <label><?php _e( 'Meta Description', 'tokoku' ); ?></label>
@@ -1737,7 +2539,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: FAQ -->
-                    <div id="tab-faq" class="tokoku-tab-panel">
+                    <div id="tab-faq" class="tokoku-tab-panel <?php echo ( 'tab-faq' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Manajemen FAQ (Tanya Jawab)', 'tokoku' ); ?></h2>
                         <div class="tokoku-field">
                             <label><?php _e( 'Judul Section FAQ', 'tokoku' ); ?></label>
@@ -1805,7 +2607,7 @@ function tokoku_settings_page_html() {
 
 
                     <!-- Tab: Update -->
-                    <div id="tab-update" class="tokoku-tab-panel">
+                    <div id="tab-update" class="tokoku-tab-panel <?php echo ( 'tab-update' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Pembaruan Tema TokoKu', 'tokoku' ); ?></h2>
                         <div class="tokoku-update-card" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                             <div style="display: flex; align-items: flex-start; gap: 20px;">
@@ -1855,6 +2657,15 @@ function tokoku_settings_page_html() {
                             </div>
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.5.0 — Panel Pengaturan Dinamis Template Halaman (Tentang Kami &amp; Kontak Kami), Eliminasi Bentrok Data Form, Navigasi Submenu 14-Tab &amp; Sinkronisasi Editor Otomatis
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.5.0 menghadirkan panel kustomisasi dinamis terpusat untuk <strong>Template Halaman Tentang Kami</strong> (8 section lengkap: Hero, ilustrasi plakat, statistik prestasi, kutipan filosofi, cerita brand narasi, 6 nilai layanan, 4 alur kerja, visi misi, partner klien, dan CTA) serta <strong>Template Halaman Kontak &amp; Workshop</strong> (8 section: Hero &amp; keunggulan, 3 saluran cepat, WhatsApp Message Builder interaktif, alamat bengkel &amp; link Google Maps, jam kerja, 5 tim CRO WhatsApp dengan peran spesialisasi, FAQ kontak, dan banner CTA). Menyelesaikan bentrok form duplikasi data pada tab Footer, mengaktifkan sorotan dinamis 14 submenu dasbor WordPress (<code>tokoku_admin_submenu_filter</code>), sinkronisasi otomatis TinyMCE sebelum simpan, serta fallback string resilien.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.4.0 — Tampilan 60 Produk Katalog, Efek Gradiasi Dinamis Tombol View All, Kalibrasi Proporsional Kartu Produk &amp; Tipografi Fluid Responsif
                                 </h4>
@@ -2038,7 +2849,7 @@ function tokoku_settings_page_html() {
                     </div>
 
                     <!-- Tab: Import & Ekspor -->
-                    <div id="tab-import-export" class="tokoku-tab-panel">
+                    <div id="tab-import-export" class="tokoku-tab-panel <?php echo ( 'tab-import-export' === $active_tab_param ) ? 'active' : ''; ?>">
                         <h2><?php _e( 'Impor & Ekspor Data Tema', 'tokoku' ); ?></h2>
                         <div class="tokoku-settings-group" style="margin-top: 20px; padding: 25px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                             
