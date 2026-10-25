@@ -13,7 +13,7 @@
 .jp-page {
     position: relative;
     overflow-x: hidden;
-    font-family: var(--font-heading, 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    font-family: var(--font-heading, 'Lato', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
     font-size: var(--fs-body, 1rem);
     line-height: var(--lh-base, 1.6);
     color: var(--text, #1f2937);

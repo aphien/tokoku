@@ -667,14 +667,15 @@ body.single-produk .bottom-nav {
 .breadcrumb a:hover { color: var(--primary); }
 .breadcrumb .current { color: var(--text); font-weight: 600; }
 
+h1.product-title,
 .product-title {
-    font-family: var(--font-heading, 'Inter', sans-serif);
-    font-size: var(--fs-h1, clamp(1.85rem, 1.3rem + 2.2vw, 2.85rem));
-    font-weight: 800;
+    font-family: var(--font-heading, 'Lato', system-ui, sans-serif);
+    font-size: clamp(1.05rem, 0.725rem + 1.4vw, 1.625rem); /* Diperkecil 50% dari ukuran H1 asli (Mobile ~17px, Desktop ~26px) */
+    font-weight: 700;
     color: var(--text);
-    margin-bottom: 20px;
-    line-height: var(--lh-tight, 1.15);
-    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    line-height: 1.32;
+    letter-spacing: -0.015em;
 }
 
 /* Product Rating Summary (Social Proof & Schema Mirror) */
@@ -793,23 +794,36 @@ body.single-produk .bottom-nav {
 
 /* Button */
 .btn-contact-us {
-    background: var(--gradient);
-    color: #fff;
-    font-size: var(--fs-base);
-    font-weight: 800;
-    padding: 16px 30px;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: #fff !important;
+    font-family: var(--font-btn, 'Lato', system-ui, sans-serif);
+    font-size: var(--fs-base, 1rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    min-height: 52px;
+    padding: 14px 28px;
+    border-radius: 14px;
     width: 100%;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     border: none;
     cursor: pointer;
-    transition: var(--ease);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.22s ease;
     margin-bottom: 20px;
-    box-shadow: var(--shadow-md);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 20px rgba(37, 211, 102, 0.35);
 }
-.btn-contact-us:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); opacity: 0.9; color: #fff; }
+.btn-contact-us:hover { 
+    transform: translateY(-2px); 
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 10px 28px rgba(37, 211, 102, 0.5); 
+    color: #fff !important; 
+}
+.btn-contact-us:active {
+    transform: translateY(0) scale(0.98);
+}
 
 /* Modern Share Bar */
 .product-share { 
@@ -1776,11 +1790,12 @@ button.share-label:hover,
         font-size: var(--fs-2xs) !important;
     }
     /* Mobile Flex Reordering Produk */
+    h1.product-title,
     .product-title {
         order: 5 !important;
-        font-size: var(--fs-md);
+        font-size: clamp(1.17rem, 1.05rem + 0.5vw, 1.3rem) !important; /* Diperbesar 20% khusus tampilan Mobile (~19px - 21px) */
         margin-bottom: 12px;
-        line-height: var(--lh-snug);
+        line-height: 1.35;
     }
     .product-price-display {
         order: 6 !important;
@@ -2109,7 +2124,8 @@ button.share-label:hover,
 }
 
 @media (max-width: 992px) {
-    .product-title { font-size: var(--fs-h2, clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem)); }
+    h1.product-title,
+    .product-title { font-size: clamp(1.05rem, 0.85rem + 0.6vw, 1.35rem); }
     .product-price-display .price-current { font-size: var(--fs-lg); }
     .breadcrumb { font-size: var(--fs-xs); }
     .spec-label { font-size: var(--fs-xs); }

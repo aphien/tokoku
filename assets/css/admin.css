@@ -203,6 +203,50 @@
     cursor: wait;
 }
 
+/* Header Nav Toggle Button */
+.tokoku-nav-toggle-btn {
+    padding: 9px 16px !important;
+    font-size: var(--fs-xs, 12px) !important;
+    line-height: var(--lh-snug) !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    border-radius: 50px !important;
+    background: #ffffff !important;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    cursor: pointer;
+}
+
+.tokoku-nav-toggle-btn:hover {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.tokoku-nav-toggle-btn:active {
+    transform: scale(0.98);
+}
+
+.tokoku-nav-toggle-btn.is-active {
+    background: #eff6ff !important;
+    border-color: #3b82f6 !important;
+    color: #1d4ed8 !important;
+}
+
+.tokoku-nav-toggle-btn .dashicons {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    color: inherit;
+}
+
 /* 3. Settings Container Layout */
 .tokoku-settings-container {
     display: flex;
@@ -212,6 +256,8 @@
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
     min-height: 580px;
     border: 1px solid #e2e8f0;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 /* 4. Left Sidebar Navigation (Modern Categorized SaaS Layout) */
@@ -225,6 +271,84 @@
     flex-direction: column;
     gap: 16px;
     overflow-y: auto;
+    transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.22s ease,
+                border-color 0.28s ease;
+    box-sizing: border-box;
+    will-change: width, padding, opacity;
+}
+
+/* Nav Hidden State (Wider workspace for typography preview & forms) */
+.tokoku-settings-container.is-nav-hidden .tokoku-settings-nav {
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-right-color: transparent !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    overflow: hidden !important;
+}
+
+/* Top Nav Header inside Sidebar */
+.tokoku-nav-top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px 10px;
+    margin-bottom: 2px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.tokoku-nav-top-label-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tokoku-nav-top-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #475569;
+}
+
+.tokoku-nav-close-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tokoku-nav-close-trigger:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+    transform: translateX(-1px);
+}
+
+.tokoku-nav-close-trigger .dashicons {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+}
+
+.tokoku-nav-close-trigger .tokoku-close-tip {
+    font-size: 11px;
+    line-height: 1;
 }
 
 .tokoku-settings-nav::-webkit-scrollbar {
@@ -433,8 +557,47 @@
 /* 5. Main Content Panel */
 .tokoku-settings-content {
     flex-grow: 1;
+    min-width: 0;
     padding: 36px 42px;
     background: #ffffff;
+    transition: padding 0.3s ease;
+}
+
+/* Floating / Open Navigation Trigger inside Content Panel */
+.tokoku-nav-floating-btn {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-size: var(--fs-xs, 12px);
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.tokoku-nav-floating-btn:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+.tokoku-nav-floating-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+}
+
+.tokoku-settings-container.is-nav-hidden .tokoku-nav-floating-btn {
+    display: inline-flex;
 }
 
 .tokoku-tab-panel {
@@ -1240,6 +1403,17 @@
         gap: 12px;
     }
 
+    .tokoku-nav-top-header {
+        display: none !important;
+    }
+
+    .tokoku-settings-container.is-nav-hidden .tokoku-settings-nav {
+        display: none !important;
+        height: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+
     .tokoku-nav-group {
         flex-direction: row;
         align-items: center;
@@ -1305,4 +1479,3 @@
     color: #475569;
     font-weight: 600;
 }
-

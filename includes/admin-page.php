@@ -49,6 +49,8 @@ function tokoku_admin_settings_assets() {
     wp_enqueue_script( 'wp-color-picker' );
     wp_enqueue_script( 'jquery-ui-sortable' );
 
+
+
     // External CSS & JS
     wp_enqueue_style( 'tokoku-font-awesome', TOKOKU_URI . '/assets/vendor/fontawesome/css/all.min.css', array(), '6.7.2' );
     wp_enqueue_style( 'tokoku-admin-css', TOKOKU_URI . '/assets/css/admin.css', array( 'tokoku-font-awesome' ), TOKOKU_VERSION );
@@ -193,11 +195,7 @@ function tokoku_save_admin_settings() {
         'tokoku_schema_default_rating'  => 'sanitize_text_field',
         'tokoku_schema_default_reviews' => 'absint',
 
-        // Typography
-        'tokoku_font_body'        => 'sanitize_text_field',
-        'tokoku_font_headings'    => 'sanitize_text_field',
-        'tokoku_font_size_base'   => 'absint',
-        'tokoku_font_size_h1'     => 'sanitize_text_field',
+
 
         // FAQ
         'tokoku_faq_title'        => 'sanitize_text_field',
@@ -365,8 +363,6 @@ function tokoku_get_admin_icon( $icon_key ) {
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>';
         case 'footer':
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="15" x2="9" y2="21"></line></svg>';
-        case 'typography':
-            return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>';
         case 'seo':
             return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><path d="m11 8 3 3-3 3"></path></svg>';
         case 'faq':
@@ -526,6 +522,10 @@ function tokoku_settings_page_html() {
                         <span class="tokoku-version-text">v<?php echo TOKOKU_VERSION; ?></span>
                         <span class="tokoku-version-badge-tag"><?php _e( 'Optimal', 'tokoku' ); ?></span>
                     </div>
+                    <button type="button" class="button button-secondary tokoku-nav-toggle-btn" id="tokoku-nav-toggle" title="<?php esc_attr_e( 'Sembunyikan / Tampilkan Menu Navigasi (Shortcut: M)', 'tokoku' ); ?>">
+                        <span class="dashicons dashicons-menu-alt3"></span>
+                        <span class="tokoku-nav-toggle-text"><?php _e( 'Sembunyikan Menu', 'tokoku' ); ?></span>
+                    </button>
                     <button type="submit" class="button button-primary tokoku-submit-update-btn tokoku-top-save-btn" id="tokoku-top-save" title="<?php esc_attr_e( 'Simpan perubahan (Shortcut: Ctrl/Cmd + S)', 'tokoku' ); ?>">
                         <span class="tokoku-btn-icon">
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"/></svg>
@@ -538,6 +538,16 @@ function tokoku_settings_page_html() {
 
             <div class="tokoku-settings-container">
                 <div class="tokoku-settings-nav">
+                    <div class="tokoku-nav-top-header">
+                        <div class="tokoku-nav-top-label-wrap">
+                            <span class="dashicons dashicons-menu-alt3" style="font-size: 16px; width: 16px; height: 16px; color: #2563eb;"></span>
+                            <span class="tokoku-nav-top-label"><?php _e( 'Menu Navigasi', 'tokoku' ); ?></span>
+                        </div>
+                        <button type="button" class="tokoku-nav-close-trigger" id="tokoku-nav-close-trigger" title="<?php esc_attr_e( 'Sembunyikan Menu Navigasi', 'tokoku' ); ?>">
+                            <span class="dashicons dashicons-arrow-left-alt2"></span>
+                            <span class="tokoku-close-tip"><?php _e( 'Tutup', 'tokoku' ); ?></span>
+                        </button>
+                    </div>
                     <?php
                     // Define categorized tab groups for clear logical organization
                     $tab_groups = array(
@@ -608,12 +618,7 @@ function tokoku_settings_page_html() {
                                     'title' => __( 'SEO & Metadata', 'tokoku' ),
                                     'desc'  => __( 'Google Rich Snippet & Meta', 'tokoku' ),
                                 ),
-                                'tab-typography' => array( 
-                                    'icon'  => 'typography',
-                                    'color' => 'blue',
-                                    'title' => __( 'Font & Tipografi', 'tokoku' ),
-                                    'desc'  => __( 'Pilihan Font & Ukuran Teks', 'tokoku' ),
-                                ),
+
                             ),
                         ),
                         'footer' => array(
@@ -686,6 +691,11 @@ function tokoku_settings_page_html() {
                 </div>
 
                 <div class="tokoku-settings-content">
+                    <button type="button" class="tokoku-nav-floating-btn" id="tokoku-nav-floating-btn" title="<?php esc_attr_e( 'Buka / Tampilkan Menu Navigasi (Shortcut: M)', 'tokoku' ); ?>">
+                        <span class="dashicons dashicons-menu-alt3"></span>
+                        <span><?php _e( 'Buka Menu', 'tokoku' ); ?></span>
+                    </button>
+
                     <!-- Tab: General -->
                     <div id="tab-general" class="tokoku-tab-panel active">
                         <h2><?php _e( 'Branding & Identitas', 'tokoku' ); ?></h2>
@@ -1668,70 +1678,6 @@ function tokoku_settings_page_html() {
                         <?php tokoku_render_tab_save_button(); ?>
                     </div>
 
-                    <!-- Tab: Typography -->
-                    <div id="tab-typography" class="tokoku-tab-panel">
-                        <h2><?php _e( 'Pengaturan Tipografi', 'tokoku' ); ?></h2>
-                        <p class="description"><?php _e( 'Sesuaikan jenis dan ukuran font untuk seluruh website Anda.', 'tokoku' ); ?></p>
-                        
-                        <div class="tokoku-settings-group" style="margin-top: 20px; padding: 20px; background: #f0f0f1; border-radius: 8px;">
-                            <h3><?php _e( 'Jenis Font (Typography)', 'tokoku' ); ?></h3>
-                            <?php 
-                            $fonts = array(
-                                'Merriweather'      => 'Merriweather (Editorial Serif — Rekomendasi Body)',
-                                'Inter'             => 'Inter (Clean & Modern — Rekomendasi Headings)',
-                                'Plus Jakarta Sans' => 'Plus Jakarta Sans',
-                                'Poppins'           => 'Poppins',
-                                'Roboto'            => 'Roboto',
-                                'Montserrat'        => 'Montserrat',
-                                'Open Sans'         => 'Open Sans',
-                                'Lato'              => 'Lato',
-                                'Quicksand'         => 'Quicksand',
-                                'Nunito'            => 'Nunito',
-                                'Playfair Display'  => 'Playfair Display',
-                            );
-                            ?>
-                            <div class="tokoku-field">
-                                <label><?php _e( 'Font Utama (Body)', 'tokoku' ); ?></label>
-                                <select name="tokoku_font_body">
-                                    <?php foreach ( $fonts as $val => $lbl ) : ?>
-                                        <option value="<?php echo esc_attr( $val ); ?>" <?php selected( get_theme_mod( 'tokoku_font_body', 'Merriweather' ), $val ); ?>><?php echo esc_html( $lbl ); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <p class="tokoku-tip"><?php _e( 'Kegunaan: Font ini akan digunakan untuk seluruh teks deskripsi, artikel, dan informasi produk.', 'tokoku' ); ?></p>
-                            </div>
-                            <div class="tokoku-field">
-                                <label><?php _e( 'Font Judul (Headings)', 'tokoku' ); ?></label>
-                                <select name="tokoku_font_headings">
-                                    <?php foreach ( $fonts as $val => $lbl ) : ?>
-                                        <option value="<?php echo esc_attr( $val ); ?>" <?php selected( get_theme_mod( 'tokoku_font_headings', 'Inter' ), $val ); ?>><?php echo esc_html( $lbl ); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <p class="tokoku-tip"><?php _e( 'Kegunaan: Font khusus untuk Judul Section (H1, H2, H3) agar terlihat lebih menonjol dan berkarakter.', 'tokoku' ); ?></p>
-                            </div>
-                        </div>
-
-                        <div class="tokoku-settings-group" style="margin-top: 20px; padding: 20px; background: #f0f0f1; border-radius: 8px;">
-                            <h3><?php _e( 'Ukuran Font', 'tokoku' ); ?></h3>
-                            <div class="tokoku-field">
-                                <label><?php _e( 'Ukuran Teks Dasar (Desktop)', 'tokoku' ); ?></label>
-                                <div style="display:flex; align-items:center; gap:10px;">
-                                    <input type="number" name="tokoku_font_size_base" value="<?php echo esc_attr( get_theme_mod( 'tokoku_font_size_base', 16 ) ); ?>" min="12" max="24" style="width:80px;">
-                                    <span>px</span>
-                                </div>
-                                <p class="tokoku-tip"><?php _e( 'Standar: 16px. Semakin besar ukuran font, website akan semakin mudah dibaca.', 'tokoku' ); ?></p>
-                            </div>
-                            <div class="tokoku-field">
-                                <label><?php _e( 'Skala Judul (H1 Size)', 'tokoku' ); ?></label>
-                                <div style="display:flex; align-items:center; gap:10px;">
-                                    <input type="number" name="tokoku_font_size_h1" value="<?php echo esc_attr( get_theme_mod( 'tokoku_font_size_h1', 2.5 ) ); ?>" step="0.1" min="1" max="5" style="width:80px;">
-                                    <span>rem</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <?php tokoku_render_tab_save_button(); ?>
-                    </div>
-
                     <!-- Tab: SEO -->
                     <div id="tab-seo" class="tokoku-tab-panel">
                         <h2><?php _e( 'SEO & Metadata', 'tokoku' ); ?></h2>
@@ -1909,6 +1855,15 @@ function tokoku_settings_page_html() {
                             </div>
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.4.0 — Tampilan 60 Produk Katalog, Efek Gradiasi Dinamis Tombol View All, Kalibrasi Proporsional Kartu Produk &amp; Tipografi Fluid Responsif
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.4.0 menghadirkan tampilan 60 produk per halaman pada arsip Katalog Produk resmi (<code>/produk/</code>). Tombol &ldquo;Lihat Semua Produk&rdquo; kini dilengkapi efek animasi gradiasi dinamis multi-color dengan glow aura memukau dan skala ukuran yang disesuaikan -5% agar lebih proporsional. Tombol pemesanan WhatsApp pada kartu produk (<code>.btn-whatsapp-order</code>) ditingkatkan ukurannya +5% untuk kenyamanan ketukan jari (touch-friendly), serta judul produk (<code>.product-card__title</code>) dikalibrasi -3% dengan sistem tipografi fluid responsif <code>clamp()</code> berbasis Golden Ratio (font Lato) yang menyesuaikan secara otomatis dengan layar desktop, tablet, maupun ponsel cerdas pengguna.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.3.1 — Mobile Bottom Sheet Drawer Modal Berbagi, Quick-Action Share Bar Mobile &amp; Proporsi Harmonis Testimoni
                                 </h4>

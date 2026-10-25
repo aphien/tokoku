@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.3.1-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.4.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -124,6 +124,17 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.4.0 — Tampilan 60 Produk Katalog, Efek Gradiasi Dinamis Tombol View All, Kalibrasi Proporsional Kartu Produk & Proporsi Tipografi Fluid
+*Rilis Fitur & Harmonisasi Tipografi — 26 Oktober 2026*
+- **Tampilan 60 Produk per Halaman pada Katalog Resmi (`archive-produk.php` & `tokoku_modify_product_query`)**: Optimalisasi query utama arsip katalog produk untuk memuat 60 produk per halaman sekaligus, mengurangi frekuensi pagination dan memberikan pengalaman eksplorasi katalog yang jauh lebih menyeluruh bagi pengunjung.
+- **Efek Animasi Gradiasi Dinamis & Kalibrasi Tombol View All (`.btn-view-all`)**: Menghadirkan efek gradiasi dinamis bergelombang (*fluid multi-color mesh gradient*) dengan glow aura dan shimmer sweep reflection yang menawan. Skala ukuran dikalibrasi proporsional (-5%) menjadi tinggi `49.5px` (desktop) dan `45.5px` (mobile) dengan padding serta gap ikon yang seimbang.
+- **Peningkatan Proporsional Tombol WhatsApp Order (`.btn-whatsapp-order`)**: Memperbesar ukuran tombol pemesanan WhatsApp pada seluruh kartu produk (+5%) dengan tinggi `42px` (desktop) dan `38px` (mobile), padding `10px 17px`, serta font yang lebih ramah sentuhan (touch-friendly).
+- **Presisi Ukuran Judul Kartu Produk (`.product-card__title`)**: Mengurangi ukuran font judul kartu produk sebesar -3% dan menerapkan sistem CSS `clamp()` adaptif sehingga judul tampil pas 2 baris tanpa luapan (overflow) pada segala resolusi layar.
+- **Sistem Tipografi Fluid Responsif Berbasis Golden Ratio (Φ = 1.618)**: Seluruh font pada website menggunakan font modern **Lato** dengan skala harmonis modular yang menghitung ukuran teks secara matematis sesuai lebar layar pengguna (Desktop, Laptop, Tablet, hingga Small Mobile `≤400px`).
+- **Optimalisasi Khusus Tampilan Ponsel**: Pembersihan footer pada layar mobile, perbaikan jarak section FAQ dan arsip konten terhadap fixed bottom navigation bar, serta penyesuaian pagination yang kompak dan rapi.
+
+---
 
 ### 🚀 v3.3.1 — Mobile Bottom Sheet Drawer Modal Berbagi, Quick-Action Share Bar Mobile & Proporsi Harmonis Slider Testimoni
 *Rilis Penyempurnaan Mobile UX & Harmonisasi Desain — 16 Oktober 2026*

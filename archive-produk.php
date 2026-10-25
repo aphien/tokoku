@@ -157,17 +157,6 @@ $all_cats       = get_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty
                     </ul>
                 </div>
 
-                <!-- Assistance Card -->
-                <div class="sidebar-help-card">
-                    <div class="help-card-icon">
-                        <?php echo tokoku_icon( 'whatsapp', 24, '', 'style="color: #25D366;"' ); ?>
-                    </div>
-                    <h5>Butuh Desain Custom?</h5>
-                    <p>Konsultasikan kebutuhan plakat & souvenir perusahaan Anda langsung dengan tim kami via WhatsApp.</p>
-                    <a href="https://wa.me/<?php echo esc_attr( get_theme_mod( 'tokoku_wa_number', '6281234567890' ) ); ?>" target="_blank" rel="noopener" class="btn btn-primary btn-sm btn-block">
-                        Chat Sekarang
-                    </a>
-                </div>
             </aside>
 
             <!-- Product Grid -->

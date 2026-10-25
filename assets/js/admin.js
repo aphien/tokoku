@@ -78,6 +78,71 @@ jQuery(document).ready(function($) {
         }
     });
 
+    // 5. Navigation Sidebar Hide/Show Toggle & State Persistence
+    function setAdminNavVisibility(hidden) {
+        var $container = $('.tokoku-settings-container');
+        var $toggleBtn = $('#tokoku-nav-toggle');
+
+        if (hidden) {
+            $container.addClass('is-nav-hidden');
+            $toggleBtn.addClass('is-active');
+            $toggleBtn.find('.dashicons').removeClass('dashicons-menu-alt3').addClass('dashicons-menu');
+            $toggleBtn.find('.tokoku-nav-toggle-text').text('Tampilkan Menu');
+            $toggleBtn.attr('title', 'Tampilkan Menu Navigasi (Shortcut: M)');
+            localStorage.setItem('tokoku_admin_nav_hidden', 'true');
+        } else {
+            $container.removeClass('is-nav-hidden');
+            $toggleBtn.removeClass('is-active');
+            $toggleBtn.find('.dashicons').removeClass('dashicons-menu').addClass('dashicons-menu-alt3');
+            $toggleBtn.find('.tokoku-nav-toggle-text').text('Sembunyikan Menu');
+            $toggleBtn.attr('title', 'Sembunyikan Menu Navigasi (Shortcut: M)');
+            localStorage.setItem('tokoku_admin_nav_hidden', 'false');
+        }
+    }
+
+    // Initialize nav state from localStorage
+    if (localStorage.getItem('tokoku_admin_nav_hidden') === 'true') {
+        setAdminNavVisibility(true);
+    }
+
+    // Toggle button in header
+    $(document).on('click', '#tokoku-nav-toggle', function(e) {
+        e.preventDefault();
+        var isHidden = $('.tokoku-settings-container').hasClass('is-nav-hidden');
+        setAdminNavVisibility(!isHidden);
+    });
+
+    // Close button inside sidebar top header
+    $(document).on('click', '#tokoku-nav-close-trigger', function(e) {
+        e.preventDefault();
+        setAdminNavVisibility(true);
+    });
+
+    // Floating open button inside main content panel
+    $(document).on('click', '#tokoku-nav-floating-btn', function(e) {
+        e.preventDefault();
+        setAdminNavVisibility(false);
+    });
+
+    // Keyboard shortcut 'M' to toggle nav menu when not typing in inputs
+    $(document).on('keydown', function(e) {
+        if (e.key && e.key.toLowerCase() === 'm' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            var active = document.activeElement;
+            var isInput = active && (
+                active.tagName === 'INPUT' ||
+                active.tagName === 'TEXTAREA' ||
+                active.tagName === 'SELECT' ||
+                active.isContentEditable ||
+                $(active).closest('.wp-editor-wrap').length
+            );
+            if (!isInput && $('.tokoku-settings-container').length) {
+                e.preventDefault();
+                var isHidden = $('.tokoku-settings-container').hasClass('is-nav-hidden');
+                setAdminNavVisibility(!isHidden);
+            }
+        }
+    });
+
     // Collapsible FAQ in Admin
     $(document).on('click', '.tokoku-collapsible-header', function() {
         var item = $(this).closest('.tokoku-collapsible-item');
@@ -470,4 +535,5 @@ jQuery(document).ready(function($) {
             link.siblings(':visible').first().trigger('click');
         }
     });
+
 });

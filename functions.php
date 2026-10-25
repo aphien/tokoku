@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.3.1' );
+define( 'TOKOKU_VERSION', '3.4.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -42,35 +42,44 @@ function tokoku_setup() {
 add_action( 'after_setup_theme', 'tokoku_setup' );
 
 /**
+ * Helper untuk menyusun parameter query Google Fonts v2
+ */
+if ( ! function_exists( 'tokoku_get_google_font_query' ) ) {
+    function tokoku_get_google_font_query( $font ) {
+        $font = trim( (string) $font );
+        if ( empty( $font ) || in_array( $font, array( 'System Sans-Serif', 'System Serif', 'system-ui', 'serif', 'inherit', 'body' ), true ) ) {
+            return '';
+        }
+        $family = str_replace( ' ', '+', $font );
+        switch ( $font ) {
+            case 'Bebas Neue':
+            case 'Anton':
+                return $family . ':wght@400';
+            case 'Merriweather':
+                return 'Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700';
+            case 'Inter':
+                return 'Inter:wght@400;500;600;700;800;900';
+            case 'Playfair Display':
+                return 'Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700';
+            case 'Oswald':
+                return 'Oswald:wght@400;500;600;700';
+            case 'Cinzel':
+                return 'Cinzel:wght@400;600;700;800;900';
+            default:
+                return $family . ':ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400';
+        }
+    }
+}
+
+/**
  * Memuat File CSS dan JavaScript
  * Fungsi ini digunakan untuk menghubungkan (enqueue) semua stylesheet dan script
  * yang dibutuhkan tema pada sisi frontend (tampilan publik). Termasuk Google Fonts,
  * style utama, script pencarian AJAX, dan WhatsApp.
  */
 function tokoku_scripts() {
-    // Dynamic Google Fonts: Defaults to Merriweather (Body) and Inter (Headings)
-    $body_font    = get_theme_mod( 'tokoku_font_body' );
-    if ( empty( $body_font ) || 'Plus Jakarta Sans' === $body_font ) {
-        $body_font = 'Merriweather';
-    }
-    $heading_font = get_theme_mod( 'tokoku_font_headings' );
-    if ( empty( $heading_font ) || 'Plus Jakarta Sans' === $heading_font ) {
-        $heading_font = 'Inter';
-    }
-    $fonts_to_load = array_unique( array( $body_font, $heading_font ) );
-    $font_query = array();
-    
-    foreach ( $fonts_to_load as $font ) {
-        if ( 'Merriweather' === $font ) {
-            $font_query[] = 'Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700';
-        } elseif ( 'Inter' === $font ) {
-            $font_query[] = 'Inter:wght@400;500;600;700;800;900';
-        } else {
-            $font_query[] = str_replace( ' ', '+', $font ) . ':ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400';
-        }
-    }
-    
-    $google_fonts_url = 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', $font_query ) . '&display=swap';
+    // Google Fonts: Lato untuk Seluruh Elemen Website
+    $google_fonts_url = 'https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap';
     wp_enqueue_style( 'tokoku-google-fonts', $google_fonts_url, array(), null );
     wp_enqueue_style( 'tokoku-font-awesome', TOKOKU_URI . '/assets/vendor/fontawesome/css/all.min.css', array(), '6.5.2' );
     wp_enqueue_style( 'tokoku-main-style', TOKOKU_URI . '/assets/css/main.css', array( 'tokoku-google-fonts', 'tokoku-font-awesome' ), TOKOKU_VERSION );
@@ -187,52 +196,67 @@ remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
 remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 
 /**
- * Mengeluarkan CSS Tipografi Dinamis
- * Menyisipkan kode CSS khusus ke dalam <head> berdasarkan pengaturan font
- * yang dipilih pengguna di menu Customizer.
+ * Tipografi Global Berbasis Golden Ratio (Φ = 1.618)
+ * Menyediakan hierarki skala font, line-height, dan weight yang harmonis,
+ * sangat nyaman dibaca, serta optimal di perangkat Desktop maupun Mobile.
  */
 function tokoku_typography_css() {
-    $body_font    = get_theme_mod( 'tokoku_font_body' );
-    if ( empty( $body_font ) || 'Plus Jakarta Sans' === $body_font ) {
-        $body_font = 'Merriweather';
-    }
-    $heading_font = get_theme_mod( 'tokoku_font_headings' );
-    if ( empty( $heading_font ) || 'Plus Jakarta Sans' === $heading_font ) {
-        $heading_font = 'Inter';
-    }
-    $base_size    = get_theme_mod( 'tokoku_font_size_base', 16 );
-    $h1_size      = get_theme_mod( 'tokoku_font_size_h1', 2.5 );
-
-    $is_serif_body    = in_array( $body_font, array( 'Merriweather', 'Playfair Display' ), true );
-    $body_fallback    = $is_serif_body ? "Georgia, Cambria, 'Times New Roman', Times, serif" : "system-ui, -apple-system, sans-serif";
-    $heading_fallback = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
     ?>
-    <style id="tokoku-typography-custom">
+    <style id="tokoku-typography-golden-ratio">
         :root {
-            --font-body: '<?php echo esc_attr( $body_font ); ?>', <?php echo $body_fallback; ?>;
-            --font-heading: '<?php echo esc_attr( $heading_font ); ?>', <?php echo $heading_fallback; ?>;
-            --font-size-base: <?php echo absint( $base_size ); ?>px;
+            /* Font Stacks: Lato untuk Seluruh Elemen Website */
+            --font-heading: 'Lato', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-body: 'Lato', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-nav: var(--font-heading);
+            --font-btn: var(--font-heading);
+            --font-price: var(--font-heading);
 
-            /* Fluid Typography Scale */
-            --fs-h1: clamp(2rem, 1.35rem + 2.6vw, 3.25rem);
-            --fs-h2: clamp(1.6rem, 1.15rem + 1.8vw, 2.35rem);
-            --fs-h3: clamp(1.3rem, 1rem + 1.2vw, 1.75rem);
-            --fs-h4: clamp(1.1rem, 0.95rem + 0.6vw, 1.35rem);
-            --fs-h5: clamp(0.95rem, 0.88rem + 0.35vw, 1.15rem);
-            --fs-h6: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
-            --fs-body: clamp(0.975rem, 0.92rem + 0.25vw, 1.0625rem);
+            /* Golden Ratio Scale (Φ = 1.618) & Fluid Responsive Clamps */
+            --fs-h1: clamp(2.15rem, 1.45rem + 2.8vw, 3.25rem); /* ~34px mobile -> 52px desktop */
+            --fs-h2: clamp(1.32rem, 1rem + 1.44vw, 1.88rem);   /* Diperkecil 20% baik Desktop (~30px) maupun Mobile (~21px) */
+            --fs-h3: clamp(1.35rem, 1.1rem + 1.1vw, 1.78rem);  /* ~22px mobile -> 28px desktop */
+            --fs-h4: clamp(1.125rem, 1rem + 0.5vw, 1.35rem);   /* ~18px mobile -> 21.6px desktop */
+            --fs-h5: clamp(1rem, 0.92rem + 0.3vw, 1.125rem);    /* ~16px mobile -> 18px desktop */
+            --fs-h6: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);   /* ~13.6px mobile -> 15px desktop */
 
-            /* Typography Line Heights */
-            --lh-tight: 1.15;
-            --lh-snug: 1.25;
-            --lh-base: 1.6;
+            --fs-md: var(--fs-h4);
+            --fs-lg: var(--fs-h3);
+            --fs-xl: var(--fs-h2);
+            --fs-xxl: var(--fs-h1);
+
+            /* Body Text & Reading Scale */
+            --font-size-base: 16px;
+            --font-size-base-mobile: 15px;
+            --fs-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem); /* 15px mobile -> 16px desktop */
+            --fs-base: var(--fs-body);
+            --fs-sm: clamp(0.825rem, 0.8rem + 0.1vw, 0.875rem); /* ~13px -> 14px */
+            --fs-xs: clamp(0.725rem, 0.7rem + 0.1vw, 0.775rem); /* ~11.6px -> 12.4px */
+            --fs-2xs: 0.7rem;
+
+            /* UI & E-Commerce Scale */
+            --fs-nav: 0.9375rem;          /* 15px */
+            --fs-btn: 0.9375rem;          /* 15px */
+            --fs-price-card: 1.0625rem;    /* 17px */
+            --fs-price-single: clamp(1.5rem, 1.25rem + 1vw, 1.85rem); /* 24px - 30px */
+            --fs-footer: 0.875rem;        /* 14px */
+
+            /* Golden Ratio Line Heights & Letter Spacing */
+            --lh-tight: 1.2;              /* Golden Ratio conjugate / crisp geometric balance for Headings */
+            --lh-snug: 1.35;              /* Subheadings H3-H4 */
+            --lh-base: 1.618;             /* The Golden Ratio (Φ): Optimal vertical visual rhythm for reading */
             --lh-relaxed: 1.75;
+            --ls-heading: -0.025em;
+
+            /* Font Weights */
+            --fw-body: 400;
+            --fw-heading: 700;
+            --fw-btn: 600;
         }
 
         body {
             font-family: var(--font-body);
             font-size: var(--fs-body);
-            font-weight: 400;
+            font-weight: var(--fw-body);
             line-height: var(--lh-base);
             color: var(--text);
             background-color: var(--bg);
@@ -240,12 +264,12 @@ function tokoku_typography_css() {
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Headings - Bold / Heavy Weights & Tight Crisp Line-Height */
+        /* Headings - Golden Ratio Hierarchy & Spacing */
         h1, h2, h3, h4, h5, h6 {
             font-family: var(--font-heading);
             color: var(--text);
-            margin-bottom: 0.6em;
-            letter-spacing: -0.025em;
+            margin-bottom: 0.618em;
+            letter-spacing: var(--ls-heading);
         }
 
         h1 {
@@ -255,30 +279,390 @@ function tokoku_typography_css() {
             letter-spacing: -0.03em;
         }
 
+        /* Product Title (h1.product-title) */
+        h1.product-title,
+        .single-product .product-title {
+            font-size: clamp(1.05rem, 0.725rem + 1.4vw, 1.625rem) !important;
+            line-height: 1.32;
+            letter-spacing: -0.015em;
+        }
+
+        /* Product Card Title: Disesuaikan -3% lebih presisi dan fluid responsive */
+        .product-card__title,
+        .product-card__title a {
+            font-size: clamp(0.96rem, 0.91rem + 0.18vw, 1.02rem) !important;
+            line-height: 1.32;
+        }
+
+        @media (min-width: 769px) {
+            .home .product-card__title,
+            .home .product-card__title a {
+                font-size: clamp(1.09rem, 1.04rem + 0.25vw, 1.165rem) !important;
+            }
+        }
+
+        /* Button View All: Disesuaikan -5% dari ukuran sebelumnya dengan animasi gradiasi dinamis */
+        .btn-view-all {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 12px !important;
+            min-height: 49.5px !important;
+            padding: 14px 36px !important;
+            font-size: clamp(1rem, 0.95rem + 0.28vw, 1.09rem) !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.02em !important;
+            background: linear-gradient(135deg, var(--primary, #007bff) 0%, #3b82f6 25%, #6366f1 50%, #8b5cf6 75%, #0ea5e9 100%) !important;
+            background-size: 280% 280% !important;
+            color: #ffffff !important;
+            border-radius: 50px !important;
+            animation: viewAllGradientFlow 4.5s ease infinite alternate, viewAllAuraGlow 3s ease-in-out infinite !important;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.38) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            text-decoration: none !important;
+            transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.32s ease !important;
+        }
+
+        .btn-view-all svg,
+        .btn-view-all .dashicons {
+            width: 19px !important;
+            height: 19px !important;
+            stroke-width: 2.6 !important;
+            flex-shrink: 0 !important;
+            transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+
+        .btn-view-all:hover {
+            transform: translateY(-3px) scale(1.03) !important;
+            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.55), 0 0 0 4px rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .btn-view-all:hover svg,
+        .btn-view-all:hover .dashicons {
+            transform: translateX(6px) !important;
+        }
+
+        /* WhatsApp Order Button: Diperbesar +5% lebih proporsional */
+        .btn-whatsapp-order {
+            min-height: 42px !important;
+            padding: 10px 17px !important;
+            font-size: clamp(0.835rem, 0.8rem + 0.1vw, 0.865rem) !important;
+            border-radius: 11px !important;
+        }
+
+        .btn-whatsapp-order svg {
+            width: 18px !important;
+            height: 18px !important;
+        }
+
+        @keyframes viewAllGradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes viewAllAuraGlow {
+            0%, 100% {
+                box-shadow: 0 6px 20px rgba(59, 130, 246, 0.38), 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            50% {
+                box-shadow: 0 12px 30px rgba(99, 102, 241, 0.52), 0 0 0 5px rgba(99, 102, 241, 0.16);
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                /* Skala Heading Mobile Berpatokan pada H1 Saat Ini (~20px - 21px) */
+                --fs-h1: clamp(1.17rem, 1.05rem + 0.5vw, 1.3rem);   /* Patokan H1: ~20px - 21px */
+                --fs-h2: clamp(1.025rem, 0.95rem + 0.3vw, 1.125rem); /* Menyesuaikan H2: ~17px - 18px */
+                --fs-h3: clamp(0.925rem, 0.88rem + 0.2vw, 1rem);     /* Menyesuaikan H3: ~15px - 16px */
+                --fs-h4: clamp(0.85rem, 0.8rem + 0.15vw, 0.9rem);    /* Menyesuaikan H4: ~14px - 14.5px */
+                --fs-h5: clamp(0.775rem, 0.75rem + 0.1vw, 0.825rem); /* Menyesuaikan H5: ~12.5px - 13.2px */
+                --fs-h6: clamp(0.7rem, 0.68rem + 0.1vw, 0.75rem);    /* Menyesuaikan H6: ~11.2px - 12px */
+
+                --fs-md: var(--fs-h4);
+                --fs-lg: var(--fs-h3);
+                --fs-xl: var(--fs-h2);
+                --fs-xxl: var(--fs-h1);
+            }
+
+            h1 {
+                font-size: var(--fs-h1) !important;
+                line-height: 1.32;
+            }
+
+            /* Product Title (h1.product-title) Mengikuti Patokan Mobile H1 */
+            h1.product-title,
+            .single-product .product-title {
+                font-size: var(--fs-h1) !important;
+                line-height: 1.35;
+            }
+
+            h2,
+            .section-title {
+                font-size: var(--fs-h2) !important;
+                line-height: 1.32;
+            }
+
+            h3 {
+                font-size: var(--fs-h3) !important;
+                line-height: 1.35;
+            }
+
+            /* Product Card Title Mobile (-3% lebih pas dan tidak overflow) */
+            .product-card__title,
+            .product-card__title a {
+                font-size: clamp(0.92rem, 0.88rem + 0.15vw, 0.97rem) !important;
+                line-height: 1.32;
+            }
+
+            h4 {
+                font-size: var(--fs-h4) !important;
+                line-height: 1.38;
+            }
+
+            h5 {
+                font-size: var(--fs-h5) !important;
+                line-height: 1.4;
+            }
+
+            h6 {
+                font-size: var(--fs-h6) !important;
+                line-height: 1.4;
+            }
+
+            /* Button View All Mobile (-5% disesuaikan proporsional) */
+            .btn-view-all {
+                min-height: 45.5px !important;
+                padding: 12px 26px !important;
+                font-size: 0.9rem !important;
+                max-width: 304px !important;
+            }
+
+            .btn-view-all svg,
+            .btn-view-all .dashicons {
+                width: 17px !important;
+                height: 17px !important;
+            }
+
+            /* WhatsApp Order Mobile (+5% dari ukuran sebelumnya) */
+            .btn-whatsapp-order {
+                min-height: 38px !important;
+                padding: 7.5px 11px !important;
+                font-size: 0.785rem !important;
+                border-radius: 9.5px !important;
+            }
+
+            .btn-whatsapp-order svg {
+                width: 14px !important;
+                height: 14px !important;
+            }
+
+            @media (max-width: 480px) {
+                .product-card__title,
+                .product-card__title a {
+                    font-size: clamp(0.86rem, 0.82rem + 0.12vw, 0.92rem) !important;
+                }
+
+                .btn-view-all {
+                    min-height: 43.5px !important;
+                    padding: 11px 22px !important;
+                    font-size: 0.85rem !important;
+                    max-width: 275px !important;
+                }
+
+                .btn-whatsapp-order {
+                    min-height: 36px !important;
+                    padding: 6.5px 10px !important;
+                    font-size: 0.72rem !important;
+                }
+            }
+
+            /* Mobile Body Clearance: Menjaga jarak pas di atas fixed bottom nav (64px) tanpa rongga berlebih */
+            body {
+                padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+            }
+
+            /* Section FAQ Mobile: Jarak proporsional dan rapi dengan Nav Bottom */
+            .faq-section {
+                padding-top: 40px !important;
+                padding-bottom: 20px !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Khusus Mobile: Hilangkan Site Footer agar Tampilan Lebih Clean */
+            .site-footer {
+                display: none !important;
+            }
+
+            /* Hilangkan Sidebar Help Card */
+            .sidebar-help-card {
+                display: none !important;
+            }
+
+            /* Jarak Archive Content & Layout pada Mobile */
+            .archive-container {
+                margin-bottom: 12px !important;
+            }
+
+            .archive-content {
+                margin-bottom: 0 !important;
+            }
+
+            .archive-content .product-grid {
+                margin-bottom: 8px !important;
+            }
+
+            .site-main,
+            .product-archive,
+            .default-page,
+            .single-post-page,
+            .jp-page {
+                margin-bottom: 0 !important;
+            }
+
+            .no-products-found,
+            .no-articles-found {
+                padding: 36px 20px 16px !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Khusus Mobile: Posts Pagination Modern Capsule Style (Jarak seimbang di atas Nav Bottom) */
+            .pagination,
+            .navigation.pagination,
+            nav.pagination {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                width: 100% !important;
+                margin: 20px auto 10px !important;
+                padding: 0 10px !important;
+                box-sizing: border-box !important;
+                clear: both !important;
+            }
+
+            .pagination .nav-links,
+            .navigation.pagination .nav-links {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                flex-wrap: nowrap !important;
+                gap: 5px !important;
+                max-width: 100% !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                scrollbar-width: none !important;
+                padding: 6px 10px !important;
+                border-radius: 50px !important;
+                background: var(--card-bg, #ffffff) !important;
+                border: 1.5px solid var(--border) !important;
+                box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08) !important;
+            }
+
+            .pagination .nav-links::-webkit-scrollbar,
+            .navigation.pagination .nav-links::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            .pagination .page-numbers,
+            .navigation.pagination .page-numbers {
+                min-width: 38px !important;
+                width: 38px !important;
+                height: 38px !important;
+                padding: 0 !important;
+                border-radius: 50% !important;
+                font-size: 13.5px !important;
+                font-weight: 600 !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                line-height: 1 !important;
+            }
+
+            .pagination .prev.page-numbers span,
+            .pagination .next.page-numbers span,
+            .navigation.pagination .prev.page-numbers span,
+            .navigation.pagination .next.page-numbers span {
+                display: none !important;
+            }
+
+            .pagination .prev.page-numbers,
+            .pagination .next.page-numbers,
+            .navigation.pagination .prev.page-numbers,
+            .navigation.pagination .next.page-numbers {
+                min-width: 38px !important;
+                width: 38px !important;
+                height: 38px !important;
+                padding: 0 !important;
+                border-radius: 50% !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .pagination .prev.page-numbers svg,
+            .pagination .next.page-numbers svg,
+            .navigation.pagination .prev.page-numbers svg,
+            .navigation.pagination .next.page-numbers svg {
+                width: 16px !important;
+                height: 16px !important;
+                margin: 0 !important;
+                transform: none !important;
+            }
+
+            .pagination .page-numbers.dots,
+            .navigation.pagination .page-numbers.dots {
+                min-width: 20px !important;
+                width: auto !important;
+                height: auto !important;
+                border-radius: 0 !important;
+                padding: 0 2px !important;
+            }
+
+            @media (max-width: 480px) {
+                .pagination .nav-links,
+                .navigation.pagination .nav-links {
+                    gap: 4px !important;
+                    padding: 5px 8px !important;
+                }
+
+                .pagination .page-numbers,
+                .navigation.pagination .page-numbers,
+                .pagination .prev.page-numbers,
+                .pagination .next.page-numbers,
+                .navigation.pagination .prev.page-numbers,
+                .navigation.pagination .next.page-numbers {
+                    min-width: 36px !important;
+                    width: 36px !important;
+                    height: 36px !important;
+                    font-size: 13px !important;
+                }
+            }
+        }
+
         h2 {
             font-size: var(--fs-h2);
             font-weight: 700;
-            line-height: 1.2;
-            letter-spacing: -0.025em;
+            line-height: 1.22;
         }
 
         h3 {
             font-size: var(--fs-h3);
             font-weight: 700;
             line-height: var(--lh-snug);
-            letter-spacing: -0.02em;
         }
 
         h4 {
             font-size: var(--fs-h4);
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.35;
         }
 
         h5 {
             font-size: var(--fs-h5);
             font-weight: 600;
-            line-height: 1.35;
+            line-height: 1.4;
         }
 
         h6 {
@@ -286,15 +670,15 @@ function tokoku_typography_css() {
             font-weight: 600;
             line-height: 1.4;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
         }
 
-        /* Paragraphs - Optimal Reading Flow & Generous Spacing */
+        /* Paragraphs - Optimal Eye Comfort with Golden Ratio Line Height */
         p {
             font-family: var(--font-body);
-            font-weight: 400;
+            font-weight: var(--fw-body);
             line-height: var(--lh-base);
-            margin-bottom: 1.5em;
+            margin-bottom: 1.618em;
             color: var(--text);
         }
 
@@ -302,24 +686,79 @@ function tokoku_typography_css() {
             margin-bottom: 0;
         }
 
-        /* UI Elements - Crisp Geometric Sans-Serif (Inter) */
-        button,
-        input,
-        select,
-        textarea,
-        .btn,
-        .button,
+        /* Navigation Links */
         .nav-link,
-        .menu-item,
+        .menu-item a,
+        .tokoku-nav a,
+        .navbar-nav a,
+        .site-navigation a {
+            font-family: var(--font-nav);
+            font-size: var(--fs-nav);
+            font-weight: 500;
+        }
+
+        /* Buttons & Actions */
+        button,
+        input[type="submit"],
+        input[type="button"],
+        .btn,
+        .button {
+            font-family: var(--font-btn);
+            font-size: var(--fs-btn);
+            font-weight: var(--fw-btn);
+            letter-spacing: -0.01em;
+        }
+
+        /* Badges, Chips & Meta */
         .section-badge,
         .badge,
         .chip,
         .product-tag-pill,
-        .product-price,
-        .price,
         .specs-item-label,
         .specs-item-sku {
-            font-family: var(--font-heading);
+            font-family: var(--font-btn);
+        }
+
+        /* Product Prices in Grid / Cards */
+        .product-card .price,
+        .product-card .product-price,
+        .product-grid .price,
+        .tokoku-product-price {
+            font-family: var(--font-price);
+            font-size: var(--fs-price-card) !important;
+            font-weight: 700;
+        }
+
+        /* Single Product Price */
+        .single-product .product-price-display,
+        .single-product .summary .price,
+        .product-detail-price {
+            font-family: var(--font-price);
+            font-size: var(--fs-price-single) !important;
+            font-weight: 800;
+        }
+
+        /* Footer Text */
+        .site-footer,
+        .site-footer p,
+        .tokoku-footer-copyright {
+            font-size: var(--fs-footer);
+            line-height: var(--lh-base);
+        }
+
+        /* WordPress Screen Reader Text Accessibility */
+        .screen-reader-text {
+            border: 0;
+            clip: rect(1px, 1px, 1px, 1px);
+            -webkit-clip-path: inset(50%);
+            clip-path: inset(50%);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute !important;
+            width: 1px;
+            word-wrap: normal !important;
         }
     </style>
     <?php
@@ -508,7 +947,7 @@ add_action( 'wp_enqueue_scripts', function() {
 
 /**
  * Modifikasi Query Produk
- * Mengatur jumlah produk yang ditampilkan per halaman (12 produk) 
+ * Mengatur jumlah produk yang ditampilkan per halaman (60 produk) 
  * dan fitur pengurutan (sorting) berdasarkan harga, tanggal, atau nama.
  */
 function tokoku_modify_product_query( $query ) {
@@ -518,7 +957,7 @@ function tokoku_modify_product_query( $query ) {
     
     if ( ! is_post_type_archive( 'produk' ) && ! is_tax( 'kategori_produk' ) && ! is_tax( 'tag_produk' ) && ! $is_product_search ) return;
 
-    $query->set( 'posts_per_page', 12 );
+    $query->set( 'posts_per_page', 60 );
     $orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : 'terbaru';
 
     switch ( $orderby ) {
@@ -893,6 +1332,96 @@ function tokoku_add_decoding_async_attribute( $attr ) {
     return $attr;
 }
 add_filter( 'wp_get_attachment_image_attributes', 'tokoku_add_decoding_async_attribute' );
+
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * TOKOKU LIVE PREVIEW HANDLER (AUTHENTIC STUDIO IFRAME)
+ * Menampilkan preview asli website pada panel admin Theme Options
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+add_action( 'init', function() {
+    if ( ! empty( $_GET['tokoku_preview'] ) ) {
+        // Sembunyikan WordPress Admin Bar di dalam iframe pratinjau
+        add_filter( 'show_admin_bar', '__return_false' );
+    }
+} );
+
+add_action( 'send_headers', function() {
+    if ( ! empty( $_GET['tokoku_preview'] ) ) {
+        // Izinkan iframe SAMEORIGIN dari domain yang sama
+        header( 'X-Frame-Options: SAMEORIGIN' );
+    }
+} );
+
+add_action( 'wp_head', function() {
+    if ( ! empty( $_GET['tokoku_preview'] ) ) :
+        ?>
+        <style id="tokoku-live-preview-base">
+            #wpadminbar { display: none !important; }
+            html { margin-top: 0 !important; }
+            html, body { -webkit-overflow-scrolling: touch; }
+        </style>
+        <script id="tokoku-live-preview-bridge">
+            (function() {
+                // Sinkronisasi realtime CSS dari Theme Options Studio via postMessage
+                window.addEventListener('message', function(e) {
+                    if (!e.data || typeof e.data !== 'object') return;
+
+                    if (e.data.action === 'tokoku_live_preview_css') {
+                        var styleEl = document.getElementById('tokoku-live-preview-injected');
+                        if (!styleEl) {
+                            styleEl = document.createElement('style');
+                            styleEl.id = 'tokoku-live-preview-injected';
+                            document.head.appendChild(styleEl);
+                        }
+                        styleEl.textContent = e.data.css || '';
+                    }
+
+                    if (e.data.action === 'tokoku_set_theme') {
+                        if (e.data.theme === 'dark') {
+                            document.documentElement.classList.add('theme-dark');
+                            document.documentElement.classList.remove('theme-light');
+                        } else {
+                            document.documentElement.classList.add('theme-light');
+                            document.documentElement.classList.remove('theme-dark');
+                        }
+                    }
+                });
+
+                // Pertahankan parameter tokoku_preview=1 pada seluruh navigasi link internal
+                document.addEventListener('click', function(e) {
+                    var anchor = e.target.closest('a');
+                    if (!anchor || !anchor.href) return;
+                    
+                    var href = anchor.getAttribute('href');
+                    if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('https://wa.me')) {
+                        return;
+                    }
+
+                    try {
+                        var targetUrl = new URL(anchor.href, window.location.origin);
+                        if (targetUrl.origin === window.location.origin) {
+                            targetUrl.searchParams.set('tokoku_preview', '1');
+                            anchor.href = targetUrl.toString();
+                        }
+                    } catch(err) {}
+                });
+
+                // Beritahu parent studio setelah DOM siap
+                window.addEventListener('DOMContentLoaded', function() {
+                    try {
+                        window.parent.postMessage({
+                            action: 'tokoku_preview_loaded',
+                            url: window.location.href,
+                            title: document.title
+                        }, '*');
+                    } catch(err) {}
+                });
+            })();
+        </script>
+        <?php
+    endif;
+}, 999 );
 
 
 
