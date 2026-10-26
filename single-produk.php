@@ -427,12 +427,14 @@ get_header(); ?>
                         } else {
                             $price_val = 'Tanyakan Harga';
                         }
+                        $single_thumb_url = has_post_thumbnail() ? ( wp_get_attachment_image_url( get_post_thumbnail_id(), 'tokoku-product-large' ) ?: wp_get_attachment_image_url( get_post_thumbnail_id(), 'medium' ) ) : '';
                         ?>
                         <button type="button" class="btn btn-primary btn-lg btn-block btn-whatsapp-order btn-contact-us"
                                 data-product-id="<?php the_ID(); ?>"
                                 data-product-name="<?php the_title_attribute(); ?>"
                                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                                 data-product-url="<?php the_permalink(); ?>"
+                                data-product-image="<?php echo esc_url( $single_thumb_url ); ?>"
                                 data-product-price="<?php echo esc_attr( $price_val ); ?>">
                             <?php echo tokoku_icon( 'whatsapp', 22, '', 'style="margin-right:8px;"' ); ?>
                             Pesan via WhatsApp
@@ -799,6 +801,7 @@ get_header(); ?>
                         data-product-name="<?php the_title_attribute(); ?>"
                         data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                         data-product-url="<?php the_permalink(); ?>"
+                        data-product-image="<?php echo esc_url( has_post_thumbnail() ? ( wp_get_attachment_image_url( get_post_thumbnail_id(), 'tokoku-product-large' ) ?: wp_get_attachment_image_url( get_post_thumbnail_id(), 'medium' ) ) : '' ); ?>"
                         data-product-price="<?php echo esc_attr( $price_val ); ?>"
                         aria-label="Pesan via WhatsApp">
                     <?php echo tokoku_icon( 'whatsapp', 22, 'sticky-wa-icon' ); ?>

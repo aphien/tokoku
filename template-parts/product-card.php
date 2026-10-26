@@ -75,11 +75,15 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
         </div>
         <?php endif; ?>
 
+        <?php 
+        $card_thumb_url = has_post_thumbnail() ? wp_get_attachment_image_url( get_post_thumbnail_id(), 'tokoku-product-card' ) : '';
+        ?>
         <button type="button" class="btn btn-primary btn-block btn-whatsapp-order" 
                 data-product-id="<?php the_ID(); ?>"
                 data-product-name="<?php the_title_attribute(); ?>"
                 data-product-sku="<?php echo esc_attr( get_post_meta( get_the_ID(), '_produk_sku', true ) ); ?>"
                 data-product-url="<?php the_permalink(); ?>"
+                data-product-image="<?php echo esc_url( $card_thumb_url ); ?>"
                 data-product-price="<?php echo esc_attr( $harga ? $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) : 'Hubungi Kami' ); ?>">
             <?php echo tokoku_icon( 'whatsapp', 18, '', 'style="margin-right:7px; flex-shrink:0;"' ); ?>
             <span>Pesan Sekarang</span>

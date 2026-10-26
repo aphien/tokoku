@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.5.1' );
+define( 'TOKOKU_VERSION', '3.6.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -94,8 +94,8 @@ function tokoku_scripts() {
         wp_enqueue_script( 'tokoku-single-product-js', TOKOKU_URI . '/assets/js/single-product.js', array(), TOKOKU_VERSION, true );
     }
 
-    $wa_number  = get_theme_mod( 'tokoku_wa_number', '6281234567890' );
-    $wa_message = get_theme_mod( 'tokoku_wa_message', "✧━━━━━━[ DETAIL PESANAN PLAKAT ]━━━━━━✧\n\nTerima kasih telah mempercayakan momen spesial Anda bersama kami. Berikut adalah rincian pesanan Anda:\n\n👤 Nama Pemesan : {nama}\n📦 Produk       : {produk}\n🏷️ SKU          : {sku}\n🔗 Link Produk  : {link}\n\n💰 Harga Satuan : {harga}\n🔢 Jumlah       : {jumlah}\n\n📝 Catatan / Detail Grafir:\n{catatan}\n\n✧━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━✧\nMohon periksa kembali detail di atas. Jika semua data sudah benar, silakan balas \"CONFIRM\" agar pesanan dapat segera kami proses. Terima kasih! ✨" );
+    $default_wa_message = "Halo Admin,\n\nSaya ingin memesan produk berikut:\n\n👤 *Nama Pemesan :* {nama}\n📦 *Produk :* {produk}\n🏷️ *SKU :* {sku}\n📝 *Catatan :* {catatan}\n🔗 *Link Produk :* {link}\n\nMohon segera diproses. Terima kasih!";
+    $wa_message         = get_theme_mod( 'tokoku_wa_message', $default_wa_message );
 
     $catalog_url = get_post_type_archive_link( 'produk' );
     if ( ! $catalog_url ) {
@@ -787,6 +787,11 @@ require_once TOKOKU_DIR . '/includes/ajax-search.php';
 require_once TOKOKU_DIR . '/includes/seo.php';
 require_once TOKOKU_DIR . '/includes/taxonomy-meta.php';
 require_once TOKOKU_DIR . '/includes/page-templates.php';
+
+// TokoKu Bulk Stock & Product Editor (Standar Plugin / Bundled Module)
+if ( ! defined( 'TOKOKU_BULK_EDITOR_VERSION' ) && file_exists( TOKOKU_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php' ) ) {
+    require_once TOKOKU_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php';
+}
 
 /**
  * Menambahkan teks hak cipta/kredit di bagian bawah halaman Admin WordPress.

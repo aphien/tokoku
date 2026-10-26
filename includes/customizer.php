@@ -86,12 +86,12 @@ function tokoku_customize_register( $wp_customize ) {
 
     // WhatsApp Default Message Template
     $wp_customize->add_setting( 'tokoku_wa_message', array(
-        'default'           => "Halo, saya ingin memesan:\n\nProduk: {produk}\nHarga: {harga}\nJumlah: {jumlah}\n\nNama: {nama}\nCatatan: {catatan}\n\nTerima kasih!",
+        'default'           => "Halo Admin,\n\nSaya ingin memesan produk berikut:\n\n👤 *Nama Pemesan :* {nama}\n📦 *Produk :* {produk}\n🏷️ *SKU :* {sku}\n📝 *Catatan :* {catatan}\n🔗 *Link Produk :* {link}\n\nMohon segera diproses. Terima kasih!",
         'sanitize_callback' => 'sanitize_textarea_field',
     ) );
     $wp_customize->add_control( 'tokoku_wa_message', array(
         'label'       => __( 'Template Pesan WhatsApp', 'tokoku' ),
-        'description' => __( 'Placeholder: {produk}, {harga}, {jumlah}, {nama}, {catatan}', 'tokoku' ),
+        'description' => __( 'Placeholder: {nama}, {produk}, {sku}, {catatan}, {link}, {harga}', 'tokoku' ),
         'section'     => 'tokoku_whatsapp',
         'type'        => 'textarea',
     ) );

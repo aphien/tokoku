@@ -66,7 +66,6 @@ $clients = $about_data['clients'];
                     <strong class="jp-plaque__title"><?php echo esc_html( $about_data['plaque_title'] ); ?></strong>
                     <span class="jp-plaque__line"></span>
                     <span class="jp-plaque__text"><?php echo esc_html( $about_data['plaque_text'] ); ?></span>
-                    <span class="jp-plaque__brand"><?php echo esc_html( $brand ); ?></span>
                 </div>
             </div>
         </div>

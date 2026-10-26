@@ -340,13 +340,13 @@
     margin: 0 auto;
     width: 100%;
     border-radius: 20px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.35) 100%);
+    background: var(--gradient-acrylic, linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.35) 100%));
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12),
-                inset 0 1px 2px rgba(255, 255, 255, 0.9),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1),
+                inset 0 1px 2px rgba(255, 255, 255, 0.95),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -355,11 +355,14 @@
     text-align: center;
     overflow: hidden;
     transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
-    transition: transform 0.5s ease;
+    transition: transform 0.6s var(--ease-smooth), box-shadow 0.6s ease;
 }
 
 .jp-plaque:hover {
     transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-8px);
+    box-shadow: 0 32px 70px rgba(0, 0, 0, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 1),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .jp-plaque__shine {
@@ -368,27 +371,42 @@
     left: -100%;
     width: 300%;
     height: 300%;
-    background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
+    background: linear-gradient(135deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%);
     pointer-events: none;
-    animation: jpplaqueShine 6s infinite;
+    animation: jpplaqueShine 7s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes jpplaqueShine {
-    0%, 100% { transform: translateY(-50%) translateX(-50%); }
-    50% { transform: translateY(50%) translateX(50%); }
+    0% {
+        transform: translateY(-60%) translateX(-60%);
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    45%, 100% {
+        transform: translateY(60%) translateX(60%);
+        opacity: 0;
+    }
 }
 
 .jp-plaque__ribbon {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: var(--gradient-gold, linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%));
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    box-shadow: 0 8px 20px rgba(217, 119, 6, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 22px rgba(217, 119, 6, 0.38);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-smooth);
+}
+
+.jp-plaque:hover .jp-plaque__ribbon {
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 12px 28px rgba(217, 119, 6, 0.48);
 }
 
 .jp-plaque__eyebrow {
@@ -419,16 +437,8 @@
     font-size: 0.85rem;
     color: #475569;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     font-style: italic;
-}
-
-.jp-plaque__brand {
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: var(--primary, #007bff);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
 }
 
 /* Stats */
@@ -1837,8 +1847,8 @@ body.theme-dark .jp-social-badge--twitter:hover .jp-social-badge__icon {
 .jp-reveal {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1),
-                transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: opacity 0.65s var(--ease-smooth, cubic-bezier(0.16, 1, 0.3, 1)),
+                transform 0.65s var(--ease-smooth, cubic-bezier(0.16, 1, 0.3, 1));
     will-change: opacity, transform;
 }
 

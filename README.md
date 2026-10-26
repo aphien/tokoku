@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.5.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.6.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -124,6 +124,24 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+
+### 🚀 v3.6.0 — Harmonisasi Gradasi Master Elegan, Fisika Animasi Presisi & Redesain Modal Pemesanan WhatsApp Cerdas
+*Rilis Visual & Interaksi Kemewahan (Luxury-Tier) — 27 Oktober 2026*
+- **Arsitektur Token Gradasi Terpadu (`--gradient-*`)**: Menyelaraskan seluruh palet gradasi di tema ke dalam sistem token master: `--gradient-primary` & `--gradient-primary-hover` (Royal Sapphire), `--gradient-wa` & `--gradient-wa-hover` (Emerald WhatsApp dengan specular top highlight), `--gradient-gold` (Prestige Gold), `--gradient-coral` (Ruby Coral), `--gradient-acrylic` (refleksi kaca akrilik realistis), dan `--gradient-shimmer`.
+- **Fisika Gerak & Kurva Deselerasi Presisi (`--ease-*`)**: Menerapkan kurva easing standar Apple `--ease-smooth: cubic-bezier(0.16, 1, 0.3, 1)` untuk deselerasi alami dan `--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1)` untuk pantulan mikro-kinetik yang halus.
+- **Penyelarasan Efek & Keyframe Animasi Global**:
+  - Tombol WhatsApp Melayang (`.wa-float__btn`): Mengeliminasi duplikasi keyframe dan menyatukannya dalam satu siklus pernapasan cahaya lembut (`@keyframes waPulse`).
+  - Tombol Lihat Semua Produk (`.btn-view-all`): Animasi gradasi dinamis sapphire (`viewAllGradientFlow`) dengan aura glow (`viewAllAuraGlow`) dan refleksi shimmer sweep.
+  - Sticky Order Mobile Bar (`.btn-sticky-order-elegant`): Transisi pop-in `stickyBtnPop` dan pendaran `stickyBtnPulseGlow` yang menyatu harmonis dengan warna WhatsApp.
+  - Refleksi Akrilik 3D Plakat (`.jp-plaque`): Sapuan cahaya specular melintasi bidang akrilik (`jpplaqueShine`) serta interaksi hover pita medali emas.
+  - Lencana Khusus (`.product-card__special-badge`): Pendaran lembut (`cardSpecialGlow`) pada kartu katalog.
+- **Redesain Cerdas Modal Pemesanan WhatsApp (`whatsapp-modal.php` & `whatsapp.js`)**:
+  - Kartu Pratinjau Foto Produk Responsif: Menampilkan thumbnail foto produk yang dipilih lengkap dengan fallback icon SVG yang elegan (menggantikan icon generik fa-icon--award).
+  - Form Ringkas & Fokus Konversi: Menghapus input kuantitas/qty yang kaku, menyisakan kolom esensial (Nama Lengkap dan Catatan Tambahan) plus 4 pil catatan cepat (Custom Desain, Pesan Grosir, Butuh Cepat, Minta Katalog).
+  - Generator Pesan WhatsApp Otomatis: Otomatis merangkai Nama Produk, SKU Produk, Tautan URL Produk, Nama Pemesan, dan Catatan Tambahan secara instan saat tombol diklik.
+- **Pembersihan Kode Usang**: Menghapus sisa elemen `jp-plaque__brand` dari template profil Tentang Kami.
+
+---
 
 ### 🚀 v3.5.0 — Panel Pengaturan Dinamis Template Halaman (Tentang Kami & Kontak Kami), Eliminasi Bentrok Data Form, Navigasi Submenu 14-Tab & Sinkronisasi Editor Otomatis
 *Rilis Fitur Mayor & Refactoring Dasbor Admin — 26 Oktober 2026*
