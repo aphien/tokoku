@@ -622,7 +622,7 @@ get_header(); ?>
 
             <?php if ( ! $enable_desc_hub ) : ?>
                 <div class="product-description-wrapper">
-                    <div class="product-description-container" style="padding: 24px;">
+                    <div class="product-description-container">
                         <div class="product-description-content tokoku-prose">
                             <?php the_content(); ?>
                         </div>

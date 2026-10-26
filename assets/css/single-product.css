@@ -1230,12 +1230,77 @@ button.share-label:hover,
     padding-left: 6px;
 }
 
+/* Responsive Content Media (Images, Figures, Captions, Embeds) */
 .product-description-content.tokoku-prose img {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    height: auto !important;
     border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    margin: 20px 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    margin: 20px auto;
+    display: block;
+}
+
+.product-description-content.tokoku-prose figure {
+    max-width: 100% !important;
+    margin: 24px auto;
+}
+
+.product-description-content.tokoku-prose figure.wp-block-image,
+.product-description-content.tokoku-prose .wp-block-image,
+.product-description-content.tokoku-prose .wp-caption {
+    max-width: 100% !important;
+}
+
+.product-description-content.tokoku-prose figure.wp-block-image img,
+.product-description-content.tokoku-prose .wp-block-image img,
+.product-description-content.tokoku-prose .wp-caption img {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 auto;
+}
+
+.product-description-content.tokoku-prose figcaption,
+.product-description-content.tokoku-prose .wp-caption-text {
+    font-size: 0.85rem;
+    color: var(--text2);
+    text-align: center;
+    margin-top: 8px;
+    font-style: italic;
+    line-height: var(--lh-base);
+}
+
+/* WordPress Alignment Support */
+.product-description-content.tokoku-prose .aligncenter {
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+}
+
+.product-description-content.tokoku-prose .alignleft {
+    float: left;
+    margin: 0.5rem 1.5rem 1rem 0;
+    max-width: 50%;
+}
+
+.product-description-content.tokoku-prose .alignright {
+    float: right;
+    margin: 0.5rem 0 1rem 1.5rem;
+    max-width: 50%;
+}
+
+.product-description-content.tokoku-prose .alignnone {
+    display: block;
+    margin: 1.5rem 0;
+    max-width: 100%;
+}
+
+/* Responsive Embeds & Videos */
+.product-description-content.tokoku-prose iframe,
+.product-description-content.tokoku-prose video,
+.product-description-content.tokoku-prose embed {
+    max-width: 100% !important;
+    border-radius: 14px;
 }
 
 .product-description-content.tokoku-prose table {
@@ -2035,6 +2100,36 @@ button.share-label:hover,
         font-size: var(--fs-sm) !important;
         line-height: var(--lh-relaxed) !important;
         border-radius: 18px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+    .product-description-content.tokoku-prose img {
+        max-width: 100% !important;
+        height: auto !important;
+        border-radius: 12px;
+        margin: 16px auto !important;
+        display: block !important;
+    }
+    .product-description-content.tokoku-prose figure,
+    .product-description-content.tokoku-prose .wp-block-image,
+    .product-description-content.tokoku-prose .wp-caption {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 16px auto !important;
+        box-sizing: border-box !important;
+    }
+    .product-description-content.tokoku-prose .alignleft,
+    .product-description-content.tokoku-prose .alignright {
+        float: none !important;
+        margin: 16px auto !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        display: block !important;
+    }
+    .product-description-content.tokoku-prose iframe,
+    .product-description-content.tokoku-prose video {
+        width: 100% !important;
+        max-height: 240px;
     }
     .product-specs-grid {
         grid-template-columns: 1fr;
