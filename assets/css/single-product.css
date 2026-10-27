@@ -336,12 +336,18 @@
     line-height: 1;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 3px 14px rgba(16, 185, 129, 0.38);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 3px 14px rgba(var(--wa-rgb, 16, 185, 129), 0.38);
     transition: transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-smooth), background 0.25s ease;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     position: relative;
     overflow: hidden;
+}
+
+.btn-sticky-order-elegant:hover {
+    background: var(--gradient-wa-hover);
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 24px rgba(var(--wa-rgb, 16, 185, 129), 0.48);
 }
 
 /* Shimmer Light Sweep on Sticky WA Button */
@@ -360,7 +366,7 @@
 
 .btn-sticky-order-elegant:active {
     transform: scale(0.97);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 8px rgba(16, 185, 129, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 8px rgba(var(--wa-rgb, 16, 185, 129), 0.45);
 }
 
 .sticky-wa-icon {
@@ -890,8 +896,8 @@ button.share-label:hover,
     color: #fff !important;
 }
 .share-icon:active { transform: scale(0.95); }
-.share-icon.wa { background-color: #25d366; }
-.share-icon.wa:hover { box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45); }
+.share-icon.wa { background-color: var(--green, #10b981); }
+.share-icon.wa:hover { box-shadow: 0 6px 18px rgba(var(--wa-rgb, 16, 185, 129), 0.45); }
 .share-icon.fb { background-color: #1877f2; }
 .share-icon.fb:hover { box-shadow: 0 6px 18px rgba(24, 119, 242, 0.45); }
 .share-icon.tw { background-color: #0f1419; }
@@ -1699,7 +1705,7 @@ button.share-label:hover,
     align-items: center;
     gap: 12px;
     padding: 15px 30px;
-    background: #25d366;
+    background: var(--gradient-wa);
     color: #ffffff;
     border: none;
     border-radius: 50px;
@@ -1707,15 +1713,15 @@ button.share-label:hover,
     font-size: var(--fs-base);
     line-height: var(--lh-tight);
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    box-shadow: 0 6px 20px rgba(var(--wa-rgb, 16, 185, 129), 0.4);
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     white-space: nowrap;
 }
 
 .btn-consult-wa:hover {
-    background: #20ba5a;
+    background: var(--gradient-wa-hover);
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
+    box-shadow: 0 10px 25px rgba(var(--wa-rgb, 16, 185, 129), 0.5);
 }
 
 .btn-consult-wa svg {

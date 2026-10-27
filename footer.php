@@ -65,11 +65,14 @@
                         <?php 
                         for ($i = 1; $i <= 5; $i++) {
                             $name = get_theme_mod("tokoku_contact_name_{$i}");
-                            $wa = get_theme_mod("tokoku_contact_wa_{$i}");
+                            $wa   = tokoku_normalize_wa( get_theme_mod("tokoku_contact_wa_{$i}") );
+                            if ( 1 === $i && '' === $wa ) {
+                                $wa = tokoku_get_wa_number();
+                            }
                             if ($name && $wa) {
-                                echo '<a href="https://wa.me/' . esc_attr($wa) . '" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; color:var(--text2); font-size:0.9rem; text-decoration:none;">';
-                                echo tokoku_icon( 'whatsapp', 18, '', 'style="color: #25D366; flex-shrink: 0;"' ); 
-                                echo esc_html($name);
+                                echo '<a href="' . esc_url( 'https://wa.me/' . $wa ) . '" target="_blank" rel="noopener" class="footer-cro-link">';
+                                echo tokoku_icon( 'whatsapp', 18, 'footer-cro-link__icon' ); 
+                                echo '<span>' . esc_html($name) . '</span>';
                                 echo '</a>';
                             }
                         }
@@ -138,11 +141,11 @@
             <?php 
             $wa_float_text = get_theme_mod( 'tokoku_wa_float_text', 'Chat dengan kami' );
             ?>
-            <a href="https://wa.me/<?php echo esc_attr( get_theme_mod( 'tokoku_wa_number', '6281234567890' ) ); ?>" class="wa-float__btn" target="_blank" rel="noopener" aria-label="<?php echo esc_attr( ! empty( $wa_float_text ) ? $wa_float_text : 'Chat WhatsApp' ); ?>">
+            <a href="<?php echo esc_url( tokoku_get_wa_url() ); ?>" class="wa-float__btn" target="_blank" rel="noopener" aria-label="<?php echo esc_attr( ! empty( $wa_float_text ) ? $wa_float_text : 'Chat WhatsApp' ); ?>">
                 <?php if ( ! empty( $wa_float_text ) ) : ?>
                     <span class="wa-float__tooltip"><?php echo esc_html( $wa_float_text ); ?></span>
                 <?php endif; ?>
-                <?php echo tokoku_icon( 'whatsapp', 32, '', 'style="color: #ffffff;"' ); ?>
+                <?php echo tokoku_icon( 'whatsapp', 30 ); ?>
             </a>
         </div>
     </div>
@@ -164,9 +167,9 @@
             </div>
             <span>Kategori</span>
         </a>
-        <a href="https://wa.me/<?php echo esc_attr(get_theme_mod('tokoku_wa_number', '6281234567890')); ?>" class="nav-item nav-whatsapp" target="_blank" rel="noopener">
+        <a href="<?php echo esc_url( tokoku_get_wa_url() ); ?>" class="nav-item nav-whatsapp" target="_blank" rel="noopener">
             <div class="nav-icon-wrap">
-                <?php echo tokoku_icon( 'whatsapp', 22, '', 'style="color: #25D366;"' ); ?>
+                <?php echo tokoku_icon( 'whatsapp', 22 ); ?>
             </div>
             <span>WhatsApp</span>
         </a>

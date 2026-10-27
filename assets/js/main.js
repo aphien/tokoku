@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
         html.classList.remove('theme-dark', 'theme-light');
         html.classList.add('theme-' + theme);
         if (typeof updateThemeColor === 'function') updateThemeColor();
+        modeToggles.forEach(toggle => {
+            const label = theme === 'dark' ? 'Beralih ke mode terang' : 'Beralih ke mode gelap';
+            toggle.setAttribute('aria-label', label);
+            toggle.setAttribute('title', label);
+        });
     }
 
     const savedTheme = localStorage.getItem('tokoku-theme');

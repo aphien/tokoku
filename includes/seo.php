@@ -733,8 +733,8 @@ function tokoku_local_business_schema_markup() {
     // Format nomor telepon
     $phone = '';
     if ( ! empty( $wa_raw ) ) {
-        $clean_wa = preg_replace( '/\D/', '', $wa_raw );
-        $phone    = '+' . ltrim( $clean_wa, '+' );
+        $clean_wa = tokoku_normalize_wa( $wa_raw );
+        $phone    = '' !== $clean_wa ? '+' . $clean_wa : '';
     }
 
     // Logo / Image URL

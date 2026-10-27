@@ -10,9 +10,54 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.6.0' );
+define( 'TOKOKU_VERSION', '3.6.1' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
+
+/**
+ * Normalisasi nomor WhatsApp ke format internasional wa.me (hanya digit, awalan 62).
+ * Menerima input seperti "0812-3456-7890", "+62 812 3456 7890", atau "8123456789".
+ *
+ * @param string $raw Nomor mentah.
+ * @return string Nomor bersih (contoh: 6281234567890) atau string kosong.
+ */
+function tokoku_normalize_wa( $raw ) {
+    $wa = preg_replace( '/\D+/', '', (string) $raw );
+    if ( '' === $wa ) {
+        return '';
+    }
+    if ( 0 === strpos( $wa, '0' ) ) {
+        $wa = '62' . substr( $wa, 1 );
+    } elseif ( 0 === strpos( $wa, '8' ) ) {
+        $wa = '62' . $wa;
+    }
+    return $wa;
+}
+
+/**
+ * Nomor WhatsApp utama toko dari pengaturan admin (TokoKu → WhatsApp).
+ * Satu-satunya sumber nomor tujuan untuk seluruh tombol WhatsApp tema.
+ *
+ * @return string
+ */
+function tokoku_get_wa_number() {
+    $wa = tokoku_normalize_wa( get_theme_mod( 'tokoku_wa_number', '' ) );
+    return '' !== $wa ? $wa : '6281234567890';
+}
+
+/**
+ * URL wa.me lengkap ke nomor admin, opsional dengan pesan.
+ *
+ * @param string $text Pesan awal (opsional).
+ * @return string
+ */
+function tokoku_get_wa_url( $text = '' ) {
+    $url = 'https://wa.me/' . tokoku_get_wa_number();
+    if ( '' !== $text ) {
+        $url .= '?text=' . rawurlencode( $text );
+    }
+    return $url;
+}
 
 /**
  * Pengaturan Awal Tema (Theme Setup)
@@ -111,7 +156,7 @@ function tokoku_scripts() {
     ) );
 
     wp_localize_script( 'tokoku-whatsapp-js', 'tokokuWA', array(
-        'number'  => $wa_number,
+        'number'  => tokoku_get_wa_number(),
         'message' => $wa_message,
     ) );
 }
@@ -825,7 +870,7 @@ function tokoku_dashboard_widget_render() {
     $count_kategori = (int) wp_count_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty' => false ) );
     $count_posts    = wp_count_posts( 'post' ) ? (int) wp_count_posts( 'post' )->publish : 0;
     $wa_number      = get_theme_mod( 'tokoku_wa_number', '6281234567890' );
-    $wa_link        = 'https://wa.me/' . preg_replace( '/[^0-9]/', '', $wa_number );
+    $wa_link        = tokoku_get_wa_url();
     ?>
     <div class="tokoku-dash-widget">
         <div class="tokoku-dash-header">

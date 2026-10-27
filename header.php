@@ -180,9 +180,9 @@ if ( ! defined( 'ABSPATH' ) ) {
         <!-- Actions -->
         <div class="header-actions">
             <?php if ( get_theme_mod( 'tokoku_enable_dark_mode', 'yes' ) === 'yes' ) : ?>
-                <button id="mode-toggle" class="mode-toggle" aria-label="Toggle Theme">
-                    <?php echo tokoku_icon( 'sun', 18, 'sun-icon' ); ?>
-                    <?php echo tokoku_icon( 'moon', 18, 'moon-icon' ); ?>
+                <button id="mode-toggle" class="mode-toggle" aria-label="Toggle Theme" title="<?php esc_attr_e( 'Mode Gelap / Terang', 'tokoku' ); ?>">
+                    <?php echo tokoku_icon( 'sun', 20, 'sun-icon' ); ?>
+                    <?php echo tokoku_icon( 'moon', 20, 'moon-icon' ); ?>
                 </button>
             <?php endif; ?>
             <button id="menu-toggle" class="menu-toggle" aria-label="Menu">
@@ -201,7 +201,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php echo tokoku_icon( 'arrow-left', 20 ); ?>
         </button>
         <div class="search-modal-input-wrap">
-            <?php echo tokoku_icon( 'magnifying-glass', 18, '', 'style="color: #888; margin-right: 8px;"' ); ?>
+            <?php echo tokoku_icon( 'magnifying-glass', 18, '', 'style="color: var(--text-muted); margin-right: 8px;"' ); ?>
             <input type="text" id="search-modal-input" class="search-modal-input" placeholder="Cari Produk..." autocomplete="off" spellcheck="false" style="outline: none !important; border: none !important; box-shadow: none !important; background: transparent !important;">
             <button type="button" id="search-modal-clear" class="search-modal-clear" aria-label="Hapus Pencarian" style="display:none;">
                 <?php echo tokoku_icon( 'xmark', 14 ); ?>

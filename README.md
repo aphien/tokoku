@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.6.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.6.1-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -124,6 +124,16 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
+ 
+### 🚀 v3.6.1 — Standarisasi Sentral Nomor WhatsApp, Kalibrasi Ergonomi Header & Penyempurnaan Aksesibilitas Ikon Antarmuka
+*Rilis Stabilitas, Standarisasi Sentral & Ergonomi Interaksi — 27 Oktober 2026*
+- **Standarisasi Sentral Nomor WhatsApp (`tokoku_normalize_wa()`, `tokoku_get_wa_number()`, `tokoku_get_wa_url()`)**: Membangun *Single Source of Truth* untuk manipulasi nomor WhatsApp di seluruh ekosistem tema. Mengeliminasi inkonsistensi nomor lokal berawalan 0 (otomatis dikonversi ke format internasional `628...`), pembersihan karakter tanda baca, serta fungsi helper URL terpusat dengan dukungan encode pesan dinamis yang diaplikasikan ke seluruh titik konversi: Floating Button, Footer CRO, Mobile Bottom Navigation, Form Kontak Kami, Schema SEO LocalBusiness, dan Modal Pemesanan Produk.
+- **Kalibrasi Skala & Ergonomi Sentuh Header (+5%)**: Meningkatkan dimensi area sentuh (touch targets) pada bilah navigasi utama untuk meningkatkan kenyamanan ketukan jari dan kemudahan akses: ketinggian header flex disesuaikan menjadi 86px (desktop normal) / 74px (sticky header), proporsi logo 52px / 46px, ketinggian kolom pencarian 46px, serta tombol pengalih mode malam/siang menjadi 44px (desktop) / 38px (mobile).
+- **Penyempurnaan Aksesibilitas & Micro-Interaction Mode Gelap**: Tombol `#mode-toggle` kini dilengkapi atribut `title` dan `aria-label` yang berganti dinamis melalui JavaScript sesuai tema aktif (*"Beralih ke mode terang"* / *"Beralih ke mode gelap"*), ramah screen reader, serta pembaruan koordinat viewBox SVG ikon matahari dan bulan ke standar tajam 512x512.
+- **Harmonisasi Token Gradasi WhatsApp & Efek Kinetik**: Menerapkan arsitektur token `--gradient-wa`, `--gradient-wa-hover`, dan `--wa-rgb` pada tombol mengambang WhatsApp (`.wa-float__btn`), tombol pesan pada halaman template kontak (`.jp-btn--wa`), kartu kontak unggulan, tombol WhatsApp CRO, serta Sticky Order Bar pada halaman single produk.
+- **Refactoring Elemen CRO Footer**: Mengganti styling inline tautan tim CRO pada footer dengan class modular `.footer-cro-link` dan icon terstruktur `.footer-cro-link__icon`.
+
+---
 
 ### 🚀 v3.6.0 — Harmonisasi Gradasi Master Elegan, Fisika Animasi Presisi & Redesain Modal Pemesanan WhatsApp Cerdas
 *Rilis Visual & Interaksi Kemewahan (Luxury-Tier) — 27 Oktober 2026*

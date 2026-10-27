@@ -53,14 +53,7 @@ function tokoku_page_brand() {
  * @return array
  */
 function tokoku_page_contact() {
-    $wa_raw = (string) get_theme_mod( 'tokoku_wa_number', '6281234567890' );
-    $wa     = preg_replace( '/\D+/', '', $wa_raw );
-    if ( 0 === strpos( $wa, '0' ) ) {
-        $wa = '62' . substr( $wa, 1 );
-    }
-    if ( empty( $wa ) ) {
-        $wa = '6281234567890';
-    }
+    $wa = tokoku_get_wa_number();
 
     // Format tampilan: +62 812-3456-7890
     $display = $wa;

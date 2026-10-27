@@ -264,7 +264,10 @@ if ( empty( $agents ) ) {
                             
                             <ul class="jp-agents-list">
                                 <?php foreach ( $agents as $agent ) : 
-                                    $a_wa  = preg_replace( '/\D+/', '', $agent['wa'] );
+                                    $a_wa  = tokoku_normalize_wa( $agent['wa'] );
+                                    if ( '' === $a_wa ) {
+                                        $a_wa = tokoku_get_wa_number();
+                                    }
                                     $a_url = 'https://wa.me/' . $a_wa . '?text=' . rawurlencode( 'Halo ' . $agent['name'] . ', saya ingin konsultasi plakat.' );
                                 ?>
                                     <li class="jp-agent-item">

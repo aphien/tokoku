@@ -177,7 +177,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 message += `\n🔗 *Link Produk:* ${prodUrl}`;
             }
             
-            const waNumber = (typeof tokokuWA !== 'undefined' && tokokuWA.number) ? tokokuWA.number : '6281234567890';
+            const rawWa = (typeof tokokuWA !== 'undefined' && tokokuWA.number) ? String(tokokuWA.number) : '';
+            const waNumber = rawWa.replace(/\D+/g, '').replace(/^0/, '62') || '6281234567890';
             const encodedMessage = encodeURIComponent(message.trim());
             const waUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
             

@@ -2658,6 +2658,15 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.6.1 — Standarisasi Sentral Nomor WhatsApp, Kalibrasi Ergonomi Header &amp; Penyempurnaan Aksesibilitas Ikon Antarmuka
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.6.1 menghadirkan standarisasi terpusat pemrosesan nomor WhatsApp melalui helper <code>tokoku_normalize_wa()</code>, <code>tokoku_get_wa_number()</code>, dan <code>tokoku_get_wa_url()</code> sebagai Single Source of Truth di seluruh template (mengeliminasi masalah awalan angka 0 dan format nomor lokal). Menyelaraskan skala ergonomis header (+5%) untuk touch-target yang lebih nyaman pada desktop dan mobile, melengkapi tombol tema gelap/terang dengan <code>aria-label</code> dan <code>title</code> dinamis ramah aksesibilitas, menyempurnakan viewBox ikon matahari &amp; bulan (512x512), serta mengharmonisasi token gradasi WhatsApp (<code>--gradient-wa</code> &amp; <code>--wa-rgb</code>) pada tombol melayang, formulir kontak, dan bilah sticky order produk.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.6.0 — Harmonisasi Gradasi Master Elegan, Fisika Animasi Presisi &amp; Redesain Modal Pemesanan WhatsApp Cerdas
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

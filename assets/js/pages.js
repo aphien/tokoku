@@ -195,7 +195,7 @@
 
                 var waRaw = waForm.getAttribute('data-wa') || '6281234567890';
                 var brand = waForm.getAttribute('data-brand') || 'JualPlakat.com';
-                var cleanWa = waRaw.replace(/\D+/g, '');
+                var cleanWa = waRaw.replace(/\D+/g, '').replace(/^0/, '62');
 
                 // Format clean, professional message
                 var lines = [

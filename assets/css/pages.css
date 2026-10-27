@@ -274,17 +274,17 @@
 }
 
 .jp-btn--wa {
-    background: #25D366;
+    background: var(--gradient-wa);
     color: #ffffff !important;
-    border-color: #25D366;
-    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(var(--wa-rgb, 16, 185, 129), 0.35);
 }
 
 .jp-btn--wa:hover {
-    background: #1eb956;
-    border-color: #1eb956;
+    background: var(--gradient-wa-hover);
+    border-color: transparent;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+    box-shadow: 0 8px 24px rgba(var(--wa-rgb, 16, 185, 129), 0.45);
 }
 
 .jp-btn--light {
@@ -1019,8 +1019,8 @@ body.theme-dark .jp-logo-item__badge-text {
 }
 
 .jp-contact-card--featured {
-    border-color: rgba(37, 211, 102, 0.4);
-    background: linear-gradient(180deg, rgba(37, 211, 102, 0.04) 0%, var(--card-bg, #ffffff) 100%);
+    border-color: rgba(var(--wa-rgb, 16, 185, 129), 0.4);
+    background: linear-gradient(180deg, rgba(var(--wa-rgb, 16, 185, 129), 0.04) 0%, var(--card-bg, #ffffff) 100%);
 }
 
 .jp-contact-card__icon-wrap {
@@ -1034,8 +1034,8 @@ body.theme-dark .jp-logo-item__badge-text {
 }
 
 .jp-contact-card__icon-wrap--wa {
-    background: rgba(37, 211, 102, 0.12);
-    color: #25D366;
+    background: rgba(var(--wa-rgb, 16, 185, 129), 0.12);
+    color: var(--green, #10b981);
 }
 
 .jp-contact-card__icon-wrap--email {
@@ -1297,18 +1297,20 @@ body.theme-dark .jp-logo-item__badge-text {
     gap: 6px;
     padding: 7px 14px;
     border-radius: 999px;
-    background: #25D366;
+    background: var(--gradient-wa);
     color: #ffffff !important;
     font-size: 0.8rem;
     font-weight: 700;
     text-decoration: none;
+    box-shadow: 0 4px 12px rgba(var(--wa-rgb, 16, 185, 129), 0.25);
     transition: all 0.2s ease;
     flex-shrink: 0;
 }
 
 .jp-agent-item__btn:hover {
-    background: #1eb956;
+    background: var(--gradient-wa-hover);
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(var(--wa-rgb, 16, 185, 129), 0.38);
 }
 
 .jp-social-badges {
