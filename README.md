@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.6.1-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.7.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -118,13 +118,33 @@ tokoku/
 │   └── whatsapp-modal.php        # Modal pemesanan WhatsApp
 ├── functions.php                 # Definisi konstanta tema & inisialisasi modul
 ├── style.css                     # Informasi metadata & header versi tema
-└── sw.js                         # Service Worker PWA cache engine
+├── sw.js                         # Service Worker PWA cache engine
+└── tokoku-bulk-editor/           # Plugin Mandiri & Modul Edit Masal Produk (Harga, Diskon, Stok)
 ```
 
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
  
+### 🚀 v3.7.0 — Integrasi Plugin Edit Masal Produk v2.0.0, Gradasi Aksen Tema Dinamis, Domain Dinamis & Hijau WhatsApp Elegan
+*Rilis Fitur Mayor, Plugin Mandiri & Harmonisasi Aksen Visual — 28 Oktober 2026*
+- **Integrasi Plugin Mandiri TokoKu Edit Masal Produk v2.0.0 (`tokoku-bulk-editor`)**:
+  - Menyertakan plugin mandiri lengkap untuk modifikasi masal produk: update harga normal, harga coret/diskon (nominal maupun persentase diskon), stok & status inventaris, kategori, label promo custom, berat, dan status publikasi pos.
+  - Quick Edit & Bulk Edit native langsung pada daftar produk WordPress (`edit.php?post_type=produk`).
+  - Pemrosesan batch AJAX dengan progress bar interaktif, sanitasi harga anti-salah format (Rp / titik / koma), dan backward compatibility penuh.
+  - Fitur **Auto-Install & Auto-Activate**: Plugin otomatis terinstal dan aktif ke direktori `wp-content/plugins/tokoku-bulk-editor` saat pembaruan tema diterapkan melalui dashboard admin maupun pembaruan file.
+- **Harmonisasi Gradasi Aksen Tema Dinamis Seluruh Tombol**:
+  - Menyelaraskan seluruh tombol (`.btn-primary`, `.btn-whatsapp-order`, `.btn-sticky-order-elegant`, `.btn-wa-submit`, `.btn-contact-us`, `.btn-consult-wa`, `.jp-btn--primary`, `.jp-btn--wa`, `#commentform #submit`, dsb.) dengan warna aksen tema yang sedang aktif di WordPress Customizer (`tokoku_primary_color` & `tokoku_secondary_color`).
+  - Dilengkapi efek gradasi elegan (`linear-gradient(135deg, var(--primary), var(--secondary))`), specular highlight (`inset 0 1px 0 rgba(255, 255, 255, 0.28)`), dan ambient glow shadow yang selaras dengan warna aksen aktif (`rgba(var(--primary-rgb), ...)`).
+- **Khusus Tombol Melayang WhatsApp (`.wa-float`) — Hijau WhatsApp Elegan**:
+  - Mengkhususkan tombol floating WhatsApp (`.wa-float__btn`) dengan palet resmi WhatsApp Emerald Gradient (`#25D366` ke `#128C7E`), specular highlight, pendar hijau lembut, dan animasi pernapasan kinetik (`waPulse`).
+- **Pembersihan Ikon WhatsApp pada Tombol Order Produk**:
+  - Menghilangkan ikon WhatsApp pada seluruh tombol pemesanan katalog dan halaman single produk (`.btn-whatsapp-order`, `.btn-sticky-order-elegant`, `.btn-wa-submit`) demi tampilan tombol yang lebih bersih, fokus pada teks ajakan bertindak (CTA), dan proporsional.
+- **Deteksi Domain Web Dinamis**:
+  - Mengganti teks tujuan dan tautan yang sebelumnya memuat domain statis menjadi dinamis mendeteksi domain instalasi aktif melalui `tokoku_get_site_domain()`, `tokoku_page_brand()`, dan fallback `window.location.hostname`.
+
+---
+
 ### 🚀 v3.6.1 — Standarisasi Sentral Nomor WhatsApp, Kalibrasi Ergonomi Header & Penyempurnaan Aksesibilitas Ikon Antarmuka
 *Rilis Stabilitas, Standarisasi Sentral & Ergonomi Interaksi — 27 Oktober 2026*
 - **Standarisasi Sentral Nomor WhatsApp (`tokoku_normalize_wa()`, `tokoku_get_wa_number()`, `tokoku_get_wa_url()`)**: Membangun *Single Source of Truth* untuk manipulasi nomor WhatsApp di seluruh ekosistem tema. Mengeliminasi inkonsistensi nomor lokal berawalan 0 (otomatis dikonversi ke format internasional `628...`), pembersihan karakter tanda baca, serta fungsi helper URL terpusat dengan dukungan encode pesan dinamis yang diaplikasikan ke seluruh titik konversi: Floating Button, Footer CRO, Mobile Bottom Navigation, Form Kontak Kami, Schema SEO LocalBusiness, dan Modal Pemesanan Produk.

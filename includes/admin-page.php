@@ -614,13 +614,34 @@ function tokoku_ajax_handle_update() {
         wp_send_json_error( $copy_result->get_error_message() );
     }
 
+    // Auto-install & auto-update bundled plugin (tokoku-bulk-editor) to wp-content/plugins
+    $bundled_plugin_src = trailingslashit( $destination ) . 'tokoku-bulk-editor';
+    if ( is_dir( $bundled_plugin_src ) && defined( 'WP_PLUGIN_DIR' ) ) {
+        $plugin_dest = trailingslashit( WP_PLUGIN_DIR ) . 'tokoku-bulk-editor';
+        if ( ! is_dir( $plugin_dest ) ) {
+            wp_mkdir_p( $plugin_dest );
+        }
+        if ( function_exists( 'copy_dir' ) ) {
+            copy_dir( $bundled_plugin_src, $plugin_dest );
+        }
+
+        if ( ! function_exists( 'activate_plugin' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+        $plugin_rel = 'tokoku-bulk-editor/tokoku-bulk-editor.php';
+        if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_rel ) && ! is_plugin_active( $plugin_rel ) ) {
+            activate_plugin( $plugin_rel, '', false, true );
+        }
+        update_option( 'tokoku_bulk_editor_installed_ver', '2.0.0', true );
+    }
+
     // Flush opcache so new PHP files (including version constant) are loaded immediately
     if ( function_exists( 'opcache_reset' ) ) {
         opcache_reset();
     }
     wp_clean_themes_cache();
 
-    wp_send_json_success( 'Theme updated successfully' );
+    wp_send_json_success( 'Theme and bundled plugins updated successfully' );
 }
 add_action( 'wp_ajax_tokoku_handle_update', 'tokoku_ajax_handle_update' );
 
@@ -1055,7 +1076,7 @@ function tokoku_settings_page_html() {
                         </div>
 
                         <?php
-                        $about_brand       = function_exists( 'tokoku_page_brand' ) ? tokoku_page_brand() : 'JualPlakat.com';
+                        $about_brand       = function_exists( 'tokoku_page_brand' ) ? tokoku_page_brand() : ( function_exists( 'tokoku_get_site_domain' ) ? tokoku_get_site_domain() : 'domain.com' );
                         $about_catalog_url = get_post_type_archive_link( 'produk' ) ? get_post_type_archive_link( 'produk' ) : home_url( '/' );
                         $icon_choices = array(
                             'target'   => __( 'Target / Presisi', 'tokoku' ),
@@ -1087,7 +1108,7 @@ function tokoku_settings_page_html() {
                             <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
                                 <div class="tokoku-field">
                                     <label><?php _e( 'Badge Kecil Hero', 'tokoku' ); ?></label>
-                                    <input type="text" name="tokoku_about_hero_badge" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_hero_badge', sprintf( 'Tentang %s', $about_brand ) ) ); ?>" placeholder="Contoh: Tentang JualPlakat.com">
+                                    <input type="text" name="tokoku_about_hero_badge" value="<?php echo esc_attr( get_theme_mod( 'tokoku_about_hero_badge', sprintf( 'Tentang %s', $about_brand ) ) ); ?>" placeholder="Contoh: Tentang <?php echo esc_attr( $about_brand ); ?>">
                                     <p class="tokoku-tip"><?php _e( 'Teks label kecil berikon piala di atas judul utama.', 'tokoku' ); ?></p>
                                 </div>
                                 <div class="tokoku-field">
@@ -1446,7 +1467,7 @@ function tokoku_settings_page_html() {
                         </div>
 
                         <?php
-                        $contact_brand = function_exists( 'tokoku_page_brand' ) ? tokoku_page_brand() : 'JualPlakat.com';
+                        $contact_brand = function_exists( 'tokoku_page_brand' ) ? tokoku_page_brand() : ( function_exists( 'tokoku_get_site_domain' ) ? tokoku_get_site_domain() : 'domain.com' );
                         ?>
 
                         <!-- 1. Hero & Keunggulan Halaman Kontak -->
@@ -1640,7 +1661,7 @@ function tokoku_settings_page_html() {
                                 </div>
                                 <div class="tokoku-field">
                                     <label><?php _e( 'Email Resmi Toko', 'tokoku' ); ?></label>
-                                    <input type="email" name="tokoku_store_email" value="<?php echo esc_attr( get_theme_mod( 'tokoku_store_email' ) ); ?>" placeholder="Contoh: halo@jualplakat.com">
+                                    <input type="email" name="tokoku_store_email" value="<?php echo esc_attr( get_theme_mod( 'tokoku_store_email' ) ); ?>" placeholder="Contoh: halo@<?php echo esc_attr( function_exists( 'tokoku_get_site_domain' ) ? tokoku_get_site_domain() : 'domain.com' ); ?>">
                                     <p class="tokoku-tip"><?php _e( 'Email untuk menerima berkas PO tender, invoice resmi, dan surat penawaran harga.', 'tokoku' ); ?></p>
                                 </div>
                             </div>
@@ -2657,6 +2678,15 @@ function tokoku_settings_page_html() {
                             </div>
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.7.0 — Integrasi Plugin Edit Masal Produk v2.0.0, Harmonisasi Gradasi Aksen Tema Dinamis &amp; Pembaruan Hijau WhatsApp Elegan
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.7.0 menghadirkan integrasi penuh plugin <strong>TokoKu Edit Masal Produk v2.0.0</strong> dengan kemampuan edit harga, diskon, stok, kategori, label promo, dan status pos secara masal dengan AJAX batch processing serta instalasi otomatis. Menyelaraskan seluruh tombol di website secara dinamis dengan warna aksen tema aktif di Customizer dengan gradasi elegan dan specular highlight, menghapus ikon WhatsApp pada tombol order untuk tampilan lebih bersih, menerapkan deteksi domain web dinamis, serta mengkhususkan tombol melayang WhatsApp (<code>.wa-float</code>) dengan gradasi Hijau Emerald WhatsApp yang elegan.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.6.1 — Standarisasi Sentral Nomor WhatsApp, Kalibrasi Ergonomi Header &amp; Penyempurnaan Aksesibilitas Ikon Antarmuka
                                 </h4>

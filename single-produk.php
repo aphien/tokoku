@@ -436,8 +436,7 @@ get_header(); ?>
                                 data-product-url="<?php the_permalink(); ?>"
                                 data-product-image="<?php echo esc_url( $single_thumb_url ); ?>"
                                 data-product-price="<?php echo esc_attr( $price_val ); ?>">
-                            <?php echo tokoku_icon( 'whatsapp', 22, '', 'style="margin-right:8px;"' ); ?>
-                            Pesan via WhatsApp
+                            <span>Pesan via WhatsApp</span>
                         </button>
 
                     </div>
@@ -804,7 +803,6 @@ get_header(); ?>
                         data-product-image="<?php echo esc_url( has_post_thumbnail() ? ( wp_get_attachment_image_url( get_post_thumbnail_id(), 'tokoku-product-large' ) ?: wp_get_attachment_image_url( get_post_thumbnail_id(), 'medium' ) ) : '' ); ?>"
                         data-product-price="<?php echo esc_attr( $price_val ); ?>"
                         aria-label="Pesan via WhatsApp">
-                    <?php echo tokoku_icon( 'whatsapp', 22, 'sticky-wa-icon' ); ?>
                     <span class="sticky-order-label">Pesan Sekarang via WhatsApp</span>
                     <?php if ( $price_val && $price_val !== 'Tanyakan Harga' && $price_val !== 'Hubungi Kami' ) : ?>
                         <span class="sticky-order-price-pill"><?php echo esc_html( $price_val ); ?></span>

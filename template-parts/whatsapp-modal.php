@@ -49,7 +49,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             
             <div class="form-footer">
                 <button type="submit" class="btn btn-wa-submit btn-block">
-                    <?php echo tokoku_icon( 'whatsapp', 18, '', 'style="margin-right:8px;"' ); ?>
                     <?php esc_html_e( 'Pesan Sekarang ke WhatsApp', 'tokoku' ); ?>
                 </button>
             </div>
@@ -229,7 +228,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 }
 
 .btn-wa-submit {
-    background: var(--gradient-wa, linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%));
+    background: var(--gradient, var(--gradient-primary, linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)));
     color: #fff;
     padding: 14px 24px;
     font-weight: 800;
@@ -238,19 +237,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     width: 100%;
     border: none;
     cursor: pointer;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 6px 20px rgba(16, 185, 129, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 6px 20px rgba(var(--primary-rgb, 37, 99, 235), 0.35);
     transition: transform 0.25s var(--ease-smooth, cubic-bezier(0.16, 1, 0.3, 1)),
                 box-shadow 0.25s var(--ease-smooth, cubic-bezier(0.16, 1, 0.3, 1)),
                 background 0.25s ease;
 }
 .btn-wa-submit:hover {
-    background: var(--gradient-wa-hover, linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%));
+    background: var(--gradient-hover, var(--gradient-primary-hover, linear-gradient(135deg, var(--primary) 0%, var(--primary) 100%)));
     transform: translateY(-2px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 10px 28px rgba(16, 185, 129, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 10px 28px rgba(var(--primary-rgb, 37, 99, 235), 0.5);
 }
 .btn-wa-submit:active {
     transform: translateY(0) scale(0.98);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 3px 10px rgba(16, 185, 129, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 3px 10px rgba(var(--primary-rgb, 37, 99, 235), 0.3);
 }
 
 /* Quick Prompts Pills */

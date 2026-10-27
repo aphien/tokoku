@@ -6,5 +6,6 @@
 ehthumbs.db
 Thumbs.db
 *.zip
+!tokoku-bulk-editor.zip
 tokoku-product-importer/
-tokoku-bulk-editor/
+

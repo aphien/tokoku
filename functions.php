@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.6.1' );
+define( 'TOKOKU_VERSION', '3.7.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -833,7 +833,7 @@ require_once TOKOKU_DIR . '/includes/seo.php';
 require_once TOKOKU_DIR . '/includes/taxonomy-meta.php';
 require_once TOKOKU_DIR . '/includes/page-templates.php';
 
-// TokoKu Bulk Stock & Product Editor (Standar Plugin / Bundled Module)
+// TokoKu Bulk Product Editor (Standar Plugin / Bundled Module)
 if ( ! defined( 'TOKOKU_BULK_EDITOR_VERSION' ) && file_exists( TOKOKU_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php' ) ) {
     require_once TOKOKU_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php';
 }
@@ -1472,6 +1472,56 @@ add_action( 'wp_head', function() {
         <?php
     endif;
 }, 999 );
+
+/**
+ * Auto-install & auto-activate bundled plugins (TokoKu Bulk Product Editor)
+ * Otomatis menginstal dan mengaktifkan plugin saat tema diperbarui atau diaktifkan.
+ */
+function tokoku_auto_install_bundled_plugins() {
+    if ( ! is_admin() ) {
+        return;
+    }
+
+    $bundled_dir = get_template_directory() . '/tokoku-bulk-editor';
+    if ( ! is_dir( $bundled_dir ) || ! defined( 'WP_PLUGIN_DIR' ) ) {
+        return;
+    }
+
+    $target_version    = '2.0.0';
+    $installed_plugin  = WP_PLUGIN_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php';
+    $installed_version = get_option( 'tokoku_bulk_editor_installed_ver', '0.0.0' );
+
+    // Periksa apakah plugin belum terpasang atau versinya lebih lama dari bundle tema
+    if ( ! file_exists( $installed_plugin ) || version_compare( $installed_version, $target_version, '<' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        WP_Filesystem();
+        global $wp_filesystem;
+
+        $plugin_dest = trailingslashit( WP_PLUGIN_DIR ) . 'tokoku-bulk-editor';
+        if ( ! is_dir( $plugin_dest ) ) {
+            wp_mkdir_p( $plugin_dest );
+        }
+
+        // Salin file plugin dari bundle tema ke direktori plugins WordPress
+        if ( function_exists( 'copy_dir' ) ) {
+            copy_dir( $bundled_dir, $plugin_dest );
+        }
+
+        // Otomatis aktifkan plugin jika belum aktif
+        if ( ! function_exists( 'activate_plugin' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        $plugin_rel_path = 'tokoku-bulk-editor/tokoku-bulk-editor.php';
+        if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_rel_path ) && ! is_plugin_active( $plugin_rel_path ) ) {
+            activate_plugin( $plugin_rel_path, '', false, true );
+        }
+
+        update_option( 'tokoku_bulk_editor_installed_ver', $target_version, true );
+    }
+}
+add_action( 'admin_init', 'tokoku_auto_install_bundled_plugins' );
+add_action( 'after_switch_theme', 'tokoku_auto_install_bundled_plugins' );
 
 
 

@@ -85,7 +85,6 @@ $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
                 data-product-url="<?php the_permalink(); ?>"
                 data-product-image="<?php echo esc_url( $card_thumb_url ); ?>"
                 data-product-price="<?php echo esc_attr( $harga ? $mata_uang . ' ' . number_format( (float)$harga, 0, ',', '.' ) : 'Hubungi Kami' ); ?>">
-            <?php echo tokoku_icon( 'whatsapp', 18, '', 'style="margin-right:7px; flex-shrink:0;"' ); ?>
             <span>Pesan Sekarang</span>
         </button>
     </div>

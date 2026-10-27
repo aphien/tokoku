@@ -347,14 +347,38 @@ function tokoku_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'tokoku_customize_register' );
 
 /**
+ * Helper function: Sesuaikan kecerahan warna hex untuk hover/active state
+ */
+if ( ! function_exists( 'tokoku_adjust_color_brightness' ) ) {
+    function tokoku_adjust_color_brightness( $hex, $steps ) {
+        $hex = ltrim( $hex, '#' );
+        if ( strlen( $hex ) === 3 ) {
+            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+        }
+        if ( strlen( $hex ) !== 6 ) {
+            return '#' . $hex;
+        }
+        $r = hexdec( substr( $hex, 0, 2 ) );
+        $g = hexdec( substr( $hex, 2, 2 ) );
+        $b = hexdec( substr( $hex, 4, 2 ) );
+        $r = max( 0, min( 255, (int) ( $r + $steps ) ) );
+        $g = max( 0, min( 255, (int) ( $g + $steps ) ) );
+        $b = max( 0, min( 255, (int) ( $b + $steps ) ) );
+        return '#' . sprintf( '%02x%02x%02x', $r, $g, $b );
+    }
+}
+
+/**
  * Menghasilkan CSS Kustom dari Pengaturan Customizer
  * Mengambil nilai warna dari customizer dan mencetaknya sebagai variabel CSS root (--primary, dll)
- * di dalam tag <style> pada elemen <head>.
+ * serta mengaplikasikan efek gradiasi elegan pada seluruh tombol situs.
  */
 function tokoku_customizer_css() {
     $primary   = get_theme_mod( 'tokoku_primary_color', '#007bff' );
     $secondary = get_theme_mod( 'tokoku_secondary_color', '#0056b3' );
     $accent    = get_theme_mod( 'tokoku_accent_color', '#6c5ce7' );
+    
+    $primary_hover = tokoku_adjust_color_brightness( $primary, 18 );
     
     // Additional Colors from Admin Page
     $header_bg   = get_theme_mod( 'tokoku_header_bg', '#ffffff' );
@@ -371,9 +395,14 @@ function tokoku_customizer_css() {
     $dark_text  = get_theme_mod( 'tokoku_dark_text', '#f1f5f9' );
     
     // Convert hex to RGB for rgba usage
-    $r_p = hexdec( substr( $primary, 1, 2 ) );
-    $g_p = hexdec( substr( $primary, 3, 2 ) );
-    $b_p = hexdec( substr( $primary, 5, 2 ) );
+    $clean_primary = ltrim( $primary, '#' );
+    if ( strlen( $clean_primary ) === 3 ) {
+        $clean_primary = $clean_primary[0] . $clean_primary[0] . $clean_primary[1] . $clean_primary[1] . $clean_primary[2] . $clean_primary[2];
+    }
+    $r_p = hexdec( substr( $clean_primary, 0, 2 ) );
+    $g_p = hexdec( substr( $clean_primary, 2, 2 ) );
+    $b_p = hexdec( substr( $clean_primary, 4, 2 ) );
+    $primary_rgb = "{$r_p}, {$g_p}, {$b_p}";
     
     ?>
     <style id="tokoku-customizer-css">
@@ -383,9 +412,15 @@ function tokoku_customizer_css() {
             --primary: <?php echo esc_attr( $primary ); ?>;
             --primary-dark: <?php echo esc_attr( $secondary ); ?>;
             --secondary: <?php echo esc_attr( $secondary ); ?>;
-            --primary-rgb: <?php echo esc_attr( "{$r_p}, {$g_p}, {$b_p}" ); ?>;
+            --primary-rgb: <?php echo esc_attr( $primary_rgb ); ?>;
             --accent: <?php echo esc_attr( $accent ); ?>;
             --gradient: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%);
+            --gradient-hover: linear-gradient(135deg, <?php echo esc_attr( $primary_hover ); ?> 0%, <?php echo esc_attr( $primary ); ?> 100%);
+            --gradient-primary: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%);
+            --gradient-primary-hover: linear-gradient(135deg, <?php echo esc_attr( $primary_hover ); ?> 0%, <?php echo esc_attr( $primary ); ?> 100%);
+            --gradient-wa: linear-gradient(135deg, #25D366 0%, #1ebe5d 38%, #128C7E 100%);
+            --gradient-wa-hover: linear-gradient(135deg, #34e77a 0%, #25D366 45%, #149c8c 100%);
+            --wa-rgb: 37, 211, 102;
             
             --bg: #ffffff;
             --bg2: #f8fafc;
@@ -415,6 +450,19 @@ function tokoku_customizer_css() {
         html.theme-dark,
         body.theme-dark,
         .theme-dark {
+            --primary: <?php echo esc_attr( $primary ); ?>;
+            --primary-dark: <?php echo esc_attr( $secondary ); ?>;
+            --secondary: <?php echo esc_attr( $secondary ); ?>;
+            --primary-rgb: <?php echo esc_attr( $primary_rgb ); ?>;
+            --accent: <?php echo esc_attr( $accent ); ?>;
+            --gradient: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%);
+            --gradient-hover: linear-gradient(135deg, <?php echo esc_attr( $primary_hover ); ?> 0%, <?php echo esc_attr( $primary ); ?> 100%);
+            --gradient-primary: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%);
+            --gradient-primary-hover: linear-gradient(135deg, <?php echo esc_attr( $primary_hover ); ?> 0%, <?php echo esc_attr( $primary ); ?> 100%);
+            --gradient-wa: linear-gradient(135deg, #25D366 0%, #1ebe5d 38%, #128C7E 100%);
+            --gradient-wa-hover: linear-gradient(135deg, #34e77a 0%, #25D366 45%, #149c8c 100%);
+            --wa-rgb: 37, 211, 102;
+            
             --bg: <?php echo esc_attr( $dark_bg ); ?>;
             --bg2: <?php echo esc_attr( $dark_bg2 ); ?>;
             --text: <?php echo esc_attr( $dark_text ); ?>;
@@ -436,6 +484,115 @@ function tokoku_customizer_css() {
             --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
             --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
             --orange: #f59e0b;
+        }
+
+        /* ==========================================================================
+           ELEGANT THEME ACCENT GRADIENT BUTTONS
+           Menyesuaikan seluruh tombol situs dengan aksen tema aktif di pengaturan
+           ========================================================================== */
+        .btn-primary,
+        .btn-whatsapp-order,
+        .btn-sticky-order-elegant,
+        .btn-wa-submit,
+        .btn-contact-us,
+        .btn-consult-wa,
+        .jp-btn--primary,
+        .jp-btn--wa,
+        #jp-wa-submit-btn,
+        .btn-submit-comment,
+        #commentform #submit,
+        .comment-form .submit,
+        .wp-block-button__link,
+        .search-submit,
+        .btn.btn-primary {
+            background: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%) !important;
+            background-image: linear-gradient(135deg, <?php echo esc_attr( $primary ); ?> 0%, <?php echo esc_attr( $secondary ); ?> 100%) !important;
+            color: #ffffff !important;
+            border-color: transparent !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 4px 16px rgba(<?php echo esc_attr( $primary_rgb ); ?>, 0.35) !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18) !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease !important;
+        }
+
+        .btn-primary:hover,
+        .btn-whatsapp-order:hover,
+        .btn-sticky-order-elegant:hover,
+        .btn-wa-submit:hover,
+        .btn-contact-us:hover,
+        .btn-consult-wa:hover,
+        .jp-btn--primary:hover,
+        .jp-btn--wa:hover,
+        #jp-wa-submit-btn:hover,
+        .btn-submit-comment:hover,
+        #commentform #submit:hover,
+        .comment-form .submit:hover,
+        .wp-block-button__link:hover,
+        .search-submit:hover,
+        .btn.btn-primary:hover {
+            background: linear-gradient(135deg, <?php echo esc_attr( $primary_hover ); ?> 0%, <?php echo esc_attr( $primary ); ?> 100%) !important;
+            background-image: linear-gradient(135deg, <?php echo esc_attr( $primary_hover ); ?> 0%, <?php echo esc_attr( $primary ); ?> 100%) !important;
+            color: #ffffff !important;
+            transform: translateY(-2px) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 24px rgba(<?php echo esc_attr( $primary_rgb ); ?>, 0.48) !important;
+        }
+
+        .btn-primary:active,
+        .btn-whatsapp-order:active,
+        .btn-sticky-order-elegant:active,
+        .btn-wa-submit:active,
+        .btn-contact-us:active,
+        .btn-consult-wa:active,
+        .jp-btn--primary:active,
+        .jp-btn--wa:active,
+        #jp-wa-submit-btn:active,
+        .btn-submit-comment:active,
+        #commentform #submit:active,
+        .comment-form .submit:active,
+        .wp-block-button__link:active,
+        .search-submit:active,
+        .btn.btn-primary:active {
+            transform: translateY(0) scale(0.98) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 8px rgba(<?php echo esc_attr( $primary_rgb ); ?>, 0.35) !important;
+        }
+
+        /* ==========================================================================
+           KHUSUS WA-FLOAT: Hijau WhatsApp Elegan (Official Emerald Gradient)
+           ========================================================================== */
+        .wa-float__btn,
+        .wa-float .wa-float__btn,
+        a.wa-float__btn {
+            background: linear-gradient(135deg, #25D366 0%, #1ebe5d 38%, #128C7E 100%) !important;
+            background-image: linear-gradient(135deg, #25D366 0%, #1ebe5d 38%, #128C7E 100%) !important;
+            color: #ffffff !important;
+            border: none !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 24px rgba(37, 211, 102, 0.42) !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .wa-float__btn:hover,
+        .wa-float .wa-float__btn:hover,
+        a.wa-float__btn:hover {
+            background: linear-gradient(135deg, #34e77a 0%, #25D366 45%, #149c8c 100%) !important;
+            background-image: linear-gradient(135deg, #34e77a 0%, #25D366 45%, #149c8c 100%) !important;
+            color: #ffffff !important;
+            transform: translateY(-3px) scale(1.08) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 14px 32px rgba(37, 211, 102, 0.55), 0 0 0 5px rgba(37, 211, 102, 0.2) !important;
+        }
+
+        .wa-float__btn:active,
+        .wa-float .wa-float__btn:active,
+        a.wa-float__btn:active {
+            background: linear-gradient(135deg, #1ebe5d 0%, #128C7E 100%) !important;
+            transform: scale(0.95) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 14px rgba(37, 211, 102, 0.35) !important;
+        }
+
+        .wa-float__btn::before {
+            border-color: rgba(37, 211, 102, 0.65) !important;
+        }
+
+        .wa-float__btn svg {
+            fill: #ffffff !important;
         }
     </style>
     <?php

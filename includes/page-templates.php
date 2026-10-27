@@ -39,12 +39,34 @@ function tokoku_static_page_templates() {
 }
 
 /**
- * Nama brand yang ditampilkan pada halaman statis.
+ * Ambil nama domain aktif dari instalasi website saat ini.
+ *
+ * @return string
+ */
+function tokoku_get_site_domain() {
+    $host = wp_parse_url( home_url(), PHP_URL_HOST );
+    if ( empty( $host ) && ! empty( $_SERVER['HTTP_HOST'] ) ) {
+        $host = sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) );
+    }
+    if ( $host && strpos( $host, ':' ) !== false ) {
+        $parts = explode( ':', $host );
+        $host = $parts[0];
+    }
+    if ( $host && 0 === strpos( $host, 'www.' ) ) {
+        $host = substr( $host, 4 );
+    }
+    return ! empty( $host ) ? $host : 'localhost';
+}
+
+/**
+ * Nama brand yang ditampilkan pada halaman statis & teks tujuan tombol.
+ * Secara otomatis mengikuti domain website aktif pada instalasi tema.
  *
  * @return string
  */
 function tokoku_page_brand() {
-    return (string) apply_filters( 'tokoku_page_brand', 'JualPlakat.com' );
+    $domain = tokoku_get_site_domain();
+    return (string) apply_filters( 'tokoku_page_brand', $domain );
 }
 
 /**
@@ -104,15 +126,16 @@ function tokoku_page_contact() {
         );
     }
 
-    $email   = sanitize_email( (string) get_theme_mod( 'tokoku_store_email', '' ) );
-    $phone   = sanitize_text_field( (string) get_theme_mod( 'tokoku_store_phone', '' ) );
-    $maps    = esc_url_raw( (string) get_theme_mod( 'tokoku_store_maps_url', '' ) );
-    $address = trim( wp_strip_all_tags( (string) get_theme_mod( 'tokoku_store_address', '' ) ) );
+    $active_domain = tokoku_get_site_domain();
+    $email         = sanitize_email( (string) get_theme_mod( 'tokoku_store_email', '' ) );
+    $phone         = sanitize_text_field( (string) get_theme_mod( 'tokoku_store_phone', '' ) );
+    $maps          = esc_url_raw( (string) get_theme_mod( 'tokoku_store_maps_url', '' ) );
+    $address       = trim( wp_strip_all_tags( (string) get_theme_mod( 'tokoku_store_address', '' ) ) );
 
     return array(
         'wa'         => $wa,
         'wa_display' => $display,
-        'email'      => ! empty( $email ) ? $email : 'halo@jualplakat.com',
+        'email'      => ! empty( $email ) ? $email : 'halo@' . $active_domain,
         'phone'      => ! empty( $phone ) ? $phone : '+62 812-3456-7890',
         'maps_url'   => $maps,
         'address'    => ! empty( $address ) ? $address : 'Jl. Percetakan Negara No. 12, Johar Baru, Jakarta Pusat 10560',
