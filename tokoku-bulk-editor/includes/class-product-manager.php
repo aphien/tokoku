@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+if ( ! class_exists( 'Tokoku_Product_Manager' ) ) :
+
 class Tokoku_Product_Manager {
 
     /**
@@ -413,3 +415,5 @@ class Tokoku_Product_Manager {
         );
     }
 }
+
+endif;

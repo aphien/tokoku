@@ -253,93 +253,261 @@ get_header(); ?>
     </section>
 
     <!-- ====================================================
-         TESTIMONIALS SLIDER
+         GOOGLE MAPS REVIEWS SLIDER
          ==================================================== -->
-    <section class="testimonials-section">
+    <?php
+    $gmap_sec_title    = get_theme_mod( 'tokoku_gmap_section_title', __( 'Apa Kata Klien Tentang Toko Kami', 'tokoku' ) );
+    $gmap_sec_subtitle = get_theme_mod( 'tokoku_gmap_section_subtitle', __( 'Ulasan autentik dari pelanggan yang telah memesan plakat berkualitas kami.', 'tokoku' ) );
+    $gmap_place_photo  = get_theme_mod( 'tokoku_gmap_place_photo', '' );
+    $gmap_place_name   = get_theme_mod( 'tokoku_gmap_place_name', get_bloginfo( 'name' ) );
+    if ( empty( $gmap_place_name ) ) {
+        $gmap_place_name = get_bloginfo( 'name' );
+    }
+    $gmap_place_rating  = (float) get_theme_mod( 'tokoku_gmap_place_rating', '5.0' );
+    if ( $gmap_place_rating <= 0 || $gmap_place_rating > 5 ) {
+        $gmap_place_rating = 5.0;
+    }
+    $gmap_total_reviews = (int) get_theme_mod( 'tokoku_gmap_total_reviews', 317 );
+    if ( $gmap_total_reviews <= 0 ) {
+        $gmap_total_reviews = 317;
+    }
+    $gmap_btn_text   = get_theme_mod( 'tokoku_gmap_btn_text', __( 'Menulis ulasan', 'tokoku' ) );
+    $gmap_place_id   = get_theme_mod( 'tokoku_gmap_place_id', '' );
+    $gmap_review_url = get_theme_mod( 'tokoku_gmap_review_url', '' );
+    if ( empty( $gmap_review_url ) ) {
+        if ( ! empty( $gmap_place_id ) ) {
+            $gmap_review_url = 'https://search.google.com/local/writereview?placeid=' . rawurlencode( $gmap_place_id );
+        } else {
+            $gmap_review_url = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $gmap_place_name );
+        }
+    }
+
+    // Kumpulkan daftar ulasan dari pengaturan Admin (1 s/d 20)
+    $gmap_reviews = array();
+    $default_dates = array(
+        1 => '28 Juli 2026',
+        2 => '22 Juni 2026',
+        3 => '14 Mei 2026',
+        4 => '03 Mei 2026',
+        5 => '19 April 2026',
+    );
+    for ( $i = 1; $i <= 20; $i++ ) {
+        $r_name = get_theme_mod( "tokoku_testi_name_{$i}" );
+        $r_text = get_theme_mod( "tokoku_testi_text_{$i}" );
+        $r_img  = get_theme_mod( "tokoku_testi_img_{$i}" );
+        $r_date = get_theme_mod( "tokoku_testi_date_{$i}" );
+
+        if ( $r_name || $r_text ) {
+            $r_rating = (int) get_theme_mod( "tokoku_testi_rating_{$i}", 5 );
+            if ( $r_rating < 1 || $r_rating > 5 ) {
+                $r_rating = 5;
+            }
+            if ( empty( $r_date ) ) {
+                $r_date = isset( $default_dates[ $i ] ) ? $default_dates[ $i ] : wp_date( 'j F Y', strtotime( "-{$i} weeks" ) );
+            }
+            $r_local_guide = (int) get_theme_mod( "tokoku_testi_local_guide_{$i}", ( ! empty( $r_img ) ? 1 : 0 ) );
+
+            $gmap_reviews[] = array(
+                'name'        => $r_name ? $r_name : __( 'Pelanggan Google', 'tokoku' ),
+                'text'        => $r_text,
+                'img'         => $r_img,
+                'date'        => $r_date,
+                'rating'      => $r_rating,
+                'local_guide' => $r_local_guide,
+            );
+        }
+    }
+
+    // Fallback ulasan default jika belum ada ulasan yang diisi di Admin
+    if ( empty( $gmap_reviews ) ) {
+        $gmap_reviews = array(
+            array(
+                'name'        => 'Refni Ifani',
+                'date'        => '28 Juli 2026',
+                'rating'      => 5,
+                'img'         => '',
+                'local_guide' => 0,
+                'text'        => 'Beberapa kali pesan momento di ' . $gmap_place_name . '. Kualitas sangat bagus, bisa konsultasi sampe puas sebelum tahap produksi. Pengerjaan rapi, tepat waktu, dan pelayanan admin sangat ramah.',
+            ),
+            array(
+                'name'        => 'Ardi Dirgantoro',
+                'date'        => '22 Juni 2026',
+                'rating'      => 5,
+                'img'         => '',
+                'local_guide' => 1,
+                'text'        => 'Nyari informasi tentang pin, name tag, dan plakat custom. Dibantu tim CS dengan sangat ramah. Diterangkan dengan baik perihal kebutuhan saya sampai hasil akhirnya memuaskan.',
+            ),
+            array(
+                'name'        => 'Budi Santoso',
+                'date'        => '14 Mei 2026',
+                'rating'      => 5,
+                'img'         => '',
+                'local_guide' => 1,
+                'text'        => 'Pesan plakat akrilik dan kristal untuk acara penghargaan kantor. Hasil grafir laser sangat detail dan presisi, box beludrunya juga mewah. Pengiriman luar kota aman dengan bubble wrap tebal.',
+            ),
+            array(
+                'name'        => 'Siti Rahmawati',
+                'date'        => '03 Mei 2026',
+                'rating'      => 5,
+                'img'         => '',
+                'local_guide' => 0,
+                'text'        => 'Recommended banget buat yang butuh souvenir kantor atau plakat wisuda cepat. Desain dibantu dari nol sampai cocok, kualitas bahan tebal dan kelihatan eksklusif.',
+            ),
+        );
+    }
+
+    // Palet warna avatar inisial khas Google Maps
+    $gmap_avatar_colors = array( '#7b1fa2', '#00897b', '#1976d2', '#e65100', '#c62828', '#2e7d32', '#512da8', '#0277bd' );
+    ?>
+    <section class="testimonials-section gmap-reviews-section" aria-label="<?php esc_attr_e( 'Ulasan Pelanggan Google Maps', 'tokoku' ); ?>">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title"><?php esc_html_e( 'Apa Kata Klien Tentang Toko Kami', 'tokoku' ); ?></h2>
-                <p class="section-subtitle"><?php esc_html_e( 'Ulasan autentik dari pelanggan yang telah memesan plakat berkualitas kami.', 'tokoku' ); ?></p>
-            </div>
-            
-            <div class="testimonials-slider-container">
-                <!-- Navigation Arrows -->
-                <button type="button" class="testi-slider-arrow testi-slider-prev" id="testi-prev-btn" aria-label="<?php esc_attr_e( 'Testimoni Sebelumnya', 'tokoku' ); ?>">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </button>
-                <button type="button" class="testi-slider-arrow testi-slider-next" id="testi-next-btn" aria-label="<?php esc_attr_e( 'Testimoni Berikutnya', 'tokoku' ); ?>">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
+            <?php if ( ! empty( $gmap_sec_title ) || ! empty( $gmap_sec_subtitle ) ) : ?>
+                <div class="section-header">
+                    <?php if ( ! empty( $gmap_sec_title ) ) : ?>
+                        <h2 class="section-title"><?php echo esc_html( $gmap_sec_title ); ?></h2>
+                    <?php endif; ?>
+                    <?php if ( ! empty( $gmap_sec_subtitle ) ) : ?>
+                        <p class="section-subtitle"><?php echo esc_html( $gmap_sec_subtitle ); ?></p>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
 
-                <div class="testimonials-slider" id="testimonials-slider">
-                    <div class="testimonials-wrapper">
-                        <?php
-                        $testis_found = false;
-                        for ( $i = 1; $i <= 20; $i++ ) {
-                            $name = get_theme_mod( "tokoku_testi_name_{$i}" );
-                            $text = get_theme_mod( "tokoku_testi_text_{$i}" );
-                            $img  = get_theme_mod( "tokoku_testi_img_{$i}" );
-                            
-                            if ( $name || $text ) {
-                                $testis_found = true;
-                                $rating = (int) get_theme_mod( "tokoku_testi_rating_{$i}", 5 );
-                                if ( $rating < 1 || $rating > 5 ) $rating = 5;
+            <div class="gmap-widget-layout">
+                <!-- Sisi Kiri: Ringkasan Bisnis Google Maps -->
+                <div class="gmap-summary-col">
+                    <div class="gmap-summary-card">
+                        <div class="gmap-summary-top">
+                            <div class="gmap-place-thumb">
+                                <?php if ( ! empty( $gmap_place_photo ) ) : ?>
+                                    <img src="<?php echo esc_url( $gmap_place_photo ); ?>" alt="<?php echo esc_attr( $gmap_place_name ); ?>" width="84" height="60" loading="lazy" decoding="async">
+                                <?php elseif ( has_custom_logo() ) : 
+                                    $custom_logo_id = get_theme_mod( 'custom_logo' );
+                                    $logo_src       = wp_get_attachment_image_url( $custom_logo_id, 'medium' );
                                 ?>
-                                <div class="testimonial-slide">
-                                    <div class="testimonial-card">
-                                        <!-- Modern Floating Quote Icon Badge (Ala Quote Kekinian) -->
-                                        <div class="testi-quote-badge" aria-hidden="true">
-                                            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                                        </div>
+                                    <img src="<?php echo esc_url( $logo_src ); ?>" alt="<?php echo esc_attr( $gmap_place_name ); ?>" class="gmap-place-thumb--logo" width="84" height="60" loading="lazy" decoding="async">
+                                <?php else : ?>
+                                    <div class="gmap-place-thumb-placeholder" aria-hidden="true">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
 
-                                        <!-- Testimonial Quote (Merriweather, Tebal & Proporsional -20%) -->
-                                        <blockquote class="testi-quote">
-                                            “<?php echo esc_html( $text ); ?>”
-                                        </blockquote>
+                            <div class="gmap-place-info">
+                                <h3 class="gmap-place-name"><?php echo esc_html( $gmap_place_name ); ?></h3>
 
-                                        <!-- Bagian Bawah: Foto + Badge Centang / Verifikasi, Sebelahnya Nama, Dibawahnya Bintang / Ulasan -->
-                                        <div class="testi-bottom">
-                                            <div class="testi-avatar-wrap">
-                                                <?php if ( $img ) : ?>
-                                                    <img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $name ); ?>" class="testi-avatar-img" width="45" height="45" loading="lazy" decoding="async">
-                                                <?php else : ?>
-                                                    <div class="testi-avatar-initial">
-                                                        <?php echo esc_html( mb_substr( $name ? $name : 'U', 0, 1 ) ); ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                                <span class="testi-avatar-badge" title="<?php esc_attr_e( 'Pelanggan Terverifikasi', 'tokoku' ); ?>">
-                                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                                </span>
-                                            </div>
+                                <div class="gmap-place-stars" aria-label="<?php echo sprintf( esc_attr__( 'Rating %s dari 5', 'tokoku' ), number_format( $gmap_place_rating, 1 ) ); ?>">
+                                    <?php
+                                    $full_stars = (int) round( $gmap_place_rating );
+                                    for ( $s = 1; $s <= 5; $s++ ) :
+                                        $star_color = ( $s <= $full_stars ) ? '#fbbc04' : '#e2e8f0';
+                                    ?>
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="<?php echo esc_attr( $star_color ); ?>" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <?php endfor; ?>
+                                </div>
 
-                                            <div class="testi-author-info">
-                                                <h4 class="testi-author-name"><?php echo esc_html( $name ); ?></h4>
+                                <div class="gmap-place-count">
+                                    <strong><?php echo esc_html( number_format_i18n( $gmap_total_reviews ) ); ?></strong> <?php esc_html_e( 'Google ulasan', 'tokoku' ); ?>
+                                </div>
 
-                                                <div class="testi-rating-wrap">
-                                                    <div class="testi-stars" aria-label="<?php echo sprintf( esc_attr__( 'Rating %d dari 5', 'tokoku' ), $rating ); ?>">
-                                                        <?php for ( $r = 1; $r <= 5; $r++ ) : 
-                                                            $fill_color = $r <= $rating ? '#f59e0b' : '#e2e8f0';
-                                                        ?>
-                                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="<?php echo esc_attr( $fill_color ); ?>" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                                        <?php endfor; ?>
-                                                    </div>
-                                                    <span class="testi-rating-score"><?php echo number_format( $rating, 1 ); ?></span>
-                                                    <span class="testi-rating-label">• <?php esc_html_e( 'Ulasan Pembeli', 'tokoku' ); ?></span>
+                                <div class="gmap-place-actions">
+                                    <a href="<?php echo esc_url( $gmap_review_url ); ?>" target="_blank" rel="noopener noreferrer" class="gmap-write-btn">
+                                        <?php echo esc_html( $gmap_btn_text ? $gmap_btn_text : __( 'Menulis ulasan', 'tokoku' ) ); ?>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sisi Kanan: Carousel Kartu Ulasan Google Maps -->
+                <div class="gmap-slider-col testimonials-slider-container">
+                    <button type="button" class="testi-slider-arrow testi-slider-prev" id="testi-prev-btn" aria-label="<?php esc_attr_e( 'Ulasan Sebelumnya', 'tokoku' ); ?>">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button type="button" class="testi-slider-arrow testi-slider-next" id="testi-next-btn" aria-label="<?php esc_attr_e( 'Ulasan Berikutnya', 'tokoku' ); ?>">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+
+                    <div class="testimonials-slider gmap-reviews-viewport" id="testimonials-slider">
+                        <div class="testimonials-wrapper gmap-reviews-track">
+                            <?php foreach ( $gmap_reviews as $idx => $rev ) : 
+                                $avatar_bg = $gmap_avatar_colors[ $idx % count( $gmap_avatar_colors ) ];
+                                $initial   = mb_strtoupper( mb_substr( trim( $rev['name'] ), 0, 1 ) );
+                                if ( empty( $initial ) ) {
+                                    $initial = 'G';
+                                }
+                            ?>
+                                <div class="testimonial-slide gmap-review-slide">
+                                    <article class="testimonial-card gmap-review-card">
+                                        <!-- Header Kartu: Avatar + Nama & Tanggal + Logo Google -->
+                                        <div class="gmap-card-header">
+                                            <div class="gmap-reviewer-profile">
+                                                <div class="gmap-avatar-wrap">
+                                                    <?php if ( ! empty( $rev['img'] ) ) : ?>
+                                                        <img src="<?php echo esc_url( $rev['img'] ); ?>" alt="<?php echo esc_attr( $rev['name'] ); ?>" class="gmap-avatar-img" width="44" height="44" loading="lazy" decoding="async">
+                                                    <?php else : ?>
+                                                        <div class="gmap-avatar-initial" style="background-color: <?php echo esc_attr( $avatar_bg ); ?>;">
+                                                            <?php echo esc_html( $initial ); ?>
+                                                        </div>
+                                                    <?php endif; ?>
+
+                                                    <?php if ( ! empty( $rev['local_guide'] ) ) : ?>
+                                                        <span class="gmap-local-guide-badge" title="<?php esc_attr_e( 'Google Local Guide', 'tokoku' ); ?>" aria-hidden="true">
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                                                <circle cx="12" cy="12" r="11" fill="#f97316" stroke="#ffffff" stroke-width="2"/>
+                                                                <path d="M12 6.5l1.65 3.34 3.69.54-2.67 2.6.63 3.68L12 14.92l-3.3 1.74.63-3.68-2.67-2.6 3.69-.54L12 6.5z" fill="#ffffff"/>
+                                                            </svg>
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </div>
+
+                                                <div class="gmap-author-meta">
+                                                    <h4 class="gmap-author-name"><?php echo esc_html( $rev['name'] ); ?></h4>
+                                                    <time class="gmap-review-date"><?php echo esc_html( $rev['date'] ); ?></time>
                                                 </div>
                                             </div>
+
+                                            <!-- Google "G" Multicolor Icon -->
+                                            <div class="gmap-google-logo" aria-label="Google" title="Ulasan Google Maps">
+                                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                                                </svg>
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <!-- Baris Bintang + Badge Centang Biru Terverifikasi Google -->
+                                        <div class="gmap-rating-row">
+                                            <div class="gmap-stars" aria-label="<?php echo sprintf( esc_attr__( 'Rating %d dari 5', 'tokoku' ), $rev['rating'] ); ?>">
+                                                <?php for ( $r = 1; $r <= 5; $r++ ) : 
+                                                    $fill_color = ( $r <= $rev['rating'] ) ? '#fbbc04' : '#e2e8f0';
+                                                ?>
+                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="<?php echo esc_attr( $fill_color ); ?>" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                                <?php endfor; ?>
+                                            </div>
+                                            <span class="gmap-verified-badge" title="<?php esc_attr_e( 'Ulasan Terverifikasi Google', 'tokoku' ); ?>" aria-label="<?php esc_attr_e( 'Terverifikasi', 'tokoku' ); ?>">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                    <path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12z" fill="#3b82f6"/>
+                                                    <path d="M10.09 15.58l-3.3-3.3 1.41-1.41 1.89 1.88 5.3-5.3 1.41 1.41-6.71 6.72z" fill="#ffffff"/>
+                                                </svg>
+                                            </span>
+                                        </div>
+
+                                        <!-- Isi Ulasan + Tombol Baca Lebih Lanjut -->
+                                        <div class="gmap-review-body">
+                                            <p class="gmap-review-text"><?php echo esc_html( $rev['text'] ); ?></p>
+                                            <button type="button" class="gmap-read-more" data-more="<?php esc_attr_e( 'Baca lebih lanjut', 'tokoku' ); ?>" data-less="<?php esc_attr_e( 'Sembunyikan', 'tokoku' ); ?>">
+                                                <?php esc_html_e( 'Baca lebih lanjut', 'tokoku' ); ?>
+                                            </button>
+                                        </div>
+                                    </article>
                                 </div>
-                                <?php
-                            }
-                        }
-                        
-                        if ( ! $testis_found ) {
-                            echo '<p class="empty-msg">' . esc_html__( 'Belum ada testimoni klien.', 'tokoku' ) . '</p>';
-                        }
-                        ?>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="testimonial-dots"></div>
                     </div>
-                    <div class="testimonial-dots"></div>
                 </div>
             </div>
         </div>

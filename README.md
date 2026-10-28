@@ -4,7 +4,7 @@
 
 ### Modern WhatsApp Store Engine • Zero WooCommerce Overhead • Enterprise Ready
 
-[![Release](https://img.shields.io/badge/Release-v3.7.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
+[![Release](https://img.shields.io/badge/Release-v3.8.0-059669?style=for-the-badge&logo=github)](https://github.com/aphien/tokoku/releases)
 [![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-21759B?style=for-the-badge&logo=wordpress)](https://wordpress.org)
 [![PHP](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.1%20|%208.2-777BB4?style=for-the-badge&logo=php)](https://php.net)
 [![Engine](https://img.shields.io/badge/Engine-WhatsApp%20Direct-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me)
@@ -125,7 +125,21 @@ tokoku/
 ---
 
 ## 📋 Log Pembaruan Resmi (v2.6.0+)
- 
+
+### 🚀 v3.8.0 — Fitur Google Maps Review Slider Interaktif, Sinkronisasi Hybrid Places API & Proteksi Anti-Bentrok Modul Plugin
+*Rilis Fitur Ulasan Google Maps, Integrasi API Hybrid & Stabilitas Admin — 28 Oktober 2026*
+- **Widget & Slider Ulasan Google Maps di Beranda (`front-page.php`, `assets/css/main.css`, `assets/js/main.js`)**:
+  - **Panel Ringkasan Bisnis (Sisi Kiri)**: Menampilkan foto thumbnail tempat/toko, nama bisnis, 5 bintang kuning (`#fbbc04`), jumlah total ulasan (misal: `317 Google ulasan`), dan tombol CTA **`Menulis ulasan`** yang mengarah langsung ke halaman review Google Maps.
+  - **Carousel Kartu Ulasan Responsif (Sisi Kanan)**: Menampilkan 2 kartu ulasan berdampingan pada layar desktop/tablet dan 1 kartu penuh pada ponsel pintar, dilengkapi navigasi panah kiri/kanan, swipe sentuh, autoplay cerdas, dan pagination dots.
+  - **Elemen Visual Autentik Google Maps**: Avatar profil pintar (foto pengulas atau lingkaran huruf inisial warna-warni khas Google), opsi lencana bintang oranye **Google Local Guide**, tanggal ulasan berbahasa Indonesia, logo huruf **`G` Google** multicolor di sudut kanan atas, deretan bintang kuning dengan **lencana centang biru terverifikasi Google**, serta tombol interaktif **`Baca lebih lanjut` / `Sembunyikan`** untuk membuka ulasan panjang.
+- **Panel Pengaturan Admin & Sinkronisasi Hybrid Google Places API (`includes/admin-page.php`, `assets/js/admin.js`)**:
+  - Manajemen lengkap profil bisnis Google Maps dan hingga 20 kartu ulasan melalui menu **Tokoku → Ulasan & Klien** (`?page=tokoku-settings&tab=tab-testimonials`).
+  - Fitur **Sinkronisasi Otomatis Google Places API** (mendukung Places API Legacy Details & Places API New v1) satu klik menggunakan API Key & Place ID, dikombinasikan dengan fleksibilitas tambah/edit manual penuh tanpa ketergantungan API berbayar.
+- **Proteksi Anti-Bentrok Pemuatan Plugin Mandiri (`tokoku-bulk-editor`)**:
+  - Menambahkan guard `class_exists()` dan `function_exists()` menyeluruh pada seluruh class dan fungsi bootstrap `tokoku-bulk-editor` serta penyempurnaan logika aktivasi pada `tokoku_auto_install_bundled_plugins()` guna mencegah konflik *Cannot redeclare* antara modul bawaan tema dan plugin mandiri di `wp-content/plugins/`.
+
+---
+
 ### 🚀 v3.7.0 — Integrasi Plugin Edit Masal Produk v2.0.0, Gradasi Aksen Tema Dinamis, Domain Dinamis & Hijau WhatsApp Elegan
 *Rilis Fitur Mayor, Plugin Mandiri & Harmonisasi Aksen Visual — 28 Oktober 2026*
 - **Integrasi Plugin Mandiri TokoKu Edit Masal Produk v2.0.0 (`tokoku-bulk-editor`)**:

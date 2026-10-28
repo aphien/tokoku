@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 💬 Testimonials Slider
+    // 💬 Google Maps Testimonials Slider
     const testiWrapper = document.querySelector('.testimonials-wrapper');
     const testiSlides = document.querySelectorAll('.testimonial-slide');
     const testiDotsContainer = document.querySelector('.testimonial-dots');
@@ -575,36 +575,63 @@ document.addEventListener('DOMContentLoaded', function() {
         let startX = 0;
         let isDragging = false;
         
-        testiSlides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('testi-dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                goToTesti(index);
-                resetTestiTimer();
-            });
-            testiDotsContainer?.appendChild(dot);
-        });
-        
-        const testiDots = document.querySelectorAll('.testi-dot');
+        function getTestiPerView() {
+            return window.innerWidth <= 680 ? 1 : 2;
+        }
+
+        function getTestiMaxIndex() {
+            return Math.max(0, testiSlides.length - getTestiPerView());
+        }
+
+        function renderTestiDots() {
+            if (!testiDotsContainer) return;
+            testiDotsContainer.innerHTML = '';
+            const maxIdx = getTestiMaxIndex();
+            if (maxIdx <= 0) return;
+
+            for (let i = 0; i <= maxIdx; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('testi-dot');
+                if (i === currentTesti) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToTesti(i);
+                    resetTestiTimer();
+                });
+                testiDotsContainer.appendChild(dot);
+            }
+        }
         
         function goToTesti(index) {
-            currentTesti = index;
-            testiWrapper.style.transform = `translateX(-${index * 100}%)`;
-            testiDots.forEach((d, i) => d.classList.toggle('active', i === index));
+            const maxIdx = getTestiMaxIndex();
+            currentTesti = Math.max(0, Math.min(index, maxIdx));
+            const stepPercent = 100 / getTestiPerView();
+            testiWrapper.style.transform = `translateX(-${currentTesti * stepPercent}%)`;
+            if (testiDotsContainer) {
+                const dots = testiDotsContainer.querySelectorAll('.testi-dot');
+                dots.forEach((d, i) => d.classList.toggle('active', i === currentTesti));
+            }
         }
 
         function nextTesti() {
-            if (testiSlides.length <= 1) return;
-            currentTesti = (currentTesti + 1) % testiSlides.length;
+            const maxIdx = getTestiMaxIndex();
+            if (maxIdx <= 0) return;
+            currentTesti = currentTesti >= maxIdx ? 0 : currentTesti + 1;
             goToTesti(currentTesti);
         }
         
         function prevTesti() {
-            if (testiSlides.length <= 1) return;
-            currentTesti = (currentTesti - 1 + testiSlides.length) % testiSlides.length;
+            const maxIdx = getTestiMaxIndex();
+            if (maxIdx <= 0) return;
+            currentTesti = currentTesti <= 0 ? maxIdx : currentTesti - 1;
             goToTesti(currentTesti);
         }
+
+        renderTestiDots();
+
+        window.addEventListener('resize', () => {
+            renderTestiDots();
+            goToTesti(currentTesti);
+        });
 
         const prevArrow = document.getElementById('testi-prev-btn');
         const nextArrow = document.getElementById('testi-next-btn');
@@ -621,11 +648,26 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // Toggle "Baca lebih lanjut" pada kartu ulasan Google Maps
+        testiWrapper.addEventListener('click', (e) => {
+            const readMoreBtn = e.target.closest('.gmap-read-more');
+            if (!readMoreBtn) return;
+            const bodyWrap = readMoreBtn.closest('.gmap-review-body');
+            const textEl = bodyWrap ? bodyWrap.querySelector('.gmap-review-text') : null;
+            if (!textEl) return;
+
+            const isExpanded = textEl.classList.toggle('is-expanded');
+            const moreLabel = readMoreBtn.getAttribute('data-more') || 'Baca lebih lanjut';
+            const lessLabel = readMoreBtn.getAttribute('data-less') || 'Sembunyikan';
+            readMoreBtn.textContent = isExpanded ? lessLabel : moreLabel;
+            pauseTestiTimer();
+        });
+
         let testiTimer = null;
         function startTestiTimer() {
-            if (testiSlides.length <= 1) return;
+            if (getTestiMaxIndex() <= 0) return;
             clearInterval(testiTimer);
-            testiTimer = setInterval(nextTesti, 4500);
+            testiTimer = setInterval(nextTesti, 4800);
         }
 
         function resetTestiTimer() {

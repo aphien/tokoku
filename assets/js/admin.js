@@ -547,13 +547,96 @@ jQuery(document).ready(function($) {
             var targetId = link.data('target');
             var panel = $('#' + targetId);
             
-            panel.find('input, textarea').val('');
-            panel.find('.tokoku-preview-img').hide();
+            panel.find('input[type="text"], input[type="hidden"]:not([name*="local_guide"]), textarea').val('');
+            panel.find('input[type="checkbox"]').prop('checked', false);
+            panel.find('.tokoku-preview-img, .tokoku-remove-btn').hide();
             link.hide();
             
             // Switch to first visible tab
             link.siblings(':visible').first().trigger('click');
         }
+    });
+
+    // 📍 Google Maps Reviews AJAX Sync Handler
+    $(document).on('click', '#tokoku-sync-gmap-btn', function(e) {
+        e.preventDefault();
+        var $btn      = $(this);
+        var $status   = $('#tokoku-sync-gmap-status');
+        var apiKey    = $('#tokoku_gmap_api_key').val().trim();
+        var placeId   = $('#tokoku_gmap_place_id').val().trim();
+
+        if (!apiKey || !placeId) {
+            $status.css('color', '#dc2626').text('⚠️ Harap isi Google Maps API Key dan Place ID terlebih dahulu.');
+            return;
+        }
+
+        $btn.prop('disabled', true);
+        $btn.find('.dashicons').addClass('spin');
+        $status.css('color', '#2563eb').text('Sedang menghubungi Google Places API...');
+
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'tokoku_sync_google_reviews',
+                nonce: (typeof tokokuAdmin !== 'undefined' && tokokuAdmin.updateNonce) ? tokokuAdmin.updateNonce : '',
+                api_key: apiKey,
+                place_id: placeId
+            },
+            success: function(res) {
+                $btn.prop('disabled', false);
+                $btn.find('.dashicons').removeClass('spin');
+
+                if (res && res.success && res.data) {
+                    var d = res.data;
+                    $status.css('color', '#16a34a').text('✅ ' + (d.message || 'Sinkronisasi berhasil!'));
+
+                    if (d.place_name) {
+                        $('#tokoku_gmap_place_name').val(d.place_name);
+                    }
+                    if (d.place_rating) {
+                        $('#tokoku_gmap_place_rating').val(d.place_rating);
+                    }
+                    if (d.total_reviews) {
+                        $('#tokoku_gmap_total_reviews').val(d.total_reviews);
+                    }
+                    if (d.review_url) {
+                        $('#tokoku_gmap_review_url').val(d.review_url);
+                    }
+
+                    if (Array.isArray(d.reviews) && d.reviews.length > 0) {
+                        d.reviews.forEach(function(rev, idx) {
+                            var slot = idx + 1;
+                            var $tabLink = $('.testi-nav .tokoku-vtab-link[data-target="testi-panel-' + slot + '"]');
+                            var $panel   = $('#testi-panel-' + slot);
+
+                            if ($tabLink.length && $panel.length) {
+                                $tabLink.show();
+                                $panel.find('input[name="tokoku_testi_name_' + slot + '"]').val(rev.name || '');
+                                $panel.find('input[name="tokoku_testi_date_' + slot + '"]').val(rev.date || '');
+                                $panel.find('select[name="tokoku_testi_rating_' + slot + '"]').val(rev.rating || 5);
+                                $panel.find('textarea[name="tokoku_testi_text_' + slot + '"]').val(rev.text || '');
+                                $panel.find('input[type="checkbox"][name="tokoku_testi_local_guide_' + slot + '"]').prop('checked', !!rev.local_guide);
+
+                                if (rev.img) {
+                                    $panel.find('input[name="tokoku_testi_img_' + slot + '"]').val(rev.img);
+                                    $panel.find('.tokoku-preview-img').attr('src', rev.img).show();
+                                    $panel.find('.tokoku-remove-btn').show();
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    var errMsg = (res && res.data) ? res.data : 'Gagal menyinkronkan ulasan.';
+                    $status.css('color', '#dc2626').text('❌ ' + errMsg);
+                }
+            },
+            error: function() {
+                $btn.prop('disabled', false);
+                $btn.find('.dashicons').removeClass('spin');
+                $status.css('color', '#dc2626').text('❌ Terjadi kesalahan jaringan saat menghubungi server.');
+            }
+        });
     });
 
 });

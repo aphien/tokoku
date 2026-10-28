@@ -3264,17 +3264,17 @@ nav.pagination {
 }
 
 /* ========================================================
-   TESTIMONIALS SLIDER SECTION (Clean, Smooth & Elegant)
+   GOOGLE MAPS REVIEWS SLIDER SECTION
    ======================================================== */
 .testimonials-section {
-    padding: 85px 0 95px;
+    padding: 80px 0 90px;
     background: var(--bg);
     position: relative;
     overflow: hidden;
 }
 
 .testimonials-section .section-header {
-    margin-bottom: 42px;
+    margin-bottom: 44px;
     position: relative;
     z-index: 1;
 }
@@ -3287,46 +3287,184 @@ nav.pagination {
     line-height: var(--lh-base);
 }
 
-/* Slider Layout & Nav Controls */
-.testimonials-slider-container {
+/* Main 2-Column Google Maps Widget Layout */
+.gmap-widget-layout {
+    display: flex;
+    align-items: center;
+    gap: 36px;
     position: relative;
-    max-width: 656px;
-    margin: 0 auto;
     z-index: 1;
+}
+
+/* Left Column: Business Summary */
+.gmap-summary-col {
+    flex: 0 0 310px;
+    max-width: 310px;
+}
+
+.gmap-summary-card {
+    padding: 12px 4px;
+}
+
+.gmap-summary-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.gmap-place-thumb {
+    width: 84px;
+    height: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--bg2, #f1f5f9);
+    border: 1px solid var(--border, #e2e8f0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gmap-place-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gmap-place-thumb img.gmap-place-thumb--logo {
+    object-fit: contain;
+    padding: 6px;
+}
+
+.gmap-place-thumb-placeholder {
+    color: var(--text2, #64748b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gmap-place-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.gmap-place-name {
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--text, #0f172a);
+    margin: 0 0 5px 0;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.gmap-place-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 6px;
+}
+
+.gmap-place-stars svg {
+    width: 21px;
+    height: 21px;
+    flex-shrink: 0;
+    display: block;
+}
+
+.gmap-place-count {
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-size: 0.92rem;
+    color: var(--text, #1e293b);
+    margin-bottom: 14px;
+    line-height: 1.35;
+}
+
+.gmap-place-count strong {
+    font-weight: 600;
+}
+
+.gmap-write-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    background: var(--card-bg, #ffffff);
+    color: var(--text, #0f172a);
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    font-family: var(--font-heading, 'Inter', sans-serif);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.gmap-write-btn:hover {
+    background: #f8fafc;
+    border-color: var(--text, #0f172a);
+    color: var(--text, #0f172a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .gmap-write-btn {
+    background: var(--bg2);
+    border-color: rgba(255, 255, 255, 0.24);
+    color: var(--text);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .gmap-write-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* Right Column: Slider Container & Nav Controls */
+.gmap-slider-col.testimonials-slider-container {
+    flex: 1 1 0%;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    position: relative;
 }
 
 .testi-slider-arrow {
     position: absolute;
-    top: 50%;
+    top: calc(50% - 16px);
     transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background: var(--card-bg, #ffffff);
-    border: 1px solid var(--border);
-    color: var(--text);
+    border: 1px solid var(--border, #e2e8f0);
+    color: var(--text, #0f172a);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 :is(.theme-dark, html.theme-dark, body.theme-dark) .testi-slider-arrow {
     background: var(--bg2);
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.14);
     color: var(--text);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .testi-slider-prev {
-    left: -20px;
+    left: -14px;
 }
 
 .testi-slider-next {
-    right: -20px;
+    right: -14px;
 }
 
 .testi-slider-arrow:hover {
@@ -3334,7 +3472,7 @@ nav.pagination {
     color: #ffffff;
     border-color: var(--primary);
     transform: translateY(-50%) scale(1.06);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
 }
 
 .testi-slider-arrow:active {
@@ -3348,7 +3486,6 @@ nav.pagination {
     stroke-width: 2.4;
     display: block;
     flex-shrink: 0;
-    transition: transform 0.2s ease;
 }
 
 .testimonials-slider {
@@ -3356,217 +3493,234 @@ nav.pagination {
     overflow: hidden;
     width: 100%;
     z-index: 1;
+    padding: 10px 4px 14px;
 }
 
 .testimonials-wrapper {
     display: flex;
-    transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+    align-items: stretch;
+    transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.testimonial-slide {
-    width: 100%;
-    flex-shrink: 0;
-    padding: 6px 10px;
+/* 2 Cards Per View on Desktop/Tablet */
+.testimonial-slide.gmap-review-slide {
+    width: 50%;
+    flex: 0 0 50%;
+    padding: 6px 11px;
+    box-sizing: border-box;
+    display: flex;
 }
 
-/* ========================================================
-   Captivating & Modern Testimonial Card Layout (Ala Quote Kekinian)
-   - Proporsi Ukuran: Diperkecil 20% agar lebih ringkas & proporsional
-   - Bagian Bawahnya: Foto + Badge Centang, Sebelahnya Nama, Dibawahnya Bintang / Ulasan
-   ======================================================== */
-.testimonial-card {
+/* Individual Google Review Card */
+.testimonial-card.gmap-review-card {
     background: var(--card-bg, #ffffff);
-    padding: 38px 42px 34px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease;
+    padding: 24px 24px 22px;
+    border-radius: 16px;
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    box-shadow: 0 4px 22px rgba(15, 23, 42, 0.06), 0 1px 4px rgba(15, 23, 42, 0.03);
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
     position: relative;
-    max-width: 656px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
 
-:is(.theme-dark, html.theme-dark, body.theme-dark) .testimonial-card {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .testimonial-card.gmap-review-card {
     background: var(--bg2);
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.35);
+    border-color: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
 
-.testimonial-card:hover {
+.testimonial-card.gmap-review-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
-    border-color: var(--border-focus, #cbd5e1);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09), 0 3px 10px rgba(15, 23, 42, 0.04);
+    border-color: #cbd5e1;
 }
 
-:is(.theme-dark, html.theme-dark, body.theme-dark) .testimonial-card:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    box-shadow: 0 12px 35px -4px rgba(0, 0, 0, 0.55);
+:is(.theme-dark, html.theme-dark, body.theme-dark) .testimonial-card.gmap-review-card:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
 }
 
-/* Modern Floating Quote Icon Badge (Smooth & Clean) */
-.testi-quote-badge {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(var(--primary-rgb), 0.06);
-    color: var(--primary);
-    border: 1px solid rgba(var(--primary-rgb), 0.12);
-    box-shadow: none;
-    margin: 0 auto 16px;
+/* Card Top Header: Avatar + Name/Date + Google "G" */
+.gmap-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.gmap-reviewer-profile {
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease;
+    gap: 13px;
+    min-width: 0;
 }
 
-.testi-quote-badge svg {
-    width: 19px;
-    height: 19px;
-}
-
-.testimonial-card:hover .testi-quote-badge {
-    transform: scale(1.05);
-    background: rgba(var(--primary-rgb), 0.1);
-}
-
-/* Testimonial BlockQuote (Font Merriweather, Tebal & Proporsional -20%) */
-.testi-quote {
-    font-family: 'Merriweather', Georgia, serif;
-    font-size: clamp(1.2rem, 1.05rem + 0.72vw, 1.68rem);
-    line-height: 1.48;
-    font-weight: 700;
-    font-style: italic;
-    color: var(--text);
-    max-width: 608px;
-    margin: 0 auto 27px;
-    text-align: center;
-    letter-spacing: -0.015em;
+.gmap-avatar-wrap {
     position: relative;
-}
-
-/* Bagian Bawah: Foto + Badge Centang, Sebelahnya Nama, Dibawahnya Bintang / Ulasan */
-.testi-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    padding-top: 21px;
-    border-top: 1px solid var(--border);
-    max-width: 384px;
-    margin: 0 auto;
-    position: relative;
-}
-
-/* Foto Avatar + Badge Centang (Clean & Smooth) */
-.testi-avatar-wrap {
-    position: relative;
-    width: 45px;
-    height: 45px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
 }
 
-.testi-avatar-img {
-    width: 45px;
-    height: 45px;
+.gmap-avatar-img {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--border);
-}
-
-.testi-avatar-initial {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading, 'Inter', sans-serif);
-    font-weight: 800;
-    font-size: 1.08rem;
-    line-height: 1;
-    border: 2px solid var(--border);
-}
-
-.testi-avatar-badge {
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #10b981;
-    color: #ffffff;
-    border: 2px solid var(--card-bg, #ffffff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.testi-avatar-badge svg {
-    width: 9px;
-    height: 9px;
     display: block;
 }
 
-:is(.theme-dark, html.theme-dark, body.theme-dark) .testi-avatar-badge {
-    border-color: var(--bg2);
+.gmap-avatar-initial {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1;
+    user-select: none;
 }
 
-/* Sebelahnya: Info Nama & Rating */
-.testi-author-info {
+.gmap-local-guide-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.gmap-local-guide-badge svg {
+    width: 17px;
+    height: 17px;
+    display: block;
+}
+
+.gmap-author-meta {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    gap: 3px;
+    gap: 2px;
+    min-width: 0;
 }
 
-/* Sebelahnya Nama (Tanpa Verified Pill) */
-.testi-author-name {
+.gmap-author-name {
     font-family: var(--font-heading, 'Inter', sans-serif);
-    font-size: clamp(0.85rem, 0.8rem + 0.2vw, 1rem);
-    font-weight: 800;
-    color: var(--text);
+    font-size: 0.96rem;
+    font-weight: 700;
+    color: var(--text, #0f172a);
     margin: 0;
-    line-height: var(--lh-tight);
-    letter-spacing: -0.015em;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Dibawahnya Bintang / Ulasan */
-.testi-rating-wrap {
+.gmap-review-date {
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-size: 0.82rem;
+    color: var(--text2, #64748b);
+    line-height: 1.3;
+}
+
+.gmap-google-logo {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Rating Stars + Blue Verified Badge */
+.gmap-rating-row {
     display: flex;
     align-items: center;
     gap: 6px;
+    margin-bottom: 11px;
 }
 
-.testi-stars {
+.gmap-stars {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 1px;
 }
 
-.testi-stars svg {
-    width: 13px;
-    height: 13px;
+.gmap-stars svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: block;
+}
+
+.gmap-verified-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
 }
 
-.testi-rating-score {
-    font-family: var(--font-heading, 'Inter', sans-serif);
-    font-weight: 800;
-    font-size: 0.75rem;
-    color: #d97706;
-    line-height: 1;
+.gmap-verified-badge svg {
+    width: 16px;
+    height: 16px;
+    display: block;
 }
 
-.testi-rating-label {
-    font-family: var(--font-heading, 'Inter', sans-serif);
-    font-size: 0.7rem;
-    color: var(--text2);
-    font-weight: 500;
-    line-height: 1;
+/* Review Text & Read More Toggle */
+.gmap-review-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.gmap-review-text {
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--text, #0f172a);
+    margin: 0 0 12px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gmap-review-text.is-expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
+.gmap-read-more {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: auto;
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    color: var(--text2, #64748b);
+    cursor: pointer;
+    text-align: left;
+    align-self: flex-start;
+    transition: color 0.2s ease;
+}
+
+.gmap-read-more:hover {
+    color: var(--primary, #2563eb);
+    text-decoration: underline;
 }
 
 /* Dots Pagination */
@@ -3575,7 +3729,7 @@ nav.pagination {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 27px;
+    margin-top: 18px;
 }
 
 .testi-dot {
@@ -3603,73 +3757,48 @@ nav.pagination {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-    .testi-slider-prev { left: -10px; }
-    .testi-slider-next { right: -10px; }
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .gmap-widget-layout {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .gmap-summary-col {
+        flex: none;
+        max-width: 100%;
+    }
+
+    .gmap-summary-card {
+        display: flex;
+        justify-content: center;
+        padding: 4px 0;
+    }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 680px) {
     .testimonials-section {
         padding: 55px 0 65px;
     }
+
     .testi-slider-arrow {
         display: none;
     }
-    .testimonial-card {
-        padding: 26px 18px 21px;
-        border-radius: 16px;
+
+    .testimonial-slide.gmap-review-slide {
+        width: 100%;
+        flex: 0 0 100%;
+        padding: 4px 6px;
     }
-    .testi-quote-badge {
-        width: 35px;
-        height: 35px;
-        margin-bottom: 13px;
+
+    .testimonial-card.gmap-review-card {
+        padding: 20px 18px 18px;
+        border-radius: 14px;
     }
-    .testi-quote-badge svg {
-        width: 16px;
-        height: 16px;
-    }
-    .testi-quote {
-        font-size: clamp(1.08rem, 0.96rem + 0.48vw, 1.3rem);
-        line-height: 1.45;
-        margin-bottom: 19px;
-    }
-    .testi-bottom {
-        gap: 11px;
-        padding-top: 16px;
-        max-width: 100%;
-        justify-content: center;
-    }
-    .testi-avatar-wrap {
-        width: 38px;
-        height: 38px;
-    }
-    .testi-avatar-img,
-    .testi-avatar-initial {
-        width: 38px;
-        height: 38px;
-        font-size: 0.92rem;
-    }
-    .testi-avatar-badge {
-        width: 14px;
-        height: 14px;
-    }
-    .testi-avatar-badge svg {
-        width: 7px;
-        height: 7px;
-    }
-    .testi-author-name {
-        font-size: 0.82rem;
-    }
-    .testi-rating-wrap {
-        gap: 5px;
-    }
-    .testi-stars svg {
-        width: 12px;
-        height: 12px;
-    }
-    .testi-rating-label {
-        display: none;
+
+    .gmap-summary-top {
+        align-items: center;
     }
 }
 

@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+if ( ! class_exists( 'Tokoku_Bulk_Editor_Admin_Page' ) ) :
+
 class Tokoku_Bulk_Editor_Admin_Page {
 
     /**
@@ -860,3 +862,5 @@ class Tokoku_Bulk_Editor_Admin_Page {
         <?php
     }
 }
+
+endif;

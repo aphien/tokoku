@@ -355,6 +355,18 @@ function tokoku_save_admin_settings() {
         'tokoku_contact_cta_sub'         => 'sanitize_textarea_field',
         'tokoku_contact_cta_btn1_text'   => 'sanitize_text_field',
         'tokoku_contact_cta_btn2_text'   => 'sanitize_text_field',
+
+        // Google Maps Reviews & Business Summary
+        'tokoku_gmap_section_title'      => 'sanitize_text_field',
+        'tokoku_gmap_section_subtitle'   => 'sanitize_text_field',
+        'tokoku_gmap_place_photo'        => 'esc_url_raw',
+        'tokoku_gmap_place_name'         => 'sanitize_text_field',
+        'tokoku_gmap_place_rating'       => 'sanitize_text_field',
+        'tokoku_gmap_total_reviews'      => 'absint',
+        'tokoku_gmap_review_url'         => 'esc_url_raw',
+        'tokoku_gmap_btn_text'           => 'sanitize_text_field',
+        'tokoku_gmap_api_key'            => 'sanitize_text_field',
+        'tokoku_gmap_place_id'           => 'sanitize_text_field',
     );
 
     // Trust Badges Repeater
@@ -412,12 +424,14 @@ function tokoku_save_admin_settings() {
         $settings_schema["tokoku_social_{$social}"] = 'esc_url_raw';
     }
 
-    // Testimonials
+    // Testimonials / Google Maps Reviews
     for ( $i = 1; $i <= 20; $i++ ) {
-        $settings_schema["tokoku_testi_img_{$i}"]    = 'esc_url_raw';
-        $settings_schema["tokoku_testi_name_{$i}"]   = 'sanitize_text_field';
-        $settings_schema["tokoku_testi_text_{$i}"]   = 'sanitize_textarea_field';
-        $settings_schema["tokoku_testi_rating_{$i}"] = 'absint';
+        $settings_schema["tokoku_testi_img_{$i}"]         = 'esc_url_raw';
+        $settings_schema["tokoku_testi_name_{$i}"]        = 'sanitize_text_field';
+        $settings_schema["tokoku_testi_date_{$i}"]        = 'sanitize_text_field';
+        $settings_schema["tokoku_testi_text_{$i}"]        = 'sanitize_textarea_field';
+        $settings_schema["tokoku_testi_rating_{$i}"]      = 'absint';
+        $settings_schema["tokoku_testi_local_guide_{$i}"] = 'absint';
     }
 
     // Client Logos
@@ -644,6 +658,195 @@ function tokoku_ajax_handle_update() {
     wp_send_json_success( 'Theme and bundled plugins updated successfully' );
 }
 add_action( 'wp_ajax_tokoku_handle_update', 'tokoku_ajax_handle_update' );
+
+/**
+ * Helper: Format timestamp menjadi tanggal Bahasa Indonesia (contoh: 28 Juli 2026)
+ */
+function tokoku_format_indo_date( $timestamp ) {
+    $months = array(
+        1  => 'Januari',
+        2  => 'Februari',
+        3  => 'Maret',
+        4  => 'April',
+        5  => 'Mei',
+        6  => 'Juni',
+        7  => 'Juli',
+        8  => 'Agustus',
+        9  => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember',
+    );
+    $ts = is_numeric( $timestamp ) ? (int) $timestamp : strtotime( $timestamp );
+    if ( ! $ts || $ts <= 0 ) {
+        $ts = current_time( 'timestamp' );
+    }
+    $day   = gmdate( 'j', $ts );
+    $month = isset( $months[ (int) gmdate( 'n', $ts ) ] ) ? $months[ (int) gmdate( 'n', $ts ) ] : gmdate( 'F', $ts );
+    $year  = gmdate( 'Y', $ts );
+    return "{$day} {$month} {$year}";
+}
+
+/**
+ * AJAX Handler: Sinkronisasi Profil Bisnis & Ulasan dari Google Places API
+ */
+function tokoku_ajax_sync_google_reviews() {
+    check_ajax_referer( 'tokoku_update_nonce', 'nonce' );
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( __( 'Anda tidak memiliki izin untuk melakukan tindakan ini.', 'tokoku' ) );
+    }
+
+    $api_key  = isset( $_POST['api_key'] ) ? sanitize_text_field( wp_unslash( $_POST['api_key'] ) ) : '';
+    $place_id = isset( $_POST['place_id'] ) ? sanitize_text_field( wp_unslash( $_POST['place_id'] ) ) : '';
+
+    if ( empty( $api_key ) || empty( $place_id ) ) {
+        wp_send_json_error( __( 'Harap masukkan Google Maps API Key dan Place ID terlebih dahulu.', 'tokoku' ) );
+    }
+
+    // Simpan kredensial ke theme_mod
+    set_theme_mod( 'tokoku_gmap_api_key', $api_key );
+    set_theme_mod( 'tokoku_gmap_place_id', $place_id );
+
+    $place_name    = '';
+    $place_rating  = '5.0';
+    $total_reviews = 0;
+    $review_url    = 'https://search.google.com/local/writereview?placeid=' . rawurlencode( $place_id );
+    $reviews_list  = array();
+    $api_error_msg = '';
+
+    // 1. Coba Google Places API (Legacy Place Details) dengan bahasa Indonesia
+    $legacy_url = add_query_arg(
+        array(
+            'place_id' => $place_id,
+            'fields'   => 'name,rating,user_ratings_total,url,reviews',
+            'language' => 'id',
+            'key'      => $api_key,
+        ),
+        'https://maps.googleapis.com/maps/api/place/details/json'
+    );
+
+    $response = wp_remote_get( $legacy_url, array( 'timeout' => 15 ) );
+
+    if ( ! is_wp_error( $response ) ) {
+        $body = json_decode( wp_remote_retrieve_body( $response ), true );
+        if ( isset( $body['status'] ) && 'OK' === $body['status'] && ! empty( $body['result'] ) ) {
+            $res           = $body['result'];
+            $place_name    = isset( $res['name'] ) ? sanitize_text_field( $res['name'] ) : '';
+            $place_rating  = isset( $res['rating'] ) ? number_format( (float) $res['rating'], 1, '.', '' ) : '5.0';
+            $total_reviews = isset( $res['user_ratings_total'] ) ? absint( $res['user_ratings_total'] ) : 0;
+            if ( ! empty( $res['url'] ) ) {
+                $review_url = esc_url_raw( $res['url'] );
+            }
+            if ( ! empty( $res['reviews'] ) && is_array( $res['reviews'] ) ) {
+                foreach ( $res['reviews'] as $rev ) {
+                    $reviews_list[] = array(
+                        'name'        => isset( $rev['author_name'] ) ? sanitize_text_field( $rev['author_name'] ) : 'Pelanggan Google',
+                        'img'         => isset( $rev['profile_photo_url'] ) ? esc_url_raw( $rev['profile_photo_url'] ) : '',
+                        'rating'      => isset( $rev['rating'] ) ? max( 1, min( 5, absint( $rev['rating'] ) ) ) : 5,
+                        'text'        => isset( $rev['text'] ) ? sanitize_textarea_field( $rev['text'] ) : '',
+                        'date'        => isset( $rev['time'] ) ? tokoku_format_indo_date( $rev['time'] ) : tokoku_format_indo_date( time() ),
+                        'local_guide' => ! empty( $rev['profile_photo_url'] ) ? 1 : 0,
+                    );
+                }
+            }
+        } else {
+            $api_error_msg = isset( $body['error_message'] ) ? $body['error_message'] : ( isset( $body['status'] ) ? $body['status'] : '' );
+        }
+    } else {
+        $api_error_msg = $response->get_error_message();
+    }
+
+    // 2. Fallback ke Google Places API (New v1) jika Legacy belum diaktifkan
+    if ( empty( $place_name ) && empty( $reviews_list ) ) {
+        $v1_url      = 'https://places.googleapis.com/v1/places/' . rawurlencode( $place_id ) . '?languageCode=id';
+        $v1_response = wp_remote_get(
+            $v1_url,
+            array(
+                'timeout' => 15,
+                'headers' => array(
+                    'X-Goog-Api-Key'   => $api_key,
+                    'X-Goog-FieldMask' => 'displayName,rating,userRatingCount,googleMapsUri,reviews',
+                ),
+            )
+        );
+
+        if ( ! is_wp_error( $v1_response ) ) {
+            $v1_body = json_decode( wp_remote_retrieve_body( $v1_response ), true );
+            if ( ! empty( $v1_body['displayName']['text'] ) ) {
+                $place_name    = sanitize_text_field( $v1_body['displayName']['text'] );
+                $place_rating  = isset( $v1_body['rating'] ) ? number_format( (float) $v1_body['rating'], 1, '.', '' ) : '5.0';
+                $total_reviews = isset( $v1_body['userRatingCount'] ) ? absint( $v1_body['userRatingCount'] ) : 0;
+                if ( ! empty( $v1_body['googleMapsUri'] ) ) {
+                    $review_url = esc_url_raw( $v1_body['googleMapsUri'] );
+                }
+                if ( ! empty( $v1_body['reviews'] ) && is_array( $v1_body['reviews'] ) ) {
+                    foreach ( $v1_body['reviews'] as $rev ) {
+                        $reviews_list[] = array(
+                            'name'        => isset( $rev['authorAttribution']['displayName'] ) ? sanitize_text_field( $rev['authorAttribution']['displayName'] ) : 'Pelanggan Google',
+                            'img'         => isset( $rev['authorAttribution']['photoUri'] ) ? esc_url_raw( $rev['authorAttribution']['photoUri'] ) : '',
+                            'rating'      => isset( $rev['rating'] ) ? max( 1, min( 5, absint( $rev['rating'] ) ) ) : 5,
+                            'text'        => isset( $rev['text']['text'] ) ? sanitize_textarea_field( $rev['text']['text'] ) : '',
+                            'date'        => isset( $rev['publishTime'] ) ? tokoku_format_indo_date( $rev['publishTime'] ) : tokoku_format_indo_date( time() ),
+                            'local_guide' => ! empty( $rev['authorAttribution']['photoUri'] ) ? 1 : 0,
+                        );
+                    }
+                }
+            } elseif ( ! empty( $v1_body['error']['message'] ) ) {
+                $api_error_msg = $v1_body['error']['message'];
+            }
+        }
+    }
+
+    if ( empty( $place_name ) && empty( $reviews_list ) ) {
+        wp_send_json_error(
+            sprintf(
+                __( 'Gagal mengambil data dari Google Places API (%s). Pastikan Places API sudah aktif di Google Cloud Console dan Place ID benar, atau gunakan fitur input manual di bawah.', 'tokoku' ),
+                $api_error_msg ? $api_error_msg : 'Unknown Error'
+            )
+        );
+    }
+
+    // Simpan ringkasan bisnis ke theme_mod
+    if ( ! empty( $place_name ) ) {
+        set_theme_mod( 'tokoku_gmap_place_name', $place_name );
+    }
+    set_theme_mod( 'tokoku_gmap_place_rating', $place_rating );
+    if ( $total_reviews > 0 ) {
+        set_theme_mod( 'tokoku_gmap_total_reviews', $total_reviews );
+    }
+    if ( ! empty( $review_url ) ) {
+        set_theme_mod( 'tokoku_gmap_review_url', $review_url );
+    }
+
+    // Simpan ulasan yang ditarik ke slot #1 s/d jumlah ulasan yang didapat
+    $synced_count = 0;
+    foreach ( $reviews_list as $idx => $item ) {
+        $slot = $idx + 1;
+        if ( $slot > 20 ) {
+            break;
+        }
+        set_theme_mod( "tokoku_testi_name_{$slot}", $item['name'] );
+        set_theme_mod( "tokoku_testi_img_{$slot}", $item['img'] );
+        set_theme_mod( "tokoku_testi_rating_{$slot}", $item['rating'] );
+        set_theme_mod( "tokoku_testi_text_{$slot}", $item['text'] );
+        set_theme_mod( "tokoku_testi_date_{$slot}", $item['date'] );
+        set_theme_mod( "tokoku_testi_local_guide_{$slot}", $item['local_guide'] );
+        $synced_count++;
+    }
+
+    wp_send_json_success(
+        array(
+            'message'       => sprintf( __( 'Berhasil menyinkronkan profil "%s" (%d total ulasan) dan mengimpor %d ulasan terbaru dari Google Maps!', 'tokoku' ), $place_name, $total_reviews, $synced_count ),
+            'place_name'    => $place_name,
+            'place_rating'  => $place_rating,
+            'total_reviews' => $total_reviews,
+            'review_url'    => $review_url,
+            'reviews'       => $reviews_list,
+        )
+    );
+}
+add_action( 'wp_ajax_tokoku_sync_google_reviews', 'tokoku_ajax_sync_google_reviews' );
 
 /**
  * Settings Page HTML
@@ -2262,24 +2465,117 @@ function tokoku_settings_page_html() {
 
                     <!-- Tab: Testimonials & Logos -->
                     <div id="tab-testimonials" class="tokoku-tab-panel <?php echo ( 'tab-testimonials' === $active_tab_param ) ? 'active' : ''; ?>">
-                        <h2><?php _e( 'Testimoni & Logo Klien', 'tokoku' ); ?></h2>
-                        
-                        <!-- Testimonials Vertical Tabs -->
+                        <h2><?php _e( 'Ulasan Google Maps & Logo Klien', 'tokoku' ); ?></h2>
+
+                        <!-- 1. Pengaturan Profil Bisnis Google Maps (Panel Kiri Slider) -->
+                        <div class="tokoku-settings-group">
+                            <h3 style="margin-top:0; display:flex; align-items:center; gap:8px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                                <?php _e( 'Profil Bisnis Google Maps (Sisi Kiri Slider)', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 18px;">
+                                <?php _e( 'Atur informasi profil toko Google Maps yang tampil di sebelah kiri slider ulasan (Nama Bisnis, Foto Tempat, Total Ulasan, dan Tombol Menulis Ulasan).', 'tokoku' ); ?>
+                            </p>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Judul Section (Opsional)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_gmap_section_title" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_section_title', 'Apa Kata Klien Tentang Toko Kami' ) ); ?>" placeholder="Kosongkan jika tanpa judul atas">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Subjudul Section (Opsional)', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_gmap_section_subtitle" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_section_subtitle', 'Ulasan autentik dari pelanggan yang telah memesan di toko kami melalui Google Maps.' ) ); ?>" placeholder="Kosongkan jika tanpa subjudul">
+                                </div>
+                            </div>
+
+                            <div class="tokoku-field" style="margin-top: 10px;">
+                                <label><?php _e( 'Foto Tempat / Toko (Thumbnail Sisi Kiri)', 'tokoku' ); ?></label>
+                                <div class="tokoku-media-upload">
+                                    <img src="<?php echo esc_url( get_theme_mod( 'tokoku_gmap_place_photo' ) ); ?>" class="tokoku-preview-img" style="max-width: 120px; border-radius: 8px; <?php echo get_theme_mod( 'tokoku_gmap_place_photo' ) ? '' : 'display:none;'; ?>">
+                                    <input type="hidden" name="tokoku_gmap_place_photo" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_place_photo' ) ); ?>">
+                                    <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Foto Toko', 'tokoku' ); ?></span></button>
+                                    <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( 'tokoku_gmap_place_photo' ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
+                                </div>
+                                <p class="description"><?php _e( 'Foto tampak depan toko/workshop di samping nama bisnis (seperti pada Google Maps).', 'tokoku' ); ?></p>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 10px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Nama Bisnis di Google Maps', 'tokoku' ); ?></label>
+                                    <input type="text" id="tokoku_gmap_place_name" name="tokoku_gmap_place_name" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_place_name', get_bloginfo( 'name' ) ) ); ?>" placeholder="Contoh: 1Souvenir Indonesia">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Skor Rating Bisnis (1.0 - 5.0)', 'tokoku' ); ?></label>
+                                    <input type="text" id="tokoku_gmap_place_rating" name="tokoku_gmap_place_rating" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_place_rating', '5.0' ) ); ?>" placeholder="5.0">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Total Jumlah Ulasan Google', 'tokoku' ); ?></label>
+                                    <input type="number" id="tokoku_gmap_total_reviews" name="tokoku_gmap_total_reviews" min="1" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_total_reviews', 317 ) ); ?>" placeholder="317">
+                                    <p class="description"><?php _e( 'Tampil sebagai: "317 Google ulasan"', 'tokoku' ); ?></p>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 10px;">
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Teks Tombol Tulis Ulasan', 'tokoku' ); ?></label>
+                                    <input type="text" name="tokoku_gmap_btn_text" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_btn_text', 'Menulis ulasan' ) ); ?>" placeholder="Menulis ulasan">
+                                </div>
+                                <div class="tokoku-field">
+                                    <label><?php _e( 'Link Tombol "Menulis ulasan" (URL Google Maps)', 'tokoku' ); ?></label>
+                                    <input type="url" id="tokoku_gmap_review_url" name="tokoku_gmap_review_url" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_review_url', '' ) ); ?>" placeholder="https://g.page/r/.../review atau link Google Maps toko">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Sinkronisasi Otomatis Google Places API (Hybrid) -->
+                        <div class="tokoku-settings-group" style="background: #f8fafc; border: 1px dashed #cbd5e1;">
+                            <h3 style="margin-top:0; display:flex; align-items:center; gap:8px;">
+                                <span class="dashicons dashicons-cloud-saved" style="color:#2563eb;"></span>
+                                <?php _e( 'Sinkronisasi Otomatis Google Places API (Opsional)', 'tokoku' ); ?>
+                            </h3>
+                            <p class="description" style="margin-bottom: 16px;">
+                                <?php _e( 'Jika Anda memiliki Google Cloud Places API Key & Place ID bisnis, Anda dapat menarik Nama Bisnis, Total Ulasan, dan 5 Ulasan Terbaru langsung dari Google Maps secara otomatis. Anda juga tetap bebas mengedit atau menambah hingga 20 ulasan secara manual di bawah.', 'tokoku' ); ?>
+                            </p>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+                                <div class="tokoku-field" style="margin-bottom:0;">
+                                    <label><?php _e( 'Google Maps / Places API Key', 'tokoku' ); ?></label>
+                                    <input type="password" id="tokoku_gmap_api_key" name="tokoku_gmap_api_key" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_api_key', '' ) ); ?>" placeholder="AIzaSy..." autocomplete="off">
+                                </div>
+                                <div class="tokoku-field" style="margin-bottom:0;">
+                                    <label><?php _e( 'Google Maps Place ID', 'tokoku' ); ?></label>
+                                    <input type="text" id="tokoku_gmap_place_id" name="tokoku_gmap_place_id" value="<?php echo esc_attr( get_theme_mod( 'tokoku_gmap_place_id', '' ) ); ?>" placeholder="ChIJ...">
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                <button type="button" class="button button-secondary" id="tokoku-sync-gmap-btn" style="display:inline-flex; align-items:center; gap:6px; font-weight:600;">
+                                    <span class="dashicons dashicons-update" style="line-height:1; margin-top:2px;"></span>
+                                    <span><?php _e( 'Tarik Data & Ulasan dari Google Maps', 'tokoku' ); ?></span>
+                                </button>
+                                <span id="tokoku-sync-gmap-status" style="font-size: 0.88rem; font-weight: 600;"></span>
+                            </div>
+                        </div>
+
+                        <!-- 3. Testimonials / Google Reviews Vertical Tabs -->
                         <div class="tokoku-settings-group">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                                <h3 style="margin:0;"><?php _e( 'Ulasan Klien (Testimoni)', 'tokoku' ); ?></h3>
-                                <button type="button" class="tokoku-btn-add tokoku-add-testi"><span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Testimoni', 'tokoku' ); ?></span></button>
+                                <div>
+                                    <h3 style="margin:0 0 4px 0;"><?php _e( 'Daftar Kartu Ulasan Google Maps (Hingga 20 Ulasan)', 'tokoku' ); ?></h3>
+                                    <p class="description" style="margin:0;"><?php _e( 'Kelola isi kartu ulasan yang tampil pada slider. Jika foto dikosongkan, sistem otomatis membuat lingkaran inisial warna-warni khas Google.', 'tokoku' ); ?></p>
+                                </div>
+                                <button type="button" class="tokoku-btn-add tokoku-add-testi"><span class="dashicons dashicons-plus-alt2"></span><span class="tokoku-btn-text"><?php _e( 'Tambah Ulasan', 'tokoku' ); ?></span></button>
                             </div>
                             
                             <div class="tokoku-vtabs-container">
                                 <div class="tokoku-vtabs-nav testi-nav">
                                     <?php for ( $i = 1; $i <= 20; $i++ ) : 
                                         $has_content = get_theme_mod( "tokoku_testi_name_{$i}" ) || get_theme_mod( "tokoku_testi_text_{$i}" );
-                                        $display = $i === 1 || $has_content ? '' : 'display:none;';
+                                        $display = $i <= 2 || $has_content ? '' : 'display:none;';
                                         $active = $i === 1 ? 'active' : '';
                                     ?>
                                         <div class="tokoku-vtab-link <?php echo $active; ?>" data-target="testi-panel-<?php echo $i; ?>" style="<?php echo $display; ?>">
-                                            <span><?php printf( __( 'Testimoni #%d', 'tokoku' ), $i ); ?></span>
+                                            <span><?php printf( __( 'Ulasan #%d', 'tokoku' ), $i ); ?></span>
                                             <?php if ($i > 1): ?><i class="tokoku-remove-unit-v" title="Hapus">×</i><?php endif; ?>
                                         </div>
                                     <?php endfor; ?>
@@ -2287,35 +2583,53 @@ function tokoku_settings_page_html() {
                                 <div class="tokoku-vtabs-content testi-content">
                                     <?php for ( $i = 1; $i <= 20; $i++ ) : 
                                         $active = $i === 1 ? 'active' : '';
+                                        $is_local_guide = (int) get_theme_mod( "tokoku_testi_local_guide_{$i}", ( $i % 2 === 0 ? 1 : 0 ) );
                                     ?>
                                         <div class="tokoku-vtab-panel <?php echo $active; ?>" id="testi-panel-<?php echo $i; ?>">
                                             <div class="tokoku-field">
-                                                <label><?php _e( 'Foto Klien', 'tokoku' ); ?></label>
+                                                <label><?php _e( 'Foto Profil Pengulas (Opsional)', 'tokoku' ); ?></label>
                                                 <div class="tokoku-media-upload">
                                                     <img src="<?php echo esc_url( get_theme_mod( "tokoku_testi_img_{$i}" ) ); ?>" class="tokoku-preview-img" style="<?php echo get_theme_mod( "tokoku_testi_img_{$i}" ) ? '' : 'display:none;'; ?>">
                                                     <input type="hidden" name="tokoku_testi_img_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_testi_img_{$i}" ) ); ?>">
                                                     <button type="button" class="button tokoku-upload-btn"><span class="dashicons dashicons-upload"></span><span class="tokoku-btn-text"><?php _e( 'Pilih Foto', 'tokoku' ); ?></span></button>
                                                     <button type="button" class="button tokoku-remove-btn" style="<?php echo get_theme_mod( "tokoku_testi_img_{$i}" ) ? '' : 'display:none;'; ?>"><span class="dashicons dashicons-trash"></span><span class="tokoku-btn-text"><?php _e( 'Hapus', 'tokoku' ); ?></span></button>
                                                 </div>
+                                                <p class="description"><?php _e( 'Kosongkan jika ingin menampilkan avatar huruf inisial bulat warna-warni seperti Google.', 'tokoku' ); ?></p>
+                                            </div>
+                                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                                                <div class="tokoku-field">
+                                                    <label><?php _e( 'Nama Pengulas', 'tokoku' ); ?></label>
+                                                    <input type="text" name="tokoku_testi_name_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_testi_name_{$i}" ) ); ?>" placeholder="Contoh: Refni Ifani">
+                                                </div>
+                                                <div class="tokoku-field">
+                                                    <label><?php _e( 'Tanggal Ulasan', 'tokoku' ); ?></label>
+                                                    <input type="text" name="tokoku_testi_date_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_testi_date_{$i}" ) ); ?>" placeholder="Contoh: 28 Juli 2026">
+                                                </div>
+                                            </div>
+                                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                                                <div class="tokoku-field">
+                                                    <label><?php _e( 'Rating Bintang', 'tokoku' ); ?></label>
+                                                    <select name="tokoku_testi_rating_<?php echo $i; ?>">
+                                                        <?php 
+                                                        $current_rating = get_theme_mod( "tokoku_testi_rating_{$i}", 5 );
+                                                        for ($r = 5; $r >= 1; $r--) {
+                                                            echo '<option value="'.$r.'" '.selected($current_rating, $r, false).'>'.$r.' '.__('Bintang', 'tokoku').'</option>';
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                                <div class="tokoku-field" style="display:flex; flex-direction:column; justify-content:center;">
+                                                    <label><?php _e( 'Badge Local Guide', 'tokoku' ); ?></label>
+                                                    <label style="display:inline-flex; align-items:center; gap:8px; font-weight:500; cursor:pointer; margin-top:6px;">
+                                                        <input type="hidden" name="tokoku_testi_local_guide_<?php echo $i; ?>" value="0">
+                                                        <input type="checkbox" name="tokoku_testi_local_guide_<?php echo $i; ?>" value="1" <?php checked( $is_local_guide, 1 ); ?>>
+                                                        <span><?php _e( 'Tampilkan ikon bintang Local Guide di avatar', 'tokoku' ); ?></span>
+                                                    </label>
+                                                </div>
                                             </div>
                                             <div class="tokoku-field">
-                                                <label><?php _e( 'Nama Klien', 'tokoku' ); ?></label>
-                                                <input type="text" name="tokoku_testi_name_<?php echo $i; ?>" value="<?php echo esc_attr( get_theme_mod( "tokoku_testi_name_{$i}" ) ); ?>">
-                                            </div>
-                                            <div class="tokoku-field">
-                                                <label><?php _e( 'Rating Bintang', 'tokoku' ); ?></label>
-                                                <select name="tokoku_testi_rating_<?php echo $i; ?>">
-                                                    <?php 
-                                                    $current_rating = get_theme_mod( "tokoku_testi_rating_{$i}", 5 );
-                                                    for ($r = 5; $r >= 1; $r--) {
-                                                        echo '<option value="'.$r.'" '.selected($current_rating, $r, false).'>'.$r.' '.__('Bintang', 'tokoku').'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="tokoku-field">
-                                                <label><?php _e( 'Ulasan/Pesan', 'tokoku' ); ?></label>
-                                                <textarea name="tokoku_testi_text_<?php echo $i; ?>" rows="4"><?php echo esc_textarea( get_theme_mod( "tokoku_testi_text_{$i}" ) ); ?></textarea>
+                                                <label><?php _e( 'Isi Ulasan Google Maps', 'tokoku' ); ?></label>
+                                                <textarea name="tokoku_testi_text_<?php echo $i; ?>" rows="4" placeholder="Contoh: Beberapa kali pesan momento di toko ini. Kualitas sangat bagus, bisa konsultasi sampe puas sebelum tahap produksi..."><?php echo esc_textarea( get_theme_mod( "tokoku_testi_text_{$i}" ) ); ?></textarea>
                                             </div>
                                         </div>
                                     <?php endfor; ?>
@@ -2678,6 +2992,15 @@ function tokoku_settings_page_html() {
                             </div>
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.8.0 — Fitur Google Maps Review Slider Interaktif, Sinkronisasi Hybrid Places API &amp; Proteksi Anti-Bentrok Modul Plugin
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.8.0 menghadirkan <strong>Google Maps Review Slider</strong> autentik di halaman beranda lengkap dengan Panel Ringkasan Bisnis di sisi kiri (Foto Tempat/Toko, Nama Bisnis, Rating Bintang, Total Ulasan Google, dan tombol <em>Menulis ulasan</em>) serta Carousel Kartu Ulasan 2-Kolom di sisi kanan (Avatar inisial warna-warni khas Google / Foto Profil, Badge Bintang Oranye Local Guide, Logo <code>G</code> Google penuh warna, Centang Biru Terverifikasi Google, Tanggal Ulasan, dan fitur ekspansi teks <em>Baca lebih lanjut</em>). Dilengkapi pengaturan lengkap di Admin (<strong>Tokoku &rarr; Ulasan &amp; Klien</strong>) dengan metode <strong>Hybrid</strong> (sinkronisasi otomatis via Google Places API + kelola/edit manual hingga 20 ulasan) serta proteksi <code>class_exists</code> / <code>function_exists</code> penuh pada plugin mandiri <code>tokoku-bulk-editor</code>.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.7.0 — Integrasi Plugin Edit Masal Produk v2.0.0, Harmonisasi Gradasi Aksen Tema Dinamis &amp; Pembaruan Hijau WhatsApp Elegan
                                 </h4>

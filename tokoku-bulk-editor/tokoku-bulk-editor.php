@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Cegah redeclare fatal error apabila modul sudah dimuat dari tema atau plugin mandiri
+if ( defined( 'TOKOKU_BULK_EDITOR_VERSION' ) || class_exists( 'Tokoku_Bulk_Editor_Plugin' ) || function_exists( 'tokoku_bulk_editor_init' ) ) {
+    return;
+}
+
 // Define Constants
 if ( ! defined( 'TOKOKU_BULK_EDITOR_VERSION' ) ) {
     define( 'TOKOKU_BULK_EDITOR_VERSION', '2.0.0' );
@@ -40,77 +45,81 @@ require_once TOKOKU_BULK_EDITOR_DIR . 'includes/class-stock-manager.php';
 require_once TOKOKU_BULK_EDITOR_DIR . 'includes/class-native-bulk-edit.php';
 require_once TOKOKU_BULK_EDITOR_DIR . 'includes/class-admin-page.php';
 
-/**
- * Main TokoKu Bulk Editor Plugin Bootstrap
- */
-class Tokoku_Bulk_Editor_Plugin {
-
+if ( ! class_exists( 'Tokoku_Bulk_Editor_Plugin' ) ) {
     /**
-     * Singleton instance
+     * Main TokoKu Bulk Editor Plugin Bootstrap
      */
-    private static $instance = null;
+    class Tokoku_Bulk_Editor_Plugin {
 
-    /**
-     * Product Manager instance
-     */
-    public $product_manager;
+        /**
+         * Singleton instance
+         */
+        private static $instance = null;
 
-    /**
-     * Backward-compatible Stock Manager alias
-     */
-    public $stock_manager;
+        /**
+         * Product Manager instance
+         */
+        public $product_manager;
 
-    /**
-     * Native Bulk Edit instance
-     */
-    public $native_edit;
+        /**
+         * Backward-compatible Stock Manager alias
+         */
+        public $stock_manager;
 
-    /**
-     * Admin Dashboard instance
-     */
-    public $admin_page;
+        /**
+         * Native Bulk Edit instance
+         */
+        public $native_edit;
 
-    /**
-     * Get instance
-     */
-    public static function get_instance() {
-        if ( null === self::$instance ) {
-            self::$instance = new self();
+        /**
+         * Admin Dashboard instance
+         */
+        public $admin_page;
+
+        /**
+         * Get instance
+         */
+        public static function get_instance() {
+            if ( null === self::$instance ) {
+                self::$instance = new self();
+            }
+            return self::$instance;
         }
-        return self::$instance;
-    }
 
-    /**
-     * Constructor
-     */
-    private function __construct() {
-        add_action( 'init', array( $this, 'load_textdomain' ) );
-        $this->init_components();
-    }
+        /**
+         * Constructor
+         */
+        private function __construct() {
+            add_action( 'init', array( $this, 'load_textdomain' ) );
+            $this->init_components();
+        }
 
-    /**
-     * Load Plugin Textdomain
-     */
-    public function load_textdomain() {
-        load_plugin_textdomain( 'tokoku-bulk-editor', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-    }
+        /**
+         * Load Plugin Textdomain
+         */
+        public function load_textdomain() {
+            load_plugin_textdomain( 'tokoku-bulk-editor', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+        }
 
-    /**
-     * Initialize Components
-     */
-    private function init_components() {
-        $this->product_manager = Tokoku_Product_Manager::get_instance();
-        $this->stock_manager   = $this->product_manager;
-        $this->native_edit     = Tokoku_Native_Bulk_Edit::get_instance();
-        $this->admin_page      = Tokoku_Bulk_Editor_Admin_Page::get_instance();
+        /**
+         * Initialize Components
+         */
+        private function init_components() {
+            $this->product_manager = Tokoku_Product_Manager::get_instance();
+            $this->stock_manager   = $this->product_manager;
+            $this->native_edit     = Tokoku_Native_Bulk_Edit::get_instance();
+            $this->admin_page      = Tokoku_Bulk_Editor_Admin_Page::get_instance();
+        }
     }
 }
 
-/**
- * Initialize Plugin
- */
-function tokoku_bulk_editor_init() {
-    return Tokoku_Bulk_Editor_Plugin::get_instance();
+if ( ! function_exists( 'tokoku_bulk_editor_init' ) ) {
+    /**
+     * Initialize Plugin
+     */
+    function tokoku_bulk_editor_init() {
+        return Tokoku_Bulk_Editor_Plugin::get_instance();
+    }
 }
 
 // Boot plugin safely

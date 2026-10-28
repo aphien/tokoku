@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __FILE__ ) . '/class-product-manager.php';
 
+if ( ! class_exists( 'Tokoku_Stock_Manager' ) ) :
+
 class Tokoku_Stock_Manager extends Tokoku_Product_Manager {
 
     /**
@@ -29,3 +31,5 @@ class Tokoku_Stock_Manager extends Tokoku_Product_Manager {
         return self::$instance;
     }
 }
+
+endif;

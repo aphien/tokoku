@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+if ( ! class_exists( 'Tokoku_Native_Bulk_Edit' ) ) :
+
 class Tokoku_Native_Bulk_Edit {
 
     /**
@@ -459,3 +461,5 @@ class Tokoku_Native_Bulk_Edit {
         }
     }
 }
+
+endif;

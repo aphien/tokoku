@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.7.0' );
+define( 'TOKOKU_VERSION', '3.8.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -834,7 +834,8 @@ require_once TOKOKU_DIR . '/includes/taxonomy-meta.php';
 require_once TOKOKU_DIR . '/includes/page-templates.php';
 
 // TokoKu Bulk Product Editor (Standar Plugin / Bundled Module)
-if ( ! defined( 'TOKOKU_BULK_EDITOR_VERSION' ) && file_exists( TOKOKU_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php' ) ) {
+$tokoku_active_plugins = (array) get_option( 'active_plugins', array() );
+if ( ! defined( 'TOKOKU_BULK_EDITOR_VERSION' ) && ! in_array( 'tokoku-bulk-editor/tokoku-bulk-editor.php', $tokoku_active_plugins, true ) && file_exists( TOKOKU_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php' ) ) {
     require_once TOKOKU_DIR . '/tokoku-bulk-editor/tokoku-bulk-editor.php';
 }
 
@@ -1513,11 +1514,21 @@ function tokoku_auto_install_bundled_plugins() {
         }
 
         $plugin_rel_path = 'tokoku-bulk-editor/tokoku-bulk-editor.php';
-        if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_rel_path ) && ! is_plugin_active( $plugin_rel_path ) ) {
-            activate_plugin( $plugin_rel_path, '', false, true );
-        }
-
         update_option( 'tokoku_bulk_editor_installed_ver', $target_version, true );
+
+        if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_rel_path ) && ! is_plugin_active( $plugin_rel_path ) ) {
+            if ( defined( 'TOKOKU_BULK_EDITOR_VERSION' ) ) {
+                // Jika sudah dimuat oleh tema pada request ini, daftarkan ke active_plugins tanpa re-include file
+                $active_plugins = (array) get_option( 'active_plugins', array() );
+                if ( ! in_array( $plugin_rel_path, $active_plugins, true ) ) {
+                    $active_plugins[] = $plugin_rel_path;
+                    sort( $active_plugins );
+                    update_option( 'active_plugins', $active_plugins );
+                }
+            } else {
+                activate_plugin( $plugin_rel_path, '', false, true );
+            }
+        }
     }
 }
 add_action( 'admin_init', 'tokoku_auto_install_bundled_plugins' );
