@@ -8,6 +8,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function() {
+            var savedTheme = null;
+            try { savedTheme = localStorage.getItem('tokoku-theme'); } catch (e) {}
+            var configDefault = '<?php echo esc_attr( get_theme_mod( "tokoku_default_mode", "dark" ) ); ?>';
+            var theme = savedTheme || configDefault;
+            
+            if (theme === 'auto') {
+                theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+            }
+            
+            var docEl = document.documentElement;
+            if (theme === 'dark') {
+                docEl.classList.add('theme-dark');
+                docEl.classList.remove('theme-light');
+                docEl.style.colorScheme = 'dark';
+            } else {
+                docEl.classList.add('theme-light');
+                docEl.classList.remove('theme-dark');
+                docEl.style.colorScheme = 'light';
+            }
+            try {
+                document.cookie = 'tokoku_theme=' + theme + '; path=/; max-age=31536000; SameSite=Lax';
+            } catch (e) {}
+        })();
+    </script>
+    <style>
+        /* Instant Anti-FOUC Canvas Background (Zero Black/White Flash on Navigation) */
+        html.theme-light,
+        html.theme-light body {
+            background-color: var(--bg, #f8fafc);
+            color: var(--text, #0f172a);
+        }
+        html.theme-dark,
+        html.theme-dark body {
+            background-color: var(--bg, #0b0f1a);
+            color: var(--text, #f1f5f9);
+        }
+    </style>
     
     <!-- Resource Hints & Preconnect for Fast Font Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,25 +85,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     <link rel="apple-touch-icon" href="<?php echo esc_url( $apple_icon ); ?>">
     
     <?php wp_head(); ?>
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('tokoku-theme');
-            const configDefault = '<?php echo esc_attr( get_theme_mod( "tokoku_default_mode", "dark" ) ); ?>';
-            let theme = savedTheme || configDefault;
-            
-            if (theme === 'auto') {
-                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
-            
-            if (theme === 'dark') {
-                document.documentElement.classList.add('theme-dark');
-                document.documentElement.classList.remove('theme-light');
-            } else {
-                document.documentElement.classList.add('theme-light');
-                document.documentElement.classList.remove('theme-dark');
-            }
-        })();
-    </script>
     <style>
         /* Critical Hiding & Structural Display */
         .search-modal-overlay { display: none !important; }
@@ -84,7 +104,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         body.theme-dark .logo-dark { display: block !important; }
         
         /* Apply to HTML for instant early styling */
-        html { background: var(--bg, #ffffff); color: var(--text, #0f172a); }
+        html { background: var(--bg, #f8fafc); color: var(--text, #0f172a); }
         html.theme-dark { background: var(--bg, #0b0f1a); color: var(--text, #f1f5f9); }
 
         /* Absolute Zero Outline & Zero Border for Search Inputs */
@@ -132,6 +152,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     </style>
 </head>
 <body <?php body_class(); ?>>
+<script>
+(function() {
+    var isDark = document.documentElement.classList.contains('theme-dark');
+    document.body.classList.toggle('theme-dark', isDark);
+    document.body.classList.toggle('theme-light', !isDark);
+})();
+</script>
 <?php wp_body_open(); ?>
 
 <!-- ============================================

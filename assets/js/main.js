@@ -20,14 +20,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const html = document.documentElement;
     
-    function applyTheme(theme) {
+    function applyTheme(theme, animate = false) {
         if (theme === 'auto') {
             theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (animate) {
+            html.classList.add('theme-transitioning');
+            setTimeout(() => html.classList.remove('theme-transitioning'), 400);
         }
         body.classList.remove('theme-dark', 'theme-light');
         body.classList.add('theme-' + theme);
         html.classList.remove('theme-dark', 'theme-light');
         html.classList.add('theme-' + theme);
+        html.style.colorScheme = theme;
+        try {
+            document.cookie = 'tokoku_theme=' + theme + '; path=/; max-age=31536000; SameSite=Lax';
+        } catch (e) {}
         if (typeof updateThemeColor === 'function') updateThemeColor();
         modeToggles.forEach(toggle => {
             const label = theme === 'dark' ? 'Beralih ke mode terang' : 'Beralih ke mode gelap';
@@ -38,9 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const savedTheme = localStorage.getItem('tokoku-theme');
     if (savedTheme) {
-        applyTheme(savedTheme);
+        applyTheme(savedTheme, false);
     } else if (html.classList.contains('theme-dark')) {
-        applyTheme('dark');
+        applyTheme('dark', false);
+    } else {
+        applyTheme('light', false);
     }
 
     modeToggles.forEach(toggle => {
@@ -48,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const isDark = body.classList.contains('theme-dark') || html.classList.contains('theme-dark');
             const nextTheme = isDark ? 'light' : 'dark';
-            applyTheme(nextTheme);
+            applyTheme(nextTheme, true);
             localStorage.setItem('tokoku-theme', nextTheme);
         });
     });

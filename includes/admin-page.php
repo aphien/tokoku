@@ -2993,6 +2993,15 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.9.2 — Eliminasi Efek Kedip Hitam-Putih (Anti-FOUC Dark/Light Mode) Saat Navigasi Antar Halaman
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.9.2 memperbaiki efek kedipan hitam-putih (<em>Dark/Light Flash</em> / FOUC) ketika mengklik tautan atau berpindah halaman dengan memindahkan deteksi tema ke baris paling atas <code>&lt;head&gt;</code> (sebelum <code>wp_head()</code>), menyinkronkan class <code>&lt;body&gt;</code> secara instan sebelum elemen dirender, menyimpan preferensi tema ke cookie <code>tokoku_theme</code> agar server PHP merender class <code>theme-dark</code> / <code>theme-light</code> yang tepat pada <code>tokoku_body_classes()</code>, serta membatasi transisi warna CSS (<code>html.theme-transitioning</code>) hanya saat tombol toggle Mode Gelap/Terang ditekan.
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.9.1 — Kalibrasi Presisi Tipografi Tombol Order WhatsApp &amp; Sinkronisasi Inline Style
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

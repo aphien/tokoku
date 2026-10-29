@@ -173,23 +173,23 @@ body.theme-dark,
     }
 }
 
-/* Global Transition for Dark Mode */
-body {
-    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+/* Global Transition for Dark Mode (Only active when explicitly toggling theme, never on page load) */
+html.theme-transitioning body {
+    transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.site-header,
-.site-footer,
-.product-card,
-.category-item,
-.sidebar-widget,
-.btn,
-.slider-btn,
-.slider-dots,
-.search-form,
-.bottom-nav,
-.modal-content {
-    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+html.theme-transitioning .site-header,
+html.theme-transitioning .site-footer,
+html.theme-transitioning .product-card,
+html.theme-transitioning .category-item,
+html.theme-transitioning .sidebar-widget,
+html.theme-transitioning .btn,
+html.theme-transitioning .slider-btn,
+html.theme-transitioning .slider-dots,
+html.theme-transitioning .search-form,
+html.theme-transitioning .bottom-nav,
+html.theme-transitioning .modal-content {
+    transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ==========================================

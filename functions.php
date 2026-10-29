@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.9.1' );
+define( 'TOKOKU_VERSION', '3.9.2' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -982,7 +982,14 @@ function tokoku_dashboard_widget_render() {
  * Berguna untuk menargetkan gaya CSS berdasarkan mode (dark/light) atau jenis halaman (single/archive).
  */
 function tokoku_body_classes( $classes ) {
-    $classes[] = 'theme-' . get_theme_mod( 'tokoku_default_mode', 'dark' );
+    $cookie_mode = isset( $_COOKIE['tokoku_theme'] ) ? sanitize_key( wp_unslash( $_COOKIE['tokoku_theme'] ) ) : '';
+    if ( in_array( $cookie_mode, array( 'dark', 'light' ), true ) ) {
+        $active_mode = $cookie_mode;
+    } else {
+        $default_mode = get_theme_mod( 'tokoku_default_mode', 'dark' );
+        $active_mode  = ( 'light' === $default_mode ) ? 'light' : 'dark';
+    }
+    $classes[] = 'theme-' . $active_mode;
     if ( is_singular( 'produk' ) ) $classes[] = 'single-product-page';
     if ( is_post_type_archive( 'produk' ) || is_tax( 'kategori_produk' ) || is_tax( 'tag_produk' ) ) $classes[] = 'product-archive-page';
     return $classes;
