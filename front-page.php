@@ -66,7 +66,7 @@ get_header(); ?>
                     if ( $slide_count > 0 ) {
                         foreach ( $slides_data as $idx => $slide ) {
                             $is_first = ( $idx === 0 );
-                            $loading_attr = $is_first ? 'fetchpriority="high" loading="eager" decoding="sync"' : 'loading="lazy" decoding="async"';
+                            $loading_attr = $is_first ? 'fetchpriority="high" loading="eager" decoding="async"' : 'loading="lazy" decoding="async"';
                             
                             echo '<div class="slide" role="group" aria-roledescription="slide" aria-label="' . esc_attr( sprintf( __( 'Slide %d dari %d', 'tokoku' ), $idx + 1, $slide_count ) ) . '">';
                             if ( ! empty( $slide['link'] ) ) {

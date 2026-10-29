@@ -75,11 +75,12 @@ get_header(); ?>
                             <?php foreach ( $all_gallery as $i => $img ) : ?>
                                 <div class="product-slide <?php echo $i === 0 ? 'is-active' : ''; ?>" data-slide-index="<?php echo $i; ?>">
                                     <img src="<?php echo esc_url( $img['large'] ); ?>"
-                                         <?php if ( ! empty( $img['srcset'] ) ) : ?>srcset="<?php echo esc_attr( $img['srcset'] ); ?>"<?php endif; ?>
+                                         <?php if ( ! empty( $img['srcset'] ) ) : ?>srcset="<?php echo esc_attr( $img['srcset'] ); ?>" sizes="(max-width: 768px) 100vw, 500px"<?php endif; ?>
                                          alt="<?php echo esc_attr( $img['alt'] ); ?>"
                                          width="800" height="800"
                                          loading="<?php echo $i === 0 ? 'eager' : 'lazy'; ?>"
-                                         <?php if ( $i === 0 ) : ?>fetchpriority="high" decoding="sync" id="main-product-img"<?php else : ?>decoding="async"<?php endif; ?>
+                                         <?php if ( $i === 0 ) : ?>fetchpriority="high" id="main-product-img"<?php endif; ?>
+                                         decoding="async"
                                          class="product-slide-img">
                                 </div>
                             <?php endforeach; ?>

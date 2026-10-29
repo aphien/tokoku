@@ -2993,6 +2993,15 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.9.0 — Optimasi Core Web Vitals (LCP, CLS &amp; INP) Sesuai PageSpeed Insights &amp; Kalibrasi Tipografi Tombol Order WhatsApp
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.9.0 menerapkan optimasi menyeluruh pada tiga metrik <strong>Core Web Vitals</strong> sesuai panduan Google PageSpeed Insights tanpa mengubah tampilan visual website: <strong>LCP (Kecepatan Muat)</strong> melalui pemuatan asinkron Font Awesome, eliminasi enqueue <code>style.css</code> kosong, preload <code>main.css</code> &amp; gambar LCP lengkap dengan <code>imagesrcset</code>/<code>imagesizes</code>, serta prioritas <code>loading="eager" fetchpriority="high"</code> pada kartu produk di atas lipatan layar; <strong>CLS (Stabilitas Visual)</strong> melalui dimensi eksplisit <code>width</code>/<code>height</code> pada logo header, ikon kategori, dan thumbnail live search serta penguncian <code>aspect-ratio: 1 / 1</code>; serta <strong>INP (Responsivitas)</strong> melalui penjadwalan idle <code>requestIdleCallback</code> untuk komponen bawah layar, throttling <code>requestAnimationFrame</code> pada zoom &amp; resize slider, akselerasi GPU <code>translate3d</code>, dan <code>touch-action: manipulation</code>. Dilengkapi penyesuaian proporsi ukuran font tombol <strong>Pesan via WhatsApp</strong> (+5%) dan tombol <strong>Pesan Sekarang ke WhatsApp</strong> (-3%).
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.8.0 — Fitur Google Maps Review Slider Interaktif, Sinkronisasi Hybrid Places API &amp; Proteksi Anti-Bentrok Modul Plugin
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">

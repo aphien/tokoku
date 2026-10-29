@@ -331,7 +331,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-size: var(--fs-sm);
+    font-size: calc(var(--fs-sm) * 1.05);
     font-weight: 700;
     line-height: 1;
     text-decoration: none;
@@ -381,7 +381,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: var(--fs-sm);
+    font-size: calc(var(--fs-sm) * 1.05);
 }
 
 .sticky-order-price-pill {
@@ -429,7 +429,7 @@ body.single-produk .bottom-nav {
         gap: 6px;
     }
     .sticky-order-label {
-        font-size: var(--fs-xs);
+        font-size: calc(var(--fs-xs) * 1.05);
     }
     .sticky-order-price-pill {
         font-size: var(--fs-xs);
@@ -804,7 +804,7 @@ h1.product-title,
     background: var(--gradient, var(--gradient-primary, linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)));
     color: #fff !important;
     font-family: var(--font-btn, 'Lato', system-ui, sans-serif);
-    font-size: calc(var(--fs-base, 1rem) * 1.03); /* +3% dari ukuran standar 1rem */
+    font-size: calc(var(--fs-base, 1rem) * 1.082); /* +5% dari ukuran sebelumnya */
     font-weight: 700;
     letter-spacing: -0.01em;
     min-height: 52px;

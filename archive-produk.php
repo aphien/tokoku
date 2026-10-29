@@ -142,7 +142,7 @@ $all_cats       = get_terms( array( 'taxonomy' => 'kategori_produk', 'hide_empty
                                 echo '<a href="' . esc_url( get_term_link( $cat ) ) . '">';
                                 echo '<span class="cat-link-inner">';
                                 if ( $icon_url ) {
-                                    echo '<img src="' . esc_url( $icon_url ) . '" class="cat-link-icon" style="width:20px; height:20px; object-fit:contain; margin-right:10px; border-radius:4px;" alt="">';
+                                    echo '<img src="' . esc_url( $icon_url ) . '" class="cat-link-icon" width="20" height="20" loading="lazy" decoding="async" style="width:20px; height:20px; object-fit:contain; margin-right:10px; border-radius:4px;" alt="">';
                                 } else {
                                     echo '<span class="cat-bullet"></span>';
                                 }

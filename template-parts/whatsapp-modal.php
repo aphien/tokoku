@@ -232,7 +232,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     color: #fff;
     padding: 14px 24px;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 0.97rem;
     border-radius: 50px;
     width: 100%;
     border: none;

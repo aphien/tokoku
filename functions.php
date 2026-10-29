@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.8.0' );
+define( 'TOKOKU_VERSION', '3.9.0' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -127,8 +127,7 @@ function tokoku_scripts() {
     $google_fonts_url = 'https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap';
     wp_enqueue_style( 'tokoku-google-fonts', $google_fonts_url, array(), null );
     wp_enqueue_style( 'tokoku-font-awesome', TOKOKU_URI . '/assets/vendor/fontawesome/css/all.min.css', array(), '6.5.2' );
-    wp_enqueue_style( 'tokoku-main-style', TOKOKU_URI . '/assets/css/main.css', array( 'tokoku-google-fonts', 'tokoku-font-awesome' ), TOKOKU_VERSION );
-    wp_enqueue_style( 'tokoku-style', get_stylesheet_uri(), array( 'tokoku-main-style' ), TOKOKU_VERSION );
+    wp_enqueue_style( 'tokoku-main-style', TOKOKU_URI . '/assets/css/main.css', array(), TOKOKU_VERSION );
 
     wp_enqueue_script( 'tokoku-main-js', TOKOKU_URI . '/assets/js/main.js', array(), TOKOKU_VERSION, true );
     wp_enqueue_script( 'tokoku-search-js', TOKOKU_URI . '/assets/js/search.js', array(), TOKOKU_VERSION, true );
@@ -163,31 +162,22 @@ function tokoku_scripts() {
 add_action( 'wp_enqueue_scripts', 'tokoku_scripts' );
 
 /**
- * Resource Hints untuk Optimasi Kecepatan (Preconnect Google Fonts)
- */
-function tokoku_resource_hints( $urls, $relation_type ) {
-    if ( 'preconnect' === $relation_type ) {
-        $urls[] = array(
-            'href' => 'https://fonts.googleapis.com',
-        );
-        $urls[] = array(
-            'href'        => 'https://fonts.gstatic.com',
-            'crossorigin' => 'anonymous',
-        );
-    }
-    return $urls;
-}
-add_filter( 'wp_resource_hints', 'tokoku_resource_hints', 10, 2 );
-
-/**
- * Asynchronous Loading untuk Google Fonts (Eliminasi Render-Blocking CSS)
+ * Asynchronous Loading untuk Google Fonts & Font Awesome (Eliminasi Render-Blocking CSS)
+ * serta Preload untuk Main Stylesheet guna mempercepat FCP & LCP.
  */
 function tokoku_async_styles( $tag, $handle, $href, $media ) {
     if ( is_admin() ) return $tag;
     if ( 'tokoku-google-fonts' === $handle ) {
         return '<link rel="preload" as="style" href="' . esc_url( $href ) . '">' . "\n" .
                '<link rel="stylesheet" id="tokoku-google-fonts-css" href="' . esc_url( $href ) . '" media="print" onload="this.media=\'all\'">' . "\n" .
-               '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '"></noscript>';
+               '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '"></noscript>' . "\n";
+    }
+    if ( 'tokoku-font-awesome' === $handle ) {
+        return '<link rel="stylesheet" id="tokoku-font-awesome-css" href="' . esc_url( $href ) . '" media="print" onload="this.media=\'all\'">' . "\n" .
+               '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '"></noscript>' . "\n";
+    }
+    if ( 'tokoku-main-style' === $handle ) {
+        return '<link rel="preload" as="style" href="' . esc_url( $href ) . '" fetchpriority="high">' . "\n" . $tag;
     }
     return $tag;
 }

@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (index >= totalSlides) index = 0;
 
         currentSlide = index;
-        sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+        sliderTrack.style.transform = `translate3d(-${currentSlide * 100}%, 0, 0)`;
 
         // Update active slide state and reset zoom transform on all slides
         slides.forEach((slide, i) => {
@@ -238,27 +238,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 🔍 Product Image Zoom (Hover Desktop & Lightbox)
     if (mainImgWrap) {
-        // Desktop Hover Zoom
+        let zoomRaf = null;
+        let cachedRect = null;
+
+        mainImgWrap.addEventListener('mouseenter', function() {
+            if (window.innerWidth > 768) {
+                cachedRect = this.getBoundingClientRect();
+            }
+        }, { passive: true });
+
+        // Desktop Hover Zoom (Throttled via rAF to prevent layout thrashing)
         mainImgWrap.addEventListener('mousemove', function(e) {
             if (window.innerWidth > 768) {
-                const activeImg = this.querySelector('.product-slide.is-active img') || this.querySelector('img');
-                if (!activeImg) return;
-                const rect = this.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                const clientX = e.clientX;
+                const clientY = e.clientY;
+                if (zoomRaf) return;
+                zoomRaf = requestAnimationFrame(() => {
+                    zoomRaf = null;
+                    const activeImg = this.querySelector('.product-slide.is-active img') || this.querySelector('img');
+                    if (!activeImg) return;
+                    const rect = cachedRect || this.getBoundingClientRect();
+                    const x = ((clientX - rect.left) / rect.width) * 100;
+                    const y = ((clientY - rect.top) / rect.height) * 100;
 
-                activeImg.style.transformOrigin = `${x}% ${y}%`;
-                activeImg.style.transform = 'scale(1.85)';
+                    activeImg.style.transformOrigin = `${x}% ${y}%`;
+                    activeImg.style.transform = 'scale(1.85)';
+                });
             }
-        });
+        }, { passive: true });
 
         mainImgWrap.addEventListener('mouseleave', function() {
+            if (zoomRaf) {
+                cancelAnimationFrame(zoomRaf);
+                zoomRaf = null;
+            }
+            cachedRect = null;
             const activeImg = this.querySelector('.product-slide.is-active img') || this.querySelector('img');
             if (activeImg) {
                 activeImg.style.transform = 'scale(1)';
                 activeImg.style.transformOrigin = 'center center';
             }
-        });
+        }, { passive: true });
 
         // Click to Lightbox (Desktop only, mobile has dedicated full-screen pinch zoom)
         mainImgWrap.addEventListener('click', (e) => {

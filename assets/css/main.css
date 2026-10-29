@@ -2373,7 +2373,7 @@ input.search-input:active,
     padding: 10px 17px;
     border-radius: 11px;
     font-family: var(--font-btn, 'Lato', system-ui, sans-serif);
-    font-size: clamp(0.835rem, 0.8rem + 0.1vw, 0.865rem);
+    font-size: clamp(0.877rem, 0.84rem + 0.105vw, 0.908rem);
     font-weight: 700;
     letter-spacing: -0.01em;
     transition: transform 0.25s var(--ease-smooth),
@@ -2424,7 +2424,7 @@ input.search-input:active,
     min-height: 52px;
     padding: 14px 28px;
     font-family: var(--font-btn, 'Lato', system-ui, sans-serif);
-    font-size: calc(var(--fs-base, 1rem) * 1.03); /* +3% dari ukuran standar 1rem */
+    font-size: calc(var(--fs-base, 1rem) * 1.082); /* +5% dari ukuran sebelumnya */
     font-weight: 700;
     border-radius: 14px;
     display: inline-flex;
@@ -2611,7 +2611,7 @@ input.search-input:active,
     width: 100%;
     min-height: 48px;
     padding: 12px 20px;
-    font-size: var(--fs-base);
+    font-size: calc(var(--fs-base, 1rem) * 0.97);
     font-weight: 800;
     border-radius: 12px;
     background: var(--gradient-wa);
@@ -5795,7 +5795,7 @@ input#search-modal-input {
     /* Slender button on mobile cards (+5%) */
     .btn-whatsapp-order {
         padding: 7.5px 11px;
-        font-size: 0.785rem;
+        font-size: 0.825rem;
         min-height: 38px;
         margin-top: 6px;
     }
@@ -5851,7 +5851,7 @@ input#search-modal-input {
     }
 
     .single-product .btn-contact-us {
-        font-size: var(--fs-sm);
+        font-size: calc(var(--fs-sm) * 1.05);
         min-height: 48px;
         padding: 12px 18px !important;
         width: 100% !important;
@@ -6087,7 +6087,7 @@ input#search-modal-input {
     .btn-whatsapp-order {
         min-height: 36px;
         padding: 6.5px 10px;
-        font-size: 0.72rem;
+        font-size: 0.756rem;
     }
 }
 
@@ -8743,7 +8743,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         margin-top: 0;
         min-height: 38px;
         padding: 7.5px 11px;
-        font-size: 0.785rem;
+        font-size: 0.825rem;
         border-radius: 9.5px;
     }
 
@@ -9502,7 +9502,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     .btn-whatsapp-order {
         min-height: 38px;
         padding: 7.5px 11px;
-        font-size: 0.785rem;
+        font-size: 0.825rem;
         border-radius: 9.5px;
         gap: 6px;
     }
@@ -9527,7 +9527,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     .single-product .btn-contact-us {
         width: 100% !important;
         min-height: 48px;
-        font-size: clamp(0.9rem, 3.5vw, 1rem) !important;
+        font-size: clamp(0.945rem, 3.68vw, 1.05rem) !important;
         border-radius: 12px !important;
         padding: 12px 18px !important;
     }
@@ -9598,7 +9598,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     }
 
     .btn-whatsapp-order {
-        font-size: 0.72rem;
+        font-size: 0.756rem;
         padding: 6.5px 10px;
         min-height: 36px;
         gap: 5px;
@@ -9616,7 +9616,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
     .single-product .btn-contact-us {
         min-height: 46px;
-        font-size: var(--fs-sm) !important;
+        font-size: calc(var(--fs-sm) * 1.05) !important;
         padding: 11px 14px !important;
     }
 
@@ -10297,5 +10297,59 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         font-size: 0.68rem !important;
     }
 }
+
+/* ==========================================================================
+   CORE WEB VITALS (LCP, CLS & INP) PERFORMANCE ENHANCEMENTS
+   Non-visual optimizations aligned with https://pagespeed.web.dev/
+   ========================================================================== */
+
+/* 1. INP (Responsiveness): Eliminate 300ms mobile tap delay on interactive elements */
+a,
+button,
+input,
+select,
+textarea,
+label,
+[role="button"],
+.product-card,
+.category-item,
+.category-pill,
+.cat-filter-item,
+.faq-question,
+.dot,
+.testi-dot,
+.article-dot,
+.related-slider-dot,
+.wa-prompt-pill,
+.gmap-read-more,
+.gallery-thumbs .thumb,
+.product-tab-btn,
+.btn-variation {
+    touch-action: manipulation;
+}
+
+/* 2. CLS (Visual Stability): Reserve intrinsic aspect-ratio & prevent image layout shift */
+.product-card__image {
+    aspect-ratio: 1 / 1;
+}
+
+.product-card__image img,
+.article-card__image img,
+.product-slide img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* 3. Smooth GPU-Composited Slider Tracks (Avoid main-thread repaint during transitions) */
+.slider-wrapper,
+.testimonials-wrapper,
+.article-track,
+.product-slider-track {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
 
 

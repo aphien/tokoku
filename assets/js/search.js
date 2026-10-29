@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 html += `
                     <a href="${product.permalink}" class="search-product-item">
                         <div class="item-thumb">
-                            <img src="${product.thumbnail || ''}" alt="${product.title}">
+                            <img src="${product.thumbnail || ''}" alt="${product.title}" width="48" height="48" loading="lazy" decoding="async">
                         </div>
                         <div class="item-info">
                             <div class="item-title">${product.title}</div>

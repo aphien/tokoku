@@ -122,7 +122,8 @@ document.addEventListener('DOMContentLoaded', function() {
             let progressStartTime = 0;
             let progressReqId = null;
 
-            // Otomatis menyesuaikan tinggi slider sesuai ukuran banner aktual
+            // Otomatis menyesuaikan tinggi slider sesuai ukuran banner aktual (tanpa memicu CLS)
+            let currentBannerRatio = heroSlider.style.getPropertyValue('--slider-ratio').trim();
             function autoFitBannerRatio() {
                 const firstImg = slides[0]?.querySelector('img');
                 if (!firstImg) return;
@@ -132,23 +133,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     const h = imgEl.naturalHeight;
                     if (w && h && w > 0 && h > 0) {
                         const ratioStr = `${w} / ${h}`;
-                        heroSlider.style.setProperty('--slider-ratio', ratioStr);
-                        heroSlider.style.aspectRatio = ratioStr;
-                        slides.forEach(s => {
-                            s.style.setProperty('--slider-ratio', ratioStr);
-                            s.style.aspectRatio = ratioStr;
-                        });
+                        if (ratioStr !== currentBannerRatio) {
+                            currentBannerRatio = ratioStr;
+                            heroSlider.style.setProperty('--slider-ratio', ratioStr);
+                            heroSlider.style.aspectRatio = ratioStr;
+                            slides.forEach(s => {
+                                s.style.setProperty('--slider-ratio', ratioStr);
+                                s.style.aspectRatio = ratioStr;
+                            });
+                        }
                     }
                 };
 
                 if (firstImg.complete && firstImg.naturalWidth) {
                     applySize(firstImg);
                 } else {
-                    firstImg.addEventListener('load', () => applySize(firstImg));
+                    firstImg.addEventListener('load', () => applySize(firstImg), { once: true });
                 }
             }
             autoFitBannerRatio();
-            window.addEventListener('resize', autoFitBannerRatio, { passive: true });
 
             // Jika hanya 1 slide atau kurang, sembunyikan navigasi
             if (slideCount <= 1) {
@@ -565,350 +568,377 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 💬 Google Maps Testimonials Slider
-    const testiWrapper = document.querySelector('.testimonials-wrapper');
-    const testiSlides = document.querySelectorAll('.testimonial-slide');
-    const testiDotsContainer = document.querySelector('.testimonial-dots');
-    
-    if (testiWrapper && testiSlides.length > 0) {
-        let currentTesti = 0;
-        let startX = 0;
-        let isDragging = false;
+    // ⚡ Helper untuk memecah Long Task (Optimasi INP Core Web Vitals)
+    const scheduleIdleTask = (cb) => {
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(cb, { timeout: 1200 });
+        } else {
+            setTimeout(cb, 1);
+        }
+    };
+
+    // 💬 Google Maps Testimonials Slider (Inisialisasi Non-Blocking untuk INP)
+    scheduleIdleTask(() => {
+        const testiWrapper = document.querySelector('.testimonials-wrapper');
+        const testiSlides = document.querySelectorAll('.testimonial-slide');
+        const testiDotsContainer = document.querySelector('.testimonial-dots');
         
-        function getTestiPerView() {
-            return window.innerWidth <= 680 ? 1 : 2;
-        }
-
-        function getTestiMaxIndex() {
-            return Math.max(0, testiSlides.length - getTestiPerView());
-        }
-
-        function renderTestiDots() {
-            if (!testiDotsContainer) return;
-            testiDotsContainer.innerHTML = '';
-            const maxIdx = getTestiMaxIndex();
-            if (maxIdx <= 0) return;
-
-            for (let i = 0; i <= maxIdx; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('testi-dot');
-                if (i === currentTesti) dot.classList.add('active');
-                dot.addEventListener('click', () => {
-                    goToTesti(i);
-                    resetTestiTimer();
-                });
-                testiDotsContainer.appendChild(dot);
-            }
-        }
-        
-        function goToTesti(index) {
-            const maxIdx = getTestiMaxIndex();
-            currentTesti = Math.max(0, Math.min(index, maxIdx));
-            const stepPercent = 100 / getTestiPerView();
-            testiWrapper.style.transform = `translateX(-${currentTesti * stepPercent}%)`;
-            if (testiDotsContainer) {
-                const dots = testiDotsContainer.querySelectorAll('.testi-dot');
-                dots.forEach((d, i) => d.classList.toggle('active', i === currentTesti));
-            }
-        }
-
-        function nextTesti() {
-            const maxIdx = getTestiMaxIndex();
-            if (maxIdx <= 0) return;
-            currentTesti = currentTesti >= maxIdx ? 0 : currentTesti + 1;
-            goToTesti(currentTesti);
-        }
-        
-        function prevTesti() {
-            const maxIdx = getTestiMaxIndex();
-            if (maxIdx <= 0) return;
-            currentTesti = currentTesti <= 0 ? maxIdx : currentTesti - 1;
-            goToTesti(currentTesti);
-        }
-
-        renderTestiDots();
-
-        window.addEventListener('resize', () => {
-            renderTestiDots();
-            goToTesti(currentTesti);
-        });
-
-        const prevArrow = document.getElementById('testi-prev-btn');
-        const nextArrow = document.getElementById('testi-next-btn');
-        if (prevArrow) {
-            prevArrow.addEventListener('click', () => {
-                prevTesti();
-                resetTestiTimer();
-            });
-        }
-        if (nextArrow) {
-            nextArrow.addEventListener('click', () => {
-                nextTesti();
-                resetTestiTimer();
-            });
-        }
-
-        // Toggle "Baca lebih lanjut" pada kartu ulasan Google Maps
-        testiWrapper.addEventListener('click', (e) => {
-            const readMoreBtn = e.target.closest('.gmap-read-more');
-            if (!readMoreBtn) return;
-            const bodyWrap = readMoreBtn.closest('.gmap-review-body');
-            const textEl = bodyWrap ? bodyWrap.querySelector('.gmap-review-text') : null;
-            if (!textEl) return;
-
-            const isExpanded = textEl.classList.toggle('is-expanded');
-            const moreLabel = readMoreBtn.getAttribute('data-more') || 'Baca lebih lanjut';
-            const lessLabel = readMoreBtn.getAttribute('data-less') || 'Sembunyikan';
-            readMoreBtn.textContent = isExpanded ? lessLabel : moreLabel;
-            pauseTestiTimer();
-        });
-
-        let testiTimer = null;
-        function startTestiTimer() {
-            if (getTestiMaxIndex() <= 0) return;
-            clearInterval(testiTimer);
-            testiTimer = setInterval(nextTesti, 4800);
-        }
-
-        function resetTestiTimer() {
-            clearInterval(testiTimer);
-            startTestiTimer();
-        }
-
-        function pauseTestiTimer() {
-            clearInterval(testiTimer);
-        }
-
-        // Start autoplay for testimonials
-        startTestiTimer();
-
-        // Pause testimonials slider on hover
-        const testiContainer = document.querySelector('.testimonials-slider-container') || testiWrapper;
-        if (testiContainer) {
-            testiContainer.addEventListener('mouseenter', pauseTestiTimer);
-            testiContainer.addEventListener('mouseleave', startTestiTimer);
-        }
-
-        testiWrapper.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-            pauseTestiTimer();
-        }, { passive: true });
-
-        testiWrapper.addEventListener('touchend', (e) => {
-            if (!isDragging) return;
-            const endX = e.changedTouches[0].clientX;
-            const diff = startX - endX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) nextTesti();
-                else prevTesti();
-            }
-            isDragging = false;
-            resetTestiTimer();
-        }, { passive: true });
-    }
-
-    // 📰 Article Slider
-    const articleSlider = document.querySelector('.articles-slider-container');
-    if (articleSlider) {
-        const track = articleSlider.querySelector('.article-track');
-        const slides = articleSlider.querySelectorAll('.article-slide');
-        const prevBtn = articleSlider.querySelector('#article-prev');
-        const nextBtn = articleSlider.querySelector('#article-next');
-        const dotsContainer = articleSlider.querySelector('.article-slider-dots');
-        
-        if (track && slides.length > 0) {
-            let currentIndex = 0;
-            let slideInterval;
-            
-            // Calculate how many slides visible
-            function getVisibleSlides() {
-                if (window.innerWidth <= 768) return 2; // Mobile
-                return 4; // Desktop
-            }
-            
-            function updateSlider() {
-                const slideWidth = 100 / getVisibleSlides();
-                track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
-                
-                const dots = dotsContainer?.querySelectorAll('.article-dot');
-                dots?.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
-            }
-            
-            function getMaxIndex() {
-                return Math.max(0, slides.length - getVisibleSlides());
-            }
-
-            // Create dots
-            function initDots() {
-                if (dotsContainer) {
-                    dotsContainer.innerHTML = '';
-                    const maxDots = getMaxIndex() + 1;
-                    if (maxDots <= 1) return; // No dots if not enough items
-                    
-                    for (let i = 0; i < maxDots; i++) {
-                        const dot = document.createElement('div');
-                        dot.classList.add('article-dot');
-                        if (i === currentIndex) dot.classList.add('active');
-                        dot.addEventListener('click', () => {
-                            currentIndex = i;
-                            updateSlider();
-                            resetInterval();
-                        });
-                        dotsContainer.appendChild(dot);
-                    }
-                }
-            }
-            initDots();
-            
-            function nextSlide() {
-                const maxIndex = getMaxIndex();
-                if (maxIndex <= 0) return;
-                currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
-                updateSlider();
-            }
-            
-            function prevSlide() {
-                const maxIndex = getMaxIndex();
-                if (maxIndex <= 0) return;
-                currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
-                updateSlider();
-            }
-            
-            function resetInterval() {
-                clearInterval(slideInterval);
-                slideInterval = setInterval(nextSlide, 5000);
-            }
-            
-            prevBtn?.addEventListener('click', () => { prevSlide(); resetInterval(); });
-            nextBtn?.addEventListener('click', () => { nextSlide(); resetInterval(); });
-            
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                const maxIndex = getMaxIndex();
-                if (currentIndex > maxIndex) currentIndex = maxIndex;
-                initDots();
-                updateSlider();
-            });
-            
-            // Touch support
+        if (testiWrapper && testiSlides.length > 0) {
+            let currentTesti = 0;
             let startX = 0;
             let isDragging = false;
+            let lastTestiWidth = window.innerWidth;
+            let testiResizeRaf = null;
             
-            track.addEventListener('touchstart', (e) => {
+            function getTestiPerView() {
+                return window.innerWidth <= 680 ? 1 : 2;
+            }
+
+            function getTestiMaxIndex() {
+                return Math.max(0, testiSlides.length - getTestiPerView());
+            }
+
+            function renderTestiDots() {
+                if (!testiDotsContainer) return;
+                testiDotsContainer.innerHTML = '';
+                const maxIdx = getTestiMaxIndex();
+                if (maxIdx <= 0) return;
+
+                for (let i = 0; i <= maxIdx; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('testi-dot');
+                    if (i === currentTesti) dot.classList.add('active');
+                    dot.addEventListener('click', () => {
+                        goToTesti(i);
+                        resetTestiTimer();
+                    });
+                    testiDotsContainer.appendChild(dot);
+                }
+            }
+            
+            function goToTesti(index) {
+                const maxIdx = getTestiMaxIndex();
+                currentTesti = Math.max(0, Math.min(index, maxIdx));
+                const stepPercent = 100 / getTestiPerView();
+                testiWrapper.style.transform = `translate3d(-${currentTesti * stepPercent}%, 0, 0)`;
+                if (testiDotsContainer) {
+                    const dots = testiDotsContainer.querySelectorAll('.testi-dot');
+                    dots.forEach((d, i) => d.classList.toggle('active', i === currentTesti));
+                }
+            }
+
+            function nextTesti() {
+                const maxIdx = getTestiMaxIndex();
+                if (maxIdx <= 0) return;
+                currentTesti = currentTesti >= maxIdx ? 0 : currentTesti + 1;
+                goToTesti(currentTesti);
+            }
+            
+            function prevTesti() {
+                const maxIdx = getTestiMaxIndex();
+                if (maxIdx <= 0) return;
+                currentTesti = currentTesti <= 0 ? maxIdx : currentTesti - 1;
+                goToTesti(currentTesti);
+            }
+
+            renderTestiDots();
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth === lastTestiWidth) return;
+                lastTestiWidth = window.innerWidth;
+                cancelAnimationFrame(testiResizeRaf);
+                testiResizeRaf = requestAnimationFrame(() => {
+                    renderTestiDots();
+                    goToTesti(currentTesti);
+                });
+            }, { passive: true });
+
+            const prevArrow = document.getElementById('testi-prev-btn');
+            const nextArrow = document.getElementById('testi-next-btn');
+            if (prevArrow) {
+                prevArrow.addEventListener('click', () => {
+                    prevTesti();
+                    resetTestiTimer();
+                });
+            }
+            if (nextArrow) {
+                nextArrow.addEventListener('click', () => {
+                    nextTesti();
+                    resetTestiTimer();
+                });
+            }
+
+            // Toggle "Baca lebih lanjut" pada kartu ulasan Google Maps
+            testiWrapper.addEventListener('click', (e) => {
+                const readMoreBtn = e.target.closest('.gmap-read-more');
+                if (!readMoreBtn) return;
+                const bodyWrap = readMoreBtn.closest('.gmap-review-body');
+                const textEl = bodyWrap ? bodyWrap.querySelector('.gmap-review-text') : null;
+                if (!textEl) return;
+
+                const isExpanded = textEl.classList.toggle('is-expanded');
+                const moreLabel = readMoreBtn.getAttribute('data-more') || 'Baca lebih lanjut';
+                const lessLabel = readMoreBtn.getAttribute('data-less') || 'Sembunyikan';
+                readMoreBtn.textContent = isExpanded ? lessLabel : moreLabel;
+                pauseTestiTimer();
+            });
+
+            let testiTimer = null;
+            function startTestiTimer() {
+                if (getTestiMaxIndex() <= 0) return;
+                clearInterval(testiTimer);
+                testiTimer = setInterval(nextTesti, 4800);
+            }
+
+            function resetTestiTimer() {
+                clearInterval(testiTimer);
+                startTestiTimer();
+            }
+
+            function pauseTestiTimer() {
+                clearInterval(testiTimer);
+            }
+
+            // Start autoplay for testimonials
+            startTestiTimer();
+
+            // Pause testimonials slider on hover
+            const testiContainer = document.querySelector('.testimonials-slider-container') || testiWrapper;
+            if (testiContainer) {
+                testiContainer.addEventListener('mouseenter', pauseTestiTimer);
+                testiContainer.addEventListener('mouseleave', startTestiTimer);
+            }
+
+            testiWrapper.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 isDragging = true;
-                clearInterval(slideInterval);
+                pauseTestiTimer();
             }, { passive: true });
-            
-            track.addEventListener('touchend', (e) => {
+
+            testiWrapper.addEventListener('touchend', (e) => {
                 if (!isDragging) return;
-                const diff = startX - e.changedTouches[0].clientX;
+                const endX = e.changedTouches[0].clientX;
+                const diff = startX - endX;
                 if (Math.abs(diff) > 50) {
-                    if (diff > 0) nextSlide();
-                    else prevSlide();
+                    if (diff > 0) nextTesti();
+                    else prevTesti();
                 }
                 isDragging = false;
-                resetInterval();
+                resetTestiTimer();
             }, { passive: true });
-
-            // Pause on hover for articles slider
-            articleSlider.addEventListener('mouseenter', () => clearInterval(slideInterval));
-            articleSlider.addEventListener('mouseleave', resetInterval);
-            
-            // Start autoplay for articles slider
-            resetInterval();
         }
-    }
+    });
 
-    // 📱 Mobile Slider for Related Articles (single.php)
-    const relatedSlider = document.getElementById('related-articles-slider');
-    const relatedDotsContainer = document.getElementById('related-slider-dots');
+    // 📰 Article Slider, Related Slider, Logo Marquee & FAQ (Inisialisasi Idle untuk INP)
+    scheduleIdleTask(() => {
+        const articleSlider = document.querySelector('.articles-slider-container');
+        if (articleSlider) {
+            const track = articleSlider.querySelector('.article-track');
+            const slides = articleSlider.querySelectorAll('.article-slide');
+            const prevBtn = articleSlider.querySelector('#article-prev');
+            const nextBtn = articleSlider.querySelector('#article-next');
+            const dotsContainer = articleSlider.querySelector('.article-slider-dots');
+            
+            if (track && slides.length > 0) {
+                let currentIndex = 0;
+                let slideInterval;
+                let lastArtWidth = window.innerWidth;
+                let artResizeRaf = null;
+                
+                // Calculate how many slides visible
+                function getVisibleSlides() {
+                    if (window.innerWidth <= 768) return 2; // Mobile
+                    return 4; // Desktop
+                }
+                
+                function updateSlider() {
+                    const slideWidth = 100 / getVisibleSlides();
+                    track.style.transform = `translate3d(-${currentIndex * slideWidth}%, 0, 0)`;
+                    
+                    const dots = dotsContainer?.querySelectorAll('.article-dot');
+                    dots?.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+                }
+                
+                function getMaxIndex() {
+                    return Math.max(0, slides.length - getVisibleSlides());
+                }
 
-    if (relatedSlider && relatedDotsContainer) {
-        const items = relatedSlider.querySelectorAll('.related-article-item');
-        if (items.length > 1) {
-            // Build pagination dots
-            items.forEach((item, index) => {
-                const dot = document.createElement('button');
-                dot.type = 'button';
-                dot.className = 'related-slider-dot' + (index === 0 ? ' active' : '');
-                dot.setAttribute('aria-label', `Artikel ke-${index + 1}`);
-                dot.addEventListener('click', () => {
-                    item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                });
-                relatedDotsContainer.appendChild(dot);
-            });
-
-            // Update active dot on scroll
-            let scrollRaf;
-            relatedSlider.addEventListener('scroll', () => {
-                cancelAnimationFrame(scrollRaf);
-                scrollRaf = requestAnimationFrame(() => {
-                    const sliderCenter = relatedSlider.scrollLeft + (relatedSlider.offsetWidth / 2);
-                    let closestIndex = 0;
-                    let closestDistance = Infinity;
-
-                    items.forEach((item, index) => {
-                        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
-                        const distance = Math.abs(sliderCenter - itemCenter);
-                        if (distance < closestDistance) {
-                            closestDistance = distance;
-                            closestIndex = index;
+                // Create dots
+                function initDots() {
+                    if (dotsContainer) {
+                        dotsContainer.innerHTML = '';
+                        const maxDots = getMaxIndex() + 1;
+                        if (maxDots <= 1) return; // No dots if not enough items
+                        
+                        for (let i = 0; i < maxDots; i++) {
+                            const dot = document.createElement('div');
+                            dot.classList.add('article-dot');
+                            if (i === currentIndex) dot.classList.add('active');
+                            dot.addEventListener('click', () => {
+                                currentIndex = i;
+                                updateSlider();
+                                resetInterval();
+                            });
+                            dotsContainer.appendChild(dot);
                         }
+                    }
+                }
+                initDots();
+                
+                function nextSlide() {
+                    const maxIndex = getMaxIndex();
+                    if (maxIndex <= 0) return;
+                    currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+                    updateSlider();
+                }
+                
+                function prevSlide() {
+                    const maxIndex = getMaxIndex();
+                    if (maxIndex <= 0) return;
+                    currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
+                    updateSlider();
+                }
+                
+                function resetInterval() {
+                    clearInterval(slideInterval);
+                    slideInterval = setInterval(nextSlide, 5000);
+                }
+                
+                prevBtn?.addEventListener('click', () => { prevSlide(); resetInterval(); });
+                nextBtn?.addEventListener('click', () => { nextSlide(); resetInterval(); });
+                
+                // Handle window resize (hanya ketika lebar viewport berubah)
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth === lastArtWidth) return;
+                    lastArtWidth = window.innerWidth;
+                    cancelAnimationFrame(artResizeRaf);
+                    artResizeRaf = requestAnimationFrame(() => {
+                        const maxIndex = getMaxIndex();
+                        if (currentIndex > maxIndex) currentIndex = maxIndex;
+                        initDots();
+                        updateSlider();
                     });
+                }, { passive: true });
+                
+                // Touch support
+                let startX = 0;
+                let isDragging = false;
+                
+                track.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                    clearInterval(slideInterval);
+                }, { passive: true });
+                
+                track.addEventListener('touchend', (e) => {
+                    if (!isDragging) return;
+                    const diff = startX - e.changedTouches[0].clientX;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) nextSlide();
+                        else prevSlide();
+                    }
+                    isDragging = false;
+                    resetInterval();
+                }, { passive: true });
 
-                    const dots = relatedDotsContainer.querySelectorAll('.related-slider-dot');
-                    dots.forEach((dot, idx) => {
-                        dot.classList.toggle('active', idx === closestIndex);
-                    });
-                });
-            }, { passive: true });
-
-            // Mouse drag support for testing desktop/mobile view
-            let isDown = false;
-            let startX, scrollLeft;
-            relatedSlider.addEventListener('mousedown', (e) => {
-                if (window.innerWidth > 768) return;
-                isDown = true;
-                startX = e.pageX - relatedSlider.offsetLeft;
-                scrollLeft = relatedSlider.scrollLeft;
-            });
-            window.addEventListener('mouseup', () => { isDown = false; });
-            relatedSlider.addEventListener('mouseleave', () => { isDown = false; });
-            relatedSlider.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - relatedSlider.offsetLeft;
-                const walk = (x - startX) * 1.5;
-                relatedSlider.scrollLeft = scrollLeft - walk;
-            });
-        }
-    }
-
-    // 🏎️ Logo Marquee Pause on Hover
-    const logoTrack = document.querySelector('.logo-track');
-    if (logoTrack) {
-        logoTrack.addEventListener('mouseenter', () => logoTrack.style.animationPlayState = 'paused');
-        logoTrack.addEventListener('mouseleave', () => logoTrack.style.animationPlayState = 'running');
-    }
-
-    // 🙋 FAQ Accordion
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            
-            // Close other items
-            faqItems.forEach(otherItem => {
-                otherItem.classList.remove('active');
-            });
-            
-            // Toggle current item
-            if (!isActive) {
-                item.classList.add('active');
+                // Pause on hover for articles slider
+                articleSlider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+                articleSlider.addEventListener('mouseleave', resetInterval);
+                
+                // Start autoplay for articles slider
+                resetInterval();
             }
+        }
+
+        // 📱 Mobile Slider for Related Articles (single.php)
+        const relatedSlider = document.getElementById('related-articles-slider');
+        const relatedDotsContainer = document.getElementById('related-slider-dots');
+
+        if (relatedSlider && relatedDotsContainer) {
+            const items = relatedSlider.querySelectorAll('.related-article-item');
+            if (items.length > 1) {
+                // Build pagination dots
+                items.forEach((item, index) => {
+                    const dot = document.createElement('button');
+                    dot.type = 'button';
+                    dot.className = 'related-slider-dot' + (index === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', `Artikel ke-${index + 1}`);
+                    dot.addEventListener('click', () => {
+                        item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    });
+                    relatedDotsContainer.appendChild(dot);
+                });
+
+                // Update active dot on scroll
+                let scrollRaf;
+                relatedSlider.addEventListener('scroll', () => {
+                    cancelAnimationFrame(scrollRaf);
+                    scrollRaf = requestAnimationFrame(() => {
+                        const sliderCenter = relatedSlider.scrollLeft + (relatedSlider.offsetWidth / 2);
+                        let closestIndex = 0;
+                        let closestDistance = Infinity;
+
+                        items.forEach((item, index) => {
+                            const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
+                            const distance = Math.abs(sliderCenter - itemCenter);
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closestIndex = index;
+                            }
+                        });
+
+                        const dots = relatedDotsContainer.querySelectorAll('.related-slider-dot');
+                        dots.forEach((dot, idx) => {
+                            dot.classList.toggle('active', idx === closestIndex);
+                        });
+                    });
+                }, { passive: true });
+
+                // Mouse drag support for testing desktop/mobile view
+                let isDown = false;
+                let startX, scrollLeft;
+                relatedSlider.addEventListener('mousedown', (e) => {
+                    if (window.innerWidth > 768) return;
+                    isDown = true;
+                    startX = e.pageX - relatedSlider.offsetLeft;
+                    scrollLeft = relatedSlider.scrollLeft;
+                });
+                window.addEventListener('mouseup', () => { isDown = false; });
+                relatedSlider.addEventListener('mouseleave', () => { isDown = false; });
+                relatedSlider.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - relatedSlider.offsetLeft;
+                    const walk = (x - startX) * 1.5;
+                    relatedSlider.scrollLeft = scrollLeft - walk;
+                });
+            }
+        }
+
+        // 🏎️ Logo Marquee Pause on Hover
+        const logoTrack = document.querySelector('.logo-track');
+        if (logoTrack) {
+            logoTrack.addEventListener('mouseenter', () => logoTrack.style.animationPlayState = 'paused');
+            logoTrack.addEventListener('mouseleave', () => logoTrack.style.animationPlayState = 'running');
+        }
+
+        // 🙋 FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
         });
     });
 

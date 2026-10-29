@@ -21,9 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
             echo '<link rel="preload" as="image" href="' . esc_url( $lcp_banner ) . '" fetchpriority="high">' . "\n";
         }
     } elseif ( is_singular( 'produk' ) && has_post_thumbnail() ) {
-        $lcp_product = get_the_post_thumbnail_url( get_the_ID(), 'tokoku-product-large' );
+        $thumb_id    = get_post_thumbnail_id( get_the_ID() );
+        $lcp_product = wp_get_attachment_image_url( $thumb_id, 'tokoku-product-large' ) ?: wp_get_attachment_image_url( $thumb_id, 'full' );
+        $lcp_srcset  = wp_get_attachment_image_srcset( $thumb_id, 'tokoku-product-large' );
         if ( $lcp_product ) {
-            echo '<link rel="preload" as="image" href="' . esc_url( $lcp_product ) . '" fetchpriority="high">' . "\n";
+            $srcset_attr = $lcp_srcset ? ' imagesrcset="' . esc_attr( $lcp_srcset ) . '" imagesizes="(max-width: 768px) 100vw, 500px"' : '';
+            echo '<link rel="preload" as="image" href="' . esc_url( $lcp_product ) . '"' . $srcset_attr . ' fetchpriority="high">' . "\n";
         }
     } elseif ( is_single() && has_post_thumbnail() ) {
         $lcp_post = get_the_post_thumbnail_url( get_the_ID(), 'large' );
@@ -153,10 +156,10 @@ if ( ! defined( 'ABSPATH' ) ) {
             if ( $logo_light || $logo_dark ) {
                 echo '<a href="' . esc_url( home_url( '/' ) ) . '">';
                 if ( $logo_light ) {
-                    echo '<img src="' . esc_url( $logo_light ) . '" class="logo-light" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '">';
+                    echo '<img src="' . esc_url( $logo_light ) . '" class="logo-light" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" width="180" height="52" fetchpriority="high" decoding="async">';
                 }
                 if ( $logo_dark ) {
-                    echo '<img src="' . esc_url( $logo_dark ) . '" class="logo-dark" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '">';
+                    echo '<img src="' . esc_url( $logo_dark ) . '" class="logo-dark" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" width="180" height="52" fetchpriority="high" decoding="async">';
                 }
                 echo '</a>';
             } else {

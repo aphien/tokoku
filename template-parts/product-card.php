@@ -8,15 +8,27 @@ $harga_diskon = get_post_meta( get_the_ID(), '_produk_harga_diskon', true );
 $mata_uang    = get_theme_mod( 'tokoku_currency', 'Rp' );
 $stok_status  = tokoku_get_stok_status( get_the_ID() );
 $label_khusus = get_post_meta( get_the_ID(), '_produk_label_khusus', true );
+
+static $tokoku_card_idx = 0;
+$tokoku_card_idx++;
+$is_above_fold_archive = ( ( is_post_type_archive( 'produk' ) || is_tax( 'kategori_produk' ) || is_search() ) && $tokoku_card_idx <= 2 );
+$thumb_attrs           = array(
+    'loading'  => $is_above_fold_archive ? 'eager' : 'lazy',
+    'decoding' => 'async',
+    'sizes'    => '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px',
+);
+if ( $is_above_fold_archive && 1 === $tokoku_card_idx ) {
+    $thumb_attrs['fetchpriority'] = 'high';
+}
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'product-card' ); ?>>
     <div class="product-card__image">
         <a href="<?php the_permalink(); ?>" class="product-card__image-link" aria-label="<?php the_title_attribute(); ?>">
             <?php if ( has_post_thumbnail() ) : ?>
-                <?php the_post_thumbnail( 'tokoku-product-card', array( 'loading' => 'lazy', 'decoding' => 'async' ) ); ?>
+                <?php the_post_thumbnail( 'tokoku-product-card', $thumb_attrs ); ?>
             <?php else : ?>
-                <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="400" height="400" loading="lazy" decoding="async">
+                <img src="<?php echo esc_url( TOKOKU_URI . '/assets/images/placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?>" width="400" height="400" loading="<?php echo $is_above_fold_archive ? 'eager' : 'lazy'; ?>" decoding="async">
             <?php endif; ?>
         </a>
 
