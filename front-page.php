@@ -138,7 +138,7 @@ get_header(); ?>
                 ?>
                     <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="category-item">
                         <div class="category-icon">
-                            <?php echo tokoku_get_category_icon_html( $cat->term_id, 48 ); ?>
+                            <?php echo tokoku_get_category_icon_html( $cat->term_id, 58 ); ?>
                         </div>
                         <span class="category-name"><?php echo esc_html( $cat->name ); ?></span>
                     </a>

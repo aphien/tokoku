@@ -2993,6 +2993,15 @@ function tokoku_settings_page_html() {
 
                             <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 420px; overflow-y: auto; line-height: 1.65; color: #334155; font-size: 0.92rem;">
                                 <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
+                                    🚀 Rilis v3.9.3 — Peningkatan Skala Proporsional Ikon Kategori Produk (+20%) di Seluruh Breakpoint
+                                </h4>
+                                <p style="margin: 0 0 14px 0; color: #475569;">
+                                    Pembaruan v3.9.3 memperbesar ukuran kontainer <code>.category-icon</code> beserta elemen ikon di dalamnya (<code>svg</code>, <code>img</code> / <code>.pill-icon-img</code>, dan <code>.dashicons</code>) sebesar <strong>+20%</strong> secara proporsional di seluruh ukuran layar: Desktop (<code>72px &rarr; 86px</code>), Tablet &amp; Mobile <code>&le; 768px</code> (<code>52px &rarr; 62px</code>), Mobile <code>&le; 480px</code> (<code>48px &rarr; 58px</code>), serta Layar Kecil <code>&le; 360px</code> (<code>44px &rarr; 53px</code>).
+                                </p>
+
+                                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 16px 0;">
+
+                                <h4 style="margin: 0 0 8px 0; color: #1e3a8a; font-size: 1.1rem; font-weight: 800;">
                                     🚀 Rilis v3.9.2 — Eliminasi Efek Kedip Hitam-Putih (Anti-FOUC Dark/Light Mode) Saat Navigasi Antar Halaman
                                 </h4>
                                 <p style="margin: 0 0 14px 0; color: #475569;">
