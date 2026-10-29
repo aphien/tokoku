@@ -2373,7 +2373,7 @@ input.search-input:active,
     padding: 10px 17px;
     border-radius: 11px;
     font-family: var(--font-btn, 'Lato', system-ui, sans-serif);
-    font-size: clamp(0.877rem, 0.84rem + 0.105vw, 0.908rem);
+    font-size: clamp(0.862rem, 0.823rem + 0.108vw, 0.892rem);
     font-weight: 700;
     letter-spacing: -0.01em;
     transition: transform 0.25s var(--ease-smooth),
@@ -2424,7 +2424,7 @@ input.search-input:active,
     min-height: 52px;
     padding: 14px 28px;
     font-family: var(--font-btn, 'Lato', system-ui, sans-serif);
-    font-size: calc(var(--fs-base, 1rem) * 1.082); /* +5% dari ukuran sebelumnya */
+    font-size: calc(var(--fs-base, 1rem) * 1.06) !important; /* -2% dari ukuran sebelumnya */
     font-weight: 700;
     border-radius: 14px;
     display: inline-flex;
@@ -5792,10 +5792,10 @@ input#search-modal-input {
         font-size: var(--fs-sm);
     }
 
-    /* Slender button on mobile cards (+5%) */
+    /* Slender button on mobile cards */
     .btn-whatsapp-order {
         padding: 7.5px 11px;
-        font-size: 0.825rem;
+        font-size: 0.808rem;
         min-height: 38px;
         margin-top: 6px;
     }
@@ -5851,7 +5851,7 @@ input#search-modal-input {
     }
 
     .single-product .btn-contact-us {
-        font-size: calc(var(--fs-sm) * 1.05);
+        font-size: calc(var(--fs-sm) * 1.029);
         min-height: 48px;
         padding: 12px 18px !important;
         width: 100% !important;
@@ -6087,7 +6087,7 @@ input#search-modal-input {
     .btn-whatsapp-order {
         min-height: 36px;
         padding: 6.5px 10px;
-        font-size: 0.756rem;
+        font-size: 0.741rem;
     }
 }
 
@@ -8738,12 +8738,12 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         font-size: var(--fs-xs);
     }
 
-    /* Mobile WhatsApp Button in Card (+5%) */
+    /* Mobile WhatsApp Button in Card */
     .btn-whatsapp-order {
         margin-top: 0;
         min-height: 38px;
         padding: 7.5px 11px;
-        font-size: 0.825rem;
+        font-size: 0.808rem;
         border-radius: 9.5px;
     }
 
@@ -9498,11 +9498,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
         animation: arrowSlideBounce 1.5s infinite alternate ease-in-out;
     }
 
-    /* WhatsApp Order in product card (+5%) */
+    /* WhatsApp Order in product card */
     .btn-whatsapp-order {
         min-height: 38px;
         padding: 7.5px 11px;
-        font-size: 0.825rem;
+        font-size: 0.808rem;
         border-radius: 9.5px;
         gap: 6px;
     }
@@ -9527,7 +9527,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     .single-product .btn-contact-us {
         width: 100% !important;
         min-height: 48px;
-        font-size: clamp(0.945rem, 3.68vw, 1.05rem) !important;
+        font-size: clamp(0.926rem, 3.61vw, 1.029rem) !important;
         border-radius: 12px !important;
         padding: 12px 18px !important;
     }
@@ -9598,7 +9598,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     }
 
     .btn-whatsapp-order {
-        font-size: 0.756rem;
+        font-size: 0.741rem;
         padding: 6.5px 10px;
         min-height: 36px;
         gap: 5px;
@@ -9616,7 +9616,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
     .single-product .btn-contact-us {
         min-height: 46px;
-        font-size: calc(var(--fs-sm) * 1.05) !important;
+        font-size: calc(var(--fs-sm) * 1.029) !important;
         padding: 11px 14px !important;
     }
 

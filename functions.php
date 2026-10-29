@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-define( 'TOKOKU_VERSION', '3.9.0' );
+define( 'TOKOKU_VERSION', '3.9.1' );
 define( 'TOKOKU_DIR', get_template_directory() );
 define( 'TOKOKU_URI', get_template_directory_uri() );
 
@@ -378,17 +378,26 @@ function tokoku_typography_css() {
             transform: translateX(6px) !important;
         }
 
-        /* WhatsApp Order Button: Diperbesar +5% lebih proporsional */
+        /* WhatsApp Order Button ("Pesan Sekarang" di Kartu Produk): Diperkecil -2% dari ukuran sebelumnya */
         .btn-whatsapp-order {
             min-height: 42px !important;
             padding: 10px 17px !important;
-            font-size: clamp(0.835rem, 0.8rem + 0.1vw, 0.865rem) !important;
+            font-size: clamp(0.862rem, 0.823rem + 0.108vw, 0.892rem) !important;
             border-radius: 11px !important;
         }
 
         .btn-whatsapp-order svg {
             width: 18px !important;
             height: 18px !important;
+        }
+
+        /* Single Product CTA ("Pesan via WhatsApp"): Diperkecil -2% dari ukuran sebelumnya */
+        .single-product .btn-contact-us,
+        .btn-contact-us.btn-whatsapp-order {
+            min-height: 52px !important;
+            padding: 14px 28px !important;
+            font-size: calc(var(--fs-base, 1rem) * 1.06) !important;
+            border-radius: 14px !important;
         }
 
         @keyframes viewAllGradientFlow {
@@ -481,17 +490,29 @@ function tokoku_typography_css() {
                 height: 17px !important;
             }
 
-            /* WhatsApp Order Mobile (+5% dari ukuran sebelumnya) */
+            /* WhatsApp Order Mobile (-2% dari ukuran sebelumnya) */
             .btn-whatsapp-order {
                 min-height: 38px !important;
                 padding: 7.5px 11px !important;
-                font-size: 0.785rem !important;
+                font-size: 0.808rem !important;
                 border-radius: 9.5px !important;
             }
 
             .btn-whatsapp-order svg {
                 width: 14px !important;
                 height: 14px !important;
+            }
+
+            .btn-sticky-order-elegant.btn-whatsapp-order,
+            .btn-sticky-order-elegant .sticky-order-label {
+                font-size: calc(var(--fs-sm) * 1.029) !important;
+            }
+
+            .btn-sticky-order-elegant.btn-whatsapp-order {
+                min-height: 44px !important;
+                height: 44px !important;
+                padding: 0 16px !important;
+                border-radius: 50px !important;
             }
 
             @media (max-width: 480px) {
@@ -510,7 +531,15 @@ function tokoku_typography_css() {
                 .btn-whatsapp-order {
                     min-height: 36px !important;
                     padding: 6.5px 10px !important;
-                    font-size: 0.72rem !important;
+                    font-size: 0.741rem !important;
+                }
+
+                .btn-sticky-order-elegant.btn-whatsapp-order {
+                    min-height: 44px !important;
+                    height: 44px !important;
+                    padding: 0 14px !important;
+                    font-size: calc(var(--fs-sm) * 1.029) !important;
+                    border-radius: 50px !important;
                 }
             }
 
