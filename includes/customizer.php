@@ -467,17 +467,19 @@ function tokoku_customizer_css() {
             --bg2: <?php echo esc_attr( $dark_bg2 ); ?>;
             --text: <?php echo esc_attr( $dark_text ); ?>;
             --text2: #94a3b8;
-            --border: rgba(255, 255, 255, 0.08);
+            --text3: #64748b;
+            --border: rgba(255, 255, 255, 0.09);
             --glass: rgba(15, 23, 42, 0.92);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.09);
             --glass-blur: blur(16px);
             
-            --header-bg: <?php echo esc_attr( $dark_bg ); ?>;
+            --header-bg: <?php echo in_array( strtolower( $dark_bg ), array( '#0b0f1a', '#0f172a' ), true ) ? 'rgba(11, 15, 26, 0.90)' : esc_attr( $dark_bg ); ?>;
             --header-text: <?php echo esc_attr( $dark_text ); ?>;
             --footer-bg: <?php echo esc_attr( $dark_bg2 ); ?>;
             --footer-text: #94a3b8;
-            --card-bg: <?php echo esc_attr( $dark_bg2 ); ?>;
+            --card-bg: #141b2d;
             --card-text: <?php echo esc_attr( $dark_text ); ?>;
+            --price-color: <?php echo ( strtolower( $price_color ) === '#007bff' ) ? '#60a5fa' : esc_attr( $price_color ); ?>;
             
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);

@@ -94,11 +94,14 @@ if ( ! defined( 'ABSPATH' ) ) {
         .mobile-menu-drawer { transform: translate3d(105%, 0, 0); visibility: hidden; }
         .mobile-menu-drawer.active { transform: translate3d(0, 0, 0); visibility: visible; }
         
-        /* Logo Switching */
+        /* Logo Switching (Preserve .logo-light if no separate dark logo is uploaded) */
         .logo-dark { display: none !important; }
-        .theme-dark .logo-light,
-        html.theme-dark .logo-light,
-        body.theme-dark .logo-light { display: none !important; }
+        .theme-dark .logo-light:not(:only-child),
+        html.theme-dark .logo-light:not(:only-child),
+        body.theme-dark .logo-light:not(:only-child) { display: none !important; }
+        .theme-dark .logo-light:only-child,
+        html.theme-dark .logo-light:only-child,
+        body.theme-dark .logo-light:only-child { display: block !important; }
         .theme-dark .logo-dark,
         html.theme-dark .logo-dark,
         body.theme-dark .logo-dark { display: block !important; }

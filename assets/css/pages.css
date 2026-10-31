@@ -1870,79 +1870,96 @@ body.theme-dark .jp-social-badge--twitter:hover .jp-social-badge__icon {
 /* ==========================================================================
    8. DARK MODE ADJUSTMENTS
    ========================================================================== */
-:root.theme-dark .jp-page,
-body.theme-dark .jp-page {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-page {
     background-color: var(--bg, #0b0f1a);
     color: var(--text, #f1f5f9);
 }
 
-:root.theme-dark .jp-hero,
-body.theme-dark .jp-hero {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-hero {
     background: linear-gradient(180deg, #111827 0%, var(--bg, #0b0f1a) 100%);
     border-color: rgba(255, 255, 255, 0.08);
 }
 
-:root.theme-dark .jp-plaque,
-body.theme-dark .jp-plaque {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-hero__badge,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-section__eyebrow {
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.14);
+    border-color: rgba(96, 165, 250, 0.28);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-card,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-step,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-stats__item,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-vm__card,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-contact-card,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-contact-form-box,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-toc__box,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-faq-item,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-help-card {
+    background: var(--card-bg, #141b2d);
+    border-color: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-card:hover,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-step:hover,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-vm__card:hover,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-contact-card:hover,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-help-card:hover {
+    border-color: rgba(96, 165, 250, 0.42);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.42);
+}
+
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-plaque {
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.5) 100%);
     border-color: rgba(255, 255, 255, 0.15);
 }
 
-:root.theme-dark .jp-plaque__title,
-body.theme-dark .jp-plaque__title {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-plaque__title {
     color: #f8fafc;
 }
 
-:root.theme-dark .jp-plaque__text,
-body.theme-dark .jp-plaque__text {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-plaque__text {
     color: #cbd5e1;
 }
 
-:root.theme-dark .jp-plaque__eyebrow,
-body.theme-dark .jp-plaque__eyebrow {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-plaque__eyebrow {
     color: #fbbf24;
 }
 
-:root.theme-dark .jp-quote-card,
-body.theme-dark .jp-quote-card {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-quote-card {
     background: linear-gradient(135deg, #151b2d 0%, #0f172a 100%);
+    border-color: rgba(255, 255, 255, 0.09);
 }
 
-:root.theme-dark .jp-input,
-:root.theme-dark .jp-select,
-:root.theme-dark .jp-textarea,
-body.theme-dark .jp-input,
-body.theme-dark .jp-select,
-body.theme-dark .jp-textarea {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-input,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-select,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-textarea {
     background: #0f172a;
     border-color: rgba(255, 255, 255, 0.12);
     color: #f8fafc;
 }
 
-:root.theme-dark .jp-input:focus,
-:root.theme-dark .jp-select:focus,
-:root.theme-dark .jp-textarea:focus,
-body.theme-dark .jp-input:focus,
-body.theme-dark .jp-select:focus,
-body.theme-dark .jp-textarea:focus {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-input:focus,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-select:focus,
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-textarea:focus {
     background: #1e293b;
-    border-color: var(--primary, #007bff);
+    border-color: #60a5fa;
 }
 
-:root.theme-dark .jp-agent-item,
-body.theme-dark .jp-agent-item {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-agent-item {
     background: #111827;
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
-:root.theme-dark .jp-summary,
-body.theme-dark .jp-summary {
-    background: linear-gradient(135deg, rgba(var(--primary-rgb, 0, 123, 255), 0.1) 0%, #151b2d 100%);
-    border-color: rgba(var(--primary-rgb, 0, 123, 255), 0.3);
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-summary {
+    background: linear-gradient(135deg, rgba(var(--primary-rgb, 0, 123, 255), 0.14) 0%, #151b2d 100%);
+    border-color: rgba(96, 165, 250, 0.32);
 }
 
-:root.theme-dark .jp-faq-arrow,
-body.theme-dark .jp-faq-arrow {
+:is(.theme-dark, html.theme-dark, body.theme-dark) .jp-faq-arrow {
     background: #1e293b;
+    color: #94a3b8;
 }
 
 /* ==========================================================================
